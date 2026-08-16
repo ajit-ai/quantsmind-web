@@ -1,0 +1,193 @@
+// ============================================================
+// QUANTSMIND DESIGN TOKENS
+// Single source of truth for all visual decisions
+// ============================================================
+
+// ------------------------------------------------------------
+// COLOR TOKENS
+// ------------------------------------------------------------
+
+// Canvas & Surface
+$color-canvas:          #F8FAFC;
+$color-surface:         #FFFFFF;
+$color-surface-subtle:  #F1F5F9;
+
+// Text
+$color-text-primary:    #111827;
+$color-text-secondary:  #475569;
+$color-text-muted:      #64748B;
+$color-text-inverse:    #FFFFFF;
+
+// Border
+$color-border:          #E2E8F0;
+$color-border-strong:   #CBD5E1;
+
+// Accent (Blue — used sparingly)
+$color-accent:          #2563EB;
+$color-accent-dark:     #1D4ED8;
+$color-accent-subtle:   #EFF6FF;
+$color-accent-muted:    #BFDBFE;
+
+// Dark surfaces (Labs, diagrams, special sections)
+$color-dark-canvas:     #0F172A;
+$color-dark-surface:    #1E293B;
+$color-dark-border:     #334155;
+$color-dark-text:       #F1F5F9;
+$color-dark-text-muted: #94A3B8;
+
+// Status
+$color-success:         #059669;
+$color-warning:         #D97706;
+$color-error:           #DC2626;
+$color-info:            #2563EB;
+
+// CSS Custom Properties (runtime theming support)
+:root {
+  --color-canvas:          #{$color-canvas};
+  --color-surface:         #{$color-surface};
+  --color-surface-subtle:  #{$color-surface-subtle};
+
+  --color-text-primary:    #{$color-text-primary};
+  --color-text-secondary:  #{$color-text-secondary};
+  --color-text-muted:      #{$color-text-muted};
+  --color-text-inverse:    #{$color-text-inverse};
+
+  --color-border:          #{$color-border};
+  --color-border-strong:   #{$color-border-strong};
+
+  --color-accent:          #{$color-accent};
+  --color-accent-dark:     #{$color-accent-dark};
+  --color-accent-subtle:   #{$color-accent-subtle};
+  --color-accent-muted:    #{$color-accent-muted};
+
+  --color-dark-canvas:     #{$color-dark-canvas};
+  --color-dark-surface:    #{$color-dark-surface};
+  --color-dark-border:     #{$color-dark-border};
+  --color-dark-text:       #{$color-dark-text};
+  --color-dark-text-muted: #{$color-dark-text-muted};
+
+  --color-success:         #{$color-success};
+  --color-warning:         #{$color-warning};
+  --color-error:           #{$color-error};
+}
+
+// ------------------------------------------------------------
+// SPACING TOKENS
+// ------------------------------------------------------------
+
+$space-1:   4px;
+$space-2:   8px;
+$space-3:   12px;
+$space-4:   16px;
+$space-6:   24px;
+$space-8:   32px;
+$space-12:  48px;
+$space-16:  64px;
+$space-20:  80px;
+$space-24:  96px;
+$space-32:  128px;
+
+// Section spacing
+$section-spacing-sm:  $space-12;   // 48px
+$section-spacing-md:  $space-20;   // 80px
+$section-spacing-lg:  $space-24;   // 96px
+$section-spacing-xl:  $space-32;   // 128px
+
+:root {
+  --space-1:  #{$space-1};
+  --space-2:  #{$space-2};
+  --space-3:  #{$space-3};
+  --space-4:  #{$space-4};
+  --space-6:  #{$space-6};
+  --space-8:  #{$space-8};
+  --space-12: #{$space-12};
+  --space-16: #{$space-16};
+  --space-20: #{$space-20};
+  --space-24: #{$space-24};
+  --space-32: #{$space-32};
+}
+
+// ------------------------------------------------------------
+// BORDER RADIUS
+// ------------------------------------------------------------
+
+$radius-sm:   8px;
+$radius-md:   12px;
+$radius-lg:   16px;
+$radius-pill: 9999px;
+
+:root {
+  --radius-sm:   #{$radius-sm};
+  --radius-md:   #{$radius-md};
+  --radius-lg:   #{$radius-lg};
+  --radius-pill: #{$radius-pill};
+}
+
+// ------------------------------------------------------------
+// SHADOWS
+// ------------------------------------------------------------
+
+$shadow-xs:  0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+$shadow-md:  0 4px 6px rgba(0, 0, 0, 0.05), 0 2px 4px rgba(0, 0, 0, 0.04);
+$shadow-lg:  0 10px 15px rgba(0, 0, 0, 0.06), 0 4px 6px rgba(0, 0, 0, 0.04);
+
+:root {
+  --shadow-xs: #{$shadow-xs};
+  --shadow-sm: #{$shadow-sm};
+  --shadow-md: #{$shadow-md};
+  --shadow-lg: #{$shadow-lg};
+}
+
+// ------------------------------------------------------------
+// MOTION TOKENS
+// ------------------------------------------------------------
+
+$duration-fast:    150ms;
+$duration-base:    200ms;
+$duration-slow:    300ms;
+$duration-slower:  400ms;
+
+$easing-standard: cubic-bezier(0.4, 0, 0.2, 1);
+$easing-enter:    cubic-bezier(0, 0, 0.2, 1);
+$easing-exit:     cubic-bezier(0.4, 0, 1, 1);
+
+:root {
+  --duration-fast:    #{$duration-fast};
+  --duration-base:    #{$duration-base};
+  --duration-slow:    #{$duration-slow};
+  --duration-slower:  #{$duration-slower};
+  --easing-standard:  #{$easing-standard};
+}
+
+// ------------------------------------------------------------
+// BREAKPOINTS
+// ------------------------------------------------------------
+
+$bp-mobile:   480px;
+$bp-tablet:   768px;
+$bp-laptop:   1024px;
+$bp-desktop:  1280px;
+$bp-wide:     1440px;
+
+// ------------------------------------------------------------
+// LAYOUT
+// ------------------------------------------------------------
+
+$container-max: 1280px;
+$container-padding-mobile: $space-4;   // 16px
+$container-padding-tablet: $space-8;   // 32px
+$container-padding-desktop: $space-8;  // 32px
+
+// ------------------------------------------------------------
+// Z-INDEX SCALE
+// ------------------------------------------------------------
+
+$z-below:   -1;
+$z-base:     0;
+$z-raised:   1;
+$z-overlay:  10;
+$z-sticky:   100;
+$z-nav:      200;
+$z-modal:    300;
+$z-toast:    400;

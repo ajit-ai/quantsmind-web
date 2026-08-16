@@ -1,0 +1,35 @@
+// ============================================================
+// QUANTSMIND GLOBAL STYLES
+// Entry point — imports all design system partials
+// ============================================================
+
+// 1. Design tokens (variables, CSS custom properties)
+@use 'styles/tokens' as *;
+
+// 2. Typography (global type, heading scale, Inter)
+@use 'styles/typography';
+
+// 3. Layout (container, grid, section mixins + classes)
+@use 'styles/layout';
+
+// 4. Utilities (surface variants, badges, helpers)
+@use 'styles/utilities';
+
+/* Skip link for accessibility */
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 16px;
+  background: #2563EB;
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 0 0 8px 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  z-index: 9999;
+  transition: top 200ms ease;
+}
+.skip-link:focus {
+  top: 0;
+}

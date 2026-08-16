@@ -5,6 +5,7 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 export type MaturityVariant = 'concept' | 'research' | 'experimental' | 'prototype' | 'development' | 'early-access' | 'product';
 
@@ -20,11 +21,10 @@ interface LabProject {
 }
 
 @Component({
-  selector: 'app-labs',
-  standalone: true,
-  imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-labs',
+    imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- Hero — dark surface -->
     <section class="labs-hero">
       <qm-container>
@@ -49,55 +49,57 @@ interface LabProject {
         </div>
       </qm-container>
     </section>
-
+    
     <!-- Domain overview -->
     <qm-section surface="canvas">
       <qm-container>
         <span class="eyebrow">RESEARCH DOMAINS</span>
         <h2>Five Areas of Investigation.</h2>
         <div class="domain-overview-grid">
-          <div *ngFor="let d of labsDomains" class="domain-overview-card">
-            <div class="domain-overview-card__icon" aria-hidden="true" [innerHTML]="d.icon"></div>
-            <h3 class="domain-overview-card__title">{{ d.name }}</h3>
-            <p class="domain-overview-card__desc">{{ d.description }}</p>
-          </div>
+          @for (d of labsDomains; track d) {
+            <div class="domain-overview-card">
+              <div class="domain-overview-card__icon" aria-hidden="true" [innerHTML]="d.icon | qmSafeHtml"></div>
+              <h3 class="domain-overview-card__title">{{ d.name }}</h3>
+              <p class="domain-overview-card__desc">{{ d.description }}</p>
+            </div>
+          }
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- Projects -->
     <qm-section surface="white">
       <qm-container>
         <span class="eyebrow">CURRENT WORK</span>
         <h2>Active Research and Experiments.</h2>
         <div class="projects-grid">
-          <article *ngFor="let project of projects" class="project-card">
-            <div class="project-card__meta">
-              <qm-badge [variant]="project.domainBadge">{{ project.domain }}</qm-badge>
-              <qm-badge [variant]="project.maturity">{{ project.maturity | uppercase }}</qm-badge>
-            </div>
-            <h3 class="project-card__title">{{ project.title }}</h3>
-
-            <div class="project-card__section">
-              <div class="project-card__label">Problem</div>
-              <p class="project-card__text">{{ project.problem }}</p>
-            </div>
-
-            <div class="project-card__section">
-              <div class="project-card__label">Hypothesis</div>
-              <p class="project-card__text">{{ project.hypothesis }}</p>
-            </div>
-
-            <p class="project-card__desc">{{ project.description }}</p>
-
-            <div class="project-card__tech">
-              <span *ngFor="let t of project.technologies" class="project-tag">{{ t }}</span>
-            </div>
-          </article>
+          @for (project of projects; track project) {
+            <article class="project-card">
+              <div class="project-card__meta">
+                <qm-badge [variant]="project.domainBadge">{{ project.domain }}</qm-badge>
+                <qm-badge [variant]="project.maturity">{{ project.maturity | uppercase }}</qm-badge>
+              </div>
+              <h3 class="project-card__title">{{ project.title }}</h3>
+              <div class="project-card__section">
+                <div class="project-card__label">Problem</div>
+                <p class="project-card__text">{{ project.problem }}</p>
+              </div>
+              <div class="project-card__section">
+                <div class="project-card__label">Hypothesis</div>
+                <p class="project-card__text">{{ project.hypothesis }}</p>
+              </div>
+              <p class="project-card__desc">{{ project.description }}</p>
+              <div class="project-card__tech">
+                @for (t of project.technologies; track t) {
+                  <span class="project-tag">{{ t }}</span>
+                }
+              </div>
+            </article>
+          }
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- Principles -->
     <qm-section surface="canvas" size="sm">
       <qm-container>
@@ -107,15 +109,17 @@ interface LabProject {
             <h2>How We Approach Research.</h2>
           </div>
           <div class="labs-principles__list">
-            <div *ngFor="let p of labsPrinciples" class="labs-principle">
-              <div class="labs-principle__title">{{ p.title }}</div>
-              <p class="labs-principle__desc">{{ p.description }}</p>
-            </div>
+            @for (p of labsPrinciples; track p) {
+              <div class="labs-principle">
+                <div class="labs-principle__title">{{ p.title }}</div>
+                <p class="labs-principle__desc">{{ p.description }}</p>
+              </div>
+            }
           </div>
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- CTA -->
     <qm-section surface="subtle" size="sm">
       <qm-container size="narrow">
@@ -132,8 +136,8 @@ interface LabProject {
         </div>
       </qm-container>
     </qm-section>
-  `,
-  styles: [`
+    `,
+    styles: [`
     /* Hero — dark */
     .labs-hero {
       background: #0F172A;

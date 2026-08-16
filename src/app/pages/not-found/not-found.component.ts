@@ -4,11 +4,10 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 
 @Component({
-  selector: 'app-not-found',
-  standalone: true,
-  imports: [RouterModule, QmContainerComponent, QmButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-not-found',
+    imports: [RouterModule, QmContainerComponent, QmButtonComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section class="not-found">
       <qm-container>
         <div class="not-found__inner">
@@ -30,7 +29,7 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
       </qm-container>
     </section>
   `,
-  styles: [`
+    styles: [`
     .not-found {
       min-height: 70vh; display: flex; align-items: center;
       padding: 96px 0; background: #F8FAFC;

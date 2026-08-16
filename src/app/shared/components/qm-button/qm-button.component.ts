@@ -11,54 +11,53 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
  * Renders as <button> or <a> depending on [href]/[routerLink].
  */
 @Component({
-  selector: 'qm-button',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'qm-button',
+    imports: [CommonModule, RouterModule],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- Anchor variant (external) -->
-    <a
-      *ngIf="href; else buttonTpl"
-      [href]="href"
-      [target]="target"
-      [rel]="target === '_blank' ? 'noopener noreferrer' : null"
-      [class]="buttonClass"
-      [attr.aria-label]="ariaLabel || null"
-    >
-      <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
-    </a>
-
-    <!-- RouterLink variant -->
-    <ng-template #buttonTpl>
+    @if (href) {
       <a
-        *ngIf="routerLinkValue; else nativeBtnTpl"
-        [routerLink]="routerLinkValue"
+        [href]="href"
+        [target]="target"
+        [rel]="target === '_blank' ? 'noopener noreferrer' : null"
         [class]="buttonClass"
         [attr.aria-label]="ariaLabel || null"
-      >
+        >
         <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
       </a>
-    </ng-template>
-
+    } @else {
+      @if (routerLinkValue) {
+        <a
+          [routerLink]="routerLinkValue"
+          [class]="buttonClass"
+          [attr.aria-label]="ariaLabel || null"
+          >
+          <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+        </a>
+      } @else {
+        <button
+          [type]="type"
+          [disabled]="disabled"
+          [class]="buttonClass"
+          [attr.aria-label]="ariaLabel || null"
+          (click)="handleClick($event)"
+          >
+          <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+        </button>
+      }
+    }
+    
+    <!-- RouterLink variant -->
+    
     <!-- Native button -->
-    <ng-template #nativeBtnTpl>
-      <button
-        [type]="type"
-        [disabled]="disabled"
-        [class]="buttonClass"
-        [attr.aria-label]="ariaLabel || null"
-        (click)="handleClick($event)"
-      >
-        <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
-      </button>
-    </ng-template>
-
+    
     <!-- Shared content -->
     <ng-template #contentTpl>
       <ng-content></ng-content>
     </ng-template>
-  `,
-  styles: [`
+    `,
+    styles: [`
     :host { display: inline-block; }
 
     .qm-btn {

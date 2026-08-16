@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type ContainerSize = 'default' | 'narrow' | 'wide';
 
@@ -9,16 +9,15 @@ export type ContainerSize = 'default' | 'narrow' | 'wide';
  * Use this as the primary layout constraint for page content.
  */
 @Component({
-  selector: 'qm-container',
-  standalone: true,
-  imports: [CommonModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'qm-container',
+    imports: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <div [class]="containerClass">
       <ng-content></ng-content>
     </div>
   `,
-  styles: [`
+    styles: [`
     :host {
       display: block;
     }

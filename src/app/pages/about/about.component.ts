@@ -1,16 +1,15 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 
 @Component({
-  selector: 'app-about',
-  standalone: true,
-  imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-about',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section class="page-hero surface-subtle">
       <qm-container>
         <span class="eyebrow">ABOUT</span>
@@ -22,7 +21,7 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </p>
       </qm-container>
     </section>
-
+    
     <!-- Why QuantsMind -->
     <qm-section surface="white">
       <qm-container>
@@ -39,7 +38,7 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- Mission & Vision -->
     <qm-section surface="canvas">
       <qm-container>
@@ -61,21 +60,23 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- Principles -->
     <qm-section surface="white">
       <qm-container>
         <span class="eyebrow">PRINCIPLES</span>
         <h2>How We Work and Why.</h2>
         <div class="principles-grid">
-          <div *ngFor="let p of principles" class="principle-card">
-            <h3 class="principle-card__title">{{ p.title }}</h3>
-            <p class="principle-card__desc">{{ p.description }}</p>
-          </div>
+          @for (p of principles; track p) {
+            <div class="principle-card">
+              <h3 class="principle-card__title">{{ p.title }}</h3>
+              <p class="principle-card__desc">{{ p.description }}</p>
+            </div>
+          }
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- Technical Culture -->
     <qm-section surface="canvas">
       <qm-container>
@@ -87,15 +88,17 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
             <p>We value engineers who read widely, reason carefully, and communicate clearly. We prefer systems that are simple enough to be understood completely over systems that are impressively complex. We treat software as an engineering discipline, not a craft to be rushed.</p>
           </div>
           <div class="culture-values">
-            <div *ngFor="let v of cultureValues" class="culture-value">
-              <div class="culture-value__title">{{ v.title }}</div>
-              <p class="culture-value__desc">{{ v.description }}</p>
-            </div>
+            @for (v of cultureValues; track v) {
+              <div class="culture-value">
+                <div class="culture-value__title">{{ v.title }}</div>
+                <p class="culture-value__desc">{{ v.description }}</p>
+              </div>
+            }
           </div>
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- Long-term direction -->
     <qm-section surface="white">
       <qm-container size="narrow">
@@ -111,8 +114,8 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </qm-button>
       </qm-container>
     </qm-section>
-  `,
-  styles: [`
+    `,
+    styles: [`
     .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 700px; margin: 0 0 20px; }

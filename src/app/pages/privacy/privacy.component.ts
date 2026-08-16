@@ -4,11 +4,10 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 
 @Component({
-  selector: 'app-privacy',
-  standalone: true,
-  imports: [RouterModule, QmContainerComponent, QmSectionComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-privacy',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section class="legal-hero surface-subtle">
       <qm-container size="narrow">
         <div class="legal-hero__breadcrumb">
@@ -39,7 +38,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </address>
             <p>
               You may contact us at
-              <a href="mailto:hello&#64;quantsmind.com">hello&#64;quantsmind.com</a>
+              <a href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>
               regarding any privacy-related matter.
             </p>
           </section>
@@ -111,7 +110,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
               for which it was collected and to comply with applicable legal obligations.
               Enquiries that do not result in an ongoing engagement are deleted within
               24 months. You may request deletion of your data at any time by contacting
-              us at <a href="mailto:hello&#64;quantsmind.com">hello&#64;quantsmind.com</a>.
+              us at <a href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>.
             </p>
           </section>
 
@@ -160,7 +159,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </ul>
             <p>
               To exercise any of these rights, please contact us at
-              <a href="mailto:hello&#64;quantsmind.com">hello&#64;quantsmind.com</a>.
+              <a href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>.
               We will respond within 30 days.
             </p>
           </section>
@@ -207,7 +206,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
               QuantsMind<br>
               28, Shikargarh, Jodhpur – 342015<br>
               Rajasthan, India<br>
-              <a href="mailto:hello&#64;quantsmind.com">hello&#64;quantsmind.com</a>
+              <a href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>
             </address>
           </section>
 
@@ -215,7 +214,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
       </qm-container>
     </qm-section>
   `,
-  styles: [`
+    styles: [`
     .legal-hero {
       padding: 64px 0 48px; border-bottom: 1px solid #E2E8F0;
     }

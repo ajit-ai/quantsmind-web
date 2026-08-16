@@ -1,16 +1,16 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
+import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 @Component({
-  selector: 'app-industries',
-  standalone: true,
-  imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-industries',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, SafeHtmlPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section class="page-hero surface-subtle">
       <qm-container>
         <span class="eyebrow">INDUSTRIES</span>
@@ -22,26 +22,32 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </p>
       </qm-container>
     </section>
-
+    
     <qm-section surface="white">
       <qm-container>
         <div class="industry-grid">
-          <div *ngFor="let industry of industries" class="industry-card">
-            <div class="industry-card__icon" aria-hidden="true" [innerHTML]="industry.icon"></div>
-            <h2 class="industry-card__name">{{ industry.name }}</h2>
-            <p class="industry-card__desc">{{ industry.description }}</p>
-            <h3 class="industry-card__sub">Common Challenges</h3>
-            <ul class="industry-card__list">
-              <li *ngFor="let challenge of industry.challenges">{{ challenge }}</li>
-            </ul>
-            <div class="industry-card__caps">
-              <span *ngFor="let cap of industry.capabilities" class="industry-tag">{{ cap }}</span>
+          @for (industry of industries; track industry) {
+            <div class="industry-card">
+              <div class="industry-card__icon" aria-hidden="true" [innerHTML]="industry.icon | qmSafeHtml"></div>
+              <h2 class="industry-card__name">{{ industry.name }}</h2>
+              <p class="industry-card__desc">{{ industry.description }}</p>
+              <h3 class="industry-card__sub">Common Challenges</h3>
+              <ul class="industry-card__list">
+                @for (challenge of industry.challenges; track challenge) {
+                  <li>{{ challenge }}</li>
+                }
+              </ul>
+              <div class="industry-card__caps">
+                @for (cap of industry.capabilities; track cap) {
+                  <span class="industry-tag">{{ cap }}</span>
+                }
+              </div>
             </div>
-          </div>
+          }
         </div>
       </qm-container>
     </qm-section>
-
+    
     <qm-section surface="subtle" size="sm">
       <qm-container size="narrow">
         <div class="page-cta">
@@ -53,8 +59,8 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </div>
       </qm-container>
     </qm-section>
-  `,
-  styles: [`
+    `,
+    styles: [`
     .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 700px; margin: 0 0 20px; }

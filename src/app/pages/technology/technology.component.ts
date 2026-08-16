@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
@@ -7,11 +7,10 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
 
 @Component({
-  selector: 'app-technology',
-  standalone: true,
-  imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-technology',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section class="page-hero surface-subtle">
       <qm-container>
         <span class="eyebrow">TECHNOLOGY</span>
@@ -23,8 +22,8 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
         </p>
       </qm-container>
     </section>
-
-    <ng-container *ngFor="let domain of domains; let i = index">
+    
+    @for (domain of domains; track domain; let i = $index) {
       <qm-section [surface]="i % 2 === 0 ? 'white' : 'canvas'" [id]="domain.id">
         <qm-container>
           <div class="domain-layout">
@@ -35,20 +34,24 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
             </div>
             <div class="domain-body">
               <div class="domain-areas">
-                <div *ngFor="let area of domain.areas" class="domain-area">
-                  <h3 class="domain-area__title">{{ area.title }}</h3>
-                  <p class="domain-area__desc">{{ area.description }}</p>
-                  <div class="domain-area__tech">
-                    <span *ngFor="let t of area.technologies" class="tech-tag">{{ t }}</span>
+                @for (area of domain.areas; track area) {
+                  <div class="domain-area">
+                    <h3 class="domain-area__title">{{ area.title }}</h3>
+                    <p class="domain-area__desc">{{ area.description }}</p>
+                    <div class="domain-area__tech">
+                      @for (t of area.technologies; track t) {
+                        <span class="tech-tag">{{ t }}</span>
+                      }
+                    </div>
                   </div>
-                </div>
+                }
               </div>
             </div>
           </div>
         </qm-container>
       </qm-section>
-    </ng-container>
-
+    }
+    
     <qm-section surface="subtle" size="sm">
       <qm-container size="narrow">
         <div class="page-cta">
@@ -60,8 +63,8 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
         </div>
       </qm-container>
     </qm-section>
-  `,
-  styles: [`
+    `,
+    styles: [`
     .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 760px; margin: 0 0 20px; }

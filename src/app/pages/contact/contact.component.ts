@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
@@ -8,12 +8,10 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
 
 @Component({
-  selector: 'app-contact',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule,
-            QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-contact',
+    imports: [FormsModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- Hero -->
     <section class="page-hero surface-subtle">
       <qm-container>
@@ -26,181 +24,197 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
         </p>
       </qm-container>
     </section>
-
+    
     <qm-section surface="white">
       <qm-container>
         <div class="contact-layout">
-
+    
           <!-- ── FORM COLUMN ── -->
           <div class="contact-form-col">
             <h2>Send an Enquiry</h2>
             <p class="contact-form-intro">
               Tell us what you are working on. We will read it carefully and respond thoughtfully.
             </p>
-
+    
             <!-- Success -->
-            <div *ngIf="submitted()" class="form-success" role="alert">
-              <div class="form-success__icon" aria-hidden="true">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                  <circle cx="16" cy="16" r="16" fill="#DCFCE7"/>
-                  <path d="M10 16.5l4 4 8-8" stroke="#166534" stroke-width="2"
-                        stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </div>
-              <h3 class="form-success__title">Enquiry Received</h3>
-              <p class="form-success__text">
-                Thank you for reaching out. We will review your enquiry and respond shortly.
-              </p>
-            </div>
-
-            <div *ngIf="!submitted()" class="contact-form">
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label" for="contact-name">
-                    Name <span class="form-required" aria-label="required">*</span>
-                  </label>
-                  <input id="contact-name" type="text" class="form-input"
-                    [(ngModel)]="form.name" placeholder="Your name"
-                    autocomplete="name" required
-                    [class.form-input--error]="errors.name"/>
-                  <span *ngIf="errors.name" class="form-error" role="alert">{{ errors.name }}</span>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="contact-company">
-                    Company <span class="form-required" aria-label="required">*</span>
-                  </label>
-                  <input id="contact-company" type="text" class="form-input"
-                    [(ngModel)]="form.company" placeholder="Organisation name"
-                    autocomplete="organization" required
-                    [class.form-input--error]="errors.company"/>
-                  <span *ngIf="errors.company" class="form-error" role="alert">{{ errors.company }}</span>
-                </div>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="contact-email">
-                  Work Email <span class="form-required" aria-label="required">*</span>
-                </label>
-                <input id="contact-email" type="email" class="form-input"
-                  [(ngModel)]="form.email" placeholder="you&#64;company.com"
-                  autocomplete="email" required
-                  [class.form-input--error]="errors.email"/>
-                <span *ngIf="errors.email" class="form-error" role="alert">{{ errors.email }}</span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="contact-area">
-                  Area of Interest <span class="form-required" aria-label="required">*</span>
-                </label>
-                <div class="form-select-wrapper">
-                  <select id="contact-area" class="form-select"
-                    [(ngModel)]="form.area" required
-                    [class.form-input--error]="errors.area">
-                    <option value="">Select an area…</option>
-                    <option *ngFor="let area of areas" [value]="area">{{ area }}</option>
-                  </select>
-                  <svg class="form-select-icon" aria-hidden="true" width="16" height="16"
-                       viewBox="0 0 16 16" fill="none">
-                    <path d="M4 6l4 4 4-4" stroke="#64748B" stroke-width="1.5"
-                          stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </div>
-                <span *ngIf="errors.area" class="form-error" role="alert">{{ errors.area }}</span>
-              </div>
-
-              <div class="form-group">
-                <label class="form-label" for="contact-message">
-                  Message <span class="form-required" aria-label="required">*</span>
-                </label>
-                <textarea id="contact-message" class="form-textarea"
-                  [(ngModel)]="form.message"
-                  placeholder="Describe the problem you are trying to solve, the system you are building, or the challenge you face."
-                  rows="6" required
-                  [class.form-input--error]="errors.message"></textarea>
-                <span *ngIf="errors.message" class="form-error" role="alert">{{ errors.message }}</span>
-              </div>
-
-              <qm-button variant="primary" size="lg" type="submit" (clicked)="handleSubmit()">
-                Send Enquiry →
-              </qm-button>
-            </div>
-
-            <p class="contact-email-note">
-              Or email us directly:
-              <a href="mailto:hello&#64;quantsmind.com" class="contact-email-link">hello&#64;quantsmind.com</a>
-            </p>
-          </div>
-
-          <!-- ── SIDEBAR ── -->
-          <aside class="contact-sidebar">
-
-            <!-- Entry points -->
-            <div class="sidebar-entry-points">
-              <div *ngFor="let entry of entryPoints" class="sidebar-entry">
-                <qm-badge [variant]="entry.badge">{{ entry.label }}</qm-badge>
-                <h3 class="sidebar-entry__title">{{ entry.title }}</h3>
-                <p class="sidebar-entry__desc">{{ entry.desc }}</p>
-              </div>
-            </div>
-
-            <!-- What happens next -->
-            <div class="sidebar-next">
-              <h3 class="sidebar-next__heading">What Happens Next?</h3>
-              <ol class="sidebar-next__list">
-                <li *ngFor="let step of nextSteps; let i = index" class="sidebar-next__item">
-                  <div class="sidebar-next__num">{{ i + 1 }}</div>
-                  <div>
-                    <div class="sidebar-next__step-title">{{ step.title }}</div>
-                    <div class="sidebar-next__step-desc">{{ step.desc }}</div>
+            @if (submitted()) {
+              <div class="form-success" role="alert">
+                <div class="form-success__icon" aria-hidden="true">
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <circle cx="16" cy="16" r="16" fill="#DCFCE7"/>
+                    <path d="M10 16.5l4 4 8-8" stroke="#166534" stroke-width="2"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                   </div>
-                </li>
-              </ol>
-            </div>
-
-            <!-- Contact details block -->
-            <div class="sidebar-details">
-              <h3 class="sidebar-details__heading">Our Details</h3>
-
-              <div class="sidebar-details__item">
-                <div class="sidebar-details__icon" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="1.8"
-                       stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
-                    <circle cx="12" cy="10" r="3"/>
-                  </svg>
+                  <h3 class="form-success__title">Enquiry Received</h3>
+                  <p class="form-success__text">
+                    Thank you for reaching out. We will review your enquiry and respond shortly.
+                  </p>
                 </div>
-                <div class="sidebar-details__content">
-                  <div class="sidebar-details__label">Address</div>
-                  <address class="sidebar-details__address">
-                    28, Shikargarh<br>
-                    Jodhpur – 342015<br>
-                    Rajasthan, India
-                  </address>
-                </div>
-              </div>
-
-              <div class="sidebar-details__item">
-                <div class="sidebar-details__icon" aria-hidden="true">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
-                       stroke="currentColor" stroke-width="1.8"
-                       stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                    <polyline points="22,6 12,13 2,6"/>
-                  </svg>
-                </div>
-                <div class="sidebar-details__content">
-                  <div class="sidebar-details__label">Email</div>
-                  <a href="mailto:hello&#64;quantsmind.com" class="sidebar-details__link">
-                    hello&#64;quantsmind.com
-                  </a>
-                </div>
-              </div>
-
-              <div class="sidebar-details__item">
-                <div class="sidebar-details__icon" aria-hidden="true">
-                  <!-- LinkedIn icon -->
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              }
+    
+              @if (!submitted()) {
+                <div class="contact-form">
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label class="form-label" for="contact-name">
+                        Name <span class="form-required" aria-label="required">*</span>
+                      </label>
+                      <input id="contact-name" type="text" class="form-input"
+                        [(ngModel)]="form.name" placeholder="Your name"
+                        autocomplete="name" required
+                        [class.form-input--error]="errors.name"/>
+                        @if (errors.name) {
+                          <span class="form-error" role="alert">{{ errors.name }}</span>
+                        }
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="contact-company">
+                          Company <span class="form-required" aria-label="required">*</span>
+                        </label>
+                        <input id="contact-company" type="text" class="form-input"
+                          [(ngModel)]="form.company" placeholder="Organisation name"
+                          autocomplete="organization" required
+                          [class.form-input--error]="errors.company"/>
+                          @if (errors.company) {
+                            <span class="form-error" role="alert">{{ errors.company }}</span>
+                          }
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="form-label" for="contact-email">
+                          Work Email <span class="form-required" aria-label="required">*</span>
+                        </label>
+                        <input id="contact-email" type="email" class="form-input"
+                          [(ngModel)]="form.email" placeholder="you&#64;company.com"
+                          autocomplete="email" required
+                          [class.form-input--error]="errors.email"/>
+                          @if (errors.email) {
+                            <span class="form-error" role="alert">{{ errors.email }}</span>
+                          }
+                        </div>
+                        <div class="form-group">
+                          <label class="form-label" for="contact-area">
+                            Area of Interest <span class="form-required" aria-label="required">*</span>
+                          </label>
+                          <div class="form-select-wrapper">
+                            <select id="contact-area" class="form-select"
+                              [(ngModel)]="form.area" required
+                              [class.form-input--error]="errors.area">
+                              <option value="">Select an area…</option>
+                              @for (area of areas; track area) {
+                                <option [value]="area">{{ area }}</option>
+                              }
+                            </select>
+                            <svg class="form-select-icon" aria-hidden="true" width="16" height="16"
+                              viewBox="0 0 16 16" fill="none">
+                              <path d="M4 6l4 4 4-4" stroke="#64748B" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round"/>
+                              </svg>
+                            </div>
+                            @if (errors.area) {
+                              <span class="form-error" role="alert">{{ errors.area }}</span>
+                            }
+                          </div>
+                          <div class="form-group">
+                            <label class="form-label" for="contact-message">
+                              Message <span class="form-required" aria-label="required">*</span>
+                            </label>
+                            <textarea id="contact-message" class="form-textarea"
+                              [(ngModel)]="form.message"
+                              placeholder="Describe the problem you are trying to solve, the system you are building, or the challenge you face."
+                              rows="6" required
+                            [class.form-input--error]="errors.message"></textarea>
+                            @if (errors.message) {
+                              <span class="form-error" role="alert">{{ errors.message }}</span>
+                            }
+                          </div>
+                          <qm-button variant="primary" size="lg" type="submit" (clicked)="handleSubmit()">
+                            Send Enquiry →
+                          </qm-button>
+                        </div>
+                      }
+    
+                      <p class="contact-email-note">
+                        Or email us directly:
+                        <a href="mailto:ajitkumar&#64;quantsmind.com" class="contact-email-link">ajitkumar&#64;quantsmind.com</a>
+                      </p>
+                    </div>
+    
+                    <!-- ── SIDEBAR ── -->
+                    <aside class="contact-sidebar">
+    
+                      <!-- Entry points -->
+                      <div class="sidebar-entry-points">
+                        @for (entry of entryPoints; track entry) {
+                          <div class="sidebar-entry">
+                            <qm-badge [variant]="entry.badge">{{ entry.label }}</qm-badge>
+                            <h3 class="sidebar-entry__title">{{ entry.title }}</h3>
+                            <p class="sidebar-entry__desc">{{ entry.desc }}</p>
+                          </div>
+                        }
+                      </div>
+    
+                      <!-- What happens next -->
+                      <div class="sidebar-next">
+                        <h3 class="sidebar-next__heading">What Happens Next?</h3>
+                        <ol class="sidebar-next__list">
+                          @for (step of nextSteps; track step; let i = $index) {
+                            <li class="sidebar-next__item">
+                              <div class="sidebar-next__num">{{ i + 1 }}</div>
+                              <div>
+                                <div class="sidebar-next__step-title">{{ step.title }}</div>
+                                <div class="sidebar-next__step-desc">{{ step.desc }}</div>
+                              </div>
+                            </li>
+                          }
+                        </ol>
+                      </div>
+    
+                      <!-- Contact details block -->
+                      <div class="sidebar-details">
+                        <h3 class="sidebar-details__heading">Our Details</h3>
+    
+                        <div class="sidebar-details__item">
+                          <div class="sidebar-details__icon" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" stroke-width="1.8"
+                              stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                              <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                          </div>
+                          <div class="sidebar-details__content">
+                            <div class="sidebar-details__label">Address</div>
+                            <address class="sidebar-details__address">
+                              28, Shikargarh<br>
+                              Jodhpur – 342015<br>
+                              Rajasthan, India
+                            </address>
+                          </div>
+                        </div>
+    
+                        <div class="sidebar-details__item">
+                          <div class="sidebar-details__icon" aria-hidden="true">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                              stroke="currentColor" stroke-width="1.8"
+                              stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                              <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                          </div>
+                          <div class="sidebar-details__content">
+                            <div class="sidebar-details__label">Email</div>
+                            <a href="mailto:ajitkumar&#64;quantsmind.com" class="sidebar-details__link">
+                              ajitkumar&#64;quantsmind.com
+                            </a>
+                          </div>
+                        </div>
+    
+                        <div class="sidebar-details__item">
+                          <div class="sidebar-details__icon" aria-hidden="true">
+                            <!-- LinkedIn icon -->
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853
                              0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046
                              c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337
@@ -208,25 +222,25 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                              2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0
                              0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24
                              23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                  </svg>
-                </div>
-                <div class="sidebar-details__content">
-                  <div class="sidebar-details__label">LinkedIn</div>
-                  <a href="https://www.linkedin.com/company/quantsmind"
-                     target="_blank" rel="noopener noreferrer"
-                     class="sidebar-details__link">
-                    linkedin.com/company/quantsmind
-                  </a>
-                </div>
-              </div>
-            </div>
-
-          </aside>
-        </div>
-      </qm-container>
-    </qm-section>
-  `,
-  styles: [`
+                              </svg>
+                            </div>
+                            <div class="sidebar-details__content">
+                              <div class="sidebar-details__label">LinkedIn</div>
+                              <a href="https://www.linkedin.com/company/quantsmind"
+                                target="_blank" rel="noopener noreferrer"
+                                class="sidebar-details__link">
+                                linkedin.com/company/quantsmind
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+    
+                      </aside>
+                    </div>
+                  </qm-container>
+                </qm-section>
+    `,
+    styles: [`
     .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 760px; margin: 0 0 20px; }

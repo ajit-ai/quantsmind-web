@@ -1,17 +1,17 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 @Component({
-  selector: 'app-what-we-build',
-  standalone: true,
-  imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-what-we-build',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- Page Header -->
     <section class="page-hero surface-subtle">
       <qm-container>
@@ -24,24 +24,28 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
         </p>
       </qm-container>
     </section>
-
+    
     <!-- Capabilities -->
-    <ng-container *ngFor="let cap of capabilities; let i = index">
+    @for (cap of capabilities; track cap; let i = $index) {
       <qm-section [surface]="i % 2 === 0 ? 'white' : 'canvas'" [id]="cap.id">
         <qm-container>
           <div class="cap-layout" [class.cap-layout--reverse]="i % 2 !== 0">
             <div class="cap-content">
-              <div class="cap-icon" aria-hidden="true" [innerHTML]="cap.icon"></div>
+              <div class="cap-icon" aria-hidden="true" [innerHTML]="cap.icon | qmSafeHtml"></div>
               <h2>{{ cap.title }}</h2>
               <p class="lead">{{ cap.lead }}</p>
               <h3 class="cap-sub-heading">Problems We Address</h3>
               <ul class="cap-list">
-                <li *ngFor="let problem of cap.problems">{{ problem }}</li>
+                @for (problem of cap.problems; track problem) {
+                  <li>{{ problem }}</li>
+                }
               </ul>
               <h3 class="cap-sub-heading">Engineering Approach</h3>
               <p>{{ cap.approach }}</p>
               <div class="cap-tags">
-                <span *ngFor="let tag of cap.tags" class="cap-tag">{{ tag }}</span>
+                @for (tag of cap.tags; track tag) {
+                  <span class="cap-tag">{{ tag }}</span>
+                }
               </div>
               <div class="cap-cta">
                 <qm-badge [variant]="cap.entry">{{ cap.entryLabel }}</qm-badge>
@@ -54,18 +58,22 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
               <div class="cap-diagram__inner">
                 <div class="cap-diagram__title">{{ cap.diagramTitle }}</div>
                 <div class="cap-diagram__flow">
-                  <div *ngFor="let step of cap.diagramSteps; let last = last" class="cap-diagram__step">
-                    <div class="cap-diagram__step-label">{{ step }}</div>
-                    <div *ngIf="!last" class="cap-diagram__step-arrow">↓</div>
-                  </div>
+                  @for (step of cap.diagramSteps; track step; let last = $last) {
+                    <div class="cap-diagram__step">
+                      <div class="cap-diagram__step-label">{{ step }}</div>
+                      @if (!last) {
+                        <div class="cap-diagram__step-arrow">↓</div>
+                      }
+                    </div>
+                  }
                 </div>
               </div>
             </div>
           </div>
         </qm-container>
       </qm-section>
-    </ng-container>
-
+    }
+    
     <!-- Final CTA -->
     <qm-section surface="subtle" size="sm">
       <qm-container size="narrow">
@@ -78,8 +86,8 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
         </div>
       </qm-container>
     </qm-section>
-  `,
-  styles: [`
+    `,
+    styles: [`
     .page-hero {
       padding: 80px 0 64px;
       border-bottom: 1px solid #E2E8F0;

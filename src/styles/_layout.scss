@@ -24,9 +24,9 @@
 }
 
 // Container mixin
-@mixin container {
+@mixin container($max-width: $container-max) {
   width: 100%;
-  max-width: $container-max;
+  max-width: $max-width;
   margin-left: auto;
   margin-right: auto;
   padding-left: $container-padding-mobile;
@@ -169,13 +169,11 @@
 }
 
 .container--narrow {
-  @include container;
-  max-width: 900px;
+  @include container(900px);
 }
 
 .container--wide {
-  @include container;
-  max-width: 1440px;
+  @include container(1440px);
 }
 
 // Sections

@@ -33,3 +33,77 @@
 .skip-link:focus {
   top: 0;
 }
+
+/* ============================================================
+   THEME TOKENS — Light / Dark chrome (header + footer)
+   Set via `data-theme` attribute on <html> by the header toggle.
+   ============================================================ */
+
+:root {
+  color-scheme: light;
+
+  /* Header chrome */
+  --qm-header-bg: rgba(255, 255, 255, 0.88);
+  --qm-header-border: #E2E8F0;
+  --qm-header-text: #475569;
+  --qm-header-text-strong: #0F172A;
+  --qm-header-muted: #64748B;
+  --qm-header-accent: #2563EB;
+  --qm-header-shadow: 0 10px 32px rgba(2, 6, 23, 0.08);
+
+  /* Dropdown / panel surfaces */
+  --qm-panel-bg: #FFFFFF;
+  --qm-panel-border: #E2E8F0;
+  --qm-panel-hover: #F8FAFC;
+  --qm-panel-icon: #EFF6FF;
+
+  /* Footer */
+  --qm-footer-bg: #0F172A;
+  --qm-footer-bg-soft: #16203A;
+  --qm-footer-border: #1E293B;
+  --qm-footer-text: #94A3B8;
+  --qm-footer-text-strong: #F1F5F9;
+  --qm-footer-heading: #E2E8F0;
+  --qm-footer-muted: #64748B;
+
+  /* Announcement bar */
+  --qm-announce-bg: linear-gradient(90deg, #1D4ED8 0%, #2563EB 55%, #4F46E5 100%);
+  --qm-announce-text: #FFFFFF;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  --qm-header-bg: rgba(9, 13, 28, 0.9);
+  --qm-header-border: #1E293B;
+  --qm-header-text: #94A3B8;
+  --qm-header-text-strong: #F1F5F9;
+  --qm-header-muted: #64748B;
+  --qm-header-accent: #60A5FA;
+  --qm-header-shadow: 0 10px 32px rgba(0, 0, 0, 0.5);
+
+  --qm-panel-bg: #0F172A;
+  --qm-panel-border: #1E293B;
+  --qm-panel-hover: #1E293B;
+  --qm-panel-icon: #1E293B;
+
+  --qm-footer-bg: #060B16;
+  --qm-footer-bg-soft: #0F172A;
+  --qm-footer-border: #1E293B;
+  --qm-footer-text: #94A3B8;
+  --qm-footer-text-strong: #F8FAFC;
+  --qm-footer-heading: #E2E8F0;
+  --qm-footer-muted: #64748B;
+
+  --qm-announce-bg: linear-gradient(90deg, #1E3A8A 0%, #1D4ED8 55%, #4F46E5 100%);
+  --qm-announce-text: #FFFFFF;
+}
+
+/* Smooth chrome transitions when toggling theme */
+.qm-header,
+.qm-footer,
+.qm-mega,
+.qm-mobile-nav,
+.qm-search-overlay__panel {
+  transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
+}

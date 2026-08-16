@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type SectionSize    = 'sm' | 'md' | 'lg';
 export type SectionSurface = 'canvas' | 'white' | 'subtle' | 'accent' | 'dark';
@@ -10,13 +10,12 @@ export type SectionSurface = 'canvas' | 'white' | 'subtle' | 'accent' | 'dark';
  * Wraps QmContainer internally when layout="contained" (default).
  */
 @Component({
-  selector: 'qm-section',
-  standalone: true,
-  imports: [CommonModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<section [class]="sectionClass" [attr.aria-label]="ariaLabel || null"><ng-content></ng-content></section>`,
-  styles: [`
-    :host { display: block; }
+    selector: 'qm-section',
+    imports: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `<section [class]="sectionClass" [attr.aria-label]="ariaLabel || null"><ng-content></ng-content></section>`,
+    styles: [`
+    :host { display: block; scroll-margin-top: 88px; }
 
     .qm-section {
       padding-top: 80px;

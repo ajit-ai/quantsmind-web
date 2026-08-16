@@ -1,5 +1,5 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 
 export type BadgeVariant =
   | 'default'
@@ -13,12 +13,11 @@ export type BadgeVariant =
  * Compact label for categories, maturity states, and entry-point signals.
  */
 @Component({
-  selector: 'qm-badge',
-  standalone: true,
-  imports: [CommonModule],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `<span [class]="badgeClass" [attr.aria-label]="ariaLabel || null"><ng-content></ng-content></span>`,
-  styles: [`
+    selector: 'qm-badge',
+    imports: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `<span [class]="badgeClass" [attr.aria-label]="ariaLabel || null"><ng-content></ng-content></span>`,
+    styles: [`
     :host { display: inline-block; }
 
     .qm-badge {

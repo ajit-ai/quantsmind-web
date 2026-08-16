@@ -1,16 +1,15 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 
 @Component({
-  selector: 'app-engineering',
-  standalone: true,
-  imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-engineering',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section class="page-hero surface-subtle">
       <qm-container>
         <span class="eyebrow">ENGINEERING</span>
@@ -22,41 +21,47 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </p>
       </qm-container>
     </section>
-
+    
     <!-- Principles -->
     <qm-section surface="white">
       <qm-container>
         <span class="eyebrow">PRINCIPLES</span>
         <h2>What Guides Our Engineering.</h2>
         <div class="principle-grid">
-          <div *ngFor="let p of principles" class="principle-card">
-            <div class="principle-card__number">{{ p.number }}</div>
-            <h3 class="principle-card__title">{{ p.title }}</h3>
-            <p class="principle-card__desc">{{ p.description }}</p>
-          </div>
+          @for (p of principles; track p) {
+            <div class="principle-card">
+              <div class="principle-card__number">{{ p.number }}</div>
+              <h3 class="principle-card__title">{{ p.title }}</h3>
+              <p class="principle-card__desc">{{ p.description }}</p>
+            </div>
+          }
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- Disciplines -->
     <qm-section surface="canvas">
       <qm-container>
         <span class="eyebrow">DISCIPLINES</span>
         <h2>Eight Engineering Disciplines.</h2>
         <div class="discipline-list">
-          <div *ngFor="let d of disciplines" class="discipline-item">
-            <div class="discipline-item__header">
-              <h3 class="discipline-item__title">{{ d.title }}</h3>
-              <div class="discipline-item__tags">
-                <span *ngFor="let tag of d.tags" class="discipline-tag">{{ tag }}</span>
+          @for (d of disciplines; track d) {
+            <div class="discipline-item">
+              <div class="discipline-item__header">
+                <h3 class="discipline-item__title">{{ d.title }}</h3>
+                <div class="discipline-item__tags">
+                  @for (tag of d.tags; track tag) {
+                    <span class="discipline-tag">{{ tag }}</span>
+                  }
+                </div>
               </div>
+              <p class="discipline-item__desc">{{ d.description }}</p>
             </div>
-            <p class="discipline-item__desc">{{ d.description }}</p>
-          </div>
+          }
         </div>
       </qm-container>
     </qm-section>
-
+    
     <!-- How We Work -->
     <qm-section surface="white">
       <qm-container>
@@ -65,32 +70,36 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
             <span class="eyebrow">HOW WE WORK</span>
             <h2>From Problem to Production.</h2>
             <p>We do not begin with a technology choice. We begin with a thorough
-            understanding of the problem domain, the organisational constraints,
-            and the technical requirements. From that foundation, architecture
+              understanding of the problem domain, the organisational constraints,
+              and the technical requirements. From that foundation, architecture
             decisions have clear rationale.</p>
             <p>Every QuantsMind engagement starts with questions, not proposals.
-            What does the system need to do? Who will maintain it? What are the
+              What does the system need to do? Who will maintain it? What are the
             real performance requirements? What is the cost of failure?</p>
             <qm-button variant="secondary" [routerLinkValue]="'/contact'">
               Start With Your Problem →
             </qm-button>
           </div>
           <div class="work-steps">
-            <div *ngFor="let step of workSteps; let last = last" class="work-step">
-              <div class="work-step__content">
-                <div class="work-step__num">{{ step.num }}</div>
-                <div>
-                  <div class="work-step__title">{{ step.title }}</div>
-                  <div class="work-step__desc">{{ step.desc }}</div>
+            @for (step of workSteps; track step; let last = $last) {
+              <div class="work-step">
+                <div class="work-step__content">
+                  <div class="work-step__num">{{ step.num }}</div>
+                  <div>
+                    <div class="work-step__title">{{ step.title }}</div>
+                    <div class="work-step__desc">{{ step.desc }}</div>
+                  </div>
                 </div>
+                @if (!last) {
+                  <div class="work-step__line"></div>
+                }
               </div>
-              <div *ngIf="!last" class="work-step__line"></div>
-            </div>
+            }
           </div>
         </div>
       </qm-container>
     </qm-section>
-
+    
     <qm-section surface="subtle" size="sm">
       <qm-container size="narrow">
         <div class="page-cta">
@@ -102,8 +111,8 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
         </div>
       </qm-container>
     </qm-section>
-  `,
-  styles: [`
+    `,
+    styles: [`
     .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 700px; margin: 0 0 20px; }

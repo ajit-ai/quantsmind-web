@@ -1,10 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
+import { HrefPartsPipe }        from '../../shared/pipes/href-parts.pipe';
 
 interface Capability {
   id: string;
@@ -17,6 +19,7 @@ interface Capability {
 type HomeBadgeVariant = 'ai' | 'data' | 'software' | 'cloud' | 'optimization' | 'quantum' | 'default';
 
 interface InsightPreview {
+  slug: string;
   category: string;
   badge: HomeBadgeVariant;
   title: string;
@@ -25,11 +28,10 @@ interface InsightPreview {
 }
 
 @Component({
-  selector: 'app-home',
-  standalone: true,
-  imports: [CommonModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-home',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe, HrefPartsPipe],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <!-- ═══════════════════════════════════════════════════════ -->
     <!-- HERO                                                     -->
     <!-- ═══════════════════════════════════════════════════════ -->
@@ -62,7 +64,7 @@ interface InsightPreview {
               <span>Advanced Computing</span>
             </div>
           </div>
-
+    
           <!-- Technical diagram -->
           <div class="hero__diagram" aria-hidden="true">
             <svg class="hero__svg" viewBox="0 0 480 400" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,355 +76,376 @@ interface InsightPreview {
               </defs>
               <rect width="480" height="400" fill="#F8FAFC" rx="16"/>
               <rect width="480" height="400" fill="url(#grid)" rx="16"/>
-
+    
               <!-- Central system node -->
               <rect x="170" y="160" width="140" height="80" rx="10" fill="#FFFFFF"
-                    stroke="#2563EB" stroke-width="1.5"/>
-              <text x="240" y="193" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="11" font-weight="600" fill="#111827" letter-spacing="0.06em">COMPLEX</text>
-              <text x="240" y="211" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="11" font-weight="600" fill="#111827" letter-spacing="0.06em">PROBLEM</text>
-              <text x="240" y="229" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" fill="#64748B">Your challenge</text>
-
-              <!-- Arrow down to UNDERSTAND -->
-              <path d="M240 240 L240 274" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <polygon points="236,270 244,270 240,278" fill="#CBD5E1"/>
-
-              <!-- UNDERSTAND -->
-              <rect x="190" y="278" width="100" height="36" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-              <text x="240" y="300" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" font-weight="600" fill="#2563EB" letter-spacing="0.05em">UNDERSTAND</text>
-
-              <!-- Arrow right to ARCHITECT -->
-              <path d="M290 296 L332 296" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <polygon points="328,292 336,296 328,300" fill="#CBD5E1"/>
-
-              <!-- ARCHITECT -->
-              <rect x="336" y="278" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-              <text x="386" y="300" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" font-weight="600" fill="#475569" letter-spacing="0.05em">ARCHITECT</text>
-
-              <!-- Arrow up from ARCHITECT to ENGINEER -->
-              <path d="M386 278 L386 244" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <polygon points="382,248 390,248 386,240" fill="#CBD5E1"/>
-
-              <!-- ENGINEER node -->
-              <rect x="336" y="200" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-              <text x="386" y="222" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" font-weight="600" fill="#475569" letter-spacing="0.05em">ENGINEER</text>
-
-              <!-- Arrow left to INTEGRATE -->
-              <path d="M336 218 L294 218" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <polygon points="298,214 290,218 298,222" fill="#CBD5E1"/>
-
-              <!-- INTEGRATE -->
-              <rect x="190" y="200" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-              <text x="240" y="222" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" font-weight="600" fill="#475569" letter-spacing="0.05em">INTEGRATE</text>
-
-              <!-- Arrow up to OPTIMISE -->
-              <path d="M240 200 L240 164" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <polygon points="236,168 244,168 240,160" fill="#CBD5E1"/>
-
-              <!-- Left side: INTELLIGENCE -->
-              <rect x="44" y="160" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
-              <text x="94" y="182" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" font-weight="600" fill="#475569" letter-spacing="0.04em">INTELLIGENCE</text>
-
-              <!-- OPTIMISE -->
-              <rect x="44" y="218" width="100" height="36" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-              <text x="94" y="240" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" font-weight="600" fill="#2563EB" letter-spacing="0.05em">OPTIMISE</text>
-
-              <!-- EVOLVE -->
-              <rect x="44" y="278" width="100" height="36" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
-              <text x="94" y="300" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="10" font-weight="600" fill="#2563EB" letter-spacing="0.05em">EVOLVE</text>
-
-              <!-- Connecting lines on left -->
-              <path d="M170 200 L148 200 L148 178" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <polygon points="144,182 152,182 148,174" fill="#CBD5E1"/>
-              <path d="M94 196 L94 218" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-              <path d="M94 254 L94 278" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
-
-              <!-- Top labels -->
-              <text x="240" y="48" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="11" font-weight="500" fill="#94A3B8" letter-spacing="0.04em">ENTERPRISE SOFTWARE</text>
-              <text x="240" y="68" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="11" font-weight="500" fill="#94A3B8" letter-spacing="0.04em">INTELLIGENT SYSTEMS</text>
-              <text x="240" y="88" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
-                    font-size="11" font-weight="500" fill="#94A3B8" letter-spacing="0.04em">ADVANCED COMPUTING</text>
-
-              <!-- Top accent line -->
-              <line x1="120" y1="100" x2="360" y2="100" stroke="#E2E8F0" stroke-width="1"/>
-              <circle cx="240" cy="100" r="4" fill="#2563EB" opacity="0.6"/>
-            </svg>
-          </div>
-        </div>
-      </qm-container>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- WHAT IS QUANTSMIND                                       -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white">
-      <qm-container size="narrow">
-        <div class="text-center mb-12">
-          <span class="eyebrow">WHO WE ARE</span>
-          <h2>A Technology Engineering Company.</h2>
-          <p class="lead">
-            QuantsMind works on problems where the technology itself is
-            part of the difficulty — not just the implementation.
-            We start with the architecture, reason carefully about the
-            constraints, and engineer systems built to last.
-          </p>
-        </div>
-
-        <div class="process-row">
-          <div *ngFor="let step of processSteps; let last = last" class="process-row__step">
-            <div class="process-row__label">{{ step }}</div>
-            <div *ngIf="!last" class="process-row__arrow" aria-hidden="true">→</div>
-          </div>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- WHAT WE BUILD                                            -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas">
-      <qm-container>
-        <div class="section-header">
-          <span class="eyebrow">WHAT WE BUILD</span>
-          <h2>Six Engineering Disciplines.</h2>
-          <p class="lead section-header__lead">
-            Each capability reflects a domain where QuantsMind applies
-            deep technical thinking to real organisational problems.
-          </p>
-        </div>
-
-        <div class="capability-grid">
-          <a *ngFor="let cap of capabilities"
-             [routerLink]="cap.href"
-             class="capability-card"
-             [attr.aria-label]="cap.title">
-            <div class="capability-card__icon" aria-hidden="true" [innerHTML]="cap.icon"></div>
-            <h3 class="capability-card__title">{{ cap.title }}</h3>
-            <p class="capability-card__desc">{{ cap.description }}</p>
-            <span class="capability-card__link">Explore →</span>
-          </a>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- ENTRY POINTS (BUILD / MODERNIZE / EXPLORE)              -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="subtle" size="sm">
-      <qm-container>
-        <div class="entry-row">
-          <div *ngFor="let entry of entryPoints" class="entry-card">
-            <div class="entry-card__tag">
-              <qm-badge [variant]="entry.badge">{{ entry.label }}</qm-badge>
+                stroke="#2563EB" stroke-width="1.5"/>
+                <text x="240" y="193" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="11" font-weight="600" fill="#111827" letter-spacing="0.06em">COMPLEX</text>
+                <text x="240" y="211" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="11" font-weight="600" fill="#111827" letter-spacing="0.06em">PROBLEM</text>
+                <text x="240" y="229" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" fill="#64748B">Your challenge</text>
+    
+                <!-- Arrow down to UNDERSTAND -->
+                <path d="M240 240 L240 274" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <polygon points="236,270 244,270 240,278" fill="#CBD5E1"/>
+    
+                <!-- UNDERSTAND -->
+                <rect x="190" y="278" width="100" height="36" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+                <text x="240" y="300" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" font-weight="600" fill="#2563EB" letter-spacing="0.05em">UNDERSTAND</text>
+    
+                <!-- Arrow right to ARCHITECT -->
+                <path d="M290 296 L332 296" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <polygon points="328,292 336,296 328,300" fill="#CBD5E1"/>
+    
+                <!-- ARCHITECT -->
+                <rect x="336" y="278" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+                <text x="386" y="300" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" font-weight="600" fill="#475569" letter-spacing="0.05em">ARCHITECT</text>
+    
+                <!-- Arrow up from ARCHITECT to ENGINEER -->
+                <path d="M386 278 L386 244" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <polygon points="382,248 390,248 386,240" fill="#CBD5E1"/>
+    
+                <!-- ENGINEER node -->
+                <rect x="336" y="200" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+                <text x="386" y="222" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" font-weight="600" fill="#475569" letter-spacing="0.05em">ENGINEER</text>
+    
+                <!-- Arrow left to INTEGRATE -->
+                <path d="M336 218 L294 218" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <polygon points="298,214 290,218 298,222" fill="#CBD5E1"/>
+    
+                <!-- INTEGRATE -->
+                <rect x="190" y="200" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+                <text x="240" y="222" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" font-weight="600" fill="#475569" letter-spacing="0.05em">INTEGRATE</text>
+    
+                <!-- Arrow up to OPTIMISE -->
+                <path d="M240 200 L240 164" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <polygon points="236,168 244,168 240,160" fill="#CBD5E1"/>
+    
+                <!-- Left side: INTELLIGENCE -->
+                <rect x="44" y="160" width="100" height="36" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+                <text x="94" y="182" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" font-weight="600" fill="#475569" letter-spacing="0.04em">INTELLIGENCE</text>
+    
+                <!-- OPTIMISE -->
+                <rect x="44" y="218" width="100" height="36" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+                <text x="94" y="240" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" font-weight="600" fill="#2563EB" letter-spacing="0.05em">OPTIMISE</text>
+    
+                <!-- EVOLVE -->
+                <rect x="44" y="278" width="100" height="36" rx="8" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+                <text x="94" y="300" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="10" font-weight="600" fill="#2563EB" letter-spacing="0.05em">EVOLVE</text>
+    
+                <!-- Connecting lines on left -->
+                <path d="M170 200 L148 200 L148 178" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <polygon points="144,182 152,182 148,174" fill="#CBD5E1"/>
+                <path d="M94 196 L94 218" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+                <path d="M94 254 L94 278" stroke="#CBD5E1" stroke-width="1.5" stroke-dasharray="4 3"/>
+    
+                <!-- Top labels -->
+                <text x="240" y="48" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="11" font-weight="500" fill="#94A3B8" letter-spacing="0.04em">ENTERPRISE SOFTWARE</text>
+                <text x="240" y="68" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="11" font-weight="500" fill="#94A3B8" letter-spacing="0.04em">INTELLIGENT SYSTEMS</text>
+                <text x="240" y="88" text-anchor="middle" font-family="Inter,system-ui,sans-serif"
+                font-size="11" font-weight="500" fill="#94A3B8" letter-spacing="0.04em">ADVANCED COMPUTING</text>
+    
+                <!-- Top accent line -->
+                <line x1="120" y1="100" x2="360" y2="100" stroke="#E2E8F0" stroke-width="1"/>
+                <circle cx="240" cy="100" r="4" fill="#2563EB" opacity="0.6"/>
+              </svg>
             </div>
-            <h3 class="entry-card__title">{{ entry.title }}</h3>
-            <p class="entry-card__desc">{{ entry.description }}</p>
-            <a [routerLink]="'/contact'" class="entry-card__link">Start a conversation →</a>
           </div>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- ENGINEERING APPROACH                                     -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white">
-      <qm-container>
-        <div class="two-col">
-          <div class="two-col__text">
-            <span class="eyebrow">ENGINEERING</span>
-            <h2>Architecture First.</h2>
-            <p>
-              Before we write code, we understand the system. We reason about
-              data flows, integration boundaries, failure modes, and long-term
-              evolution. The architecture is the foundation everything else rests on.
+        </qm-container>
+      </section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- WHAT IS QUANTSMIND                                       -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="white">
+        <qm-container size="narrow">
+          <div class="text-center mb-12">
+            <span class="eyebrow">WHO WE ARE</span>
+            <h2>A Technology Engineering Company.</h2>
+            <p class="lead">
+              QuantsMind works on problems where the technology itself is
+              part of the difficulty — not just the implementation.
+              We start with the architecture, reason carefully about the
+              constraints, and engineer systems built to last.
             </p>
-            <p>
-              QuantsMind engineering is defined by clarity over cleverness,
-              correctness over speed, and systems that your team can reason
-              about and evolve confidently over time.
-            </p>
-            <qm-button variant="secondary" size="md" [routerLinkValue]="'/engineering'">
-              Our Engineering Approach →
-            </qm-button>
           </div>
-          <div class="two-col__diagram" aria-hidden="true">
-            <div class="principle-list">
-              <div *ngFor="let p of principles" class="principle-item">
-                <div class="principle-item__dot"></div>
-                <div>
-                  <div class="principle-item__title">{{ p.title }}</div>
-                  <div class="principle-item__desc">{{ p.desc }}</div>
+    
+          <div class="process-row">
+            @for (step of processSteps; track step; let last = $last) {
+              <div class="process-row__step">
+                <div class="process-row__label">{{ step }}</div>
+                @if (!last) {
+                  <div class="process-row__arrow" aria-hidden="true">→</div>
+                }
+              </div>
+            }
+          </div>
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- WHAT WE BUILD                                            -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="canvas">
+        <qm-container>
+          <div class="section-header">
+            <span class="eyebrow">WHAT WE BUILD</span>
+            <h2>Six Engineering Disciplines.</h2>
+            <p class="lead section-header__lead">
+              Each capability reflects a domain where QuantsMind applies
+              deep technical thinking to real organisational problems.
+            </p>
+          </div>
+    
+          <div class="capability-grid">
+            @for (cap of capabilities; track cap) {
+              <a
+                [routerLink]="cap.href"
+                class="capability-card"
+                [attr.aria-label]="cap.title">
+                <div class="capability-card__icon" aria-hidden="true" [innerHTML]="cap.icon | qmSafeHtml"></div>
+                <h3 class="capability-card__title">{{ cap.title }}</h3>
+                <p class="capability-card__desc">{{ cap.description }}</p>
+                <span class="capability-card__link">Explore →</span>
+              </a>
+            }
+          </div>
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- ENTRY POINTS (BUILD / MODERNIZE / EXPLORE)              -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="subtle" size="sm">
+        <qm-container>
+          <div class="entry-row">
+            @for (entry of entryPoints; track entry) {
+              <div class="entry-card">
+                <div class="entry-card__tag">
+                  <qm-badge [variant]="entry.badge">{{ entry.label }}</qm-badge>
                 </div>
+                <h3 class="entry-card__title">{{ entry.title }}</h3>
+                <p class="entry-card__desc">{{ entry.description }}</p>
+                <a [routerLink]="'/contact'" class="entry-card__link">Start a conversation →</a>
+              </div>
+            }
+          </div>
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- ENGINEERING APPROACH                                     -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="white">
+        <qm-container>
+          <div class="two-col">
+            <div class="two-col__text">
+              <span class="eyebrow">ENGINEERING</span>
+              <h2>Architecture First.</h2>
+              <p>
+                Before we write code, we understand the system. We reason about
+                data flows, integration boundaries, failure modes, and long-term
+                evolution. The architecture is the foundation everything else rests on.
+              </p>
+              <p>
+                QuantsMind engineering is defined by clarity over cleverness,
+                correctness over speed, and systems that your team can reason
+                about and evolve confidently over time.
+              </p>
+              <qm-button variant="secondary" size="md" [routerLinkValue]="'/engineering'">
+                Our Engineering Approach →
+              </qm-button>
+            </div>
+            <div class="two-col__diagram" aria-hidden="true">
+              <div class="principle-list">
+                @for (p of principles; track p) {
+                  <div class="principle-item">
+                    <div class="principle-item__dot"></div>
+                    <div>
+                      <div class="principle-item__title">{{ p.title }}</div>
+                      <div class="principle-item__desc">{{ p.desc }}</div>
+                    </div>
+                  </div>
+                }
               </div>
             </div>
           </div>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- PROBLEMS WE SOLVE                                        -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas">
-      <qm-container>
-        <div class="section-header text-center">
-          <span class="eyebrow">PROBLEMS</span>
-          <h2>We Start With the Problem.</h2>
-          <p class="lead section-header__lead">
-            Technology is the answer. First we understand the question.
-          </p>
-        </div>
-        <div class="problem-grid">
-          <div *ngFor="let problem of problems" class="problem-card">
-            <h3 class="problem-card__title">{{ problem.title }}</h3>
-            <p class="problem-card__desc">{{ problem.desc }}</p>
-          </div>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- TECHNOLOGY                                               -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white">
-      <qm-container>
-        <div class="section-header">
-          <span class="eyebrow">TECHNOLOGY</span>
-          <h2>Across the Full Stack of Modern Engineering.</h2>
-        </div>
-        <div class="tech-domain-grid">
-          <a *ngFor="let domain of techDomains"
-             [routerLink]="domain.href"
-             class="tech-domain-card">
-            <div class="tech-domain-card__name">{{ domain.name }}</div>
-            <div class="tech-domain-card__items">
-              <span *ngFor="let item of domain.items" class="tech-domain-card__item">
-                {{ item }}
-              </span>
-            </div>
-          </a>
-        </div>
-        <div class="mt-8 text-center">
-          <qm-button variant="outline" [routerLinkValue]="'/technology'">
-            Explore Our Technology Landscape →
-          </qm-button>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- LABS                                                     -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="dark">
-      <qm-container>
-        <div class="labs-layout">
-          <div class="labs-text">
-            <span class="eyebrow" style="color:#93C5FD">QUANTSMIND LABS</span>
-            <h2 style="color:#F1F5F9">
-              Research, Experimentation,<br>and Intellectual Property.
-            </h2>
-            <p style="color:#94A3B8">
-              QuantsMind Labs investigates problems at the frontier of
-              applied technology — AI systems, data knowledge graphs,
-              mathematical optimisation, quantum algorithms, and advanced
-              computing models. Work here is honest about maturity.
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- PROBLEMS WE SOLVE                                        -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="canvas">
+        <qm-container>
+          <div class="section-header text-center">
+            <span class="eyebrow">PROBLEMS</span>
+            <h2>We Start With the Problem.</h2>
+            <p class="lead section-header__lead">
+              Technology is the answer. First we understand the question.
             </p>
-            <qm-button variant="secondary" size="md" [routerLinkValue]="'/labs'">
-              Explore QuantsMind Labs →
+          </div>
+          <div class="problem-grid">
+            @for (problem of problems; track problem) {
+              <div class="problem-card">
+                <h3 class="problem-card__title">{{ problem.title }}</h3>
+                <p class="problem-card__desc">{{ problem.desc }}</p>
+              </div>
+            }
+          </div>
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- TECHNOLOGY                                               -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="white">
+        <qm-container>
+          <div class="section-header">
+            <span class="eyebrow">TECHNOLOGY</span>
+            <h2>Across the Full Stack of Modern Engineering.</h2>
+          </div>
+          <div class="tech-domain-grid">
+            @for (domain of techDomains; track domain) {
+              @let domainLink = domain.href | hrefParts;
+              <a
+                [routerLink]="domainLink.path" [fragment]="domainLink.fragment"
+                class="tech-domain-card">
+                <div class="tech-domain-card__name">{{ domain.name }}</div>
+                <div class="tech-domain-card__items">
+                  @for (item of domain.items; track item) {
+                    <span class="tech-domain-card__item">
+                      {{ item }}
+                    </span>
+                  }
+                </div>
+              </a>
+            }
+          </div>
+          <div class="mt-8 text-center">
+            <qm-button variant="outline" [routerLinkValue]="'/technology'">
+              Explore Our Technology Landscape →
             </qm-button>
           </div>
-          <div class="labs-areas">
-            <div *ngFor="let area of labsAreas" class="labs-area-card">
-              <div class="labs-area-card__name">{{ area.name }}</div>
-              <qm-badge [variant]="area.badgeVariant">{{ area.status }}</qm-badge>
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- LABS                                                     -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="dark">
+        <qm-container>
+          <div class="labs-layout">
+            <div class="labs-text">
+              <span class="eyebrow" style="color:#93C5FD">QUANTSMIND LABS</span>
+              <h2 style="color:#F1F5F9">
+                Research, Experimentation,<br>and Intellectual Property.
+              </h2>
+              <p style="color:#94A3B8">
+                QuantsMind Labs investigates problems at the frontier of
+                applied technology — AI systems, data knowledge graphs,
+                mathematical optimisation, quantum algorithms, and advanced
+                computing models. Work here is honest about maturity.
+              </p>
+              <qm-button variant="secondary" size="md" [routerLinkValue]="'/labs'">
+                Explore QuantsMind Labs →
+              </qm-button>
+            </div>
+            <div class="labs-areas">
+              @for (area of labsAreas; track area) {
+                <div class="labs-area-card">
+                  <div class="labs-area-card__name">{{ area.name }}</div>
+                  <qm-badge [variant]="area.badgeVariant">{{ area.status }}</qm-badge>
+                </div>
+              }
             </div>
           </div>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- INSIGHTS                                                 -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas">
-      <qm-container>
-        <div class="section-header">
-          <span class="eyebrow">INSIGHTS</span>
-          <h2>Technical Thinking on Hard Problems.</h2>
-        </div>
-        <div class="insights-grid">
-          <a *ngFor="let insight of insights" [routerLink]="'/insights'" class="insight-card">
-            <div class="insight-card__meta">
-              <qm-badge [variant]="insight.badge">{{ insight.category }}</qm-badge>
-              <span class="insight-card__time">{{ insight.readingTime }}</span>
-            </div>
-            <h3 class="insight-card__title">{{ insight.title }}</h3>
-            <p class="insight-card__desc">{{ insight.description }}</p>
-          </a>
-        </div>
-        <div class="mt-8">
-          <qm-button variant="outline" [routerLinkValue]="'/insights'">
-            View All Insights →
-          </qm-button>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- ABOUT SNIPPET                                            -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="subtle" size="sm">
-      <qm-container size="narrow">
-        <div class="about-snippet">
-          <span class="eyebrow">ABOUT</span>
-          <h2>Built Around Deep Technical Craft.</h2>
-          <p class="lead">
-            QuantsMind exists because complex technology problems deserve
-            engineers who think carefully, design rigorously, and build
-            systems worth maintaining. We are a technology engineering
-            company — not a services marketplace.
-          </p>
-          <qm-button variant="secondary" [routerLinkValue]="'/about'">
-            About QuantsMind →
-          </qm-button>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- FINAL CTA                                                -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="lg">
-      <qm-container size="narrow">
-        <div class="final-cta">
-          <h2 class="final-cta__headline">
-            Have a Complex Technology Challenge?
-          </h2>
-          <p class="final-cta__sub">
-            Start with the problem — not the technology.
-            We will help you understand it, architect a path through it,
-            and engineer a solution worth building.
-          </p>
-          <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-            Talk to QuantsMind →
-          </qm-button>
-        </div>
-      </qm-container>
-    </qm-section>
-  `,
-  styles: [`
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- INSIGHTS                                                 -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="canvas">
+        <qm-container>
+          <div class="section-header">
+            <span class="eyebrow">INSIGHTS</span>
+            <h2>Technical Thinking on Hard Problems.</h2>
+          </div>
+          <div class="insights-grid">
+            @for (insight of insights; track insight) {
+              <a [routerLink]="['/insights', insight.slug]" class="insight-card">
+                <div class="insight-card__meta">
+                  <qm-badge [variant]="insight.badge">{{ insight.category }}</qm-badge>
+                  <span class="insight-card__time">{{ insight.readingTime }}</span>
+                </div>
+                <h3 class="insight-card__title">{{ insight.title }}</h3>
+                <p class="insight-card__desc">{{ insight.description }}</p>
+              </a>
+            }
+          </div>
+          <div class="mt-8">
+            <qm-button variant="outline" [routerLinkValue]="'/insights'">
+              View All Insights →
+            </qm-button>
+          </div>
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- ABOUT SNIPPET                                            -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="subtle" size="sm">
+        <qm-container size="narrow">
+          <div class="about-snippet">
+            <span class="eyebrow">ABOUT</span>
+            <h2>Built Around Deep Technical Craft.</h2>
+            <p class="lead">
+              QuantsMind exists because complex technology problems deserve
+              engineers who think carefully, design rigorously, and build
+              systems worth maintaining. We are a technology engineering
+              company — not a services marketplace.
+            </p>
+            <qm-button variant="secondary" [routerLinkValue]="'/about'">
+              About QuantsMind →
+            </qm-button>
+          </div>
+        </qm-container>
+      </qm-section>
+    
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <!-- FINAL CTA                                                -->
+      <!-- ═══════════════════════════════════════════════════════ -->
+      <qm-section surface="white" size="lg">
+        <qm-container size="narrow">
+          <div class="final-cta">
+            <h2 class="final-cta__headline">
+              Have a Complex Technology Challenge?
+            </h2>
+            <p class="final-cta__sub">
+              Start with the problem — not the technology.
+              We will help you understand it, architect a path through it,
+              and engineer a solution worth building.
+            </p>
+            <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
+              Talk to QuantsMind →
+            </qm-button>
+          </div>
+        </qm-container>
+      </qm-section>
+    `,
+    styles: [`
     /* ── HERO ── */
     .hero {
       padding: 80px 0 64px;
@@ -1006,6 +1029,7 @@ export class HomeComponent {
 
   insights: InsightPreview[] = [
     {
+      slug: 'designing-systems-that-can-be-reasoned-about',
       category: 'Architecture',
       badge: 'software',
       title: 'Designing Systems That Can Be Reasoned About',
@@ -1013,6 +1037,7 @@ export class HomeComponent {
       readingTime: '8 min read'
     },
     {
+      slug: 'when-to-use-an-llm-and-when-not-to',
       category: 'AI Engineering',
       badge: 'ai',
       title: 'When to Use an LLM and When Not To',
@@ -1020,6 +1045,7 @@ export class HomeComponent {
       readingTime: '6 min read'
     },
     {
+      slug: 'beyond-greedy-thinking-about-hard-optimisation-problems',
       category: 'Optimisation',
       badge: 'optimization',
       title: 'Beyond Greedy: Thinking About Hard Optimisation Problems',

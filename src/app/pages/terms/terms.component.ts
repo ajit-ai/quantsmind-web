@@ -4,11 +4,10 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 
 @Component({
-  selector: 'app-terms',
-  standalone: true,
-  imports: [RouterModule, QmContainerComponent, QmSectionComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  template: `
+    selector: 'app-terms',
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    template: `
     <section class="legal-hero surface-subtle">
       <qm-container size="narrow">
         <div class="legal-hero__breadcrumb">
@@ -50,7 +49,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
               28, Shikargarh<br>
               Jodhpur – 342015<br>
               Rajasthan, India<br>
-              <a href="mailto:hello&#64;quantsmind.com">hello&#64;quantsmind.com</a>
+              <a href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>
             </address>
           </section>
 
@@ -171,7 +170,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
               QuantsMind<br>
               28, Shikargarh, Jodhpur – 342015<br>
               Rajasthan, India<br>
-              <a href="mailto:hello&#64;quantsmind.com">hello&#64;quantsmind.com</a>
+              <a href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>
             </address>
           </section>
 
@@ -179,7 +178,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
       </qm-container>
     </qm-section>
   `,
-  styles: [`
+    styles: [`
     .legal-hero { padding: 64px 0 48px; border-bottom: 1px solid #E2E8F0; }
     .legal-hero h1 { margin: 8px 0 8px; }
     .legal-meta { font-size: 13px; color: #94A3B8; margin: 0; }

@@ -37,6 +37,66 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.quantsmind.com/insights/designing-systems-that-can-be-reasoned-about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/when-to-use-an-llm-and-when-not-to</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/beyond-greedy-thinking-about-hard-optimisation-problems</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/the-medallion-architecture-why-layers-matter-in-data-platforms</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/domain-driven-design-in-practice-bounded-contexts-that-work</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/kubernetes-at-scale-what-nobody-tells-you-about-operating-it</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/rag-architecture-getting-retrieval-right</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/quantum-computing-for-optimisation-realistic-assessment</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/modernising-without-rewriting-the-strangler-fig-in-practice</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/technology-strategy-for-engineering-leaders-choosing-what-not-to-build</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/observability-is-not-monitoring-what-the-distinction-actually-means</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/insights/data-contracts-from-syntax-to-semantics</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.quantsmind.com/about/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

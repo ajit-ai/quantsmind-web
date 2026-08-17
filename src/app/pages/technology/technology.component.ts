@@ -169,12 +169,12 @@ export class TechnologyComponent {
         { title: 'Simulation & Digital Twin', description: 'Discrete event simulation and digital twin development for process optimisation.', technologies: ['SimPy', 'AnyLogic', 'Arena', 'Process Mining'] }
       ]
     },
-    {
+{
       id: 'quantum', badge: 'quantum' as const, category: 'QUANTUM',
       title: 'Quantum Computing',
       description: 'Quantum computing research and algorithm development with an honest view of current hardware limitations and near-term practical opportunities. Quantum is one advanced technology domain within QuantsMind — not our entire identity.',
       areas: [
-        { title: 'Quantum Algorithms', description: 'Designing and analysing quantum algorithms for combinatorial optimisation, simulation, and linear algebra.', technologies: ['QAOA', 'VQE', 'Grover\'s Algorithm', 'Quantum Walks'] },
+        { title: 'Quantum Algorithms', description: 'Designing and analysing quantum algorithms for combinatorial optimisation, simulation, and linear algebra.', technologies: ['QAOA', 'VQE', "Grover\'s Algorithm", 'Quantum Walks'] },
         { title: 'Hybrid Quantum-Classical', description: 'Practical near-term quantum computing that combines quantum and classical processing intelligently.', technologies: ['PennyLane', 'Qiskit', 'Cirq', 'Amazon Braket', 'Azure Quantum'] },
         { title: 'Quantum Simulation', description: 'Simulating quantum systems for materials science, chemistry, and physics applications.', technologies: ['Qiskit Nature', 'OpenFermion', 'PySCF', 'QuTiP'] },
         { title: 'Quantum Error Mitigation', description: 'Techniques for extracting reliable results from noisy intermediate-scale quantum devices.', technologies: ['Zero-Noise Extrapolation', 'Probabilistic Error Cancellation', 'Mitiq'] }

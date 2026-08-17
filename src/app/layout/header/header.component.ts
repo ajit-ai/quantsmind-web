@@ -89,7 +89,9 @@ interface SearchEntry {
               <li class="qm-header__nav-item"
                 [class.qm-header__nav-item--has-menu]="item.children?.length"
                 (mouseenter)="item.children ? openMega(item.label) : null"
-                (mouseleave)="item.children ? closeMega() : null">
+                (mouseleave)="item.children ? closeMega() : null"
+                (focusin)="item.children ? openMega(item.label) : null"
+                (focusout)="item.children ? closeMega() : null">
                 <a [routerLink]="item.href"
                   routerLinkActive="qm-header__nav-link--active"
                   [routerLinkActiveOptions]="{exact: item.href === '/'}"
@@ -492,7 +494,7 @@ interface SearchEntry {
 
     /* ── Desktop nav ─────────────────────────────────── */
     .qm-header__nav { flex: 1; display: none; }
-    @media (min-width: 1024px) { .qm-header__nav { display: block; } }
+    @media (min-width: 1200px) { .qm-header__nav { display: block; } }
 
     .qm-header__nav-list {
       display: flex;
@@ -559,7 +561,7 @@ interface SearchEntry {
       gap: 8px;
       flex-shrink: 0;
     }
-    @media (min-width: 1024px) { .qm-header__actions { display: flex; } }
+    @media (min-width: 1200px) { .qm-header__actions { display: flex; } }
 
     .qm-header__icon-btn {
       display: inline-flex;
@@ -583,7 +585,7 @@ interface SearchEntry {
     .qm-header__icon-btn:focus-visible { outline: 2px solid var(--qm-header-accent); outline-offset: 2px; }
 
     .qm-header__cta { display: none; }
-    @media (min-width: 1024px) { .qm-header__cta { display: block; } }
+    @media (min-width: 1200px) { .qm-header__cta { display: block; } }
 
     /* ── Mega menu ───────────────────────────────────── */
     .qm-mega {
@@ -694,7 +696,7 @@ interface SearchEntry {
       margin-left: auto;
       transition: border-color 150ms ease, background 150ms ease;
     }
-    @media (min-width: 1024px) { .qm-header__mobile-toggle { display: none; } }
+    @media (min-width: 1200px) { .qm-header__mobile-toggle { display: none; } }
     .qm-header__mobile-line {
       display: block;
       height: 2px;
@@ -1075,11 +1077,6 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
           label: 'Quantum Computing', href: '/technology#quantum',
           description: 'Quantum algorithms, hybrid methods',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>`
-        },
-        {
-          label: 'Advanced Computing', href: '/technology#advanced-computing',
-          description: 'GPU, scientific, specialised compute',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="14" height="14" rx="2"/><rect x="9" y="9" width="6" height="6"/></svg>`
         }
       ]
     },

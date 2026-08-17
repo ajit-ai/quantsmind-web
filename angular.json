@@ -109,6 +109,9 @@
             "runner": "vitest",
             "runnerConfig": "vitest.config.ts"
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }

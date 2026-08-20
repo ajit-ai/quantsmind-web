@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 135" width="1200" height="675" role="img">
+  <rect width="240" height="135" rx="12" fill="#EFF6FF"/>
+  <rect x="0.5" y="0.5" width="239" height="134" rx="12" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+  <g fill="none" stroke="#2563EB" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+    <path d="M 40 40 L 200 40 L 200 120 L 40 120 Z M 60 60 L 180 60 M 60 80 L 150 80 M 60 100 L 170 100"/>
+  </g>
+  <text x="120" y="118" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="7" font-weight="700" letter-spacing="0.08em" fill="#2563EB">SOFTWARE ENGINEERING</text>
+  <text x="120" y="126" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="5.5" fill="#64748B" letter-spacing="0.04em">Clean Architecture</text>
+</svg>

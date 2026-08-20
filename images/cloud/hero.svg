@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 135" width="1200" height="675" role="img">
+  <rect width="240" height="135" rx="12" fill="#ECFEFF"/>
+  <rect x="0.5" y="0.5" width="239" height="134" rx="12" fill="none" stroke="#E2E8F0" stroke-width="1"/>
+  <g fill="none" stroke="#0891B2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
+    <path d="M 70 80 A 25 25 0 1 1 130 80 A 20 20 0 1 1 70 80"/>
+  </g>
+  <text x="120" y="118" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="7" font-weight="700" letter-spacing="0.08em" fill="#0891B2">CLOUD & PLATFORM</text>
+  <text x="120" y="126" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="5.5" fill="#64748B" letter-spacing="0.04em">K8s + Infra as Code</text>
+</svg>

@@ -1,9 +1,8 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 135" width="1200" height="675" role="img">
-  <rect width="240" height="135" rx="12" fill="#ECFEFF"/>
-  <rect x="0.5" y="0.5" width="239" height="134" rx="12" fill="none" stroke="#E2E8F0" stroke-width="1"/>
-  <g fill="none" stroke="#0891B2" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
-    <path d="M 70 80 A 25 25 0 1 1 130 80 A 20 20 0 1 1 70 80"/>
-  </g>
-  <text x="120" y="118" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="7" font-weight="700" letter-spacing="0.08em" fill="#0891B2">CLOUD & PLATFORM</text>
-  <text x="120" y="126" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="5.5" fill="#64748B" letter-spacing="0.04em">K8s + Infra as Code</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 124" width="1200" height="675" role="img">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0891B2"/><stop offset="100%" stop-color="#164E63"/></linearGradient><marker id="arrow" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#0EA5E9"/></marker><marker id="arrow2" viewBox="0 0 6 6" refX="6" refY="3" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#059669"/></marker></defs>
+  <rect width="220" height="124" rx="12" fill="url(#g)"/>
+  <rect x="8" y="8" width="204" height="92" rx="10" fill="white" opacity="0.96"/>
+  <rect x="78" y="28" width="64" height="48" rx="6" fill="white" stroke="#67E8F9" stroke-width="1.2"/><circle cx="110" cy="52" r="10" fill="#0891B2"/><text x="110" y="55" text-anchor="middle" font-size="5" font-weight="700" fill="white">K8s</text><rect x="22" y="86" width="36" height="18" rx="4" fill="white" stroke="#67E8F9" stroke-width="1"/><text x="40" y="97" text-anchor="middle" font-size="4.5" font-weight="600" fill="#0891B2">IaC</text><rect x="88" y="86" width="44" height="18" rx="4" fill="white" stroke="#67E8F9" stroke-width="1"/><text x="110" y="97" text-anchor="middle" font-size="4.5" font-weight="600" fill="#0891B2">Mesh</text><rect x="152" y="86" width="44" height="18" rx="4" fill="#0891B2"/><text x="174" y="97" text-anchor="middle" font-size="4.5" font-weight="600" fill="white">Obs</text><path d="M110 76 L110 86 M40 76 L40 86 M174 76 L174 86" stroke="#67E8F9" stroke-width="1.2"/>
+  <text x="110" y="112" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="6.5" font-weight="700" letter-spacing="0.07em" fill="white">CLOUD & PLATFORM</text>
+  <text x="110" y="120" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="5" fill="rgba(255,255,255,0.85)" letter-spacing="0.04em">K8s · IaC · Observe</text>
 </svg>

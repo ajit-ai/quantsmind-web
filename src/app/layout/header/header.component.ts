@@ -992,7 +992,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },
     { type: 'Page', title: 'QuantsMind SDK', href: '/quantsmind-sdk', keywords: 'quantsmind sdk software foundation intelligent computing' },
-    { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs research experimentation emerging technologies quantum ai ml' },
+    { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs exploration experimentation emerging technologies quantum ai ml' },
     { type: 'Page', title: 'About', href: '/about', keywords: 'about company engineering services technology development' },
     { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry email form build' },
     { type: 'Capability', title: 'Software Architecture', href: '/services#software-architecture', keywords: 'architecture system design technical foundations' },

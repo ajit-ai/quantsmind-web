@@ -16,11 +16,10 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
     <section class="page-hero surface-subtle">
       <qm-container>
         <span class="eyebrow">CONTACT</span>
-        <h1>Let's Talk About the Problem You're Trying to Solve.</h1>
+        <h1>Let's Build Something Useful.</h1>
         <p class="lead">
-          Whether you are building a new system, modernising an existing platform,
-          exploring AI, investigating advanced computing, or facing a complex
-          technology challenge — start with the problem.
+          Tell us about your engineering requirement, technology challenge or
+          collaboration idea. We will read it carefully and respond thoughtfully.
         </p>
       </qm-container>
     </section>
@@ -375,10 +374,15 @@ export class ContactComponent {
   errors: { name?: string; company?: string; email?: string; area?: string; message?: string } = {};
 
   areas = [
-    'Enterprise Software', 'AI Engineering', 'Data Engineering',
-    'Cloud & Platform Engineering', 'Enterprise Modernization',
-    'Advanced Computing', 'Technology Strategy',
-    'Research / QuantsMind Labs', 'Other'
+    'Software Architecture',
+    'Application Development',
+    'AI / ML Engineering',
+    'Cloud & Platform Engineering',
+    'DevOps & CI/CD',
+    'Technical Consulting',
+    'Technology Collaboration',
+    'Research / QuantsMind Labs',
+    'Other'
   ];
 
   entryPoints = [

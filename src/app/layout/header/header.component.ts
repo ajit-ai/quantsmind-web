@@ -37,28 +37,6 @@ interface SearchEntry {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- ═══════════════════════════════════════════════ -->
-    <!-- ANNOUNCEMENT BAR                                 -->
-    <!-- ═══════════════════════════════════════════════ -->
-    @if (!announceDismissed) {
-      <div class="qm-announce" role="region" aria-label="Announcement">
-        <div class="qm-announce__inner">
-          <span class="qm-announce__badge">NEW</span>
-          <p class="qm-announce__text">
-            Read our latest engineering insight — Designing Systems That Can Be Reasoned About.
-          </p>
-          <a routerLink="/insights" class="qm-announce__link">Read now →</a>
-          <button type="button" class="qm-announce__close"
-            (click)="dismissAnnounce()" aria-label="Dismiss announcement">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M1 1l12 12M13 1L1 13" stroke="currentColor" stroke-width="1.6"
-                stroke-linecap="round"/>
-            </svg>
-          </button>
-        </div>
-      </div>
-    }
-    
-    <!-- ═══════════════════════════════════════════════ -->
     <!-- MAIN HEADER                                      -->
     <!-- ═══════════════════════════════════════════════ -->
     <header class="qm-header" [class.qm-header--scrolled]="isScrolled" role="banner">
@@ -177,7 +155,7 @@ interface SearchEntry {
     
           <div class="qm-header__cta">
             <qm-button variant="primary" size="sm" [routerLinkValue]="'/contact'">
-              Book a Call
+              Get in Touch
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -300,7 +278,7 @@ interface SearchEntry {
           <div class="qm-mobile-nav__cta">
             <qm-button variant="primary" [routerLinkValue]="'/contact'" [fullWidth]="true"
               (clicked)="closeMobile()">
-              Book a Call →
+              Get in Touch →
             </qm-button>
           </div>
         </div>
@@ -324,7 +302,7 @@ interface SearchEntry {
               [ngModel]="searchQuery()"
               (ngModelChange)="onQueryChange($event)"
               (keydown.enter)="goToTopResult()"
-              placeholder="Search pages, capabilities, insights…"
+              placeholder="Search pages, capabilities, technologies…"
               autocomplete="off" spellcheck="false" aria-label="Search"/>
             <button type="button" class="qm-search-overlay__close" (click)="closeSearch()"
               aria-label="Close search">
@@ -362,64 +340,6 @@ interface SearchEntry {
     }
     `,
     styles: [`
-    /* ── Announcement bar ─────────────────────────────── */
-    .qm-announce {
-      background: var(--qm-announce-bg);
-      color: var(--qm-announce-text);
-      font-size: 13px;
-    }
-    .qm-announce__inner {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px 16px;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 8px 56px 8px 32px;
-    }
-    .qm-announce__badge {
-      background: rgba(255, 255, 255, 0.2);
-      border: 1px solid rgba(255, 255, 255, 0.25);
-      padding: 1px 8px;
-      border-radius: 9999px;
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-    }
-    .qm-announce__text { margin: 0; color: inherit; }
-    .qm-announce__link {
-      color: #fff;
-      font-weight: 600;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-    .qm-announce__link:hover { color: #fff; opacity: 0.9; }
-    .qm-announce__close {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 28px;
-      height: 28px;
-      background: transparent;
-      border: none;
-      border-radius: 6px;
-      color: inherit;
-      cursor: pointer;
-      opacity: 0.75;
-      transition: opacity 150ms ease, background 150ms ease;
-    }
-    .qm-announce__close:hover {
-      opacity: 1;
-      background: rgba(255, 255, 255, 0.15);
-    }
-
     /* ── Header shell ────────────────────────────────── */
     :host {
       display: block;
@@ -972,8 +892,6 @@ interface SearchEntry {
     @media (max-width: 767px) {
       .qm-header__inner { padding: 0 16px; }
       .qm-header__logo-tag { display: none; }
-      .qm-announce__inner { padding: 8px 48px 8px 16px; }
-      .qm-announce__text { font-size: 12px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -994,7 +912,6 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
   isScrolled = false;
   mobileOpen = false;
   activeMega: string | null = null;
-  announceDismissed = false;
   mobileSubOpen: Record<string, boolean> = {};
 
   searchOpen = signal(false);
@@ -1007,112 +924,83 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
 
   navItems: NavItem[] = [
     {
-      label: 'What We Build',
-      href: '/what-we-build',
+      label: 'Services',
+      href: '/services',
       children: [
         {
-          label: 'Enterprise Software', href: '/what-we-build#enterprise-software',
-          description: 'Mission-critical systems at scale',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`
+          label: 'Software Architecture', href: '/services#software-architecture',
+          description: 'System design and technical foundations',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`
         },
         {
-          label: 'AI Engineering', href: '/what-we-build#ai-engineering',
+          label: 'Application Development', href: '/services#application-development',
+          description: 'Backend systems, APIs and platforms',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`
+        },
+        {
+          label: 'AI & Machine Learning', href: '/services#ai-ml-engineering',
           description: 'Applied AI built into products',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`
         },
         {
-          label: 'Data Engineering', href: '/what-we-build#data-engineering',
-          description: 'Pipelines, platforms, and analytics',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4.03 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4.03 3 9 3s9-1.34 9-3"/></svg>`
-        },
-        {
-          label: 'Cloud & Platform Engineering', href: '/what-we-build#cloud-engineering',
-          description: 'Distributed systems and infrastructure',
+          label: 'Cloud Engineering', href: '/services#cloud-engineering',
+          description: 'Cloud architecture and infrastructure',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`
         },
         {
-          label: 'Enterprise Modernization', href: '/what-we-build#modernization',
-          description: 'Evolving legacy platforms',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>`
+          label: 'DevOps & CI/CD', href: '/services#devops-ci-cd',
+          description: 'Reliable delivery and environments',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 18 13.5 6 4.5 6"/><polyline points="21.5 15.5 23 18 21.5 20.5"/><polyline points="6 3.5 4.5 6 6 8.5"/><circle cx="21.5" cy="18" r="1.5"/><circle cx="4.5" cy="6" r="1.5"/></svg>`
         },
         {
-          label: 'Advanced Computing', href: '/what-we-build#advanced-computing',
-          description: 'Optimization and emerging computation',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`
+          label: 'Technical Consulting', href: '/services#technical-consulting',
+          description: 'Modernization and engineering guidance',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>`
         }
       ]
     },
-    { label: 'Engineering', href: '/engineering' },
-    { label: 'Industries', href: '/industries' },
     {
       label: 'Technology',
       href: '/technology',
       children: [
         {
-          label: 'Artificial Intelligence', href: '/technology#ai',
-          description: 'LLMs, ML platforms, RAG, vision',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M1 9h4M1 15h4M19 9h4M19 15h4"/></svg>`
+          label: 'MicroQuantum', href: '/microquantum',
+          description: 'Open quantum computing SDK',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>`
         },
         {
-          label: 'Data & Analytics', href: '/technology#data',
-          description: 'Platforms, streaming, warehouses',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>`
-        },
-        {
-          label: 'Cloud & Distributed Systems', href: '/technology#cloud',
-          description: 'Kubernetes, event-driven, serverless',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`
-        },
-        {
-          label: 'Software Systems', href: '/technology#software',
-          description: 'DDD, API design, distributed systems',
+          label: 'Karkain', href: '/karkain',
+          description: 'General-purpose programming language',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`
         },
         {
-          label: 'Optimization', href: '/technology#optimization',
-          description: 'LP, metaheuristics, constraint solving',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>`
-        },
-        {
-          label: 'Quantum Computing', href: '/technology#quantum',
-          description: 'Quantum algorithms, hybrid methods',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>`
+          label: 'QuantsMind SDK', href: '/quantsmind-sdk',
+          description: 'Foundations for intelligent applications',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`
         }
       ]
     },
     { label: 'Labs', href: '/labs' },
-    { label: 'Insights', href: '/insights' },
-    { label: 'About', href: '/about' }
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' }
   ];
 
   searchIndex: SearchEntry[] = [
-    { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering complex problems' },
-    { type: 'Page', title: 'What We Build', href: '/what-we-build', keywords: 'services capabilities build software ai data cloud' },
-    { type: 'Page', title: 'Engineering', href: '/engineering', keywords: 'engineering architecture principles disciplines' },
-    { type: 'Page', title: 'Industries', href: '/industries', keywords: 'industries sectors finance insurance manufacturing healthcare' },
-    { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology stack ai data cloud software optimization quantum' },
-    { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs research experimentation ip quantum ai' },
-    { type: 'Page', title: 'Insights', href: '/insights', keywords: 'insights articles blog engineering thinking' },
-    { type: 'Page', title: 'About', href: '/about', keywords: 'about company mission vision principles culture' },
-    { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry talk email form' },
-    { type: 'Capability', title: 'Enterprise Software', href: '/what-we-build#enterprise-software', keywords: 'enterprise software systems correctness mission critical' },
-    { type: 'Capability', title: 'AI Engineering', href: '/what-we-build#ai-engineering', keywords: 'ai artificial intelligence machine learning llm' },
-    { type: 'Capability', title: 'Data Engineering', href: '/what-we-build#data-engineering', keywords: 'data pipelines platforms analytics warehouse' },
-    { type: 'Capability', title: 'Cloud & Platform Engineering', href: '/what-we-build#cloud-engineering', keywords: 'cloud kubernetes platform infrastructure distributed' },
-    { type: 'Capability', title: 'Enterprise Modernization', href: '/what-we-build#modernization', keywords: 'modernization legacy migration transformation' },
-    { type: 'Capability', title: 'Advanced Computing', href: '/what-we-build#advanced-computing', keywords: 'advanced computing optimization quantum gpu' },
-    { type: 'Insight', title: 'Designing Systems That Can Be Reasoned About', href: '/insights/designing-systems-that-can-be-reasoned-about', keywords: 'architecture understandability system design' },
-    { type: 'Insight', title: 'When to Use an LLM and When Not To', href: '/insights/when-to-use-an-llm-and-when-not-to', keywords: 'llm ai decision framework cost latency' },
-    { type: 'Insight', title: 'Beyond Greedy: Thinking About Hard Optimisation Problems', href: '/insights/beyond-greedy-thinking-about-hard-optimisation-problems', keywords: 'optimisation metaheuristics scheduling allocation' },
-    { type: 'Insight', title: 'The Medallion Architecture: Why Layers Matter in Data Platforms', href: '/insights/the-medallion-architecture-why-layers-matter-in-data-platforms', keywords: 'data lakehouse medallion bronze silver gold' },
-    { type: 'Insight', title: 'Domain-Driven Design in Practice: Bounded Contexts That Work', href: '/insights/domain-driven-design-in-practice-bounded-contexts-that-work', keywords: 'ddd bounded contexts microservices' },
-    { type: 'Insight', title: 'Kubernetes at Scale: What Nobody Tells You About Operating It', href: '/insights/kubernetes-at-scale-what-nobody-tells-you-about-operating-it', keywords: 'kubernetes platform engineering production' },
-    { type: 'Insight', title: 'RAG Architecture: Getting Retrieval Right', href: '/insights/rag-architecture-getting-retrieval-right', keywords: 'rag retrieval vector search llm' },
-    { type: 'Insight', title: 'Quantum Computing for Optimisation: Realistic Assessment', href: '/insights/quantum-computing-for-optimisation-realistic-assessment', keywords: 'quantum computing qaoa nisq optimisation' },
-    { type: 'Insight', title: 'Modernising Without Rewriting: The Strangler Fig in Practice', href: '/insights/modernising-without-rewriting-the-strangler-fig-in-practice', keywords: 'strangler fig legacy modernisation migration' },
-    { type: 'Insight', title: 'Technology Strategy: Choosing What Not to Build', href: '/insights/technology-strategy-for-engineering-leaders-choosing-what-not-to-build', keywords: 'technology strategy engineering leadership scope' },
-    { type: 'Insight', title: 'Observability Is Not Monitoring', href: '/insights/observability-is-not-monitoring-what-the-distinction-actually-means', keywords: 'observability monitoring telemetry production' },
-    { type: 'Insight', title: 'Data Contracts: From Syntax to Semantics', href: '/insights/data-contracts-from-syntax-to-semantics', keywords: 'data contracts data quality governance' },
+    { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering intelligent software' },
+    { type: 'Page', title: 'Services', href: '/services', keywords: 'services capabilities software architecture ai cloud devops consulting' },
+    { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum' },
+    { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
+    { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },
+    { type: 'Page', title: 'QuantsMind SDK', href: '/quantsmind-sdk', keywords: 'quantsmind sdk software foundation intelligent computing' },
+    { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs research experimentation emerging technologies quantum ai ml' },
+    { type: 'Page', title: 'About', href: '/about', keywords: 'about company engineering services technology development' },
+    { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry email form build' },
+    { type: 'Capability', title: 'Software Architecture', href: '/services#software-architecture', keywords: 'architecture system design technical foundations' },
+    { type: 'Capability', title: 'Application Development', href: '/services#application-development', keywords: 'application development backend systems apis platforms engineering' },
+    { type: 'Capability', title: 'AI & Machine Learning', href: '/services#ai-ml-engineering', keywords: 'ai artificial intelligence machine learning llm' },
+    { type: 'Capability', title: 'Cloud Engineering', href: '/services#cloud-engineering', keywords: 'cloud kubernetes platform infrastructure distributed' },
+    { type: 'Capability', title: 'DevOps & CI/CD', href: '/services#devops-ci-cd', keywords: 'devops ci cd delivery environments pipelines' },
+    { type: 'Capability', title: 'Technical Consulting', href: '/services#technical-consulting', keywords: 'consulting modernization system design engineering guidance' },
     { type: 'Legal', title: 'Privacy Policy', href: '/privacy', keywords: 'privacy policy data gdpr' },
     { type: 'Legal', title: 'Terms of Use', href: '/terms', keywords: 'terms use conditions legal' },
     { type: 'Legal', title: 'Cookie Policy', href: '/cookies', keywords: 'cookies cookie policy tracking' }
@@ -1131,7 +1019,6 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initTheme();
-    this.initAnnouncement();
     this.routerSub = this.router.events
       .pipe(filter(e => e instanceof NavigationStart))
       .subscribe(() => {
@@ -1266,21 +1153,6 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
     try {
       localStorage.setItem('qm-theme', dark ? 'dark' : 'light');
-    } catch { /* noop */ }
-    this.cdr.markForCheck();
-  }
-
-  /* ── Announcement ───────────────────────────────────────── */
-  initAnnouncement(): void {
-    try {
-      this.announceDismissed = localStorage.getItem('qm-announce') === '1';
-    } catch { /* noop */ }
-  }
-
-  dismissAnnounce(): void {
-    this.announceDismissed = true;
-    try {
-      localStorage.setItem('qm-announce', '1');
     } catch { /* noop */ }
     this.cdr.markForCheck();
   }

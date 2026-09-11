@@ -65,10 +65,6 @@
   --qm-footer-text-strong: #F1F5F9;
   --qm-footer-heading: #E2E8F0;
   --qm-footer-muted: #64748B;
-
-  /* Announcement bar */
-  --qm-announce-bg: linear-gradient(90deg, #1D4ED8 0%, #2563EB 55%, #4F46E5 100%);
-  --qm-announce-text: #FFFFFF;
 }
 
 html[data-theme='dark'] {
@@ -94,9 +90,6 @@ html[data-theme='dark'] {
   --qm-footer-text-strong: #F8FAFC;
   --qm-footer-heading: #E2E8F0;
   --qm-footer-muted: #64748B;
-
-  --qm-announce-bg: linear-gradient(90deg, #1E3A8A 0%, #1D4ED8 55%, #4F46E5 100%);
-  --qm-announce-text: #FFFFFF;
 }
 
 /* Smooth chrome transitions when toggling theme */

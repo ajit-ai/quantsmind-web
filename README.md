@@ -1,27 +1,64 @@
-# QuantsmindWeb
+# QuantsMind Website
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+Corporate and technology ecosystem website for QuantsMind, built with [Angular](https://angular.dev).
 
-## Development server
+**Positioning:** Engineering software. Building intelligent technologies.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Pages
 
-## Code scaffolding
+- `/` — Home
+- `/services` — Engineering services (Software Architecture, Application Development, AI/ML, Cloud, DevOps/CI/CD, Technical Consulting)
+- `/technology` — Technology ecosystem (MicroQuantum, Karkain, QuantsMind SDK)
+- `/microquantum` — Open quantum computing SDK (Developer Preview · v0.4.0)
+- `/karkain` — General-purpose programming language (Active Development)
+- `/quantsmind-sdk` — Foundations for intelligent applications (Development)
+- `/labs` — QuantsMind Labs (experimental technologies)
+- `/about` — About QuantsMind
+- `/contact` — Contact
+- `/privacy`, `/terms`, `/cookies` — Legal
+- `404` — Not found
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Prerequisites
+
+- Node.js (20+)
+- npm
+
+## Development
+
+```sh
+npm install
+npm run start
+```
+
+Dev server runs at `http://localhost:4200`.
 
 ## Build
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+```sh
+npm run build
+```
 
-## Running unit tests
+Build artifacts are output to `dist/browser`. The GitHub Actions workflow
+(`.github/workflows/deploy.yml`) builds with `--base-href=/`, copies `index.html`
+to `404.html`, and writes the `CNAME` (`www.quantsmind.com`), then deploys to
+GitHub Pages.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Tests
 
-## Running end-to-end tests
+```sh
+npm test
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Unit tests run with Vitest.
 
-## Further help
+## Design System
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Global styles and design tokens live in `src/styles` (`_tokens.scss`,
+`_typography.scss`, `_layout.scss`, `_utilities.scss`). Shared building blocks are
+in `src/app/shared/components` (`qm-container`, `qm-section`, `qm-button`,
+`qm-badge`) and `src/app/shared/pipes` (`qmSafeHtml`, `hrefParts`).
+
+Pages are standalone components with inline templates and inline styles — a new
+page only needs a route in `src/app/app.routes.ts` (which also carries per-route
+SEO metadata consumed by `src/app/core/route-meta.service.ts`) and a component
+under `src/app/pages`.

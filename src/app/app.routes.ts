@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
-export const HOME_TITLE = 'QuantsMind — Technology Engineering for Complex Problems';
+export const HOME_TITLE = 'QuantsMind | Engineering Software & Intelligent Technologies';
 export const HOME_DESCRIPTION =
-  'QuantsMind is a technology engineering company. Enterprise Software. Intelligent Systems. Advanced Computing.';
+  'QuantsMind provides software engineering, AI/ML, cloud and technology consulting while developing an ecosystem of emerging software technologies.';
 
 export const routes: Routes = [
   {
@@ -15,81 +15,71 @@ export const routes: Routes = [
       import('./pages/home/home.component').then(m => m.HomeComponent)
   },
   {
-    path: 'what-we-build',
+    path: 'services',
     data: {
-      title: 'What We Build — QuantsMind',
+      title: 'Services — QuantsMind',
       description:
-        'Enterprise software, AI engineering, data platforms, cloud infrastructure, modernization, and advanced computing — engineered for complex problems.'
+        'Practical software engineering and technology consulting: software architecture, application development, AI/ML engineering, cloud engineering, DevOps & CI/CD, and technical consulting.'
     },
     loadComponent: () =>
-      import('./pages/what-we-build/what-we-build.component').then(m => m.WhatWeBuildComponent)
-  },
-  {
-    path: 'engineering',
-    data: {
-      title: 'Engineering — QuantsMind',
-      description:
-        'Our engineering discipline: correctness, resilience, and delivery. The principles, architecture practices, and disciplines we apply to every build.'
-    },
-    loadComponent: () =>
-      import('./pages/engineering/engineering.component').then(m => m.EngineeringComponent)
-  },
-  {
-    path: 'industries',
-    data: {
-      title: 'Industries — QuantsMind',
-      description:
-        'We build technology for financial services, insurance, healthcare, manufacturing, energy, logistics, retail, and the public sector.'
-    },
-    loadComponent: () =>
-      import('./pages/industries/industries.component').then(m => m.IndustriesComponent)
+      import('./pages/services/services.component').then(m => m.ServicesComponent)
   },
   {
     path: 'technology',
     data: {
       title: 'Technology — QuantsMind',
       description:
-        'AI, data, cloud, software, optimization, and quantum technology — the stack we bring to complex engineering problems.'
+        'The QuantsMind technology ecosystem: MicroQuantum, Karkain, and the QuantsMind SDK — software technologies designed, engineered and explored by QuantsMind.'
     },
     loadComponent: () =>
       import('./pages/technology/technology.component').then(m => m.TechnologyComponent)
   },
   {
+    path: 'microquantum',
+    data: {
+      title: 'MicroQuantum — Open Quantum Computing SDK | QuantsMind',
+      description:
+        'MicroQuantum is an open Python SDK for building, executing and analyzing quantum programs. Developer preview.'
+    },
+    loadComponent: () =>
+      import('./pages/microquantum/microquantum.component').then(m => m.MicroQuantumComponent)
+  },
+  {
+    path: 'karkain',
+    data: {
+      title: 'Karkain — General-Purpose Programming Language | QuantsMind',
+      description:
+        'Karkain is an independent programming language and computing ecosystem being developed by QuantsMind. Active development.'
+    },
+    loadComponent: () =>
+      import('./pages/karkain/karkain.component').then(m => m.KarkainComponent)
+  },
+  {
+    path: 'quantsmind-sdk',
+    data: {
+      title: 'QuantsMind SDK — General-Purpose Technology SDK | QuantsMind',
+      description:
+        'The QuantsMind SDK is a software foundation exploring reusable abstractions for intelligent computing, data and advanced technology applications. Development stage.'
+    },
+    loadComponent: () =>
+      import('./pages/quantsmind-sdk/quantsmind-sdk.component').then(m => m.QuantsMindSdkComponent)
+  },
+  {
     path: 'labs',
     data: {
-      title: 'QuantsMind Labs — Research & Experimental Engineering',
+      title: 'Labs — QuantsMind',
       description:
-        'Research and experimental engineering at QuantsMind: applied AI research, data platform research, optimization, and quantum computing.'
+        'QuantsMind Labs is where we explore emerging technologies, experimental architectures and new computing approaches — from AI and quantum computing to programming languages.'
     },
     loadComponent: () =>
       import('./pages/labs/labs.component').then(m => m.LabsComponent)
-  },
-  {
-    path: 'insights',
-    data: {
-      title: 'Insights — QuantsMind',
-      description:
-        'Long-form engineering thinking from QuantsMind on architecture, AI, data, cloud, optimization, and technology strategy.'
-    },
-    loadComponent: () =>
-      import('./pages/insights/insights.component').then(m => m.InsightsComponent)
-  },
-  {
-    path: 'insights/:slug',
-    data: {
-      title: 'Insights — QuantsMind',
-      description:
-        'Long-form engineering thinking from QuantsMind on architecture, AI, data, cloud, optimization, and technology strategy.'
-    },
-    loadComponent: () =>
-      import('./pages/insights/article/article.component').then(m => m.InsightArticleComponent)
   },
   {
     path: 'about',
     data: {
       title: 'About — QuantsMind',
       description:
-        'QuantsMind is a technology engineering company. Our mission, vision, principles, and culture.'
+        'QuantsMind is an engineering and technology initiative focused on building practical software systems and exploring emerging technologies.'
     },
     loadComponent: () =>
       import('./pages/about/about.component').then(m => m.AboutComponent)
@@ -99,7 +89,7 @@ export const routes: Routes = [
     data: {
       title: 'Contact — QuantsMind',
       description:
-        'Talk to QuantsMind about your next technology build. Tell us what you are solving and we will reply within two working days.'
+        'Have an engineering requirement, technology challenge or collaboration idea? Get in touch with QuantsMind.'
     },
     loadComponent: () =>
       import('./pages/contact/contact.component').then(m => m.ContactComponent)

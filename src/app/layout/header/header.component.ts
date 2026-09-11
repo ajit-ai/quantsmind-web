@@ -924,6 +924,10 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
 
   navItems: NavItem[] = [
     {
+      label: 'Home',
+      href: '/'
+    },
+    {
       label: 'Services',
       href: '/services',
       children: [

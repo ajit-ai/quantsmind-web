@@ -57,9 +57,9 @@ export const routes: Routes = [
   {
     path: 'quantsmind-sdk',
     data: {
-      title: 'QuantsMind SDK — General-Purpose Technology SDK | QuantsMind',
+      title: 'QuantsMind SDK | QuantsMind',
       description:
-        'The QuantsMind SDK is a software foundation exploring reusable abstractions for intelligent computing, data and advanced technology applications. Development stage.'
+        'QuantsMind SDK is a general-purpose Python foundation for modelling intelligent systems and developing future QuantsMind technologies.'
     },
     loadComponent: () =>
       import('./pages/quantsmind-sdk/quantsmind-sdk.component').then(m => m.QuantsMindSdkComponent)

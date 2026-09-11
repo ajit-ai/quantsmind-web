@@ -47,9 +47,9 @@ export const routes: Routes = [
   {
     path: 'karkain',
     data: {
-      title: 'Karkain — General-Purpose Programming Language | QuantsMind',
+      title: 'Karkain | Programming Language & Computing Ecosystem | QuantsMind',
       description:
-        'Karkain is an independent programming language and computing ecosystem being developed by QuantsMind. Active development.'
+        'Karkain is an independently developed general-purpose programming language and computing ecosystem exploring modern compiler architecture, runtime systems and heterogeneous computing.'
     },
     loadComponent: () =>
       import('./pages/karkain/karkain.component').then(m => m.KarkainComponent)

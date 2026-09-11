@@ -67,9 +67,9 @@ export const routes: Routes = [
   {
     path: 'labs',
     data: {
-      title: 'Labs — QuantsMind',
+      title: 'QuantsMind Labs | Technology Exploration',
       description:
-        'QuantsMind Labs is where we explore emerging technologies, experimental architectures and new computing approaches — from AI and quantum computing to programming languages.'
+        'Explore experiments, prototypes and emerging technology directions across the QuantsMind ecosystem.'
     },
     loadComponent: () =>
       import('./pages/labs/labs.component').then(m => m.LabsComponent)

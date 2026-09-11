@@ -37,9 +37,9 @@ export const routes: Routes = [
   {
     path: 'microquantum',
     data: {
-      title: 'MicroQuantum — Open Quantum Computing SDK | QuantsMind',
+      title: 'MicroQuantum | Quantum Computing SDK | QuantsMind',
       description:
-        'MicroQuantum is an open Python SDK for building, executing and analyzing quantum programs. Developer preview.'
+        'MicroQuantum is an open Python SDK for building, executing and analyzing quantum programs. Explore the Developer Preview from QuantsMind.'
     },
     loadComponent: () =>
       import('./pages/microquantum/microquantum.component').then(m => m.MicroQuantumComponent)

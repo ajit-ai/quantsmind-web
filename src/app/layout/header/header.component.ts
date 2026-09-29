@@ -963,6 +963,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
         }
       ]
     },
+    { label: 'Products', href: '/products' },
     {
       label: 'Technology',
       href: '/technology',
@@ -992,6 +993,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
   searchIndex: SearchEntry[] = [
     { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering intelligent software' },
     { type: 'Page', title: 'Services', href: '/services', keywords: 'services capabilities software architecture ai cloud devops consulting' },
+    { type: 'Page', title: 'Products', href: '/products', keywords: 'products product di mini document intelligence quantsmind document intelligence mini software' },
     { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum' },
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },

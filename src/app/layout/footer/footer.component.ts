@@ -347,6 +347,7 @@ export class QmFooterComponent {
 
   site: FooterLink[] = [
     { label: 'Services', href: '/services' },
+    { label: 'Products', href: '/products' },
     { label: 'Technology', href: '/technology' },
     { label: 'Labs', href: '/labs' },
     { label: 'About', href: '/about' },

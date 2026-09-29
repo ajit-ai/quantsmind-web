@@ -25,6 +25,16 @@ export const routes: Routes = [
       import('./pages/services/services.component').then(m => m.ServicesComponent)
   },
   {
+    path: 'products',
+    data: {
+      title: 'Products — QuantsMind',
+      description:
+        'Software products developed by QuantsMind from its engineering and technology ecosystem, including QuantsMind Document Intelligence Mini.'
+    },
+    loadComponent: () =>
+      import('./pages/products/products.component').then(m => m.ProductsComponent)
+  },
+  {
     path: 'technology',
     data: {
       title: 'Technology — QuantsMind',

@@ -8,6 +8,7 @@ Corporate and technology ecosystem website for QuantsMind, built with [Angular](
 
 - `/` — Home
 - `/services` — Engineering services (Software Architecture, Application Development, AI/ML, Cloud, DevOps/CI/CD, Technical Consulting)
+- `/products` — QuantsMind products (QuantsMind Document Intelligence Mini)
 - `/technology` — Technology ecosystem (MicroQuantum, Karkain, QuantsMind SDK)
 - `/microquantum` — Open quantum computing SDK (Developer Preview · v0.4.0)
 - `/karkain` — General-purpose programming language (Active Development)
@@ -38,7 +39,7 @@ Dev server runs at `http://localhost:4200`.
 npm run build
 ```
 
-Build artifacts are output to `dist/browser`. The GitHub Actions workflow
+Build artifacts are output to `dist/quantsmind-web/browser`. The GitHub Actions workflow
 (`.github/workflows/deploy.yml`) builds with `--base-href=/`, copies `index.html`
 to `404.html`, and writes the `CNAME` (`www.quantsmind.com`), then deploys to
 GitHub Pages.

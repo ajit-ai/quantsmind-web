@@ -9,6 +9,7 @@ import { HrefPartsPipe } from '../../shared/pipes/href-parts.pipe';
 interface FooterLink {
   label: string;
   href: string;
+  external?: boolean;
 }
 
 @Component({
@@ -67,6 +68,19 @@ interface FooterLink {
             </ul>
           </nav>
     
+          <!-- Products column -->
+          <nav class="qm-footer__col" aria-label="Products links">
+            <h3 class="qm-footer__heading">Products</h3>
+            <ul class="qm-footer__list" role="list">
+              @for (link of products; track link) {
+                <li>
+                  @let target = link.href | hrefParts;
+                  <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
+                </li>
+              }
+            </ul>
+          </nav>
+
           <!-- Technology column -->
           <nav class="qm-footer__col" aria-label="Technology links">
             <h3 class="qm-footer__heading">Technology</h3>
@@ -75,6 +89,23 @@ interface FooterLink {
                 <li>
                   @let target = link.href | hrefParts;
                   <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
+                </li>
+              }
+            </ul>
+          </nav>
+
+          <!-- Developer Tools column -->
+          <nav class="qm-footer__col" aria-label="Developer tools links">
+            <h3 class="qm-footer__heading">Developer Tools</h3>
+            <ul class="qm-footer__list" role="list">
+              @for (link of developerTools; track link) {
+                <li>
+                  @if (link.external) {
+                    <a [href]="link.href" target="_blank" rel="noopener noreferrer" class="qm-footer__link">{{ link.label }}</a>
+                  } @else {
+                    @let target = link.href | hrefParts;
+                    <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
+                  }
                 </li>
               }
             </ul>
@@ -167,6 +198,9 @@ interface FooterLink {
       display: grid;
       grid-template-columns: 1.6fr 1fr 1fr;
       gap: 40px;
+    }
+    @media (min-width: 1100px) {
+      .qm-footer__grid { grid-template-columns: 1.5fr repeat(4, 1fr); gap: 32px; }
     }
 
     /* Brand */
@@ -331,7 +365,7 @@ interface FooterLink {
     }
 
     /* ── Responsive ────────────────────────────────────── */
-    @media (max-width: 1023px) {
+    @media (max-width: 1099px) and (min-width: 768px) {
       .qm-footer__grid { grid-template-columns: 1fr 1fr; }
       .qm-footer__brand { grid-column: 1 / -1; }
     }
@@ -354,10 +388,22 @@ export class QmFooterComponent {
     { label: 'Contact', href: '/contact' }
   ];
 
+  products: FooterLink[] = [
+    { label: 'Document Intelligence Mini', href: '/products' }
+  ];
+
   technology: FooterLink[] = [
     { label: 'MicroQuantum', href: '/microquantum' },
     { label: 'Karkain', href: '/karkain' },
     { label: 'QuantsMind SDK', href: '/quantsmind-sdk' }
+  ];
+
+  developerTools: FooterLink[] = [
+    {
+      label: 'Karkain VS Code Extension',
+      href: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain&ssr=false#overview',
+      external: true
+    }
   ];
 
   legal: FooterLink[] = [

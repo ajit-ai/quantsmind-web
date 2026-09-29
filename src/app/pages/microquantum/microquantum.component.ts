@@ -37,7 +37,7 @@ interface FlowStep { title: string; description: string; }
       <qm-container>
         <a routerLink="/technology" class="mq-back">&larr; Technology Ecosystem</a>
 
-        <qm-badge variant="early-access" class="mq-hero__badge">Developer Preview · v0.4.0</qm-badge>
+        <qm-badge variant="early-access" class="mq-hero__badge">Developer Preview · v1.1.0</qm-badge>
         <h1 class="mq-hero__title">MicroQuantum</h1>
         <p class="mq-hero__tagline">Quantum computing, built for developers.</p>
         <p class="mq-hero__lead">
@@ -393,7 +393,7 @@ interface FlowStep { title: string; description: string; }
               <span class="mq-eyebrow">INSTALLATION</span>
               <h2 class="mq-install__title">Ready to Install</h2>
             </div>
-            <qm-badge variant="early-access">MicroQuantum v0.4.0</qm-badge>
+            <qm-badge variant="early-access">MicroQuantum v1.1.0</qm-badge>
           </div>
           <p class="mq-install__note">
             Requires Python 3.10–3.13. NumPy is installed automatically.
@@ -419,7 +419,7 @@ interface FlowStep { title: string; description: string; }
       <qm-container size="narrow">
         <div class="mq-notice" role="note">
           <span class="mq-eyebrow">DEVELOPER PREVIEW</span>
-          <h2>MicroQuantum 0.4.0 Is a Developer Preview</h2>
+          <h2>MicroQuantum Is a Developer Preview</h2>
           <p class="mq-notice__desc">
             APIs and capabilities may evolve as the project develops. Feedback, issues
             and contributions are welcome through the project's

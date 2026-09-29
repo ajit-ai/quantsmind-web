@@ -22,7 +22,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
       <qm-container>
         <a routerLink="/technology" class="sdk-back">&larr; Technology Ecosystem</a>
         <div class="sdk-badges">
-          <qm-badge variant="prototype">R0.1.0</qm-badge>
+          <qm-badge variant="development">v1.1.0</qm-badge>
           <qm-badge variant="prototype">Architecture Foundation</qm-badge>
           <qm-badge variant="software">Python</qm-badge>
         </div>
@@ -44,7 +44,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         </div>
         <ul class="sdk-meta" aria-label="QuantsMind SDK at a glance">
           <li><span class="sdk-chip sdk-chip--violet">Python 3.13+</span></li>
-          <li><span class="sdk-chip">R0.1.0 Architecture Foundation</span></li>
+          <li><span class="sdk-chip">v1.1.0 Architecture Foundation</span></li>
           <li><span class="sdk-chip">35-package direction</span></li>
           <li><span class="sdk-chip">Entity → State → Interaction</span></li>
           <li><span class="sdk-chip">Observation → Knowledge</span></li>
@@ -71,7 +71,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
             modelling layer that is designed to sit below higher-level applications.
           </p>
           <p>
-            R0.1.0 establishes the architecture, package structure and foundation ontology
+            The current release establishes the architecture, package structure and foundation ontology
             interfaces. It contains <strong>no implemented algorithms</strong>, no production
             services and no completed commercial functionality. It is a beginning, not a finished
             product.
@@ -113,10 +113,10 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
       <qm-container>
         <div class="sdk-dark-head">
           <span class="sdk-eyebrow-dark">ARCHITECTURE FOUNDATION</span>
-          <h2 class="sdk-h2 sdk-h2--dark">R0.1.0: establishing the architectural layer</h2>
+          <h2 class="sdk-h2 sdk-h2--dark">v1.1.0: establishing the architectural layer</h2>
           <p class="sdk-lead sdk-lead--dark">
             QuantsMind SDK establishes the layering direction before implementing
-            any algorithms. This architecture-first approach means R0.1.0 provides
+            any algorithms. This architecture-first approach means v1.1.0 provides
             structure, contracts and direction — not finished capabilities.
           </p>
         </div>
@@ -142,7 +142,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
 
         <p class="sdk-dark-note">
           This is the architectural model, not a claim that all layers are implemented.
-          R0.1.0 establishes the middle layers: the ontology interfaces and the package
+          v1.1.0 establishes the middle layers: the ontology interfaces and the package
           layout that future releases will fill.
         </p>
       </qm-container>
@@ -175,7 +175,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         <span class="eyebrow">PACKAGE DIRECTION</span>
         <h2 class="sdk-h2">A structured package architecture</h2>
         <p class="sdk-section-lead">
-          R0.1.0 defines the complete package layout — 35 planned package destinations.
+          v1.1.0 defines the complete package layout — 35 planned package destinations.
           Concrete implementations follow the published roadmap. The map below shows
           where packages sit architecturally and their current implementation status.
         </p>
@@ -192,7 +192,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         </div>
         <p class="sdk-note sdk-note--center">
           Foundation ontology interfaces (Entity, System, State, Interaction) are
-          implemented in R0.1.0. Other packages are defined as skeletons and
+          implemented in v1.1.0. Other packages are defined as skeletons and
           interfaces — implementations follow per the roadmap.
         </p>
       </qm-container>
@@ -285,7 +285,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
             </p>
           </div>
           <div class="sdk-card sdk-card--compact">
-            <h4 class="sdk-card-title">What R0.1.0 documents include</h4>
+            <h4 class="sdk-card-title">What v1.1.0 documents include</h4>
             <ul class="sdk-doc-list">
               <li>Architecture overview and layering model</li>
               <li>Package dependency rules</li>
@@ -306,7 +306,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         <h2 class="sdk-h2">Intended developer flow</h2>
         <p class="sdk-section-lead">
           The developer path is part of the architecture — not yet fully
-          automated tooling. R0.1.0 focuses on structure and contracts.
+          automated tooling. v1.1.0 focuses on structure and contracts.
         </p>
         <div class="sdk-flow">
           @for (s of devFlow; track s[0]) {
@@ -316,7 +316,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         </div>
         <p class="sdk-note">
           The intended installation path is <span class="k-mono">pip install quantsmind</span>,
-          but this is marked as future in R0.1.0 — the package has not yet been published
+          but this is marked as future in v1.1.0 — the package has not yet been published
           to PyPI.
         </p>
       </qm-container>
@@ -551,7 +551,7 @@ export class QuantsMindSdkComponent {
   ];
 
   statusRows: StatusRow[] = [
-    { area: 'Release', status: 'R0.1.0', variant: 'prototype', note: 'Architecture Foundation — the foundational release of the SDK.' },
+    { area: 'Release', status: 'v1.1.0', variant: 'development', note: 'Architecture Foundation — the current release of the SDK.' },
     { area: 'Stage', status: 'Architecture Foundation', variant: 'prototype', note: 'Package layout, interface contracts and foundation ontology defined. No algorithms implemented yet.' },
     { area: 'Language', status: 'Python 3.13+', variant: 'early-access', note: 'Modern Python typing, protocols and dataclass conventions used from the start.' },
     { area: 'Source', status: 'GitHub', variant: 'early-access', note: 'Repository: ajit-ai/quantsmind-quantum-sdk. Apache 2.0 licensed.' },
@@ -564,7 +564,7 @@ export class QuantsMindSdkComponent {
   ];
 
   roadmap: RoadItem[] = [
-    { phase: 'R0.1.0', variant: 'prototype', stage: 'Architecture Foundation', items: ['Package layout and interface contracts', 'Foundation ontology (Entity, System, State, Interaction)', 'ADRs, documentation standards, dependency rules', 'No algorithms implemented in this release'] },
+    { phase: 'v1.1.0', variant: 'development', stage: 'Architecture Foundation', items: ['Package layout and interface contracts', 'Foundation ontology (Entity, System, State, Interaction)', 'ADRs, documentation standards, dependency rules', 'No algorithms implemented in this release'] },
     { phase: 'Next (R0.2–R0.4)', variant: 'early-access', stage: 'Core implementation', items: ['Core abstractions and exception hierarchy', 'Math foundation on a pluggable numeric backend', 'Runtime executor, compiler IR, provider contracts'] },
     { phase: 'Future (R0.5–R0.10+)', variant: 'concept', stage: 'Domain & platform reach', items: ['Quantum, physics, chemistry, biology, astronomy, finance', 'AI, optimization, simulation, knowledge', 'Plugins, telemetry, security hardening', 'Stable public API and 1.0 release'] }
   ];

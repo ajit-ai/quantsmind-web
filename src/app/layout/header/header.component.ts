@@ -994,6 +994,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering intelligent software' },
     { type: 'Page', title: 'Services', href: '/services', keywords: 'services capabilities software architecture ai cloud devops consulting' },
     { type: 'Page', title: 'Products', href: '/products', keywords: 'products product di mini document intelligence quantsmind document intelligence mini software' },
+    { type: 'Page', title: 'Karkain VS Code Extension', href: '/technology#developer-tools', keywords: 'karkain vs code visual studio code extension developer tools editor marketplace' },
     { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum' },
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },

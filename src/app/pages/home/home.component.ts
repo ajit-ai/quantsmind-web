@@ -452,7 +452,7 @@ export class HomeComponent {
       name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
       description: 'An open Python SDK for building, executing and analyzing quantum programs.',
-      status: 'Developer Preview · v0.4.0',
+      status: 'Developer Preview · v1.1.0',
       badge: 'early-access',
       cta: 'Explore MicroQuantum',
       href: '/microquantum'

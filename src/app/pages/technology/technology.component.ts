@@ -10,8 +10,19 @@ interface EcosystemTech {
   name: string;
   tagline: string;
   status: string;
+  version: string;
   badge: 'early-access' | 'development';
   description: string;
+  href: string;
+}
+
+interface DeveloperTool {
+  name: string;
+  tagline: string;
+  status: string;
+  badge: 'development' | 'early-access';
+  description: string;
+  cta: string;
   href: string;
 }
 
@@ -40,10 +51,39 @@ interface EcosystemTech {
                 <h2 class="tech-card__title">{{ tech.name }}</h2>
                 <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
               </div>
+              <p class="tech-card__version">{{ tech.version }}</p>
               <p class="tech-card__tagline">{{ tech.tagline }}</p>
               <p class="tech-card__desc">{{ tech.description }}</p>
               <span class="tech-card__link">Explore {{ tech.name }} →</span>
             </a>
+          }
+        </div>
+      </qm-container>
+    </qm-section>
+
+    <qm-section surface="subtle" id="developer-tools" ariaLabel="Developer tools">
+      <qm-container>
+        <span class="eyebrow">DEVELOPER TOOLS</span>
+        <h2>Developer Tools</h2>
+        <p class="lead tool-lead">
+          Tools that help developers work with QuantsMind technologies. These sit
+          alongside the technology ecosystem rather than being technologies themselves.
+        </p>
+
+        <div class="tool-grid">
+          @for (tool of developerTools; track tool.name) {
+            <article class="tool-card">
+              <div class="tool-card__meta">
+                <h3 class="tool-card__title">{{ tool.name }}</h3>
+                <qm-badge [variant]="tool.badge">{{ tool.status }}</qm-badge>
+              </div>
+              <p class="tool-card__tagline">{{ tool.tagline }}</p>
+              <p class="tool-card__desc">{{ tool.description }}</p>
+              <qm-button variant="secondary" size="sm" [href]="tool.href" target="_blank"
+                [ariaLabel]="'View ' + tool.name + ' on the Visual Studio Code Marketplace (opens in a new tab)'">
+                {{ tool.cta }} →
+              </qm-button>
+            </article>
           }
         </div>
       </qm-container>
@@ -95,9 +135,10 @@ interface EcosystemTech {
     }
     .tech-card__meta {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; flex-wrap: wrap;
+      gap: 12px; flex-wrap: wrap; min-width: 0;
     }
     .tech-card__title { font-size: 20px; font-weight: 600; color: #111827; margin: 0; }
+    .tech-card__version { font-size: 13px; font-weight: 600; color: #64748B; margin: -4px 0 0; }
     .tech-card__tagline { font-size: 14px; font-weight: 500; color: #2563EB; margin: 0; }
     .tech-card__desc  { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
     .tech-card__link  { font-size: 13px; font-weight: 500; color: #2563EB; margin-top: 4px; }
@@ -106,6 +147,24 @@ interface EcosystemTech {
       .tech-card { transition: none; }
       .tech-card:hover { transform: none; }
     }
+
+    /* ── DEVELOPER TOOLS ── */
+    .tool-lead { max-width: 640px; margin: 0 0 36px; }
+    .tool-grid {
+      display: grid; grid-template-columns: 1fr; gap: 24px;
+    }
+    .tool-card {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+      padding: 32px; background: #FFFFFF;
+      border: 1px solid #E2E8F0; border-radius: 12px;
+    }
+    .tool-card__meta {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap; width: 100%;
+    }
+    .tool-card__title { font-size: 20px; font-weight: 600; color: #111827; margin: 0; }
+    .tool-card__tagline { font-size: 14px; font-weight: 500; color: #2563EB; margin: 0; }
+    .tool-card__desc  { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; max-width: 640px; }
 
     .intro-block {
       text-align: center; display: flex; flex-direction: column;
@@ -126,7 +185,8 @@ export class TechnologyComponent {
     {
       name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
-      status: 'Developer Preview · v0.4.0',
+      status: 'Developer Preview',
+      version: 'v1.1.0',
       badge: 'early-access',
       description: 'An open Python SDK for building, executing and analyzing quantum programs.',
       href: '/microquantum'
@@ -135,6 +195,7 @@ export class TechnologyComponent {
       name: 'Karkain',
       tagline: 'General-Purpose Programming Language',
       status: 'Active Development',
+      version: 'v1.1.0',
       badge: 'development',
       description: 'An independent programming language and computing ecosystem being developed by QuantsMind.',
       href: '/karkain'
@@ -143,9 +204,23 @@ export class TechnologyComponent {
       name: 'QuantsMind SDK',
       tagline: 'General-Purpose Technology SDK',
       status: 'Development',
+      version: 'v1.1.0',
       badge: 'development',
       description: 'A software foundation exploring reusable abstractions for intelligent computing, data and advanced technology applications.',
       href: '/quantsmind-sdk'
+    }
+  ];
+
+  developerTools: DeveloperTool[] = [
+    {
+      name: 'Karkain VS Code Extension',
+      tagline: 'Karkain development tooling for Visual Studio Code.',
+      status: 'Published extension',
+      badge: 'development',
+      description:
+        'Karkain development tooling for Visual Studio Code. It supports the Karkain programming language and is published on the Visual Studio Code Marketplace.',
+      cta: 'View on Marketplace',
+      href: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain&ssr=false#overview'
     }
   ];
 }

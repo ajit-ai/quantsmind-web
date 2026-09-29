@@ -26,7 +26,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         <div class="k-badges">
           <qm-badge variant="development">Active Development</qm-badge>
           <qm-badge variant="software">Programming Language</qm-badge>
-          <qm-badge variant="early-access">v1.0.0</qm-badge>
+          <qm-badge variant="early-access">v1.1.0</qm-badge>
         </div>
         <h1 class="k-title">Karkain</h1>
         <p class="k-tagline">A programming language for the next generation of computing.</p>
@@ -50,7 +50,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           <li><span class="k-mono">C23</span> native backend</li>
           <li><span class="k-mono">Self-hosting</span> compiler</li>
           <li><span class="k-mono">Borrow checking</span> memory safety</li>
-          <li><span class="k-mono">v1.0.0</span> released</li>
+          <li><span class="k-mono">v1.1.0</span> released</li>
         </ul>
       </qm-container>
     </section>
@@ -145,7 +145,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         </div>
 
         <p class="k-dark-note">
-          The CPU path is the production pipeline behind Karkain 1.0. GPU shaders (WGSL, SPIR-V,
+          The CPU path is the production pipeline behind Karkain 1.1. GPU shaders (WGSL, SPIR-V,
           OpenCL) and quantum circuits (OpenQASM, QIR) are part of the documented architecture and
           represent the project's heterogeneous direction.
         </p>
@@ -333,7 +333,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         <span class="eyebrow">WHERE KARKAIN IS TODAY</span>
         <h2 class="k-h2">An honest status report</h2>
         <p class="k-section-lead">
-          Karkain reached version 1.0.0 for its core pipeline and continues in active development.
+          Karkain reached version 1.1.0 for its core pipeline and continues in active development.
           Some areas are fully shipping; others are being built or are direction.
         </p>
         <div class="k-table-wrap">
@@ -661,7 +661,7 @@ export class KarkainComponent {
   ];
 
   statusRows: StatusRow[] = [
-    { area: 'Compiler core · Karkain 1.0', status: 'Active Development', variant: 'development', note: 'The production release gate passed; version 1.0.0 is published and development continues across phases.' },
+    { area: 'Compiler core · Karkain 1.1', status: 'Active Development', variant: 'development', note: 'The production release gate passed; version 1.1.0 is published and development continues across phases.' },
     { area: 'Self-hosting', status: 'Active Development', variant: 'development', note: 'The compiler\u2019s Karkain-written front-end is the default engine and builds Karkain programs today.' },
     { area: 'Language & core pipeline', status: 'Active Development', variant: 'development', note: 'Additional type-system features, autodiff and quantum safety are tracked in the language spec.' },
     { area: 'Concurrency runtime', status: 'Active Development', variant: 'development', note: 'Task model, channels and synchronization primitives.' },

@@ -8,16 +8,28 @@ Corporate and technology ecosystem website for QuantsMind, built with [Angular](
 
 - `/` — Home
 - `/services` — Engineering services (Software Architecture, Application Development, AI/ML, Cloud, DevOps/CI/CD, Technical Consulting)
-- `/products` — QuantsMind products (QuantsMind Document Intelligence Mini)
-- `/technology` — Technology ecosystem (MicroQuantum, Karkain, QuantsMind SDK)
-- `/microquantum` — Open quantum computing SDK (Developer Preview · v0.4.0)
-- `/karkain` — General-purpose programming language (Active Development)
-- `/quantsmind-sdk` — Foundations for intelligent applications (Development)
-- `/labs` — QuantsMind Labs (experimental technologies)
+- `/products` — Commercial products (QuantsMind Document Intelligence Mini)
+- `/technology` — Active technologies (MicroQuantum, Karkain, QuantsMind SDK) and Developer Tools (Karkain VS Code Extension)
+- `/microquantum` — Open quantum computing SDK (Developer Preview · v1.1.0)
+- `/karkain` — General-purpose programming language (Active Development · v1.1.0)
+- `/quantsmind-sdk` — Foundations for intelligent applications (Architecture Foundation · v1.1.0)
+- `/labs` — QuantsMind Labs (exploration and future R&D directions)
 - `/about` — About QuantsMind
 - `/contact` — Contact
 - `/privacy`, `/terms`, `/cookies` — Legal
 - `404` — Not found
+
+## Ecosystem layers
+
+The public site separates four layers:
+
+1. **Products** — commercial, customer-facing products (`/products`)
+2. **Developer Tools** — developer-facing tooling supporting the technologies (`/technology`)
+3. **Technologies** — active, independently developed technologies
+4. **Labs / R&D** — exploration, experiments and future directions (`/labs`)
+
+QuantsMind DB, QLM and other initiatives are represented as Labs exploration only,
+not as commercial products or active technologies.
 
 ## Prerequisites
 

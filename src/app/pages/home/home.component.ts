@@ -6,6 +6,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
+import { HrefPartsPipe }        from '../../shared/pipes/href-parts.pipe';
 
 interface Capability {
   icon: string;
@@ -26,7 +27,7 @@ interface EcosystemTech {
 
 @Component({
     selector: 'app-home',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe, HrefPartsPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- ═══════════════════════════════════════════════════════ -->
@@ -78,7 +79,8 @@ interface EcosystemTech {
 
         <div class="capability-grid">
           @for (cap of capabilities; track cap) {
-            <a [routerLink]="cap.href" class="capability-card" [attr.aria-label]="cap.title">
+            @let capLink = cap.href | hrefParts;
+            <a [routerLink]="capLink.path" [fragment]="capLink.fragment" class="capability-card" [attr.aria-label]="cap.title">
               <div class="capability-card__icon" aria-hidden="true" [innerHTML]="cap.icon | qmSafeHtml"></div>
               <h3 class="capability-card__title">{{ cap.title }}</h3>
               <p class="capability-card__desc">{{ cap.description }}</p>

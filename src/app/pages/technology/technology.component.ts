@@ -5,6 +5,7 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 interface EcosystemTech {
   name: string;
@@ -12,6 +13,7 @@ interface EcosystemTech {
   status: string;
   version: string;
   badge: 'stable';
+  mark: string;
   description: string;
   href: string;
 }
@@ -22,6 +24,7 @@ interface DeveloperTool {
   status: string;
   version: string;
   badge: 'stable';
+  mark: string;
   description: string;
   cta: string;
   href: string;
@@ -29,7 +32,7 @@ interface DeveloperTool {
 
 @Component({
     selector: 'app-technology',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <section class="page-hero surface-subtle">
@@ -48,6 +51,7 @@ interface DeveloperTool {
         <div class="ecosystem-grid">
           @for (tech of ecosystem; track tech) {
             <a [routerLink]="tech.href" class="tech-card" [attr.aria-label]="'Explore ' + tech.name">
+              <span class="qm-mark tech-card__mark" aria-hidden="true" [innerHTML]="tech.mark | qmSafeHtml"></span>
               <div class="tech-card__meta">
                 <h2 class="tech-card__title">{{ tech.name }}</h2>
                 <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
@@ -74,6 +78,7 @@ interface DeveloperTool {
         <div class="tool-grid">
           @for (tool of developerTools; track tool.name) {
             <article class="tool-card">
+              <span class="qm-mark qm-mark--lg tool-card__mark" aria-hidden="true" [innerHTML]="tool.mark | qmSafeHtml"></span>
               <div class="tool-card__meta">
                 <h3 class="tool-card__title">{{ tool.name }}</h3>
                 <qm-badge [variant]="tool.badge">{{ tool.status }}</qm-badge>
@@ -109,7 +114,7 @@ interface DeveloperTool {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
+    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
@@ -122,28 +127,30 @@ interface DeveloperTool {
     .tech-card {
       display: flex; flex-direction: column; gap: 12px;
       padding: 32px;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 12px;
+      background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
       text-decoration: none;
       transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
     }
     .tech-card:hover {
-      border-color: #BFDBFE;
-      box-shadow: 0 4px 16px rgba(37,99,235,0.08);
+      border-color: var(--card-border-hi);
+      box-shadow: var(--card-shadow-hi);
       transform: translateY(-2px);
     }
     .tech-card:focus-visible {
-      outline: 2px solid #2563EB; outline-offset: 3px;
+      outline: 2px solid var(--color-accent); outline-offset: 3px;
     }
+    .tech-card__mark { margin-bottom: 4px; }
     .tech-card__meta {
       display: flex; align-items: center; justify-content: space-between;
       gap: 12px; flex-wrap: wrap; min-width: 0;
     }
-    .tech-card__title { font-size: 20px; font-weight: 600; color: #111827; margin: 0; }
-    .tech-card__version { font-size: 13px; font-weight: 600; color: #64748B; margin: -4px 0 0; }
-    .tech-card__tagline { font-size: 14px; font-weight: 500; color: #2563EB; margin: 0; }
-    .tech-card__desc  { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
-    .tech-card__link  { font-size: 13px; font-weight: 500; color: #2563EB; margin-top: 4px; }
+    .tech-card__title { font-size: 20px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+    .tech-card__version { font-size: 13px; font-weight: 600; color: var(--color-text-muted); margin: -4px 0 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
+    .tech-card__tagline { font-size: 14px; font-weight: 500; color: var(--color-accent); margin: 0; }
+    .tech-card__desc  { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; }
+    .tech-card__link  { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: 4px; }
 
     @media (prefers-reduced-motion: reduce) {
       .tech-card { transition: none; }
@@ -157,17 +164,26 @@ interface DeveloperTool {
     }
     .tool-card {
       display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
-      padding: 32px; background: #FFFFFF;
-      border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 32px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      transition: border-color 200ms ease, box-shadow 200ms ease;
+    }
+    .tool-card:hover {
+      border-color: var(--card-border-hi);
+      box-shadow: var(--card-shadow-hi);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tool-card { transition: none; }
     }
     .tool-card__meta {
       display: flex; align-items: center; justify-content: space-between;
       gap: 12px; flex-wrap: wrap; width: 100%;
     }
-    .tool-card__title { font-size: 20px; font-weight: 600; color: #111827; margin: 0; }
-    .tool-card__version { margin: 0; font-size: 13px; font-weight: 600; color: #64748B; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
-    .tool-card__tagline { font-size: 14px; font-weight: 500; color: #2563EB; margin: 0; }
-    .tool-card__desc  { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; max-width: 640px; }
+    .tool-card__title { font-size: 20px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+    .tool-card__version { margin: 0; font-size: 13px; font-weight: 600; color: var(--color-text-muted); font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
+    .tool-card__tagline { font-size: 14px; font-weight: 500; color: var(--color-accent); margin: 0; }
+    .tool-card__desc  { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; max-width: 640px; }
 
     .intro-block {
       text-align: center; display: flex; flex-direction: column;
@@ -178,9 +194,9 @@ interface DeveloperTool {
 
     .eyebrow {
       display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase; color: #2563EB; margin-bottom: 16px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 16px;
     }
-    .lead { font-size: 18px; line-height: 1.7; color: #475569; }
+    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
   `]
 })
 export class TechnologyComponent {
@@ -191,6 +207,7 @@ export class TechnologyComponent {
       status: 'Stable',
       version: 'v1.1.0',
       badge: 'stable',
+      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
       description: 'An open Python SDK for building, executing and analyzing quantum programs. Published on PyPI.',
       href: '/microquantum'
     },
@@ -200,6 +217,7 @@ export class TechnologyComponent {
       status: 'Stable',
       version: 'v1.1.0',
       badge: 'stable',
+      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 4 12 9 19"/><polyline points="15 5 20 12 15 19"/></svg>',
       description: 'An independent, statically typed systems programming language and computing ecosystem with a published stable release.',
       href: '/karkain'
     },
@@ -209,6 +227,7 @@ export class TechnologyComponent {
       status: 'Stable',
       version: 'v1.1.0',
       badge: 'stable',
+      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
       description: 'A universal, vendor-independent Python SDK for scientific computing, with implemented functionality across mathematics, chemistry, biology, astronomy, cosmology, finance, AI agents, knowledge graphs and more.',
       href: '/quantsmind-sdk'
     }
@@ -221,6 +240,7 @@ export class TechnologyComponent {
       status: 'Published',
       version: 'v0.9.0',
       badge: 'stable',
+      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="7 10 10 12 7 14"/><line x1="12" y1="15" x2="17" y2="15"/></svg>',
       description:
         'Syntax highlighting, Karkain CLI integration (check, build, run, format) and Language Server intelligence for the .kark language. Published on the Visual Studio Code Marketplace. Requires the Karkain 1.1.0 toolchain.',
       cta: 'View on Marketplace',

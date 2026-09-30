@@ -9,6 +9,7 @@
 
 // Canvas & Surface
 $color-canvas:          #F8FAFC;
+$color-canvas-lagoon:   #E8EEF5;   // tertiary tint for layered hero washes
 $color-surface:         #FFFFFF;
 $color-surface-subtle:  #F1F5F9;
 
@@ -25,8 +26,20 @@ $color-border-strong:   #CBD5E1;
 // Accent (Blue — used sparingly)
 $color-accent:          #2563EB;
 $color-accent-dark:     #1D4ED8;
+$color-accent-deep:     #1E40AF;   // deepest stop — hero gradient / dark accents
+$color-accent-soft:     #93C5FD;   // light structural strokes
 $color-accent-subtle:   #EFF6FF;
 $color-accent-muted:    #BFDBFE;
+$color-accent-glow:     #DBEAFE;   // radial glow behind hero visuals
+
+// Accent (Teal — the QuantsMind Labs identity, distinct from the site-wide Blue)
+$color-labs:            #0D9488;
+$color-labs-dark:       #0F766E;
+$color-labs-soft:       #2DD4BF;
+$color-labs-bright:     #5EEAD4;
+$color-labs-muted:      #99F6E4;
+$color-labs-subtle:     #F0FDFA;
+$color-labs-glow:       #CCFBF1;   // radial glow behind Labs hero visual
 
 // Dark surfaces (Labs, diagrams, special sections)
 $color-dark-canvas:     #0F172A;
@@ -44,6 +57,7 @@ $color-info:            #2563EB;
 // CSS Custom Properties (runtime theming support)
 :root {
   --color-canvas:          #{$color-canvas};
+  --color-canvas-lagoon:   #{$color-canvas-lagoon};
   --color-surface:         #{$color-surface};
   --color-surface-subtle:  #{$color-surface-subtle};
 
@@ -57,8 +71,20 @@ $color-info:            #2563EB;
 
   --color-accent:          #{$color-accent};
   --color-accent-dark:     #{$color-accent-dark};
+  --color-accent-deep:     #{$color-accent-deep};
+  --color-accent-soft:     #{$color-accent-soft};
   --color-accent-subtle:   #{$color-accent-subtle};
   --color-accent-muted:    #{$color-accent-muted};
+  --color-accent-glow:     #{$color-accent-glow};
+
+  // Labs accent (Teal) — the QuantsMind Labs identity, distinct from Blue
+  --color-labs:            #{$color-labs};
+  --color-labs-dark:       #{$color-labs-dark};
+  --color-labs-soft:       #{$color-labs-soft};
+  --color-labs-bright:     #{$color-labs-bright};
+  --color-labs-muted:      #{$color-labs-muted};
+  --color-labs-subtle:     #{$color-labs-subtle};
+  --color-labs-glow:       #{$color-labs-glow};
 
   --color-dark-canvas:     #{$color-dark-canvas};
   --color-dark-surface:    #{$color-dark-surface};

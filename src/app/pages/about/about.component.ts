@@ -85,7 +85,7 @@ interface Pillar {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
+    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 700px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
@@ -97,18 +97,19 @@ interface Pillar {
 
     .pillar-card {
       display: flex; flex-direction: column; align-items: flex-start; gap: 16px;
-      padding: 36px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 16px;
+      padding: 36px; background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
     }
     .pillar-card__desc {
-      font-size: 15px; line-height: 1.7; color: #475569;
+      font-size: 15px; line-height: 1.7; color: var(--color-text-secondary);
       margin: 0 0 8px;
     }
     .pillar-card__list {
       margin: 0 0 8px; padding-left: 18px;
       display: flex; flex-direction: column; gap: 10px;
     }
-    .pillar-card__list li { font-size: 14px; line-height: 1.6; color: #475569; }
+    .pillar-card__list li { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
 
     .principles-grid {
       display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 40px;
@@ -117,28 +118,29 @@ interface Pillar {
     @media (min-width: 1024px) { .principles-grid { grid-template-columns: repeat(3, 1fr); } }
 
     .principle-card {
-      padding: 24px; background: #FFFFFF;
-      border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 24px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
     }
     .principle-card__title {
-      font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;
+      font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 8px;
     }
     .principle-card__desc {
-      font-size: 13px; color: #475569; line-height: 1.6; margin: 0;
+      font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin: 0;
     }
 
     .direction-block { text-align: left; }
     .direction-block h2 { margin: 0 0 16px; }
     .direction-block p {
-      font-size: 16px; line-height: 1.8; color: #475569;
+      font-size: 16px; line-height: 1.8; color: var(--color-text-secondary);
       margin: 0 0 32px; max-width: 720px;
     }
 
     .eyebrow {
       display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase; color: #2563EB; margin-bottom: 16px;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 16px;
     }
-    .lead { font-size: 18px; line-height: 1.7; color: #475569; }
+    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
   `]
 })
 export class AboutComponent {

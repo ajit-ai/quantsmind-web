@@ -15,6 +15,9 @@
 // 4. Utilities (surface variants, badges, helpers)
 @use 'styles/utilities';
 
+// 5. Surface system (shared card language, glass, product marks)
+@use 'styles/surface';
+
 /* Skip link for accessibility */
 .skip-link {
   position: absolute;

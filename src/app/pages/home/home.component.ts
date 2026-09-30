@@ -43,29 +43,85 @@ interface EcosystemLink {
     <!-- ═══════════════════════════════════════════════════════ -->
     <section class="hero" aria-label="QuantsMind overview">
       <qm-container>
-        <div class="hero__inner">
-          <span class="eyebrow hero__eyebrow">QUANTSMIND</span>
-          <h1 class="hero__headline">
-            Engineering Software.<br />
-            Building Intelligent Technologies.
-          </h1>
-          <p class="hero__lead">
-            QuantsMind is an engineering and technology company focused on software
-            architecture, application engineering, AI/ML, cloud technologies, and
-            emerging computing technologies.
-          </p>
-          <div class="hero__actions">
-            <qm-button variant="primary" size="lg" [routerLinkValue]="'/services'">
-              Explore Services →
-            </qm-button>
-            <qm-button variant="secondary" size="lg" [routerLinkValue]="'/technology'">
-              Explore Technology →
-            </qm-button>
+        <div class="hero__grid">
+          <div class="hero__inner">
+            <span class="eyebrow hero__eyebrow">QUANTSMIND</span>
+            <h1 class="hero__headline">
+              Engineering Software.<br />
+              Building Intelligent Technologies.
+            </h1>
+            <p class="hero__lead">
+              QuantsMind is an engineering and technology company focused on software
+              architecture, application engineering, AI/ML, cloud technologies, and
+              emerging computing technologies.
+            </p>
+            <div class="hero__actions">
+              <qm-button variant="primary" size="lg" [routerLinkValue]="'/services'">
+                Explore Services →
+              </qm-button>
+              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/technology'">
+                Explore Technology →
+              </qm-button>
+            </div>
+            <div class="hero__focus">
+              @for (area of focusAreas; track area) {
+                <span class="hero__focus-chip">{{ area }}</span>
+              }
+            </div>
           </div>
-          <div class="hero__focus">
-            @for (area of focusAreas; track area) {
-              <span class="hero__focus-chip">{{ area }}</span>
-            }
+
+          <!-- Decorative: abstract computational-architecture visual -->
+          <div class="hero__visual" aria-hidden="true">
+            <div class="hero__visual-panel qm-glass">
+              <svg class="qm-visual" viewBox="0 0 520 520" role="presentation" focusable="false">
+                <!-- Colours are set via style="" because var() does not resolve
+                     inside SVG presentation attributes. -->
+                <defs>
+                  <linearGradient id="qmHeroStroke" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" style="stop-color: var(--color-accent-soft)"/>
+                    <stop offset="55%" style="stop-color: var(--color-accent)"/>
+                    <stop offset="100%" style="stop-color: var(--color-accent-deep)"/>
+                  </linearGradient>
+                  <radialGradient id="qmHeroGlow" cx="50%" cy="45%" r="55%">
+                    <stop offset="0%" stop-opacity="0.9" style="stop-color: var(--color-accent-glow)"/>
+                    <stop offset="100%" stop-opacity="0" style="stop-color: var(--color-accent-glow)"/>
+                  </radialGradient>
+                </defs>
+
+                <circle cx="260" cy="250" r="210" fill="url(#qmHeroGlow)"/>
+
+                <g class="qm-visual__drift" fill="none" stroke="url(#qmHeroStroke)">
+                  <circle cx="260" cy="250" r="188" stroke-width="1" stroke-opacity="0.30"/>
+                  <circle cx="260" cy="250" r="146" stroke-width="1" stroke-opacity="0.45"/>
+                  <ellipse cx="260" cy="250" rx="188" ry="68" stroke-width="1" stroke-opacity="0.40" transform="rotate(-18 260 250)"/>
+                  <ellipse cx="260" cy="250" rx="188" ry="68" stroke-width="1" stroke-opacity="0.22" transform="rotate(38 260 250)"/>
+                </g>
+
+                <g fill="none" stroke-width="1.25" stroke-opacity="0.6"
+                   style="stroke: var(--color-accent-soft)">
+                  <path d="M260 118 L360 172 L392 272 L300 336 L196 312 L150 214 Z"/>
+                  <path d="M260 118 L300 336"/>
+                  <path d="M150 214 L360 172"/>
+                  <path d="M196 312 L392 272"/>
+                </g>
+
+                <circle class="qm-visual__pulse" cx="260" cy="250" r="34"
+                        fill="none" stroke-width="1.5" stroke-opacity="0.55"
+                        style="stroke: var(--color-accent)"/>
+                <circle cx="260" cy="250" r="12" fill-opacity="0.9"
+                        style="fill: var(--color-accent)"/>
+                <circle cx="260" cy="250" r="5" style="fill: var(--color-surface)"/>
+
+                <g stroke-width="1.5" style="fill: var(--color-surface); stroke: var(--color-accent)">
+                  <circle cx="260" cy="118" r="6"/>
+                  <circle cx="360" cy="172" r="6"/>
+                  <circle cx="392" cy="272" r="6"/>
+                  <circle cx="300" cy="336" r="6"/>
+                  <circle cx="196" cy="312" r="6"/>
+                  <circle cx="150" cy="214" r="6"/>
+                </g>
+              </svg>
+            </div>
           </div>
         </div>
       </qm-container>
@@ -236,12 +292,27 @@ interface EcosystemLink {
     .hero {
       padding: 88px 0 72px;
       background:
-        radial-gradient(1200px 480px at 80% -10%, #EFF6FF 0%, rgba(239,246,255,0) 60%),
-        #F8FAFC;
-      border-bottom: 1px solid #E2E8F0;
+        radial-gradient(1200px 520px at 78% -12%, var(--color-accent-wash) 0%, rgba(239,246,255,0) 62%),
+        radial-gradient(900px 420px at 6% 110%, var(--color-canvas-lagoon) 0%, rgba(232,238,245,0) 60%),
+        var(--color-canvas);
+      border-bottom: 1px solid var(--color-border);
+      overflow: hidden;
     }
     @media (min-width: 1024px) {
       .hero { padding: 128px 0 112px; }
+    }
+
+    .hero__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 48px;
+      align-items: center;
+    }
+    @media (min-width: 1024px) {
+      .hero__grid {
+        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+        gap: 64px;
+      }
     }
 
     .hero__inner { max-width: 760px; }
@@ -251,14 +322,14 @@ interface EcosystemLink {
       font-weight: 700;
       line-height: 1.08;
       letter-spacing: -0.03em;
-      color: #111827;
+      color: var(--color-text-primary);
       margin: 0 0 24px;
       text-wrap: balance;
     }
     .hero__lead {
       font-size: 18px;
       line-height: 1.7;
-      color: #475569;
+      color: var(--color-text-secondary);
       margin: 0 0 32px;
       max-width: 620px;
       text-wrap: pretty;
@@ -277,12 +348,27 @@ interface EcosystemLink {
     .hero__focus-chip {
       font-size: 12px;
       font-weight: 500;
-      color: #475569;
-      background: #F1F5F9;
-      border: 1px solid #E2E8F0;
+      color: var(--color-text-secondary);
+      background: var(--color-surface-subtle);
+      border: 1px solid var(--color-border);
       border-radius: 9999px;
       padding: 4px 12px;
     }
+
+    /* Hero visual — decorative, so it is hidden from AT and the
+       reader keeps a clean mobile-first hierarchy. */
+    .hero__visual { display: none; }
+    @media (min-width: 768px) {
+      .hero__visual { display: block; max-width: 460px; margin: 0 auto; }
+    }
+    @media (min-width: 1024px) {
+      .hero__visual { max-width: none; margin: 0; }
+    }
+    .hero__visual-panel {
+      padding: 20px;
+      border-radius: 20px;
+    }
+    .hero__visual-panel .qm-visual { max-width: 520px; margin: 0 auto; }
 
     /* ── SECTION HEADER ── */
     .section-header { margin-bottom: 40px; max-width: 640px; }
@@ -302,29 +388,31 @@ interface EcosystemLink {
       flex-direction: column;
       gap: 12px;
       padding: 28px;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
+      background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
       text-decoration: none;
       transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
     }
     .capability-card:hover {
-      border-color: #BFDBFE;
-      box-shadow: 0 4px 16px rgba(37,99,235,0.08);
+      border-color: var(--card-border-hi);
+      box-shadow: var(--card-shadow-hi);
       transform: translateY(-2px);
     }
     .capability-card:focus-visible {
-      outline: 2px solid #2563EB;
+      outline: 2px solid var(--color-accent);
       outline-offset: 3px;
     }
     .capability-card__icon {
       width: 44px; height: 44px;
       display: flex; align-items: center; justify-content: center;
-      background: #EFF6FF; border-radius: 10px; color: #2563EB;
+      background: var(--mark-bg); border: 1px solid var(--mark-border);
+      border-radius: var(--mark-radius); color: var(--mark-color);
     }
-    .capability-card__title { font-size: 16px; font-weight: 600; color: #111827; margin: 0; }
-    .capability-card__desc  { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
-    .capability-card__link  { font-size: 13px; font-weight: 500; color: #2563EB; margin-top: 4px; }
+    .capability-card__title { font-size: 16px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+    .capability-card__desc  { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; }
+    .capability-card__link  { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: 4px; }
 
     @media (prefers-reduced-motion: reduce) {
       .capability-card { transition: none; }
@@ -344,9 +432,20 @@ interface EcosystemLink {
       flex-direction: column;
       gap: 12px;
       padding: 32px;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+    .tech-card:hover {
+      border-color: var(--card-border-hi);
+      box-shadow: var(--card-shadow-hi);
+      transform: translateY(-2px);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .tech-card { transition: none; }
+      .tech-card:hover { transform: none; }
     }
     .tech-card__meta {
       display: flex;
@@ -355,12 +454,12 @@ interface EcosystemLink {
       gap: 12px;
       flex-wrap: wrap;
     }
-    .tech-card__title { font-size: 18px; font-weight: 600; color: #111827; margin: 0; }
-    .tech-card__version { font-size: 13px; font-weight: 600; color: #64748B; margin: 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
-    .tech-card__tagline { font-size: 14px; font-weight: 500; color: #2563EB; margin: 0; }
-    .tech-card__desc { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
+    .tech-card__title { font-size: 18px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+    .tech-card__version { font-size: 13px; font-weight: 600; color: var(--color-text-muted); margin: 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
+    .tech-card__tagline { font-size: 14px; font-weight: 500; color: var(--color-accent); margin: 0; }
+    .tech-card__desc { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; }
     .tech-card__link {
-      font-size: 13px; font-weight: 500; color: #2563EB;
+      font-size: 13px; font-weight: 500; color: var(--color-accent);
       text-decoration: none; margin-top: 4px;
     }
     .tech-card__link:hover { text-decoration: underline; }
@@ -370,23 +469,28 @@ interface EcosystemLink {
     @media (min-width: 768px) { .link-grid { grid-template-columns: repeat(2, 1fr); } }
     .link-card {
       display: flex; flex-direction: column; gap: 8px;
-      padding: 28px; background: #FFFFFF;
-      border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 28px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
+      box-shadow: var(--card-shadow);
       text-decoration: none;
       transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
     }
     .link-card:hover {
-      border-color: #BFDBFE;
-      box-shadow: 0 4px 16px rgba(37,99,235,0.08);
+      border-color: var(--card-border-hi);
+      box-shadow: var(--card-shadow-hi);
       transform: translateY(-2px);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .link-card { transition: none; }
+      .link-card:hover { transform: none; }
     }
     .link-card__kind {
       font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
-      text-transform: uppercase; color: #2563EB;
+      text-transform: uppercase; color: var(--color-accent);
     }
-    .link-card__title { font-size: 18px; font-weight: 600; color: #111827; margin: 0; }
-    .link-card__desc { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
-    .link-card__cta { font-size: 13px; font-weight: 500; color: #2563EB; margin-top: 4px; }
+    .link-card__title { font-size: 18px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+    .link-card__desc { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; }
+    .link-card__cta { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: 4px; }
 
     .mt-8 { margin-top: 32px; }
 
@@ -409,11 +513,11 @@ interface EcosystemLink {
     }
     .labs-area-card {
       padding: 10px 18px;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
       border-radius: 9999px;
     }
-    .labs-area-card__name { font-size: 13px; font-weight: 500; color: #475569; }
+    .labs-area-card__name { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); }
 
     /* ── WHY ── */
     .why-grid {
@@ -426,12 +530,12 @@ interface EcosystemLink {
 
     .why-card {
       padding: 24px;
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
       border-radius: 12px;
     }
-    .why-card__title { font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px; }
-    .why-card__desc  { font-size: 13px; line-height: 1.6; color: #475569; margin: 0; }
+    .why-card__title { font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 8px; }
+    .why-card__desc  { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; }
 
     /* ── FINAL CTA ── */
     .final-cta {
@@ -445,13 +549,13 @@ interface EcosystemLink {
       font-size: clamp(28px, 3.5vw, 44px);
       font-weight: 700;
       letter-spacing: -0.02em;
-      color: #111827;
+      color: var(--color-text-primary);
       margin: 0;
       text-wrap: balance;
     }
     .final-cta__sub {
       font-size: 18px;
-      color: #475569;
+      color: var(--color-text-secondary);
       line-height: 1.7;
       max-width: 560px;
       margin: 0;
@@ -465,13 +569,13 @@ interface EcosystemLink {
       font-weight: 600;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #2563EB;
+      color: var(--color-accent);
       margin-bottom: 16px;
     }
     .lead {
       font-size: 18px;
       line-height: 1.7;
-      color: #475569;
+      color: var(--color-text-secondary);
     }
   `]
 })

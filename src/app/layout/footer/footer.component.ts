@@ -179,7 +179,10 @@ interface FooterLink {
     }
     .qm-footer__accent {
       height: 3px;
-      background: linear-gradient(90deg, #2563EB, #7C3AED, #06B6D4);
+      background: linear-gradient(90deg,
+        var(--color-accent),
+        var(--color-sdk),
+        var(--color-labs));
     }
     .qm-footer__container {
       max-width: 1280px;
@@ -217,7 +220,7 @@ interface FooterLink {
       justify-content: center;
       width: 36px;
       height: 36px;
-      background: linear-gradient(135deg, #2563EB, #4F46E5);
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-indigo));
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
     }
@@ -257,11 +260,11 @@ interface FooterLink {
     }
     .qm-footer__social-link:hover {
       color: #fff;
-      border-color: #2563EB;
+      border-color: var(--color-accent);
       transform: translateY(-2px);
     }
     .qm-footer__social-link:focus-visible {
-      outline: 2px solid #2563EB;
+      outline: 2px solid var(--color-accent);
       outline-offset: 2px;
     }
 
@@ -357,10 +360,10 @@ interface FooterLink {
     }
     .qm-footer__top:hover {
       color: #fff;
-      border-color: #2563EB;
+      border-color: var(--color-accent);
     }
     .qm-footer__top:focus-visible {
-      outline: 2px solid #2563EB;
+      outline: 2px solid var(--color-accent);
       outline-offset: 2px;
     }
 

@@ -8,29 +8,29 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
     imports: [RouterModule, QmContainerComponent, QmSectionComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="legal-hero surface-subtle">
+    <section class="qm-legal-hero surface-subtle">
       <qm-container size="narrow">
-        <div class="legal-hero__breadcrumb">
+        <div class="qm-legal-crumb">
           <a routerLink="/">Home</a>
           <span aria-hidden="true">›</span>
           <span>Privacy Policy</span>
         </div>
         <h1>Privacy Policy</h1>
-        <p class="legal-meta">Last updated: 15 August 2025</p>
+        <p class="qm-legal-meta">Last updated: 15 August 2025</p>
       </qm-container>
     </section>
 
     <qm-section surface="white">
       <qm-container size="narrow">
-        <div class="legal-body">
+        <div class="qm-legal-body">
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>1. Who We Are</h2>
             <p>
               QuantsMind ("we", "us", "our") is a technology engineering company registered in India.
               Our registered address is:
             </p>
-            <address class="legal-address">
+            <address class="qm-legal-address">
               QuantsMind<br>
               28, Shikargarh<br>
               Jodhpur – 342015<br>
@@ -43,7 +43,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>2. What Information We Collect</h2>
             <p>We collect information in the following circumstances:</p>
             <h3>2.1 Information You Provide</h3>
@@ -69,7 +69,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>3. How We Use Your Information</h2>
             <p>We use the information we collect for the following purposes:</p>
             <ul>
@@ -86,7 +86,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>4. Legal Basis for Processing (GDPR)</h2>
             <p>
               Where the General Data Protection Regulation (GDPR) applies to visitors
@@ -103,7 +103,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </ul>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>5. Data Retention</h2>
             <p>
               We retain enquiry data for as long as necessary to fulfil the purpose
@@ -114,7 +114,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>6. Data Sharing and Transfers</h2>
             <p>
               We do not sell or share your personal information with third parties,
@@ -137,7 +137,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>7. Your Rights</h2>
             <p>
               Depending on your location, you may have the following rights regarding
@@ -164,7 +164,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>8. Security</h2>
             <p>
               We implement appropriate technical and organisational measures to protect
@@ -175,7 +175,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>9. Third-Party Links</h2>
             <p>
               Our website may contain links to third-party websites, including
@@ -185,7 +185,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>10. Changes to This Policy</h2>
             <p>
               We may update this Privacy Policy from time to time to reflect changes
@@ -196,13 +196,13 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>11. Contact</h2>
             <p>
               If you have any questions about this Privacy Policy or how we handle
               your personal data, please contact us:
             </p>
-            <address class="legal-address">
+            <address class="qm-legal-address">
               QuantsMind<br>
               28, Shikargarh, Jodhpur – 342015<br>
               Rajasthan, India<br>
@@ -213,55 +213,6 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
         </div>
       </qm-container>
     </qm-section>
-  `,
-    styles: [`
-    .legal-hero {
-      padding: 64px 0 48px; border-bottom: 1px solid #E2E8F0;
-    }
-    .legal-hero h1 { margin: 8px 0 8px; }
-    .legal-meta { font-size: 13px; color: #94A3B8; margin: 0; }
-
-    .legal-hero__breadcrumb {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: #64748B; margin-bottom: 16px;
-    }
-    .legal-hero__breadcrumb a { color: #2563EB; text-decoration: none; }
-    .legal-hero__breadcrumb a:hover { text-decoration: underline; }
-
-    .legal-body { display: flex; flex-direction: column; gap: 0; }
-
-    .legal-section {
-      padding: 32px 0; border-bottom: 1px solid #F1F5F9;
-    }
-    .legal-section:first-child { padding-top: 0; }
-    .legal-section:last-child  { border-bottom: none; }
-
-    .legal-section h2 {
-      font-size: 20px; font-weight: 600; color: #111827; margin: 0 0 16px;
-      letter-spacing: -0.01em;
-    }
-    .legal-section h3 {
-      font-size: 15px; font-weight: 600; color: #111827; margin: 20px 0 8px;
-    }
-    .legal-section p {
-      font-size: 15px; line-height: 1.75; color: #475569; margin: 0 0 14px;
-    }
-    .legal-section p:last-child { margin: 0; }
-    .legal-section ul {
-      margin: 0 0 14px; padding-left: 20px;
-      display: flex; flex-direction: column; gap: 8px;
-    }
-    .legal-section li { font-size: 15px; color: #475569; line-height: 1.65; }
-    .legal-section a { color: #2563EB; }
-    .legal-section a:hover { text-decoration: underline; }
-
-    .legal-address {
-      font-size: 14px; color: #475569; line-height: 1.8;
-      font-style: normal; margin: 16px 0;
-      padding: 16px 20px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 8px;
-      display: inline-block;
-    }
-  `]
+  `
 })
 export class PrivacyComponent {}

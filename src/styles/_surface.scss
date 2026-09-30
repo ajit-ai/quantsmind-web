@@ -45,41 +45,6 @@
   --mark-color:     #{$color-accent};
   --mark-radius:    #{$radius-sm};
 }
-
-// ------------------------------------------------------------
-// CARD LANGUAGE
-// Every card on the site shares radius, border, shadow,
-// hover behaviour and focus treatment.
-// ------------------------------------------------------------
-
-.qm-card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: var(--card-radius);
-  box-shadow: var(--card-shadow);
-  padding: var(--card-padding);
-  transition:
-    border-color var(--duration-base) var(--easing-standard),
-    box-shadow var(--duration-base) var(--easing-standard),
-    transform var(--duration-base) var(--easing-standard);
-}
-
-.qm-card--subtle {
-  background: var(--card-bg-subtle);
-}
-
-// Interactive cards lift gently; keyboard users get a clear ring.
-.qm-card--interactive:hover {
-  border-color: var(--card-border-hi);
-  box-shadow: var(--card-shadow-hi);
-  transform: translateY(-2px);
-}
-
-.qm-card--interactive:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
-}
-
 // ------------------------------------------------------------
 // GLASS
 // Reserved for hero/hero-adjacent panels. Intentionally subtle.
@@ -128,47 +93,6 @@
 }
 
 // ------------------------------------------------------------
-// TYPOGRAPHY HELPERS FOR CARDS
-// ------------------------------------------------------------
-
-.qm-card__kind {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-}
-
-.qm-card__title {
-  font-size: 18px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--color-text-primary);
-  margin: 0;
-}
-
-.qm-card__text {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  margin: 0;
-}
-
-.qm-card__meta {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-text-muted);
-  font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
-}
-
-.qm-card__cta {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-accent);
-  margin-top: 4px;
-}
-
-// ------------------------------------------------------------
 // ABSTRACT VISUAL FRAME
 // Shared treatment for the hero/diagram visuals so Home and
 // Labs read as one system.
@@ -212,11 +136,166 @@
   .qm-visual__pulse {
     animation: none;
   }
-  .qm-card,
-  .qm-card--interactive {
-    transition: none;
+}
+
+// ------------------------------------------------------------
+// STATUS TABLE
+// Karkain renders the responsive status table. Columns collapse
+// to stacked label/value rows below 640px.
+// ------------------------------------------------------------
+
+.qm-table-wrap {
+  overflow-x: auto;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--card-radius);
+}
+
+.qm-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+}
+
+.qm-table th {
+  text-align: left;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.qm-table td {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--color-surface-subtle);
+  vertical-align: top;
+}
+
+.qm-table tr:last-child td { border-bottom: none; }
+.qm-table td:first-child { font-weight: 600; color: var(--color-text-primary); }
+.qm-table td:last-child { color: var(--color-text-secondary); font-size: 14px; line-height: 1.6; min-width: 240px; }
+.qm-table td:nth-child(2) { white-space: nowrap; }
+.qm-table tr:hover td { background: var(--color-canvas); }
+
+@media (max-width: 640px) {
+  .qm-table th { display: none; }
+  .qm-table,
+  .qm-table tbody,
+  .qm-table tr,
+  .qm-table td { display: block; width: 100%; }
+
+  .qm-table tr { padding: 12px 16px; border-bottom: 1px solid var(--card-border); }
+  .qm-table tr:last-child { border-bottom: none; }
+  .qm-table td { border: none; padding: 6px 0; }
+  .qm-table td:first-child { padding-top: 0; font-size: 15px; }
+  .qm-table td:nth-child(2) { white-space: normal; }
+  .qm-table td:last-child { min-width: 0; }
+
+  .qm-table td::before {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: 2px;
+    content: attr(data-label);
   }
-  .qm-card--interactive:hover {
-    transform: none;
-  }
+}
+
+// ------------------------------------------------------------
+// LEGAL PROSE
+// Shared by the Privacy Policy, Terms of Use and Cookie Policy.
+// The three pages are structurally identical, so the reading
+// treatment lives here once.
+// ------------------------------------------------------------
+
+.qm-legal-hero {
+  padding: 64px 0 48px;
+  border-bottom: 1px solid var(--card-border);
+}
+
+.qm-legal-hero h1 { margin: 8px 0 8px; }
+
+.qm-legal-meta {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.qm-legal-crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+  margin-bottom: 16px;
+}
+
+.qm-legal-crumb a { color: var(--color-accent); text-decoration: none; }
+.qm-legal-crumb a:hover { text-decoration: underline; }
+
+.qm-legal-body { display: flex; flex-direction: column; }
+
+.qm-legal-section {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--color-surface-subtle);
+}
+
+.qm-legal-section:first-child { padding-top: 0; }
+.qm-legal-section:last-child  { border-bottom: none; }
+
+.qm-legal-section h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 0 0 16px;
+  letter-spacing: -0.01em;
+}
+
+.qm-legal-section h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin: 20px 0 8px;
+}
+
+.qm-legal-section p {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--color-text-secondary);
+  margin: 0 0 14px;
+}
+
+.qm-legal-section p:last-child { margin: 0; }
+
+.qm-legal-section ul {
+  margin: 0 0 14px;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.qm-legal-section li {
+  font-size: 15px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+.qm-legal-section a { color: var(--color-accent); }
+.qm-legal-section a:hover { text-decoration: underline; }
+
+.qm-legal-address {
+  display: inline-block;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  font-style: normal;
+  margin: 16px 0;
+  padding: 16px 20px;
+  background: var(--card-bg-subtle);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-sm);
 }

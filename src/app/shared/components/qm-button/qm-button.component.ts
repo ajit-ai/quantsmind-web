@@ -96,13 +96,13 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
 
     /* Primary */
     .qm-btn--primary {
-      background: #2563EB;
-      color: #FFFFFF;
-      border-color: #2563EB;
+      background: var(--color-accent);
+      color: var(--color-text-inverse);
+      border-color: var(--color-accent);
     }
     .qm-btn--primary:hover {
-      background: #1D4ED8;
-      border-color: #1D4ED8;
+      background: var(--color-accent-dark);
+      border-color: var(--color-accent-dark);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
     }
@@ -113,35 +113,35 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
 
     /* Secondary */
     .qm-btn--secondary {
-      background: #FFFFFF;
-      color: #2563EB;
-      border-color: #BFDBFE;
+      background: var(--color-surface);
+      color: var(--color-accent);
+      border-color: var(--color-accent-muted);
     }
     .qm-btn--secondary:hover {
-      background: #EFF6FF;
-      border-color: #2563EB;
+      background: var(--color-accent-subtle);
+      border-color: var(--color-accent);
     }
 
     /* Ghost */
     .qm-btn--ghost {
       background: transparent;
-      color: #475569;
+      color: var(--color-text-secondary);
       border-color: transparent;
     }
     .qm-btn--ghost:hover {
-      background: #F1F5F9;
-      color: #111827;
+      background: var(--color-surface-subtle);
+      color: var(--color-text-primary);
     }
 
     /* Outline */
     .qm-btn--outline {
       background: transparent;
-      color: #111827;
-      border-color: #E2E8F0;
+      color: var(--color-text-primary);
+      border-color: var(--color-border);
     }
     .qm-btn--outline:hover {
-      border-color: #CBD5E1;
-      background: #F8FAFC;
+      border-color: var(--color-border-strong);
+      background: var(--color-canvas);
     }
 
     /* Disabled */
@@ -156,7 +156,7 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
 
     /* Focus */
     .qm-btn:focus-visible {
-      outline: 2px solid #2563EB;
+      outline: 2px solid var(--color-accent);
       outline-offset: 3px;
     }
 

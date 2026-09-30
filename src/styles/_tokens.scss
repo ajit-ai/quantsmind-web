@@ -23,10 +23,11 @@ $color-text-inverse:    #FFFFFF;
 $color-border:          #E2E8F0;
 $color-border-strong:   #CBD5E1;
 
-// Accent (Blue — used sparingly)
+// Accent (Blue) — used sparingly
 $color-accent:          #2563EB;
 $color-accent-dark:     #1D4ED8;
 $color-accent-deep:     #1E40AF;   // deepest stop — hero gradient / dark accents
+$color-accent-indigo:   #4F46E5;   // gradient partner for the logo mark
 $color-accent-soft:     #93C5FD;   // light structural strokes
 $color-accent-subtle:   #EFF6FF;
 $color-accent-muted:    #BFDBFE;
@@ -41,6 +42,16 @@ $color-labs-muted:      #99F6E4;
 $color-labs-subtle:     #F0FDFA;
 $color-labs-glow:       #CCFBF1;   // radial glow behind Labs hero visual
 
+// Accent (Violet — the QuantsMind SDK identity, distinct from Blue and Teal)
+$color-sdk:             #7C3AED;
+$color-sdk-deep:        #5B21B6;
+$color-sdk-soft:        #A78BFA;
+$color-sdk-muted:       #C4B5FD;
+$color-sdk-subtle:      #F5F3FF;
+
+// Dark-mode accent (legible on $color-dark-canvas)
+$color-accent-on-dark:  #60A5FA;
+
 // Dark surfaces (Labs, diagrams, special sections)
 $color-dark-canvas:     #0F172A;
 $color-dark-surface:    #1E293B;
@@ -50,9 +61,36 @@ $color-dark-text-muted: #94A3B8;
 
 // Status
 $color-success:         #059669;
+$color-success-deep:    #166534;
+$color-success-text:    #15803D;
+$color-success-subtle:  #F0FDF4;
+$color-success-muted:   #BBF7D0;
+$color-success-soft:    #DCFCE7;
+
 $color-warning:         #D97706;
+$color-warning-soft:    #FEF3C7;
+$color-warning-muted:   #FDE68A;
+$color-warning-deep:    #92400E;
+
 $color-error:           #DC2626;
+
 $color-info:            #2563EB;
+
+// Badge tints. These exist so maturity/domain badges read as one family
+// rather than as a set of unrelated one-off chips.
+$color-sky-subtle:      #E0F2FE;   // experimental / modernize / software
+$color-sky-muted:       #BAE6FD;
+$color-sky-deep:        #0369A1;
+$color-sky-dark:        #0C4A6E;   // data
+
+$color-orange-subtle:   #FFF7ED;   // optimization
+$color-orange-muted:    #FED7AA;
+$color-orange-deep:     #C2410C;
+
+// Code-panel traffic-light dots (chrome for the dark code surface, not a status)
+$color-dot-close:       #EF4444;
+$color-dot-min:         #F59E0B;
+$color-dot-max:         #10B981;
 
 // CSS Custom Properties (runtime theming support)
 :root {
@@ -72,6 +110,7 @@ $color-info:            #2563EB;
   --color-accent:          #{$color-accent};
   --color-accent-dark:     #{$color-accent-dark};
   --color-accent-deep:     #{$color-accent-deep};
+  --color-accent-indigo:   #{$color-accent-indigo};
   --color-accent-soft:     #{$color-accent-soft};
   --color-accent-subtle:   #{$color-accent-subtle};
   --color-accent-muted:    #{$color-accent-muted};
@@ -86,6 +125,16 @@ $color-info:            #2563EB;
   --color-labs-subtle:     #{$color-labs-subtle};
   --color-labs-glow:       #{$color-labs-glow};
 
+  // SDK accent (Violet) — the QuantsMind SDK identity, distinct from Blue and Teal
+  --color-sdk:             #{$color-sdk};
+  --color-sdk-deep:        #{$color-sdk-deep};
+  --color-sdk-soft:        #{$color-sdk-soft};
+  --color-sdk-muted:       #{$color-sdk-muted};
+  --color-sdk-subtle:      #{$color-sdk-subtle};
+
+  // Accent legible on dark surfaces
+  --color-accent-on-dark:  #{$color-accent-on-dark};
+
   --color-dark-canvas:     #{$color-dark-canvas};
   --color-dark-surface:    #{$color-dark-surface};
   --color-dark-border:     #{$color-dark-border};
@@ -93,8 +142,33 @@ $color-info:            #2563EB;
   --color-dark-text-muted: #{$color-dark-text-muted};
 
   --color-success:         #{$color-success};
+  --color-success-deep:    #{$color-success-deep};
+  --color-success-text:    #{$color-success-text};
+  --color-success-subtle:  #{$color-success-subtle};
+  --color-success-muted:   #{$color-success-muted};
+  --color-success-soft:    #{$color-success-soft};
+
   --color-warning:         #{$color-warning};
+  --color-warning-soft:    #{$color-warning-soft};
+  --color-warning-muted:   #{$color-warning-muted};
+  --color-warning-deep:    #{$color-warning-deep};
+
   --color-error:           #{$color-error};
+
+  --color-info:            #{$color-info};
+
+  --color-sky-subtle:      #{$color-sky-subtle};
+  --color-sky-muted:       #{$color-sky-muted};
+  --color-sky-deep:        #{$color-sky-deep};
+  --color-sky-dark:        #{$color-sky-dark};
+
+  --color-orange-subtle:   #{$color-orange-subtle};
+  --color-orange-muted:    #{$color-orange-muted};
+  --color-orange-deep:     #{$color-orange-deep};
+
+  --color-dot-close:       #{$color-dot-close};
+  --color-dot-min:         #{$color-dot-min};
+  --color-dot-max:         #{$color-dot-max};
 }
 
 // ------------------------------------------------------------

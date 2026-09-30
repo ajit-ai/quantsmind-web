@@ -40,8 +40,11 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
               <div class="form-success" role="alert">
                 <div class="form-success__icon" aria-hidden="true">
                   <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
-                    <circle cx="16" cy="16" r="16" fill="#DCFCE7"/>
-                    <path d="M10 16.5l4 4 8-8" stroke="#166534" stroke-width="2"
+                    <!-- Colours are set via style="" because var() does not resolve
+                         inside SVG presentation attributes. -->
+                    <circle cx="16" cy="16" r="16" style="fill: var(--color-success-soft)"/>
+                    <path d="M10 16.5l4 4 8-8" stroke-width="2"
+                      style="stroke: var(--color-success-deep)"
                       stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                   </div>
@@ -107,7 +110,8 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                             </select>
                             <svg class="form-select-icon" aria-hidden="true" width="16" height="16"
                               viewBox="0 0 16 16" fill="none">
-                              <path d="M4 6l4 4 4-4" stroke="#64748B" stroke-width="1.5"
+                              <path d="M4 6l4 4 4-4" stroke-width="1.5"
+                                style="stroke: var(--color-text-muted)"
                                 stroke-linecap="round" stroke-linejoin="round"/>
                               </svg>
                             </div>
@@ -240,7 +244,7 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                 </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
+    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 760px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
@@ -252,28 +256,40 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
 
     /* Form column */
     .contact-form-col h2 { margin: 0 0 8px; }
-    .contact-form-intro { font-size: 15px; color: #475569; line-height: 1.6; margin: 0 0 32px; }
+    .contact-form-intro {
+      font-size: 15px; color: var(--color-text-secondary); line-height: 1.6; margin: 0 0 32px;
+    }
 
     .contact-form { display: flex; flex-direction: column; gap: 20px; }
     .form-row { display: grid; grid-template-columns: 1fr; gap: 20px; }
     @media (min-width: 640px) { .form-row { grid-template-columns: repeat(2, 1fr); } }
 
     .form-group { display: flex; flex-direction: column; gap: 6px; }
-    .form-label { font-size: 13px; font-weight: 600; color: #374151; letter-spacing: 0.01em; }
-    .form-required { color: #DC2626; margin-left: 2px; }
+    .form-label {
+      font-size: 13px; font-weight: 600; color: var(--color-text-primary); letter-spacing: 0.01em;
+    }
+    .form-required { color: var(--color-error); margin-left: 2px; }
 
     .form-input, .form-select, .form-textarea {
-      font-family: inherit; font-size: 15px; color: #111827;
-      background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 8px;
+      font-family: inherit; font-size: 15px; color: var(--color-text-primary);
+      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px;
       padding: 12px 14px; width: 100%;
-      transition: border-color 150ms ease, box-shadow 150ms ease;
+      transition: border-color var(--duration-fast) var(--easing-standard),
+                  box-shadow var(--duration-fast) var(--easing-standard);
       -webkit-appearance: none; appearance: none;
     }
-    .form-input::placeholder, .form-select::placeholder, .form-textarea::placeholder { color: #94A3B8; }
+    .form-input::placeholder,
+    .form-select::placeholder,
+    .form-textarea::placeholder { color: var(--color-text-muted); }
+
     .form-input:focus, .form-select:focus, .form-textarea:focus {
-      outline: none; border-color: #2563EB; box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+      outline: none; border-color: var(--color-accent);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, .1);
     }
-    .form-input--error { border-color: #DC2626; box-shadow: 0 0 0 3px rgba(220,38,38,.08); }
+    .form-input--error {
+      border-color: var(--color-error);
+      box-shadow: 0 0 0 3px rgba(220, 38, 38, .08);
+    }
 
     .form-select-wrapper { position: relative; }
     .form-select { padding-right: 36px; cursor: pointer; }
@@ -281,90 +297,107 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
       position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none;
     }
     .form-textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
-    .form-error { font-size: 12px; color: #DC2626; font-weight: 500; }
+    .form-error { font-size: 12px; color: var(--color-error); font-weight: 500; }
 
-    .contact-email-note { font-size: 13px; color: #64748B; margin: 20px 0 0; }
-    .contact-email-link { color: #2563EB; text-decoration: none; font-weight: 500; }
+    .contact-email-note { font-size: 13px; color: var(--color-text-muted); margin: 20px 0 0; }
+    .contact-email-link { color: var(--color-accent); text-decoration: none; font-weight: 500; }
     .contact-email-link:hover { text-decoration: underline; }
 
     .form-success {
       display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
-      padding: 32px; background: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 12px;
+      padding: 32px; background: var(--color-success-subtle);
+      border: 1px solid var(--color-success-muted); border-radius: var(--card-radius);
     }
-    .form-success__title { font-size: 18px; font-weight: 600; color: #166534; margin: 0; }
-    .form-success__text  { font-size: 14px; color: #15803D; line-height: 1.6; margin: 0; }
+    .form-success__title {
+      font-size: 18px; font-weight: 600; color: var(--color-success-deep); margin: 0;
+    }
+    .form-success__text {
+      font-size: 14px; color: var(--color-success-text); line-height: 1.6; margin: 0;
+    }
 
     /* Sidebar */
     .contact-sidebar { display: flex; flex-direction: column; gap: 24px; }
 
     .sidebar-entry-points { display: flex; flex-direction: column; gap: 12px; }
     .sidebar-entry {
-      padding: 20px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 10px;
+      padding: 20px; background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border); border-radius: 10px;
       display: flex; flex-direction: column; gap: 8px;
     }
-    .sidebar-entry__title { font-size: 15px; font-weight: 600; color: #111827; margin: 0; }
-    .sidebar-entry__desc  { font-size: 13px; color: #475569; line-height: 1.5; margin: 0; }
+    .sidebar-entry__title {
+      font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin: 0;
+    }
+    .sidebar-entry__desc  { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin: 0; }
 
     .sidebar-next {
-      padding: 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 24px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
     }
     .sidebar-next__heading {
-      font-size: 15px; font-weight: 600; color: #111827;
-      margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid #F1F5F9;
+      font-size: 15px; font-weight: 600; color: var(--color-text-primary);
+      margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--color-surface-subtle);
     }
-    .sidebar-next__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+    .sidebar-next__list {
+      list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column;
+    }
     .sidebar-next__item {
       display: flex; gap: 12px; align-items: flex-start;
-      padding: 12px 0; border-bottom: 1px solid #F8FAFC;
+      padding: 12px 0; border-bottom: 1px solid var(--color-canvas);
     }
     .sidebar-next__item:last-child { border-bottom: none; padding-bottom: 0; }
     .sidebar-next__num {
       width: 24px; height: 24px; border-radius: 50%;
-      background: #EFF6FF; color: #2563EB; font-size: 12px; font-weight: 700;
+      background: var(--mark-bg); color: var(--mark-color);
+      font-size: 12px; font-weight: 700;
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
-    .sidebar-next__step-title { font-size: 13px; font-weight: 600; color: #111827; margin-bottom: 2px; }
-    .sidebar-next__step-desc  { font-size: 12px; color: #64748B; line-height: 1.5; }
+    .sidebar-next__step-title {
+      font-size: 13px; font-weight: 600; color: var(--color-text-primary); margin-bottom: 2px;
+    }
+    .sidebar-next__step-desc  { font-size: 12px; color: var(--color-text-muted); line-height: 1.5; }
 
     /* Details block */
     .sidebar-details {
-      padding: 24px; background: #FFFFFF; border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 24px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
     }
     .sidebar-details__heading {
-      font-size: 15px; font-weight: 600; color: #111827;
-      margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid #F1F5F9;
+      font-size: 15px; font-weight: 600; color: var(--color-text-primary);
+      margin: 0 0 16px; padding-bottom: 12px; border-bottom: 1px solid var(--color-surface-subtle);
     }
     .sidebar-details__item {
       display: flex; gap: 12px; align-items: flex-start;
-      padding: 12px 0; border-bottom: 1px solid #F8FAFC;
+      padding: 12px 0; border-bottom: 1px solid var(--color-canvas);
     }
     .sidebar-details__item:last-child { border-bottom: none; padding-bottom: 0; }
     .sidebar-details__icon {
       width: 32px; height: 32px; border-radius: 8px;
-      background: #EFF6FF; color: #2563EB;
+      background: var(--mark-bg); color: var(--mark-color);
       display: flex; align-items: center; justify-content: center; flex-shrink: 0;
     }
     .sidebar-details__content { display: flex; flex-direction: column; gap: 2px; }
     .sidebar-details__label {
       font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
-      text-transform: uppercase; color: #94A3B8;
+      text-transform: uppercase; color: var(--color-text-muted);
     }
     .sidebar-details__address {
-      font-size: 13px; color: #475569; line-height: 1.7;
+      font-size: 13px; color: var(--color-text-secondary); line-height: 1.7;
       font-style: normal; margin: 0;
     }
     .sidebar-details__link {
-      font-size: 13px; color: #2563EB; text-decoration: none; font-weight: 500;
+      font-size: 13px; color: var(--color-accent); text-decoration: none; font-weight: 500;
     }
     .sidebar-details__link:hover { text-decoration: underline; }
-    .sidebar-details__link:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; border-radius: 2px; }
+    .sidebar-details__link:focus-visible {
+      outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 2px;
+    }
 
     .eyebrow {
       display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase; color: #2563EB; margin-bottom: 16px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 16px;
     }
-    .lead { font-size: 18px; line-height: 1.7; color: #475569; }
+    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
   `]
 })
 export class ContactComponent {

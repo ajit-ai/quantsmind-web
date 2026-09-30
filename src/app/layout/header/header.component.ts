@@ -366,7 +366,10 @@ interface SearchEntry {
 
     .qm-header__accent {
       height: 2px;
-      background: linear-gradient(90deg, #2563EB, #7C3AED, #06B6D4);
+      background: linear-gradient(90deg,
+        var(--color-accent),
+        var(--color-sdk),
+        var(--color-labs));
     }
 
     .qm-header__inner {
@@ -393,7 +396,7 @@ interface SearchEntry {
       justify-content: center;
       width: 38px;
       height: 38px;
-      background: linear-gradient(135deg, #2563EB, #4F46E5);
+      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-indigo));
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
     }

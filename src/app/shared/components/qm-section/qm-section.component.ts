@@ -35,11 +35,11 @@ export type SectionSurface = 'canvas' | 'white' | 'subtle' | 'accent' | 'dark';
       .qm-section--lg { padding-top: 128px; padding-bottom: 128px; }
     }
 
-    .surface-canvas  { background-color: #F8FAFC; }
-    .surface-white   { background-color: #FFFFFF; }
-    .surface-subtle  { background-color: #F1F5F9; }
-    .surface-accent  { background-color: #EFF6FF; }
-    .surface-dark    { background-color: #0F172A; color: #F1F5F9; }
+    .surface-canvas  { background-color: var(--color-canvas); }
+    .surface-white   { background-color: var(--color-surface); }
+    .surface-subtle  { background-color: var(--color-surface-subtle); }
+    .surface-accent  { background-color: var(--color-accent-subtle); }
+    .surface-dark    { background-color: var(--color-dark-canvas); color: var(--color-dark-text); }
   `]
 })
 export class QmSectionComponent {

@@ -36,33 +36,33 @@ export type BadgeVariant =
     }
 
     /* Default */
-    .qm-badge--default       { background: #F1F5F9; color: #475569; border-color: #CBD5E1; }
+    .qm-badge--default       { background: var(--color-surface-subtle); color: var(--color-text-secondary); border-color: var(--color-border-strong); }
 
     /* Maturity states */
-    .qm-badge--concept       { background: #F1F5F9; color: #475569; border-color: #CBD5E1; }
-    .qm-badge--research      { background: #FEF3C7; color: #92400E; border-color: #FDE68A; }
-    .qm-badge--experimental  { background: #E0F2FE; color: #0369A1; border-color: #BAE6FD; }
-    .qm-badge--prototype     { background: #F3E8FF; color: #7C3AED; border-color: #DDD6FE; }
-    .qm-badge--development   { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
-    .qm-badge--early-access  { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
-    .qm-badge--product       { background: #2563EB; color: #FFFFFF; border-color: transparent; }
+    .qm-badge--concept       { background: var(--color-surface-subtle); color: var(--color-text-secondary); border-color: var(--color-border-strong); }
+    .qm-badge--research      { background: var(--color-warning-soft); color: var(--color-warning-deep); border-color: var(--color-warning-muted); }
+    .qm-badge--experimental  { background: var(--color-sky-subtle); color: var(--color-sky-deep); border-color: var(--color-sky-muted); }
+    .qm-badge--prototype     { background: var(--color-sdk-subtle); color: var(--color-sdk-deep); border-color: var(--color-sdk-muted); }
+    .qm-badge--development   { background: var(--color-success-subtle); color: var(--color-success-deep); border-color: var(--color-success-muted); }
+    .qm-badge--early-access  { background: var(--color-accent-subtle); color: var(--color-accent-dark); border-color: var(--color-accent-muted); }
+    .qm-badge--product       { background: var(--color-accent); color: var(--color-text-inverse); border-color: transparent; }
 
     /* Released / stable — a public, versioned release (distinct from 'development',
        which describes work still in progress). */
-    .qm-badge--stable        { background: #166534; color: #FFFFFF; border-color: transparent; }
+    .qm-badge--stable        { background: var(--color-success-deep); color: var(--color-text-inverse); border-color: transparent; }
 
     /* Domain categories */
-    .qm-badge--ai            { background: #EDE9FE; color: #5B21B6; border-color: #DDD6FE; }
-    .qm-badge--data          { background: #E0F2FE; color: #0C4A6E; border-color: #BAE6FD; }
-    .qm-badge--cloud         { background: #ECFDF5; color: #065F46; border-color: #A7F3D0; }
-    .qm-badge--software      { background: #F0F9FF; color: #0369A1; border-color: #BAE6FD; }
-    .qm-badge--quantum       { background: #0F172A; color: #94A3B8; border-color: #334155; }
-    .qm-badge--optimization  { background: #FFF7ED; color: #C2410C; border-color: #FED7AA; }
+    .qm-badge--ai            { background: var(--color-sdk-subtle); color: var(--color-sdk-deep); border-color: var(--color-sdk-muted); }
+    .qm-badge--data          { background: var(--color-sky-subtle); color: var(--color-sky-dark); border-color: var(--color-sky-muted); }
+    .qm-badge--cloud         { background: var(--color-labs-subtle); color: var(--color-labs-dark); border-color: var(--color-labs-muted); }
+    .qm-badge--software      { background: #F0F9FF; color: var(--color-sky-deep); border-color: var(--color-sky-muted); }
+    .qm-badge--quantum       { background: var(--color-dark-canvas); color: var(--color-dark-text-muted); border-color: var(--color-dark-border); }
+    .qm-badge--optimization  { background: var(--color-orange-subtle); color: var(--color-orange-deep); border-color: var(--color-orange-muted); }
 
     /* Entry-point tags */
-    .qm-badge--build         { background: #EFF6FF; color: #2563EB; border-color: #BFDBFE; }
-    .qm-badge--modernize     { background: #E0F2FE; color: #0369A1; border-color: #BAE6FD; }
-    .qm-badge--explore       { background: #EDE9FE; color: #5B21B6; border-color: #DDD6FE; }
+    .qm-badge--build         { background: var(--color-accent-subtle); color: var(--color-accent); border-color: var(--color-accent-muted); }
+    .qm-badge--modernize     { background: var(--color-sky-subtle); color: var(--color-sky-deep); border-color: var(--color-sky-muted); }
+    .qm-badge--explore       { background: var(--color-sdk-subtle); color: var(--color-sdk-deep); border-color: var(--color-sdk-muted); }
   `]
 })
 export class QmBadgeComponent {

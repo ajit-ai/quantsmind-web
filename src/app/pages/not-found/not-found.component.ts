@@ -32,7 +32,7 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
     styles: [`
     .not-found {
       min-height: 70vh; display: flex; align-items: center;
-      padding: 96px 0; background: #F8FAFC;
+      padding: 96px 0; background: var(--color-canvas);
     }
     .not-found__inner {
       display: flex; flex-direction: column; align-items: flex-start; gap: 20px;
@@ -40,15 +40,15 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
     }
     .not-found__code {
       font-size: 80px; font-weight: 700; line-height: 1;
-      color: #E2E8F0; letter-spacing: -0.04em;
+      color: var(--color-border); letter-spacing: -0.04em;
       user-select: none;
     }
     .not-found__title {
       font-size: clamp(28px, 4vw, 44px); font-weight: 700;
-      color: #111827; margin: 0; letter-spacing: -0.02em;
+      color: var(--color-text-primary); margin: 0; letter-spacing: -0.02em;
     }
     .not-found__desc {
-      font-size: 17px; line-height: 1.7; color: #475569; margin: 0;
+      font-size: 17px; line-height: 1.7; color: var(--color-text-secondary); margin: 0;
     }
     .not-found__actions { display: flex; gap: 12px; flex-wrap: wrap; }
   `]

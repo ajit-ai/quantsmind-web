@@ -127,14 +127,14 @@ interface ServiceArea {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
+    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
 
     .services-intro {
       max-width: 680px; margin: 0 0 36px;
-      font-size: 16px; line-height: 1.7; color: #475569;
+      font-size: 16px; line-height: 1.7; color: var(--color-text-secondary);
     }
 
     /* ── TABS ── */
@@ -144,9 +144,9 @@ interface ServiceArea {
       gap: 10px;
       margin: 0 0 36px;
       padding: 10px;
-      background: #F8FAFC;
-      border: 1px solid #E2E8F0;
-      border-radius: 12px;
+      background: var(--color-canvas);
+      border: 1px solid var(--card-border);
+      border-radius: var(--card-radius);
     }
     @media (min-width: 768px)  { .svc-tabs { grid-template-columns: repeat(3, 1fr); } }
     @media (min-width: 1200px) { .svc-tabs { grid-template-columns: repeat(6, 1fr); } }
@@ -160,30 +160,34 @@ interface ServiceArea {
       cursor: pointer;
       font-family: inherit;
       text-align: center;
-      transition: background-color 150ms ease, border-color 150ms ease;
+      transition: background-color var(--duration-fast) var(--easing-standard),
+                  border-color var(--duration-fast) var(--easing-standard);
     }
-    .svc-tab:hover { background: #FFFFFF; border-color: #E2E8F0; }
+    .svc-tab:hover { background: var(--card-bg); border-color: var(--card-border); }
     .svc-tab--active {
-      background: #FFFFFF;
-      border-color: #BFDBFE;
+      background: var(--card-bg);
+      border-color: var(--card-border-hi);
       box-shadow: 0 2px 10px rgba(37, 99, 235, 0.10);
     }
     .svc-tab__icon {
       width: 40px; height: 40px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      background: #EFF6FF; border-radius: 10px; color: #2563EB;
-      transition: background-color 150ms ease, color 150ms ease;
+      background: var(--mark-bg); border-radius: 10px; color: var(--mark-color);
+      transition: background-color var(--duration-fast) var(--easing-standard),
+                  color var(--duration-fast) var(--easing-standard);
     }
-    .svc-tab--active .svc-tab__icon { background: #2563EB; color: #FFFFFF; }
-    .svc-tab__label { font-size: 13px; font-weight: 500; color: #334155; line-height: 1.3; }
-    .svc-tab--active .svc-tab__label { font-weight: 600; color: #111827; }
-    .svc-tab:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; }
+    .svc-tab--active .svc-tab__icon { background: var(--color-accent); color: var(--color-text-inverse); }
+    .svc-tab__label {
+      font-size: 13px; font-weight: 500; color: var(--color-text-secondary); line-height: 1.3;
+    }
+    .svc-tab--active .svc-tab__label { font-weight: 600; color: var(--color-text-primary); }
+    .svc-tab:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
     /* ── DETAIL PANEL ── */
     .svc-panel { scroll-margin-top: 96px; }
     .svc-detail {
-      background: #FFFFFF;
-      border: 1px solid #E2E8F0;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 14px;
       padding: 28px;
     }
@@ -196,10 +200,13 @@ interface ServiceArea {
     .svc-detail__icon {
       width: 52px; height: 52px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      background: #EFF6FF; border-radius: 12px; color: #2563EB;
+      background: var(--mark-bg); border-radius: var(--radius-md); color: var(--mark-color);
     }
-    .svc-detail__title { font-size: clamp(24px, 3vw, 30px); font-weight: 700; color: #111827; margin: 0 0 8px; letter-spacing: -0.02em; }
-    .svc-detail__short { margin: 0; font-size: 16px; line-height: 1.7; color: #475569; }
+    .svc-detail__title {
+      font-size: clamp(24px, 3vw, 30px); font-weight: 700;
+      color: var(--color-text-primary); margin: 0 0 8px; letter-spacing: -0.02em;
+    }
+    .svc-detail__short { margin: 0; font-size: 16px; line-height: 1.7; color: var(--color-text-secondary); }
 
     .svc-detail__grid {
       display: grid; grid-template-columns: 1fr; gap: 24px;
@@ -211,25 +218,28 @@ interface ServiceArea {
       margin: 0 0 12px;
       font-size: 13px; font-weight: 600;
       letter-spacing: 0.07em; text-transform: uppercase;
-      color: #2563EB;
+      color: var(--color-accent);
     }
-    .svc-detail__list { margin: 0; padding-left: 20px; color: #475569; }
+    .svc-detail__list { margin: 0; padding-left: 20px; color: var(--color-text-secondary); }
     .svc-detail__list li { margin-bottom: 8px; line-height: 1.6; font-size: 15px; }
     .svc-detail__list li:last-child { margin-bottom: 0; }
 
     .svc-detail__context { margin-bottom: 24px; }
-    .svc-detail__context p { margin: 0; max-width: 720px; color: #475569; font-size: 15px; line-height: 1.7; text-wrap: pretty; }
+    .svc-detail__context p {
+      margin: 0; max-width: 720px; color: var(--color-text-secondary);
+      font-size: 15px; line-height: 1.7; text-wrap: pretty;
+    }
 
     .svc-detail__outcome {
       margin: 0 0 24px;
       padding: 14px 18px;
-      background: #F8FAFC;
-      border-left: 3px solid #2563EB;
+      background: var(--card-bg-subtle);
+      border-left: 3px solid var(--color-accent);
       border-radius: 0 8px 8px 0;
-      color: #475569;
+      color: var(--color-text-secondary);
       font-size: 15px; line-height: 1.7;
     }
-    .svc-detail__outcome strong { color: #111827; }
+    .svc-detail__outcome strong { color: var(--color-text-primary); }
 
     .svc-detail__cta { display: flex; }
 
@@ -242,9 +252,10 @@ interface ServiceArea {
 
     .eyebrow {
       display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase; color: #2563EB; margin-bottom: 16px;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 16px;
     }
-    .lead { font-size: 18px; line-height: 1.7; color: #475569; margin: 0; }
+    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); margin: 0; }
 
     @media (prefers-reduced-motion: reduce) {
       .svc-tab { transition: none; }

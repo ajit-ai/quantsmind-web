@@ -188,7 +188,7 @@ interface FlowStep {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid #E2E8F0; }
+    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
@@ -196,8 +196,8 @@ interface FlowStep {
 
     .product {
       display: flex; flex-direction: column; gap: 20px;
-      padding: 32px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 16px;
+      padding: 32px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--radius-lg);
     }
     @media (min-width: 768px) { .product { padding: 40px; } }
     .product__head {
@@ -205,26 +205,33 @@ interface FlowStep {
       flex-wrap: wrap; gap: 16px;
     }
     .product__name {
-      font-size: clamp(22px, 2.6vw, 30px); font-weight: 700; color: #111827;
+      font-size: clamp(22px, 2.6vw, 30px); font-weight: 700;
+      color: var(--color-text-primary);
       margin: 0 0 6px; letter-spacing: -0.02em;
     }
-    .product__tagline { font-size: 15px; font-weight: 500; color: #2563EB; margin: 0; }
+    .product__tagline { font-size: 15px; font-weight: 500; color: var(--color-accent); margin: 0; }
     .product__badges { display: flex; flex-wrap: wrap; gap: 8px; }
-    .product__desc { font-size: 16px; line-height: 1.7; color: #475569; margin: 0; max-width: 760px; }
+    .product__desc {
+      font-size: 16px; line-height: 1.7;
+      color: var(--color-text-secondary); margin: 0; max-width: 760px;
+    }
     .product__grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
     @media (min-width: 768px) { .product__grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
     .product__h3 {
       margin: 0 0 12px; font-size: 13px; font-weight: 600;
-      letter-spacing: 0.07em; text-transform: uppercase; color: #2563EB;
+      letter-spacing: 0.07em; text-transform: uppercase; color: var(--color-accent);
     }
-    .product__list { margin: 0; padding-left: 20px; color: #475569; }
+    .product__list { margin: 0; padding-left: 20px; color: var(--color-text-secondary); }
     .product__list li { margin-bottom: 8px; line-height: 1.6; font-size: 15px; }
     .product__list li:last-child { margin-bottom: 0; }
-    .product__body { margin: 0; font-size: 15px; line-height: 1.7; color: #475569; max-width: 420px; }
+    .product__body {
+      margin: 0; font-size: 15px; line-height: 1.7;
+      color: var(--color-text-secondary); max-width: 420px;
+    }
     .product__note {
       margin: 0; padding: 14px 18px; font-size: 14px; line-height: 1.7;
-      color: #475569; background: #FFFFFF;
-      border-left: 3px solid #2563EB; border-radius: 0 8px 8px 0;
+      color: var(--color-text-secondary); background: var(--color-surface);
+      border-left: 3px solid var(--color-accent); border-radius: 0 8px 8px 0;
     }
     .product__note--center { text-align: center; border-left: none; background: none; padding: 16px 0 0; }
     .product__cta { display: flex; flex-wrap: wrap; }
@@ -233,12 +240,14 @@ interface FlowStep {
     @media (min-width: 768px) { .compare { grid-template-columns: 1fr 1fr; } }
     .compare__card {
       display: flex; flex-direction: column; align-items: flex-start; gap: 14px;
-      padding: 32px; background: #FFFFFF;
-      border: 1px solid #E2E8F0; border-radius: 16px;
+      padding: 32px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--radius-lg);
     }
-    .compare__title { font-size: 20px; font-weight: 600; color: #111827; margin: 0; }
-    .compare__body { font-size: 15px; line-height: 1.7; color: #475569; margin: 0; }
-    .compare__list { margin: 0; padding-left: 20px; color: #475569; flex: 1; }
+    .compare__title {
+      font-size: 20px; font-weight: 600; color: var(--color-text-primary); margin: 0;
+    }
+    .compare__body { font-size: 15px; line-height: 1.7; color: var(--color-text-secondary); margin: 0; }
+    .compare__list { margin: 0; padding-left: 20px; color: var(--color-text-secondary); flex: 1; }
     .compare__list li { margin-bottom: 8px; line-height: 1.6; font-size: 15px; }
     .compare__list li:last-child { margin-bottom: 0; }
 
@@ -247,10 +256,12 @@ interface FlowStep {
       justify-content: center; gap: 10px 12px;
     }
     .stages__stage {
-      font-size: 14px; font-weight: 500; color: #0F766E; background: #F0FDFA;
-      border: 1px solid #99F6E4; border-radius: 8px; padding: 10px 18px;
+      font-size: 14px; font-weight: 500;
+      color: var(--color-labs-dark); background: var(--color-labs-subtle);
+      border: 1px solid var(--color-labs-muted); border-radius: var(--radius-sm);
+      padding: 10px 18px;
     }
-    .stages__arrow { color: #94A3B8; font-size: 16px; }
+    .stages__arrow { color: var(--color-text-muted); font-size: 16px; }
 
     .flow-block { max-width: 900px; }
     .flow {
@@ -259,13 +270,15 @@ interface FlowStep {
     @media (min-width: 1024px) { .flow { flex-direction: row; align-items: flex-start; gap: 12px; } }
     .flow__step {
       flex: 1; display: flex; flex-direction: column; gap: 8px;
-      padding: 24px; background: #FFFFFF;
-      border: 1px solid #E2E8F0; border-radius: 12px;
+      padding: 24px; background: var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
     }
-    .flow__title { font-size: 15px; font-weight: 600; color: #111827; margin: 0; }
-    .flow__body { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; }
+    .flow__title {
+      font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin: 0;
+    }
+    .flow__body { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; }
     .flow__arrow {
-      color: #94A3B8; font-size: 18px; line-height: 1;
+      color: var(--color-text-muted); font-size: 18px; line-height: 1;
       text-align: center; flex-shrink: 0;
     }
     @media (min-width: 1024px) { .flow__arrow { padding-top: 32px; } }

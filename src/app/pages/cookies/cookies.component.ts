@@ -8,23 +8,23 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
     imports: [RouterModule, QmContainerComponent, QmSectionComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="legal-hero surface-subtle">
+    <section class="qm-legal-hero surface-subtle">
       <qm-container size="narrow">
-        <div class="legal-hero__breadcrumb">
+        <div class="qm-legal-crumb">
           <a routerLink="/">Home</a>
           <span aria-hidden="true">›</span>
           <span>Cookie Policy</span>
         </div>
         <h1>Cookie Policy</h1>
-        <p class="legal-meta">Last updated: 15 August 2025</p>
+        <p class="qm-legal-meta">Last updated: 15 August 2025</p>
       </qm-container>
     </section>
 
     <qm-section surface="white">
       <qm-container size="narrow">
-        <div class="legal-body">
+        <div class="qm-legal-body">
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>1. What Are Cookies?</h2>
             <p>
               Cookies are small text files that are placed on your device when you visit
@@ -39,7 +39,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>2. How We Use Cookies</h2>
             <p>
               The QuantsMind website is designed to be lightweight and privacy-conscious.
@@ -49,7 +49,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>3. Cookies We Use</h2>
 
             <div class="cookie-table-wrapper">
@@ -91,7 +91,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </div>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>4. Third-Party Services</h2>
             <p>
               Our website loads the Inter typeface from Google Fonts. This involves
@@ -109,7 +109,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>5. Managing Cookies</h2>
             <p>
               You can control and manage cookies through your browser settings.
@@ -138,7 +138,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </ul>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>6. Changes to This Policy</h2>
             <p>
               We may update this Cookie Policy from time to time. Changes will be
@@ -147,12 +147,12 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>7. Contact</h2>
             <p>
               If you have any questions about our use of cookies, please contact us:
             </p>
-            <address class="legal-address">
+            <address class="qm-legal-address">
               QuantsMind<br>
               28, Shikargarh, Jodhpur – 342015<br>
               Rajasthan, India<br>
@@ -165,59 +165,32 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
     </qm-section>
   `,
     styles: [`
-    .legal-hero { padding: 64px 0 48px; border-bottom: 1px solid #E2E8F0; }
-    .legal-hero h1 { margin: 8px 0 8px; }
-    .legal-meta { font-size: 13px; color: #94A3B8; margin: 0; }
-    .legal-hero__breadcrumb {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: #64748B; margin-bottom: 16px;
-    }
-    .legal-hero__breadcrumb a { color: #2563EB; text-decoration: none; }
-    .legal-hero__breadcrumb a:hover { text-decoration: underline; }
-    .legal-body { display: flex; flex-direction: column; }
-    .legal-section { padding: 32px 0; border-bottom: 1px solid #F1F5F9; }
-    .legal-section:first-child { padding-top: 0; }
-    .legal-section:last-child  { border-bottom: none; }
-    .legal-section h2 { font-size: 20px; font-weight: 600; color: #111827; margin: 0 0 16px; letter-spacing: -0.01em; }
-    .legal-section p  { font-size: 15px; line-height: 1.75; color: #475569; margin: 0 0 14px; }
-    .legal-section p:last-child { margin: 0; }
-    .legal-section ul { margin: 0 0 14px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
-    .legal-section li { font-size: 15px; color: #475569; line-height: 1.65; }
-    .legal-section a  { color: #2563EB; }
-    .legal-section a:hover { text-decoration: underline; }
-
     /* Cookie table */
     .cookie-table-wrapper { overflow-x: auto; margin: 16px 0; }
     .cookie-table {
       width: 100%; border-collapse: collapse;
-      font-size: 14px; color: #475569;
+      font-size: 14px; color: var(--color-text-secondary);
     }
     .cookie-table th {
       font-size: 12px; font-weight: 600;
       letter-spacing: 0.06em; text-transform: uppercase;
-      color: #64748B; text-align: left;
-      padding: 10px 14px; background: #F8FAFC;
-      border: 1px solid #E2E8F0;
+      color: var(--color-text-muted); text-align: left;
+      padding: 10px 14px; background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border);
     }
     .cookie-table td {
-      padding: 14px; border: 1px solid #E2E8F0;
+      padding: 14px; border: 1px solid var(--card-border);
       line-height: 1.6; vertical-align: top;
     }
-    .cookie-table tr:hover td { background: #FAFBFC; }
+    .cookie-table tr:hover td { background: var(--color-canvas); }
 
     .cookie-note {
-      font-size: 14px; color: #475569; line-height: 1.6;
-      padding: 16px 20px; background: #F0FDF4;
-      border: 1px solid #BBF7D0; border-radius: 8px;
+      font-size: 14px; color: var(--color-text-secondary); line-height: 1.6;
+      padding: 16px 20px; background: var(--color-success-subtle);
+      border: 1px solid var(--color-success-muted); border-radius: var(--radius-sm);
       margin-top: 16px;
     }
-    .cookie-note strong { color: #166534; }
-
-    .legal-address {
-      font-size: 14px; color: #475569; line-height: 1.8; font-style: normal;
-      margin: 16px 0; padding: 16px 20px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 8px; display: inline-block;
-    }
+    .cookie-note strong { color: var(--color-success-deep); }
   `]
 })
 export class CookiesComponent {}

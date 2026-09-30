@@ -8,23 +8,23 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
     imports: [RouterModule, QmContainerComponent, QmSectionComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="legal-hero surface-subtle">
+    <section class="qm-legal-hero surface-subtle">
       <qm-container size="narrow">
-        <div class="legal-hero__breadcrumb">
+        <div class="qm-legal-crumb">
           <a routerLink="/">Home</a>
           <span aria-hidden="true">›</span>
           <span>Terms of Use</span>
         </div>
         <h1>Terms of Use</h1>
-        <p class="legal-meta">Last updated: 15 August 2025</p>
+        <p class="qm-legal-meta">Last updated: 15 August 2025</p>
       </qm-container>
     </section>
 
     <qm-section surface="white">
       <qm-container size="narrow">
-        <div class="legal-body">
+        <div class="qm-legal-body">
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>1. Acceptance of Terms</h2>
             <p>
               By accessing and using the QuantsMind website at
@@ -40,12 +40,12 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>2. About QuantsMind</h2>
             <p>
               QuantsMind is a technology engineering company operating from:
             </p>
-            <address class="legal-address">
+            <address class="qm-legal-address">
               28, Shikargarh<br>
               Jodhpur – 342015<br>
               Rajasthan, India<br>
@@ -53,7 +53,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </address>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>3. Use of the Website</h2>
             <h3>3.1 Permitted Use</h3>
             <p>
@@ -78,7 +78,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </ul>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>4. Intellectual Property</h2>
             <p>
               All content on this Website — including text, graphics, diagrams, logos,
@@ -97,7 +97,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>5. Disclaimer of Warranties</h2>
             <p>
               The Website and its content are provided on an "as is" and "as available"
@@ -113,7 +113,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>6. Limitation of Liability</h2>
             <p>
               To the maximum extent permitted by applicable law, QuantsMind shall not
@@ -128,7 +128,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>7. Third-Party Links</h2>
             <p>
               Our Website may contain links to third-party websites, including LinkedIn
@@ -140,7 +140,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>8. Privacy</h2>
             <p>
               Your use of this Website is also governed by our
@@ -151,7 +151,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>9. Governing Law and Jurisdiction</h2>
             <p>
               These Terms of Use are governed by and construed in accordance with
@@ -161,12 +161,12 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="legal-section">
+          <section class="qm-legal-section">
             <h2>10. Contact</h2>
             <p>
               If you have any questions about these Terms of Use, please contact us at:
             </p>
-            <address class="legal-address">
+            <address class="qm-legal-address">
               QuantsMind<br>
               28, Shikargarh, Jodhpur – 342015<br>
               Rajasthan, India<br>
@@ -177,34 +177,6 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
         </div>
       </qm-container>
     </qm-section>
-  `,
-    styles: [`
-    .legal-hero { padding: 64px 0 48px; border-bottom: 1px solid #E2E8F0; }
-    .legal-hero h1 { margin: 8px 0 8px; }
-    .legal-meta { font-size: 13px; color: #94A3B8; margin: 0; }
-    .legal-hero__breadcrumb {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 13px; color: #64748B; margin-bottom: 16px;
-    }
-    .legal-hero__breadcrumb a { color: #2563EB; text-decoration: none; }
-    .legal-hero__breadcrumb a:hover { text-decoration: underline; }
-    .legal-body { display: flex; flex-direction: column; }
-    .legal-section { padding: 32px 0; border-bottom: 1px solid #F1F5F9; }
-    .legal-section:first-child { padding-top: 0; }
-    .legal-section:last-child  { border-bottom: none; }
-    .legal-section h2 { font-size: 20px; font-weight: 600; color: #111827; margin: 0 0 16px; letter-spacing: -0.01em; }
-    .legal-section h3 { font-size: 15px; font-weight: 600; color: #111827; margin: 20px 0 8px; }
-    .legal-section p  { font-size: 15px; line-height: 1.75; color: #475569; margin: 0 0 14px; }
-    .legal-section p:last-child { margin: 0; }
-    .legal-section ul { margin: 0 0 14px; padding-left: 20px; display: flex; flex-direction: column; gap: 8px; }
-    .legal-section li { font-size: 15px; color: #475569; line-height: 1.65; }
-    .legal-section a  { color: #2563EB; }
-    .legal-section a:hover { text-decoration: underline; }
-    .legal-address {
-      font-size: 14px; color: #475569; line-height: 1.8; font-style: normal;
-      margin: 16px 0; padding: 16px 20px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 8px; display: inline-block;
-    }
-  `]
+  `
 })
 export class TermsComponent {}

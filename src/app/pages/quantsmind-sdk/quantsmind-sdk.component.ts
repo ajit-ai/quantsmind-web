@@ -22,17 +22,18 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
       <qm-container>
         <a routerLink="/technology" class="sdk-back">&larr; Technology Ecosystem</a>
         <div class="sdk-badges">
-          <qm-badge variant="development">v1.1.0</qm-badge>
-          <qm-badge variant="prototype">Architecture Foundation</qm-badge>
+          <qm-badge variant="stable">v1.1.0</qm-badge>
+          <qm-badge variant="stable">Production/Stable</qm-badge>
           <qm-badge variant="software">Python</qm-badge>
         </div>
         <h1 class="sdk-title">QuantsMind SDK</h1>
-        <p class="sdk-tagline">A general-purpose Python foundation for building intelligent systems and future QuantsMind technologies.</p>
+        <p class="sdk-tagline">A universal, vendor-independent scientific computing SDK.</p>
         <p class="sdk-lead">
-          QuantsMind SDK is an open, reusable engineering foundation — not a finished
-          commercial product. It establishes a coherent, first-principles model for
-          representing systems, entities, interactions and knowledge as a shared base
-          layer for the broader QuantsMind technology ecosystem.
+          QuantsMind SDK is an open Python SDK for scientific computing. Version 1.1.0 is a
+          stable public release with implemented functionality across mathematics,
+          chemistry, biology, astronomy, cosmology, finance, AI agents, knowledge graphs
+          and a compiler front-end, organised around a first-principles model for
+          representing systems, entities, interactions and knowledge.
         </p>
         <div class="sdk-cta">
           <qm-button variant="primary" size="lg" [href]="'https://github.com/ajit-ai/quantsmind-quantum-sdk'" [target]="'_blank'" [ariaLabel]="'View QuantsMind SDK on GitHub (opens in a new tab)'">
@@ -44,8 +45,8 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         </div>
         <ul class="sdk-meta" aria-label="QuantsMind SDK at a glance">
           <li><span class="sdk-chip sdk-chip--violet">Python 3.13+</span></li>
-          <li><span class="sdk-chip">v1.1.0 Architecture Foundation</span></li>
-          <li><span class="sdk-chip">35-package direction</span></li>
+          <li><span class="sdk-chip">v1.1.0 Stable Release</span></li>
+          <li><span class="sdk-chip">Package: quantsmind</span></li>
           <li><span class="sdk-chip">Entity → State → Interaction</span></li>
           <li><span class="sdk-chip">Observation → Knowledge</span></li>
         </ul>
@@ -59,10 +60,10 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         <h2 class="sdk-h2">What is QuantsMind SDK?</h2>
         <div class="sdk-body">
           <p>
-            QuantsMind SDK is a general-purpose Python SDK designed as a reusable engineering
-            foundation. It provides a conceptual and structural layer for modelling systems and
-            intelligent behaviour — intended to underpin future QuantsMind technologies as they
-            mature.
+            QuantsMind SDK is a universal, vendor-independent Python SDK for scientific
+            computing. It is not tied to a single domain, hardware vendor or cloud: the
+            same first-principles model is reused across mathematics, the physical and
+            life sciences, finance and AI.
           </p>
           <p>
             The SDK is <strong>separate from MicroQuantum</strong>, which is a focused quantum
@@ -71,10 +72,10 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
             modelling layer that is designed to sit below higher-level applications.
           </p>
           <p>
-            The current release establishes the architecture, package structure and foundation ontology
-            interfaces. It contains <strong>no implemented algorithms</strong>, no production
-            services and no completed commercial functionality. It is a beginning, not a finished
-            product.
+            Version 1.1.0 is a stable public release. It contains implemented functionality
+            across mathematics, chemistry, biology, astronomy, cosmology, finance, AI
+            agents, knowledge graphs and a compiler front-end, and ships runnable examples.
+            Capabilities continue to evolve after this release.
           </p>
         </div>
       </qm-container>
@@ -102,22 +103,22 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         </div>
         <p class="sdk-note sdk-note--center">
           This model originates from the SDK's architecture documents and first-principles
-          design. Concrete runtime implementations are future work — the ontology establishes
-          what a future SDK needs to represent.
+          design. It provides the shared vocabulary that the implemented domain packages
+          in v1.1.0 build on.
         </p>
       </qm-container>
     </qm-section>
 
-    <!-- ══════════ ARCHITECTURE FOUNDATION ══════════ -->
-    <qm-section surface="dark" size="lg" ariaLabel="Architecture foundation">
+    <!-- ══════════ ARCHITECTURE ══════════ -->
+    <qm-section surface="dark" size="lg" ariaLabel="SDK architecture">
       <qm-container>
         <div class="sdk-dark-head">
-          <span class="sdk-eyebrow-dark">ARCHITECTURE FOUNDATION</span>
-          <h2 class="sdk-h2 sdk-h2--dark">v1.1.0: establishing the architectural layer</h2>
+          <span class="sdk-eyebrow-dark">ARCHITECTURE</span>
+          <h2 class="sdk-h2 sdk-h2--dark">v1.1.0: a layered scientific computing SDK</h2>
           <p class="sdk-lead sdk-lead--dark">
-            QuantsMind SDK establishes the layering direction before implementing
-            any algorithms. This architecture-first approach means v1.1.0 provides
-            structure, contracts and direction — not finished capabilities.
+            QuantsMind SDK layers a stable core beneath domain-specific capability. The
+            v1.1.0 release implements the ontology, mathematics and a set of scientific
+            domain packages on top of it, with further capability added in later releases.
           </p>
         </div>
 
@@ -141,9 +142,9 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         </div>
 
         <p class="sdk-dark-note">
-          This is the architectural model, not a claim that all layers are implemented.
-          v1.1.0 establishes the middle layers: the ontology interfaces and the package
-          layout that future releases will fill.
+          This is the architectural model. v1.1.0 implements the middle layers — the
+          ontology, the mathematics foundation and the domain packages built on them —
+          with further capability layered on in later releases.
         </p>
       </qm-container>
     </qm-section>
@@ -172,12 +173,12 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
     <!-- ══════════ PACKAGE DIRECTION ══════════ -->
     <qm-section surface="canvas" ariaLabel="SDK package direction">
       <qm-container>
-        <span class="eyebrow">PACKAGE DIRECTION</span>
-        <h2 class="sdk-h2">A structured package architecture</h2>
+        <span class="eyebrow">IMPLEMENTED CAPABILITY</span>
+        <h2 class="sdk-h2">Scientific domains in v1.1.0</h2>
         <p class="sdk-section-lead">
-          v1.1.0 defines the complete package layout — 35 planned package destinations.
-          Concrete implementations follow the published roadmap. The map below shows
-          where packages sit architecturally and their current implementation status.
+          v1.1.0 implements functionality across the following domains. Each is a real
+          package with tests and runnable examples; the map below shows what is present in
+          this release.
         </p>
         <div class="sdk-grid sdk-grid--pkgs">
           @for (g of groups; track g.name) {
@@ -191,9 +192,9 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           }
         </div>
         <p class="sdk-note sdk-note--center">
-          Foundation ontology interfaces (Entity, System, State, Interaction) are
-          implemented in v1.1.0. Other packages are defined as skeletons and
-          interfaces — implementations follow per the roadmap.
+          These are the domains implemented in v1.1.0. Each is backed by tests and
+          runnable examples in the repository; the roadmap below covers what continues
+          to be added after this release.
         </p>
       </qm-container>
     </qm-section>
@@ -211,21 +212,21 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           <article class="sdk-card sdk-card--highlight">
             <div class="sdk-card-head">
               <h3 class="sdk-card-title">QuantsMind SDK</h3>
-              <qm-badge variant="prototype">Foundation</qm-badge>
+              <qm-badge variant="stable">Stable</qm-badge>
             </div>
-            <p class="sdk-card-text">General-purpose Python foundation for modelling systems, entities, state, interactions and knowledge. A technology-neutral base layer.</p>
+            <p class="sdk-card-text">Universal, vendor-independent scientific computing SDK with implemented capability across mathematics, the sciences, finance, AI and knowledge graphs. A technology-neutral base layer.</p>
           </article>
           <article class="sdk-card">
             <div class="sdk-card-head">
               <h3 class="sdk-card-title">MicroQuantum</h3>
-              <qm-badge variant="development">Quantum</qm-badge>
+              <qm-badge variant="quantum">Quantum</qm-badge>
             </div>
             <p class="sdk-card-text">Focused quantum computing SDK for building, executing and analyzing quantum circuits in Python. Separate domain focus.</p>
           </article>
           <article class="sdk-card">
             <div class="sdk-card-head">
               <h3 class="sdk-card-title">Karkain</h3>
-              <qm-badge variant="development">Language</qm-badge>
+              <qm-badge variant="software">Language</qm-badge>
             </div>
             <p class="sdk-card-text">Systems programming language with ownership-based memory safety and a self-hosted compiler toolchain. Separate technology focus.</p>
           </article>
@@ -241,11 +242,11 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
     <!-- ══════════ DEVELOPMENT STATUS ══════════ -->
     <qm-section surface="white" ariaLabel="Development status">
       <qm-container size="narrow">
-        <span class="eyebrow">DEVELOPMENT STATUS</span>
+        <span class="eyebrow">RELEASE STATUS</span>
         <h2 class="sdk-h2">An honest status</h2>
         <p class="sdk-section-lead">
-          The SDK is at the beginning of its roadmap. Here is what is
-          established today and what remains ahead.
+          v1.1.0 is a stable public release. Here is what that release contains and what
+          continues to be developed after it.
         </p>
         <div class="sdk-table-wrap">
           <table class="sdk-table">
@@ -303,10 +304,10 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
     <qm-section surface="canvas" ariaLabel="Developer experience">
       <qm-container size="narrow">
         <span class="eyebrow">DEVELOPER EXPERIENCE</span>
-        <h2 class="sdk-h2">Intended developer flow</h2>
+        <h2 class="sdk-h2">Developer flow</h2>
         <p class="sdk-section-lead">
-          The developer path is part of the architecture — not yet fully
-          automated tooling. v1.1.0 focuses on structure and contracts.
+          v1.1.0 is a usable release rather than a structural sketch. The developer path
+          below is the model the implemented packages are organised around.
         </p>
         <div class="sdk-flow">
           @for (s of devFlow; track s[0]) {
@@ -315,9 +316,9 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           <span class="sdk-flow-chip sdk-flow-chip--accent k-mono">Knowledge</span>
         </div>
         <p class="sdk-note">
-          The intended installation path is <span class="k-mono">pip install quantsmind</span>,
-          but this is marked as future in v1.1.0 — the package has not yet been published
-          to PyPI.
+          The Python distribution is published as
+          <span class="k-mono">quantsmind</span>. Version 1.1.0 is the current public
+          release; see the repository for installation and usage details.
         </p>
       </qm-container>
     </qm-section>
@@ -328,8 +329,8 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         <span class="eyebrow">ROADMAP</span>
         <h2 class="sdk-h2">Where it is heading</h2>
         <p class="sdk-section-lead">
-          The SDK follows an architecture-first release philosophy: each release
-          builds one layer at a time on a stable foundation.
+          v1.1.0 is a stable public release. The roadmap below records what shipped in
+          that release and what continues to be developed after it.
         </p>
         <div class="sdk-grid sdk-grid--road">
           @for (r of roadmap; track r.phase) {
@@ -354,8 +355,8 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           <span class="eyebrow">TECHNOLOGY ECOSYSTEM</span>
           <h2>Part of QuantsMind</h2>
           <p class="lead">
-            QuantsMind SDK is one of a family of technologies being developed by
-            QuantsMind. Each addresses a different focus.
+            QuantsMind SDK is one of a family of technologies from QuantsMind. Each
+            addresses a different focus.
           </p>
           <div class="sdk-cta sdk-cta--center">
             <qm-button variant="secondary" size="md" [routerLinkValue]="'/technology'">Technology Ecosystem</qm-button>
@@ -373,9 +374,9 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           <span class="sdk-eyebrow-dark">EXPLORE</span>
           <h2 class="sdk-h2--dark">Explore the QuantsMind SDK</h2>
           <p class="sdk-lead sdk-lead--dark">
-            The architecture, design decisions and foundation specification are
-            in the repository. If the direction is relevant to your work, we
-            would be glad to hear from you.
+            v1.1.0 is a stable public release. The source, implemented domain packages,
+            runnable examples and architecture documentation are in the repository. If
+            the SDK is relevant to your work, we would be glad to hear from you.
           </p>
           <div class="sdk-cta sdk-cta--center">
             <qm-button variant="primary" size="lg" [href]="'https://github.com/ajit-ai/quantsmind-quantum-sdk'" [target]="'_blank'" [ariaLabel]="'View QuantsMind SDK on GitHub (opens in a new tab)'">
@@ -386,9 +387,9 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
             </qm-button>
           </div>
           <p class="sdk-docs-note sdk-lead--dark">
-            Architecture documentation — including the foundation specification,
-            ADRs and layering model — lives in the repository and expands as
-            the SDK matures.
+            Architecture documentation — including ADRs, the layering model and the
+            foundation specification — lives in the repository and continues to expand
+            as the SDK develops beyond 1.1.0.
           </p>
         </div>
       </qm-container>
@@ -541,31 +542,34 @@ export class QuantsMindSdkComponent {
   ];
 
   groups: PackageGroup[] = [
-    { name: 'Foundation Ontology', status: 'Implemented', variant: 'development', modules: 'foundation (Entity · System · State · Interaction · Observation · Knowledge)' },
-    { name: 'Core & Exceptions', status: 'Next (R0.2)', variant: 'early-access', modules: 'core, exceptions' },
-    { name: 'Mathematics', status: 'Planned (R0.3)', variant: 'concept', modules: 'math · algebra · calculus · numerical · statistics · optimization' },
-    { name: 'Computation & Runtime', status: 'Planned (R0.4)', variant: 'concept', modules: 'runtime · compiler · providers · simulation' },
-    { name: 'Domain Sciences', status: 'Planned (R0.5–R0.9)', variant: 'concept', modules: 'quantum · physics · chemistry · biology · astronomy · cosmology · finance' },
-    { name: 'Intelligence & Data', status: 'Planned (R0.7–R0.8)', variant: 'concept', modules: 'ai · ai_reasoning · ml_math · knowledge · datasets · visualization' },
-    { name: 'Infrastructure', status: 'Planned (R0.10+)', variant: 'concept', modules: 'plugins · utils · logging · config · io · security · telemetry · api · scientific' }
+    { name: 'Foundation Ontology', status: 'Implemented', variant: 'stable', modules: 'foundation (Entity · System · State · Interaction · Observation · Knowledge)' },
+    { name: 'Mathematics', status: 'Implemented', variant: 'stable', modules: 'math · algebra · calculus · numerical · statistics · optimization' },
+    { name: 'Chemistry', status: 'Implemented', variant: 'stable', modules: 'chemistry (molecular systems domain model)' },
+    { name: 'Biology', status: 'Implemented', variant: 'stable', modules: 'biology (biological systems domain model)' },
+    { name: 'Astronomy & Cosmology', status: 'Implemented', variant: 'stable', modules: 'astronomy · cosmology (domain models)' },
+    { name: 'Finance', status: 'Implemented', variant: 'stable', modules: 'finance (time-value, cash-flow and bond mathematics)' },
+    { name: 'AI Agents', status: 'Implemented', variant: 'stable', modules: 'ai · ai_reasoning (messages, model-backend interface, memory, tools, agent loop)' },
+    { name: 'Knowledge Graphs', status: 'Implemented', variant: 'stable', modules: 'knowledge (graph traversal and provenance)' },
+    { name: 'Compiler Front-end', status: 'Implemented', variant: 'stable', modules: 'compiler (expression lexer, parser, AST, folding, evaluation)' }
   ];
 
   statusRows: StatusRow[] = [
-    { area: 'Release', status: 'v1.1.0', variant: 'development', note: 'Architecture Foundation — the current release of the SDK.' },
-    { area: 'Stage', status: 'Architecture Foundation', variant: 'prototype', note: 'Package layout, interface contracts and foundation ontology defined. No algorithms implemented yet.' },
-    { area: 'Language', status: 'Python 3.13+', variant: 'early-access', note: 'Modern Python typing, protocols and dataclass conventions used from the start.' },
-    { area: 'Source', status: 'GitHub', variant: 'early-access', note: 'Repository: ajit-ai/quantsmind-quantum-sdk. Apache 2.0 licensed.' },
-    { area: 'Distribution', status: 'PyPI (planned)', variant: 'concept', note: 'pip install quantsmind is the intended path, but PyPI publication is not yet live.' },
-    { area: 'Documentation', status: 'In-repository', variant: 'early-access', note: 'ADRs, foundation specification, layering model and developer docs live in the repository.' }
+    { area: 'Release', status: 'v1.1.0', variant: 'stable', note: 'Current stable release of the SDK, following 1.0.1 and the first stable release, 1.0.0.' },
+    { area: 'Stage', status: 'Production/Stable', variant: 'stable', note: 'Classified Production/Stable, with implemented functionality across the scientific domains listed on this page.' },
+    { area: 'Package', status: 'quantsmind', variant: 'stable', note: 'The Python distribution name for the SDK.' },
+    { area: 'Language', status: 'Python 3.13+', variant: 'default', note: 'Modern Python typing, protocols and dataclass conventions used from the start.' },
+    { area: 'Source', status: 'GitHub', variant: 'default', note: 'Repository: ajit-ai/quantsmind-quantum-sdk. Apache 2.0 licensed.' },
+    { area: 'Examples', status: 'Runnable', variant: 'stable', note: 'Domain and cross-domain examples are included and covered by an example-execution test suite.' },
+    { area: 'Documentation', status: 'In-repository', variant: 'default', note: 'ADRs, architecture overview, layering model, domain guides and developer docs live in the repository.' }
   ];
 
   devFlow: Array<[string]> = [
-    ['clone'], ['explore foundation'], ['build models'], ['compose interactions'], ['capture observations'], ['Knowledge']
+    ['clone'], ['install quantsmind'], ['build models'], ['compose interactions'], ['capture observations'], ['Knowledge']
   ];
 
   roadmap: RoadItem[] = [
-    { phase: 'v1.1.0', variant: 'development', stage: 'Architecture Foundation', items: ['Package layout and interface contracts', 'Foundation ontology (Entity, System, State, Interaction)', 'ADRs, documentation standards, dependency rules', 'No algorithms implemented in this release'] },
-    { phase: 'Next (R0.2–R0.4)', variant: 'early-access', stage: 'Core implementation', items: ['Core abstractions and exception hierarchy', 'Math foundation on a pluggable numeric backend', 'Runtime executor, compiler IR, provider contracts'] },
-    { phase: 'Future (R0.5–R0.10+)', variant: 'concept', stage: 'Domain & platform reach', items: ['Quantum, physics, chemistry, biology, astronomy, finance', 'AI, optimization, simulation, knowledge', 'Plugins, telemetry, security hardening', 'Stable public API and 1.0 release'] }
+    { phase: 'v1.1.0', variant: 'stable', stage: 'Current stable release', items: ['Implemented mathematics, chemistry, biology, astronomy, cosmology and finance domains', 'AI abstractions including an agent loop and knowledge-graph traversal', 'Expression compiler front-end', 'Runnable domain and cross-domain examples'] },
+    { phase: 'Next', variant: 'development', stage: 'Core and runtime', items: ['Core abstractions and exception hierarchy', 'Runtime executor, provider contracts and simulation', 'Deeper AI reasoning, datasets and visualization'] },
+    { phase: 'Ongoing', variant: 'concept', stage: 'Wider reach', items: ['Broader physics, chemistry and quantum integration', 'Plugins, telemetry and security hardening', 'Continued evolution of the public API beyond 1.1.0'] }
   ];
 }

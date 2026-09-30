@@ -11,7 +11,7 @@ interface EcosystemTech {
   tagline: string;
   status: string;
   version: string;
-  badge: 'early-access' | 'development';
+  badge: 'stable';
   description: string;
   href: string;
 }
@@ -20,7 +20,8 @@ interface DeveloperTool {
   name: string;
   tagline: string;
   status: string;
-  badge: 'development' | 'early-access';
+  version: string;
+  badge: 'stable';
   description: string;
   cta: string;
   href: string;
@@ -36,8 +37,8 @@ interface DeveloperTool {
         <span class="eyebrow">TECHNOLOGY</span>
         <h1>Technology Ecosystem</h1>
         <p class="lead">
-          Technologies being designed, engineered and explored within the QuantsMind
-          ecosystem.
+          Released software technologies built, engineered and maintained by
+          QuantsMind. Each technology below has a published, versioned release.
         </p>
       </qm-container>
     </section>
@@ -77,6 +78,7 @@ interface DeveloperTool {
                 <h3 class="tool-card__title">{{ tool.name }}</h3>
                 <qm-badge [variant]="tool.badge">{{ tool.status }}</qm-badge>
               </div>
+              <p class="tool-card__version">{{ tool.version }}</p>
               <p class="tool-card__tagline">{{ tool.tagline }}</p>
               <p class="tool-card__desc">{{ tool.description }}</p>
               <qm-button variant="secondary" size="sm" [href]="tool.href" target="_blank"
@@ -95,9 +97,9 @@ interface DeveloperTool {
           <h2>Behind the Ecosystem</h2>
           <p class="lead">
             These technologies are built with the same engineering discipline we apply
-            to client work. Some are approaching developer availability; others are
-            still early explorations. Each project page states its current maturity
-            honestly.
+            to client work. Each one has a published stable release, and each continues to
+            be developed further after release. Each project page states its current
+            maturity and its known limitations honestly.
           </p>
           <qm-button variant="secondary" [routerLinkValue]="'/contact'">
             Discuss a Collaboration Idea →
@@ -163,6 +165,7 @@ interface DeveloperTool {
       gap: 12px; flex-wrap: wrap; width: 100%;
     }
     .tool-card__title { font-size: 20px; font-weight: 600; color: #111827; margin: 0; }
+    .tool-card__version { margin: 0; font-size: 13px; font-weight: 600; color: #64748B; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
     .tool-card__tagline { font-size: 14px; font-weight: 500; color: #2563EB; margin: 0; }
     .tool-card__desc  { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; max-width: 640px; }
 
@@ -185,40 +188,41 @@ export class TechnologyComponent {
     {
       name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
-      status: 'Developer Preview',
+      status: 'Stable',
       version: 'v1.1.0',
-      badge: 'early-access',
-      description: 'An open Python SDK for building, executing and analyzing quantum programs.',
+      badge: 'stable',
+      description: 'An open Python SDK for building, executing and analyzing quantum programs. Published on PyPI.',
       href: '/microquantum'
     },
     {
       name: 'Karkain',
       tagline: 'General-Purpose Programming Language',
-      status: 'Active Development',
+      status: 'Stable',
       version: 'v1.1.0',
-      badge: 'development',
-      description: 'An independent programming language and computing ecosystem being developed by QuantsMind.',
+      badge: 'stable',
+      description: 'An independent, statically typed systems programming language and computing ecosystem with a published stable release.',
       href: '/karkain'
     },
     {
       name: 'QuantsMind SDK',
-      tagline: 'General-Purpose Technology SDK',
-      status: 'Development',
+      tagline: 'Scientific Computing SDK',
+      status: 'Stable',
       version: 'v1.1.0',
-      badge: 'development',
-      description: 'A software foundation exploring reusable abstractions for intelligent computing, data and advanced technology applications.',
+      badge: 'stable',
+      description: 'A universal, vendor-independent Python SDK for scientific computing, with implemented functionality across mathematics, chemistry, biology, astronomy, cosmology, finance, AI agents, knowledge graphs and more.',
       href: '/quantsmind-sdk'
     }
   ];
 
   developerTools: DeveloperTool[] = [
     {
-      name: 'Karkain VS Code Extension',
-      tagline: 'Karkain development tooling for Visual Studio Code.',
-      status: 'Published extension',
-      badge: 'development',
+      name: 'Karkain Language Tools',
+      tagline: 'Karkain development environment for Visual Studio Code.',
+      status: 'Published',
+      version: 'v0.9.0',
+      badge: 'stable',
       description:
-        'Karkain development tooling for Visual Studio Code. It supports the Karkain programming language and is published on the Visual Studio Code Marketplace.',
+        'Syntax highlighting, Karkain CLI integration (check, build, run, format) and Language Server intelligence for the .kark language. Published on the Visual Studio Code Marketplace. Requires the Karkain 1.1.0 toolchain.',
       cta: 'View on Marketplace',
       href: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain&ssr=false#overview'
     }

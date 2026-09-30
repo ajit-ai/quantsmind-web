@@ -5,6 +5,7 @@ export type BadgeVariant =
   | 'default'
   | 'concept' | 'research' | 'experimental' | 'prototype'
   | 'development' | 'early-access' | 'product'
+  | 'stable'
   | 'ai' | 'data' | 'cloud' | 'software' | 'quantum' | 'optimization'
   | 'build' | 'modernize' | 'explore';
 
@@ -45,6 +46,10 @@ export type BadgeVariant =
     .qm-badge--development   { background: #DCFCE7; color: #166534; border-color: #BBF7D0; }
     .qm-badge--early-access  { background: #EFF6FF; color: #1D4ED8; border-color: #BFDBFE; }
     .qm-badge--product       { background: #2563EB; color: #FFFFFF; border-color: transparent; }
+
+    /* Released / stable — a public, versioned release (distinct from 'development',
+       which describes work still in progress). */
+    .qm-badge--stable        { background: #166534; color: #FFFFFF; border-color: transparent; }
 
     /* Domain categories */
     .qm-badge--ai            { background: #EDE9FE; color: #5B21B6; border-color: #DDD6FE; }

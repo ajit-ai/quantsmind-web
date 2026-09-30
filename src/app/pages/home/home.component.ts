@@ -20,8 +20,16 @@ interface EcosystemTech {
   tagline: string;
   description: string;
   status: string;
-  badge: 'early-access' | 'development';
+  version: string;
+  badge: 'stable';
   cta: string;
+  href: string;
+}
+
+interface EcosystemLink {
+  name: string;
+  label: string;
+  description: string;
   href: string;
 }
 
@@ -98,10 +106,10 @@ interface EcosystemTech {
       <qm-container>
         <div class="section-header">
           <span class="eyebrow">TECHNOLOGY ECOSYSTEM</span>
-          <h2>Software We Are Building.</h2>
+          <h2>Released Software We Maintain.</h2>
           <p class="lead section-header__lead">
-            Alongside engineering services, QuantsMind develops its own software
-            technologies and experimental platforms.
+            Alongside engineering services, QuantsMind develops and maintains its own
+            software technologies. Each has a published, versioned release.
           </p>
         </div>
 
@@ -112,6 +120,7 @@ interface EcosystemTech {
                 <h3 class="tech-card__title">{{ tech.name }}</h3>
                 <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
               </div>
+              <p class="tech-card__version">{{ tech.version }}</p>
               <p class="tech-card__tagline">{{ tech.tagline }}</p>
               <p class="tech-card__desc">{{ tech.description }}</p>
               <a [routerLink]="tech.href" class="tech-card__link">{{ tech.cta }} →</a>
@@ -123,6 +132,34 @@ interface EcosystemTech {
           <qm-button variant="outline" [routerLinkValue]="'/technology'">
             View the Technology Ecosystem →
           </qm-button>
+        </div>
+      </qm-container>
+    </qm-section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- PRODUCTS & DEVELOPER TOOLS                             -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <qm-section surface="subtle">
+      <qm-container>
+        <div class="section-header">
+          <span class="eyebrow">PRODUCTS &amp; DEVELOPER TOOLS</span>
+          <h2>Also Available.</h2>
+          <p class="lead section-header__lead">
+            A released product, and the tooling we publish for the technologies above.
+          </p>
+        </div>
+
+        <div class="link-grid">
+          @for (item of productsAndTools; track item.label) {
+            @let itemLink = item.href | hrefParts;
+            <a [routerLink]="itemLink.path" [fragment]="itemLink.fragment" class="link-card"
+              [attr.aria-label]="item.name + ': ' + item.label">
+              <span class="link-card__kind">{{ item.name }}</span>
+              <h3 class="link-card__title">{{ item.label }}</h3>
+              <p class="link-card__desc">{{ item.description }}</p>
+              <span class="link-card__cta">Learn more →</span>
+            </a>
+          }
         </div>
       </qm-container>
     </qm-section>
@@ -319,6 +356,7 @@ interface EcosystemTech {
       flex-wrap: wrap;
     }
     .tech-card__title { font-size: 18px; font-weight: 600; color: #111827; margin: 0; }
+    .tech-card__version { font-size: 13px; font-weight: 600; color: #64748B; margin: 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
     .tech-card__tagline { font-size: 14px; font-weight: 500; color: #2563EB; margin: 0; }
     .tech-card__desc { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
     .tech-card__link {
@@ -326,6 +364,29 @@ interface EcosystemTech {
       text-decoration: none; margin-top: 4px;
     }
     .tech-card__link:hover { text-decoration: underline; }
+
+    /* ── Products & Developer Tools ── */
+    .link-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+    @media (min-width: 768px) { .link-grid { grid-template-columns: repeat(2, 1fr); } }
+    .link-card {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 28px; background: #FFFFFF;
+      border: 1px solid #E2E8F0; border-radius: 12px;
+      text-decoration: none;
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+    }
+    .link-card:hover {
+      border-color: #BFDBFE;
+      box-shadow: 0 4px 16px rgba(37,99,235,0.08);
+      transform: translateY(-2px);
+    }
+    .link-card__kind {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: #2563EB;
+    }
+    .link-card__title { font-size: 18px; font-weight: 600; color: #111827; margin: 0; }
+    .link-card__desc { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
+    .link-card__cta { font-size: 13px; font-weight: 500; color: #2563EB; margin-top: 4px; }
 
     .mt-8 { margin-top: 32px; }
 
@@ -453,29 +514,47 @@ export class HomeComponent {
     {
       name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
-      description: 'An open Python SDK for building, executing and analyzing quantum programs.',
-      status: 'Developer Preview · v1.1.0',
-      badge: 'early-access',
+      description: 'An open Python SDK for building, executing and analyzing quantum programs. Published on PyPI.',
+      status: 'Stable',
+      version: 'v1.1.0',
+      badge: 'stable',
       cta: 'Explore MicroQuantum',
       href: '/microquantum'
     },
     {
       name: 'Karkain',
       tagline: 'General-Purpose Programming Language',
-      description: 'An independent programming language and computing ecosystem being developed by QuantsMind.',
-      status: 'Active Development',
-      badge: 'development',
+      description: 'An independent, statically typed systems programming language and computing ecosystem with a published stable release.',
+      status: 'Stable',
+      version: 'v1.1.0',
+      badge: 'stable',
       cta: 'Explore Karkain',
       href: '/karkain'
     },
     {
       name: 'QuantsMind SDK',
-      tagline: 'General-Purpose Technology SDK',
-      description: 'A software foundation exploring reusable abstractions for intelligent computing, data and advanced technology applications.',
-      status: 'Development',
-      badge: 'development',
+      tagline: 'Scientific Computing SDK',
+      description: 'A universal, vendor-independent Python SDK for scientific computing, with implemented functionality across mathematics, chemistry, biology, astronomy, cosmology, finance, AI agents, knowledge graphs and more.',
+      status: 'Stable',
+      version: 'v1.1.0',
+      badge: 'stable',
       cta: 'Explore QuantsMind SDK',
       href: '/quantsmind-sdk'
+    }
+  ];
+
+  productsAndTools: EcosystemLink[] = [
+    {
+      name: 'Products',
+      label: 'QuantsMind Document Intelligence Mini',
+      description: 'Our lightweight document-intelligence product, currently at v1.0.0.',
+      href: '/products'
+    },
+    {
+      name: 'Developer Tools',
+      label: 'Karkain Language Tools',
+      description: 'Karkain development environment for Visual Studio Code. Published, v0.9.0.',
+      href: '/technology#developer-tools'
     }
   ];
 

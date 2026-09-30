@@ -444,7 +444,8 @@ export class LabsComponent {
     { label: 'Concept', variant: 'concept' },
     { label: 'Experiment', variant: 'experimental' },
     { label: 'Prototype', variant: 'prototype' },
-    { label: 'Active Development', variant: 'development' }
+    { label: 'Active Development', variant: 'development' },
+    { label: 'Released / Stable', variant: 'stable' }
   ];
 
   directions: DirectionCard[] = [
@@ -453,77 +454,77 @@ export class LabsComponent {
       variant: 'development',
       status: 'Active Development',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
-      description: 'Quantum program construction, execution and analysis tooling, explored and built as the open MicroQuantum SDK — the most mature direction in Labs.'
+      description: 'Quantum program construction, execution and analysis tooling, explored and built as the open MicroQuantum SDK. MicroQuantum 1.1.0 is a stable public SDK release; quantum-computing research and future capabilities continue beyond the current release.'
     },
     {
       name: 'Programming Languages',
       variant: 'development',
       status: 'Active Development',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
-      description: 'Language, compiler, runtime and tooling exploration through Karkain, QuantsMind\'s actively developed programming language and computing ecosystem.'
+      description: 'Language, compiler, runtime and tooling exploration through Karkain. Karkain 1.1.0 is a stable released language and compiler, while language evolution and additional capabilities continue through subsequent development.'
     },
     {
       name: 'AI & Machine Learning',
       variant: 'concept',
       status: 'Concept',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11h-6a4 4 0 0 1-4-4V3"/><path d="M6 21a8 8 0 0 1 0-16"/><circle cx="18" cy="5" r="2"/><circle cx="18" cy="11" r="2"/><circle cx="18" cy="17" r="2"/><circle cx="6" cy="17" r="1.5"/></svg>',
-      description: 'Exploring future intelligent-system and machine-learning engineering directions, including a general-purpose modelling foundation for intelligent systems.'
+      description: 'Exploring future intelligent-system and machine-learning engineering directions. The QuantsMind SDK 1.1.0 already implements AI abstractions including an agent loop, so this direction extends shipped capability rather than starting from nothing.'
     },
     {
       name: 'Developer Tools',
       variant: 'prototype',
       status: 'Prototype',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
-      description: 'SDKs, foundations and tooling that improve how software is built. The QuantsMind SDK establishes the first reusable foundation layer.'
+      description: 'SDKs, foundations and tooling that improve how software is built. Karkain Language Tools 0.9.0 is published for Karkain 1.1.0, while broader tooling capabilities continue to evolve.'
     },
     {
       name: 'Data & Intelligence',
       variant: 'concept',
       status: 'Concept',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
-      description: 'Knowledge representation, data intelligence and intelligent data systems — drafted as future directions inside the SDK package architecture.'
+      description: 'Knowledge representation, data intelligence and intelligent data systems. QuantsMind SDK 1.1.0 implements finance mathematics and knowledge-graph functionality; wider data capability continues to develop.'
     },
     {
       name: 'Systems & Infrastructure',
       variant: 'concept',
       status: 'Concept',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01"/></svg>',
-      description: 'Runtime, compiler, provider and simulation directions for future computing architectures — a longer-horizon area of exploration.'
+      description: 'Runtime, compiler, provider and simulation directions for future computing architectures. Karkain 1.1.0 already ships a self-hosted compiler and toolchain; the wider infrastructure research continues beyond that.'
     },
     {
       name: 'Scientific Computing',
       variant: 'concept',
       status: 'Concept',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v6L4.5 18a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8V2"/><path d="M8.5 2h7M7 14h10"/></svg>',
-      description: 'Numerical methods, mathematical foundations, simulation and scientific domains — drafted as future directions inside the SDK package architecture.'
+      description: 'Numerical methods, mathematical foundations, simulation and scientific domains. QuantsMind SDK 1.1.0 is already a stable scientific-computing SDK with implemented functionality across these domains, and this direction continues to grow from there.'
     }
   ];
 
   connections: ConnectionCard[] = [
     {
       name: 'MicroQuantum',
-      variant: 'development',
-      status: 'Quantum SDK',
+      variant: 'stable',
+      status: 'Stable · v1.1.0',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
-      description: 'A concrete QuantsMind technology: an open Python SDK for building, executing and analyzing quantum programs — the public result of quantum-computing exploration.',
+      description: 'A concrete QuantsMind technology: an open Python SDK for building, executing and analyzing quantum programs. Released as a stable public version on PyPI — the shipped result of quantum-computing exploration.',
       cta: 'Explore MicroQuantum',
       route: '/microquantum'
     },
     {
       name: 'Karkain',
-      variant: 'development',
-      status: 'Language',
+      variant: 'stable',
+      status: 'Stable · v1.1.0',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
-      description: 'A concrete QuantsMind technology: an actively developed, general-purpose programming language and computing ecosystem exploring modern compiler architecture.',
+      description: 'A concrete QuantsMind technology: a statically typed systems programming language and computing ecosystem with a self-hosted compiler. Released as a stable version; further language and compiler development continues.',
       cta: 'Explore Karkain',
       route: '/karkain'
     },
     {
       name: 'QuantsMind SDK',
-      variant: 'prototype',
-      status: 'Foundation',
+      variant: 'stable',
+      status: 'Stable · v1.1.0',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
-      description: 'An open, general-purpose Python foundation that establishes the architecture for future QuantsMind technologies. Early-stage: architecture and contracts, not production-ready.',
+      description: 'An open, universal, vendor-independent scientific computing SDK with implemented functionality across mathematics, the sciences, finance, AI agents and knowledge graphs. Released as a stable version; further capability continues to be added.',
       cta: 'Explore the SDK',
       route: '/quantsmind-sdk'
     }

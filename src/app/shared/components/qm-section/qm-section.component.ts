@@ -13,7 +13,7 @@ export type SectionSurface = 'canvas' | 'white' | 'subtle' | 'accent' | 'dark';
     selector: 'qm-section',
     imports: [],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    template: `<section [class]="sectionClass" [attr.aria-label]="ariaLabel || null"><ng-content></ng-content></section>`,
+    template: `<section [class]="sectionClass" [attr.id]="id || null" [attr.aria-label]="ariaLabel || null"><ng-content></ng-content></section>`,
     styles: [`
     :host { display: block; scroll-margin-top: 88px; }
 
@@ -46,6 +46,11 @@ export class QmSectionComponent {
   @Input() size: SectionSize       = 'md';
   @Input() surface: SectionSurface = 'canvas';
   @Input() ariaLabel?: string;
+  /**
+   * Anchor target. Applied to the inner <section> so in-page fragments
+   * (e.g. /technology#developer-tools) resolve to a real element.
+   */
+  @Input() id?: string;
 
   get sectionClass(): string {
     const classes = ['qm-section'];

@@ -157,11 +157,11 @@ export class AboutComponent {
     },
     {
       title: 'TECHNOLOGY DEVELOPMENT',
-      description: 'Independent software technologies, languages and experimental platforms built and shared openly.',
+      description: 'Independent software technologies and languages built, released and maintained openly.',
       points: [
         'MicroQuantum — an open quantum computing SDK',
         'Karkain — a programming language and computing ecosystem',
-        'QuantsMind SDK — foundations for intelligent applications',
+        'QuantsMind SDK — a universal scientific computing SDK',
         'QuantsMind Labs — exploration of emerging computing'
       ],
       cta: 'Explore Our Technologies',

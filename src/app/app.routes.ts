@@ -39,7 +39,7 @@ export const routes: Routes = [
     data: {
       title: 'Technology — QuantsMind',
       description:
-        'The QuantsMind technology ecosystem: MicroQuantum, Karkain, and the QuantsMind SDK — software technologies designed, engineered and explored by QuantsMind.'
+        'The QuantsMind technology ecosystem: MicroQuantum, Karkain and the QuantsMind SDK — released software technologies designed, engineered and maintained by QuantsMind.'
     },
     loadComponent: () =>
       import('./pages/technology/technology.component').then(m => m.TechnologyComponent)
@@ -49,7 +49,7 @@ export const routes: Routes = [
     data: {
       title: 'MicroQuantum | Quantum Computing SDK | QuantsMind',
       description:
-        'MicroQuantum is an open Python SDK for building, executing and analyzing quantum programs. Explore the Developer Preview from QuantsMind.'
+        'MicroQuantum is an open Python SDK for building, executing and analyzing quantum programs. The stable 1.1.0 release is published on PyPI.'
     },
     loadComponent: () =>
       import('./pages/microquantum/microquantum.component').then(m => m.MicroQuantumComponent)
@@ -59,7 +59,7 @@ export const routes: Routes = [
     data: {
       title: 'Karkain | Programming Language & Computing Ecosystem | QuantsMind',
       description:
-        'Karkain is an independently developed general-purpose programming language and computing ecosystem exploring modern compiler architecture, runtime systems and heterogeneous computing.'
+        'Karkain is an independently developed, statically typed systems programming language and computing ecosystem, published as the stable 1.1.0 release.'
     },
     loadComponent: () =>
       import('./pages/karkain/karkain.component').then(m => m.KarkainComponent)
@@ -69,7 +69,7 @@ export const routes: Routes = [
     data: {
       title: 'QuantsMind SDK | QuantsMind',
       description:
-        'QuantsMind SDK is a general-purpose Python foundation for modelling intelligent systems and developing future QuantsMind technologies.'
+        'QuantsMind SDK is a universal, vendor-independent Python SDK for scientific computing, published as the stable 1.1.0 release.'
     },
     loadComponent: () =>
       import('./pages/quantsmind-sdk/quantsmind-sdk.component').then(m => m.QuantsMindSdkComponent)

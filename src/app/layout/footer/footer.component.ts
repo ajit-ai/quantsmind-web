@@ -400,7 +400,7 @@ export class QmFooterComponent {
 
   developerTools: FooterLink[] = [
     {
-      label: 'Karkain VS Code Extension',
+      label: 'Karkain Language Tools',
       href: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain&ssr=false#overview',
       external: true
     }

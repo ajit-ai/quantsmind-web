@@ -989,6 +989,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
       ]
     },
     { label: 'Labs', href: '/labs' },
+    { label: 'Blog', href: '/blog' },
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' }
   ];
@@ -1003,6 +1004,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },
     { type: 'Page', title: 'QuantsMind SDK', href: '/quantsmind-sdk', keywords: 'quantsmind sdk software foundation intelligent computing' },
     { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs exploration experimentation emerging technologies quantum ai ml' },
+    { type: 'Page', title: 'Blog', href: '/blog', keywords: 'blog engineering notes articles writing research publication karkain compiler microquantum architecture' },
     { type: 'Page', title: 'About', href: '/about', keywords: 'about company engineering services technology development' },
     { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry email form build' },
     { type: 'Capability', title: 'Software Architecture', href: '/services#software-architecture', keywords: 'architecture system design technical foundations' },

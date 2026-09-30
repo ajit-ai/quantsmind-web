@@ -85,6 +85,16 @@ export const routes: Routes = [
       import('./pages/labs/labs.component').then(m => m.LabsComponent)
   },
   {
+    path: 'blog',
+    data: {
+      title: 'Blog — QuantsMind',
+      description:
+        'Engineering notes and research writing from QuantsMind: software architecture, the Karkain language and compiler, MicroQuantum, and the path from research to released technology.'
+    },
+    loadComponent: () =>
+      import('./pages/blog/blog.component').then(m => m.BlogComponent)
+  },
+  {
     path: 'about',
     data: {
       title: 'About — QuantsMind',

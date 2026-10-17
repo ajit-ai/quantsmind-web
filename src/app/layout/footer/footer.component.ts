@@ -93,8 +93,13 @@ interface FooterLink {
             <ul class="qm-footer__list" role="list">
               @for (link of technology; track link) {
                 <li>
-                  @let target = link.href | hrefParts;
-                  <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
+                  @if (link.external) {
+                    <a [href]="link.href" target="_blank" rel="noopener noreferrer" class="qm-footer__link"
+                      [attr.aria-label]="link.label + ' — opens in a new tab'">{{ link.label }}</a>
+                  } @else {
+                    @let target = link.href | hrefParts;
+                    <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
+                  }
                 </li>
               }
             </ul>
@@ -393,8 +398,8 @@ export class QmFooterComponent {
     { label: 'MicroQuantum', href: '/microquantum' },
     { label: 'Karkain', href: '/karkain' },
     { label: 'QuantsMind SDK', href: '/quantsmind-sdk' },
-    { label: 'QuantsMind Relational DB', href: '/technology' },
-    { label: 'GuardMCP', href: '/technology' }
+    { label: 'QuantsMind Relational DB', href: 'https://github.com/ajit-ai/Quantsmind-Relational-DB', external: true },
+    { label: 'GuardMCP', href: 'https://github.com/ajit-ai/GuardMCP', external: true }
   ];
 
   legal: FooterLink[] = [

@@ -31,10 +31,16 @@ interface FooterLink {
             <a routerLink="/" class="qm-footer__logo" aria-label="QuantsMind — Home">
               <span class="qm-footer__logo-mark" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2l7 4v5c0 5-3 9.5-7 11-4-1.5-7-6-7-11V6l7-4z" stroke="#fff"
-                    stroke-width="1.6" stroke-linejoin="round"/>
-                  <path d="M9 9.5l3 3 3-3M12 12.5v3" stroke="#fff" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round"/>
+                  <g stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="10.5" cy="10.5" r="7" stroke-width="2.1"/>
+                    <path d="M14.9 14.9 19.8 19.8" stroke-width="2.3"/>
+                    <path d="M7.1 9.2 11.3 6.5 13.3 11.4" stroke-width="0.95" opacity="0.55"/>
+                  </g>
+                  <g fill="#fff">
+                    <circle cx="7.1" cy="9.2" r="1.25"/>
+                    <circle cx="11.3" cy="6.5" r="1"/>
+                    <circle cx="13.3" cy="11.4" r="1.25"/>
+                  </g>
                 </svg>
               </span>
               <span class="qm-footer__logo-text">

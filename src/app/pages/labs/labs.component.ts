@@ -565,11 +565,9 @@ export class LabsComponent {
   philosophyStages: string[] = ['Concept', 'Experiment', 'Prototype', 'Technology', 'Product / Service'];
 
   legend: StatusLegend[] = [
-    { label: 'Research', variant: 'research' },
     { label: 'Experimental', variant: 'experimental' },
     { label: 'Feasibility Study', variant: 'prototype' },
-    { label: 'Under Development', variant: 'development' },
-    { label: 'Developer Preview', variant: 'experimental' }
+    { label: 'Under Development', variant: 'development' }
   ];
 
   projects: ProjectCard[] = [
@@ -590,41 +588,6 @@ export class LabsComponent {
         'versions run ahead of the version declared in the package manifest, and no ' +
         'release has been published.',
       repoUrl: 'https://github.com/ajit-ai/Vsector'
-    },
-    {
-      name: 'Quantsmind Coder',
-      variant: 'research',
-      status: 'Research',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
-      description:
-        'Open research on training a small code-oriented language model from scratch, ' +
-        'covering the tokenizer, pretraining, supervised fine-tuning, evaluation and ' +
-        'serving code. The corpus ships with a data card recording source and licence ' +
-        'for each chunk. Licensed Apache-2.0.',
-      limitation:
-        'A research-scale prototype. The committed corpus is roughly two orders of ' +
-        'magnitude smaller than the training configuration requests, and the committed ' +
-        'tokenizer vocabulary does not match the size that configuration declares. The ' +
-        'code-generation evaluation uses a handful of hand-written problems rather than ' +
-        'the full HumanEval or MBPP suites it names, so its figures are not comparable ' +
-        'to published benchmark results. No release has been published.',
-      repoUrl: 'https://github.com/ajit-ai/Quantsmind-LLM'
-    },
-    {
-      name: 'QuantumComputing',
-      variant: 'research',
-      status: 'Research',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
-      description:
-        'A study of quantum algorithms and their simulation. Includes a Python package ' +
-        'implementing around ten algorithms with its own test suite, an accompanying set ' +
-        'of notebooks, and an HTTP API.',
-      limitation:
-        'Educational research code. Simulation output produced on a classical machine ' +
-        'describes the mathematics of each algorithm, not the behaviour of quantum ' +
-        'hardware. The repository has no licence file, so it grants no reuse rights. ' +
-        'Development has been largely dormant since 2026 and no release has been published.',
-      repoUrl: 'https://github.com/ajit-ai/QuantumComputing'
     },
     {
       name: 'QuantsMind OSINT Intelligence Platform',

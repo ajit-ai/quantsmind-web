@@ -39,7 +39,7 @@ export const routes: Routes = [
     data: {
       title: 'Technology — QuantsMind',
       description:
-        'The QuantsMind technology ecosystem: Karkain, MicroQuantum, the QuantsMind SDK, QuantsMind Relational DB and GuardMCP, each with its current maturity and public source.'
+        'The QuantsMind technology ecosystem: Karkain, MicroQuantum, the QuantsMind SDK, QuantsMind Relational DB, GuardMCP, QuantsMind-Agent and QuantsMind-LLM, each with its current maturity and public source.'
     },
     loadComponent: () =>
       import('./pages/technology/technology.component').then(m => m.TechnologyComponent)

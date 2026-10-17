@@ -264,14 +264,58 @@ export class TechnologyComponent {
       description:
         'An open Python library that evaluates policy, risk, budget and delegation ' +
         'rules before an agent or client calls a protected Model Context Protocol tool, ' +
-        'and inspects the result afterwards. Published on PyPI as "guardmcp" version ' +
+        'and inspects the result afterwards. The package manifest declares version ' +
         '0.1.0. Development is partway through a documented phase plan and the current ' +
         'distribution contains the core package only; the remaining gateway, ' +
         'persistence and observability services are not yet packaged for third-party use.',
       href: '/technology',
-      repoUrl: 'https://github.com/ajit-ai/GuardMCP',
-      releaseUrl: 'https://pypi.org/project/guardmcp/',
-      releaseLabel: 'PyPI'
+      repoUrl: 'https://github.com/ajit-ai/GuardMCP'
+    },
+    {
+      name: 'QuantsMind-Agent',
+      tagline: 'Desktop AI Coding Agent',
+      status: 'Alpha · Under Development',
+      version: 'v0.2.0 (in-repo, unreleased)',
+      badge: 'prototype',
+      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M6 9l3 3-3 3M12 15h6"/></svg>',
+      description:
+        'A desktop coding agent that connects a compatible OpenAI-compatible language ' +
+        'model to a local project. It ships a PySide6/Qt interface and a headless CLI, ' +
+        'and can read, write, edit and delete files, run approved commands and inspect ' +
+        'Git state. Tools declare their own permissions, and a deny-by-default permission ' +
+        'layer with a human approval prompt gates every call. Licensed MIT. ' +
+        'Limitations: the command policy is an application-level deny list, not an ' +
+        'operating-system sandbox, and Git mutations (commit, push, checkout, reset) are ' +
+        'deliberately blocked. Version 0.2.0 is declared in the repository but no ' +
+        'release or package has been published. Windows is the only platform the GUI has ' +
+        'been run on; macOS is listed as planned and BSD is unsupported. An intermittent ' +
+        'GUI abort on one CPython version is documented as unresolved.',
+      href: '/technology',
+      repoUrl: 'https://github.com/ajit-ai/QuantsMind-Agent'
+    },
+    {
+      name: 'QuantsMind-LLM',
+      tagline: 'From-Scratch Coding Language Model Research',
+      status: 'Research Prototype',
+      version: 'No validated release',
+      badge: 'research',
+      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="4" r="1.5"/><circle cx="19" cy="16" r="1.5"/><circle cx="5" cy="16" r="1.5"/><path d="M12 5.5v4M13.8 13.4l3.6 1.8M10.2 13.4 6.6 15.2"/></svg>',
+      description:
+        'Open research into training a code-oriented language model from scratch, with ' +
+        'its own Transformer implementation (RMSNorm, rotary embeddings, grouped-query ' +
+        'attention, SwiGLU), its own BPE tokenizer, training and fine-tuning loops, and ' +
+        'local inference plus FastAPI serving for completion and review. Licensed ' +
+        'Apache-2.0. The project describes itself as a local prototype. ' +
+        'Limitations: no release has been published and no version has been validated. ' +
+        'The code corpus committed to the repository is far smaller than the shipped ' +
+        'training configuration requests, the committed tokenizer vocabulary does not ' +
+        'match the size that configuration declares, and the code-generation evaluation ' +
+        'uses a small set of hand-written problems rather than the full HumanEval and ' +
+        'MBPP suites it names. Its figures are therefore not comparable to published ' +
+        'benchmark results, and no independent model-quality assessment has been carried ' +
+        'out.',
+      href: '/technology',
+      repoUrl: 'https://github.com/ajit-ai/Quantsmind-LLM'
     }
   ];
 }

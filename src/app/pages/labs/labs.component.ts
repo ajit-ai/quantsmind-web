@@ -8,7 +8,16 @@ import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 interface PhilosophyCard { index: string; title: string; text: string; }
-interface DirectionCard { name: string; variant: BadgeVariant; status: string; icon: string; description: string; }
+interface ProjectCard {
+  name: string;
+  variant: BadgeVariant;
+  status: string;
+  icon: string;
+  description: string;
+  /** Explicit limitations. Rendered so the card cannot be read as a capability claim. */
+  limitation?: string;
+  repoUrl: string;
+}
 interface StatusLegend { label: string; variant: BadgeVariant; }
 interface ConnectionCard { name: string; variant: BadgeVariant; status: string; icon: string; description: string; cta: string; route: string; }
 interface ExploreArea { name: string; tag: string; }
@@ -144,15 +153,16 @@ interface ExploreArea { name: string; tag: string; }
       </qm-container>
     </qm-section>
 
-    <!-- ══════════ EXPLORATION DIRECTIONS ══════════ -->
-    <qm-section surface="canvas" ariaLabel="Technology exploration directions">
+    <!-- ══════════ RESEARCH PROJECTS ══════════ -->
+    <qm-section surface="canvas" ariaLabel="Current research projects">
       <qm-container>
-        <span class="eyebrow">EXPLORE</span>
-        <h2 class="labs-h2">Technology exploration directions</h2>
+        <span class="eyebrow">PROJECTS</span>
+        <h2 class="labs-h2">Current research projects</h2>
         <p class="labs-section-lead">
-          Labs explores across computing. Some directions are already producing
-          concrete open technologies; others are still forming. Every card carries
-          its current status so the maturity is always clear.
+          Open research code published under the QuantsMind GitHub organisation. Every
+          project below links to its own public repository, so what is claimed here can
+          be checked against the source. None of these is a finished product, and none
+          should be relied on for production work.
         </p>
 
         <div class="labs-legend" aria-label="Labs status vocabulary">
@@ -161,26 +171,35 @@ interface ExploreArea { name: string; tag: string; }
               <qm-badge [variant]="l.variant">{{ l.label }}</qm-badge>
             </span>
           }
-          <span class="labs-legend-item">
-            <qm-badge variant="default">Archived</qm-badge>
-          </span>
-        </div>
+          </div>
 
         <div class="labs-grid labs-grid--directions">
-          @for (d of directions; track d.name) {
+          @for (p of projects; track p.name) {
             <article class="labs-card labs-card--direction">
-              <div class="labs-card__icon" aria-hidden="true" [innerHTML]="d.icon | qmSafeHtml"></div>
+              <div class="labs-card__icon" aria-hidden="true" [innerHTML]="p.icon | qmSafeHtml"></div>
               <div class="labs-card__head">
-                <h3 class="labs-card-title">{{ d.name }}</h3>
-                <qm-badge [variant]="d.variant">{{ d.status }}</qm-badge>
+                <h3 class="labs-card-title">{{ p.name }}</h3>
+                <qm-badge [variant]="p.variant">{{ p.status }}</qm-badge>
               </div>
-              <p class="labs-card-text">{{ d.description }}</p>
+              <p class="labs-card-text">{{ p.description }}</p>
+              @if (p.limitation) {
+                <p class="labs-card-limit">
+                  <strong>Not established.</strong> {{ p.limitation }}
+                </p>
+              }
+              <p class="labs-card-repo">
+                <a [href]="p.repoUrl" target="_blank" rel="noopener noreferrer"
+                  [attr.aria-label]="'View the ' + p.name + ' repository on GitHub (opens in a new tab)'">
+                  View repository on GitHub ↗
+                </a>
+              </p>
             </article>
           }
         </div>
         <p class="labs-note labs-note--center">
-          These are exploration directions, not completed projects. A direction may
-          evolve, be incorporated into another technology, or be discontinued.
+          These are research projects and prototypes, not completed products. A project
+          may change direction, remain experimental, be incorporated into another
+          technology, or be discontinued.
         </p>
       </qm-container>
     </qm-section>
@@ -368,6 +387,21 @@ interface ExploreArea { name: string; tag: string; }
     .labs-card:hover { box-shadow: var(--card-shadow-hi); transform: translateY(-2px); border-color: var(--card-border-hi); }
     .labs-card-title { margin: 0 0 8px; font-size: 20px; }
     .labs-card-text { font-size: 15px; line-height: 1.7; color: var(--color-text-secondary); margin: 0; }
+    .labs-card-limit {
+      margin: 0; padding: 14px 16px;
+      font-size: 13.5px; line-height: 1.65; color: var(--color-text-secondary);
+      background: var(--color-surface);
+      border-left: 3px solid var(--color-accent);
+      border-radius: 0 8px 8px 0;
+    }
+    .labs-card-limit strong { color: var(--color-text-primary); }
+    .labs-card-repo { margin: auto 0 0; padding-top: 18px; }
+    .labs-card-repo a {
+      font-size: 13px; font-weight: 500; color: var(--color-accent);
+      text-decoration: underline; text-underline-offset: 2px;
+    }
+    .labs-card-repo a:hover { text-decoration-thickness: 2px; }
+    .labs-card-repo a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 3px; }
     .labs-card__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
     .labs-card__head .labs-card-title { margin: 0; }
 
@@ -531,90 +565,131 @@ export class LabsComponent {
   philosophyStages: string[] = ['Concept', 'Experiment', 'Prototype', 'Technology', 'Product / Service'];
 
   legend: StatusLegend[] = [
-    { label: 'Concept', variant: 'concept' },
-    { label: 'Experiment', variant: 'experimental' },
-    { label: 'Prototype', variant: 'prototype' },
-    { label: 'Active Development', variant: 'development' },
-    { label: 'Released / Stable', variant: 'stable' }
+    { label: 'Research', variant: 'research' },
+    { label: 'Experimental', variant: 'experimental' },
+    { label: 'Feasibility Study', variant: 'prototype' },
+    { label: 'Under Development', variant: 'development' },
+    { label: 'Developer Preview', variant: 'experimental' }
   ];
 
-  directions: DirectionCard[] = [
+  projects: ProjectCard[] = [
     {
-      name: 'Quantum Computing',
-      variant: 'development',
-      status: 'Active Development',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
-      description: 'Quantum program construction, execution and analysis tooling, explored and built as the open MicroQuantum SDK. MicroQuantum 1.1.0 is a stable public SDK release; quantum-computing research and future capabilities continue beyond the current release.'
+      name: 'Vsector',
+      variant: 'experimental',
+      status: 'Experimental',
+      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5.5" rx="8" ry="3"/><path d="M4 5.5v13c0 1.7 3.6 3 8 3s8-1.3 8-3v-13"/><path d="M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg>',
+      description:
+        'A vector database written in Python, exploring approximate nearest-neighbour ' +
+        'search, write-ahead logging, sharding and replication. Roughly 7,400 lines ' +
+        'across 66 modules with a substantial test suite. Licensed MIT.',
+      limitation:
+        'Single-process only. There is no cross-node transport, consensus, leader ' +
+        'election, failover or shard migration, so the distributed architecture described ' +
+        'in its README is a roadmap rather than a capability. The published benchmark ' +
+        'figures were measured on a 2,000-vector, 32-dimensional toy dataset. Tagged ' +
+        'versions run ahead of the version declared in the package manifest, and no ' +
+        'release has been published.',
+      repoUrl: 'https://github.com/ajit-ai/Vsector'
     },
     {
-      name: 'Programming Languages',
-      variant: 'development',
-      status: 'Active Development',
+      name: 'Quantsmind Coder',
+      variant: 'research',
+      status: 'Research',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
-      description: 'Language, compiler, runtime and tooling exploration through Karkain. Karkain 1.1.0 is a stable released language and compiler, while language evolution and additional capabilities continue through subsequent development.'
+      description:
+        'Open research on training a small code-oriented language model from scratch, ' +
+        'covering the tokenizer, pretraining, supervised fine-tuning, evaluation and ' +
+        'serving code. The corpus ships with a data card recording source and licence ' +
+        'for each chunk. Licensed Apache-2.0.',
+      limitation:
+        'A research-scale prototype. The committed corpus is roughly two orders of ' +
+        'magnitude smaller than the training configuration requests, and the committed ' +
+        'tokenizer vocabulary does not match the size that configuration declares. The ' +
+        'code-generation evaluation uses a handful of hand-written problems rather than ' +
+        'the full HumanEval or MBPP suites it names, so its figures are not comparable ' +
+        'to published benchmark results. No release has been published.',
+      repoUrl: 'https://github.com/ajit-ai/Quantsmind-LLM'
     },
     {
-      name: 'AI & Machine Learning',
-      variant: 'concept',
-      status: 'Concept',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11h-6a4 4 0 0 1-4-4V3"/><path d="M6 21a8 8 0 0 1 0-16"/><circle cx="18" cy="5" r="2"/><circle cx="18" cy="11" r="2"/><circle cx="18" cy="17" r="2"/><circle cx="6" cy="17" r="1.5"/></svg>',
-      description: 'Exploring future intelligent-system and machine-learning engineering directions. The QuantsMind SDK 1.1.0 already implements AI abstractions including an agent loop, so this direction extends shipped capability rather than starting from nothing.'
+      name: 'QuantumComputing',
+      variant: 'research',
+      status: 'Research',
+      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
+      description:
+        'A study of quantum algorithms and their simulation. Includes a Python package ' +
+        'implementing around ten algorithms with its own test suite, an accompanying set ' +
+        'of notebooks, and an HTTP API.',
+      limitation:
+        'Educational research code. Simulation output produced on a classical machine ' +
+        'describes the mathematics of each algorithm, not the behaviour of quantum ' +
+        'hardware. The repository has no licence file, so it grants no reuse rights. ' +
+        'Development has been largely dormant since 2026 and no release has been published.',
+      repoUrl: 'https://github.com/ajit-ai/QuantumComputing'
     },
     {
-      name: 'Developer Tools',
+      name: 'QuantsMind OSINT Intelligence Platform',
       variant: 'development',
-      status: 'Active Development',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>',
-      description: 'Ongoing work on the tooling that surrounds Karkain — Language Server intelligence, editor integration and developer experience. Karkain Language Tools v0.9.0 is the published baseline presented on the Technology side; the work tracked here is the capability added beyond it, including the semantic features the language server does not yet provide.'
+      status: 'Experimental · Under Development',
+      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/></svg>',
+      description:
+        'An open-source-intelligence collection and analysis platform with a Python ' +
+        'backend, a Vue frontend, role-based access control and an audit middleware that ' +
+        'redacts sensitive payload keys. Ships container and Kubernetes manifests.',
+      limitation:
+        'Not verified end to end. Every recorded continuous-integration run failed, so ' +
+        'the backend test suite has never been observed to pass, and several pipeline ' +
+        'steps are written so that they cannot fail the build. Entity extraction depends ' +
+        'on a language model the install requirements do not include, and map coordinates ' +
+        'come from a small hard-coded city table. There is no licence file and no release.',
+      repoUrl: 'https://github.com/ajit-ai/Quantsmind-OSINT-Intelligence-Platform'
     },
     {
-      name: 'Data & Intelligence',
-      variant: 'concept',
-      status: 'Concept',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
-      description: 'Knowledge representation, data intelligence and intelligent data systems. QuantsMind SDK 1.1.0 implements finance mathematics and knowledge-graph functionality; wider data capability continues to develop.'
-    },
-    {
-      name: 'Systems & Infrastructure',
-      variant: 'concept',
-      status: 'Concept',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="7" rx="2"/><rect x="2" y="14" width="20" height="7" rx="2"/><path d="M6 6.5h.01M6 17.5h.01"/></svg>',
-      description: 'Runtime, compiler, provider and simulation directions for future computing architectures. Karkain 1.1.0 already ships a self-hosted compiler and toolchain; the wider infrastructure research continues beyond that.'
-    },
-    {
-      name: 'Scientific Computing',
-      variant: 'concept',
-      status: 'Concept',
-      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v6L4.5 18a2 2 0 0 0 1.8 3h11.4a2 2 0 0 0 1.8-3L14 8V2"/><path d="M8.5 2h7M7 14h10"/></svg>',
-      description: 'Numerical methods, mathematical foundations, simulation and scientific domains. QuantsMind SDK 1.1.0 is already a stable scientific-computing SDK with implemented functionality across these domains, and this direction continues to grow from there.'
+      name: 'QuantsMind AI Fake News Detection System',
+      variant: 'prototype',
+      status: 'Feasibility Study',
+      icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H8l-4 4z"/><path d="M8 9h8M8 12h5"/></svg>',
+      description:
+        'A feasibility study into classifying news text, containing a cleaning pipeline, ' +
+        'a training script, an evaluation harness and a small HTTP prediction service, ' +
+        'with a Dockerfile and Python packaging configuration.',
+      limitation:
+        'Its reported accuracy is not independently validated and must not be relied on. ' +
+        'The committed evaluation report shows a perfect score, but that score was ' +
+        'measured on a synthetic dataset generated from a handful of title and body ' +
+        'templates, which any classifier separates perfectly; it does not measure ' +
+        'real-world fake-news detection. No trained model checkpoint is included. When ' +
+        'none is present the service loads an untuned base model with an untrained ' +
+        'classification head, so its current prediction behaviour is not reliable evidence ' +
+        'of model performance. There is no licence file and no release.',
+      repoUrl: 'https://github.com/ajit-ai/Quantsmind-AI-Fake-News-Detection-System'
     }
   ];
 
   connections: ConnectionCard[] = [
     {
       name: 'MicroQuantum',
-      variant: 'stable',
-      status: 'Stable · v1.1.0',
+      variant: 'experimental',
+      status: 'Developer Preview · v1.1.0',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
-      description: 'A concrete QuantsMind technology: an open Python SDK for building, executing and analyzing quantum programs. Released as a stable public version on PyPI — the shipped result of quantum-computing exploration.',
+      description: 'A concrete QuantsMind technology: an open Python SDK for building, executing and analyzing quantum programs, published on PyPI at version 1.1.0. Execution is by simulation; no quantum hardware backend is included.',
       cta: 'Explore MicroQuantum',
       route: '/microquantum'
     },
     {
       name: 'Karkain',
-      variant: 'stable',
-      status: 'Stable · v1.1.0',
+      variant: 'experimental',
+      status: 'Developer Preview · v1.1.0',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
-      description: 'A concrete QuantsMind technology: a statically typed systems programming language and computing ecosystem with a self-hosted compiler. Released as a stable version; further language and compiler development continues.',
+      description: 'A concrete QuantsMind technology: a statically typed systems programming language and computing ecosystem with a self-hosted compiler, published at version 1.1.0. The language and compiler are early and the API surface may still change.',
       cta: 'Explore Karkain',
       route: '/karkain'
     },
     {
       name: 'QuantsMind SDK',
-      variant: 'stable',
-      status: 'Stable · v1.1.0',
+      variant: 'experimental',
+      status: 'Developer Preview · v1.1.0',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
-      description: 'An open, universal, vendor-independent scientific computing SDK with implemented functionality across mathematics, the sciences, finance, AI agents and knowledge graphs. Released as a stable version; further capability continues to be added.',
+      description: 'An open, vendor-independent scientific computing SDK, published at version 1.1.0, with functionality across mathematics, the sciences, finance, AI agents and knowledge graphs. It is a young project with a rapidly growing surface; coverage and numerical accuracy vary by domain.',
       cta: 'Explore the SDK',
       route: '/quantsmind-sdk'
     }

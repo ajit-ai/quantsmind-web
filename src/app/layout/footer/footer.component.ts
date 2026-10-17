@@ -94,23 +94,7 @@ interface FooterLink {
             </ul>
           </nav>
 
-          <!-- Developer Tools column -->
-          <nav class="qm-footer__col" aria-label="Developer tools links">
-            <h3 class="qm-footer__heading">Developer Tools</h3>
-            <ul class="qm-footer__list" role="list">
-              @for (link of developerTools; track link) {
-                <li>
-                  @if (link.external) {
-                    <a [href]="link.href" target="_blank" rel="noopener noreferrer" class="qm-footer__link">{{ link.label }}</a>
-                  } @else {
-                    @let target = link.href | hrefParts;
-                    <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
-                  }
-                </li>
-              }
-            </ul>
-          </nav>
-        </div>
+          </div>
       </div>
     
       <!-- ═══════════════════════════════════════════════ -->
@@ -398,15 +382,9 @@ export class QmFooterComponent {
   technology: FooterLink[] = [
     { label: 'MicroQuantum', href: '/microquantum' },
     { label: 'Karkain', href: '/karkain' },
-    { label: 'QuantsMind SDK', href: '/quantsmind-sdk' }
-  ];
-
-  developerTools: FooterLink[] = [
-    {
-      label: 'Karkain Language Tools',
-      href: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain&ssr=false#overview',
-      external: true
-    }
+    { label: 'QuantsMind SDK', href: '/quantsmind-sdk' },
+    { label: 'QuantsMind Relational DB', href: '/technology' },
+    { label: 'GuardMCP', href: '/technology' }
   ];
 
   legal: FooterLink[] = [

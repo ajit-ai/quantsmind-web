@@ -5,10 +5,12 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
 
 /**
- * Publication state of an article. Phase 1 has no detail pages, so
- * every entry is unpublished and says so on the card itself.
+ * Publication state of an article. This page lists articles that are still
+ * in preparation; nothing is published yet, and every card says so.
+ * `date` is deliberately optional and is left unset rather than invented,
+ * and reading time is omitted because it cannot be known before writing.
  */
-type ArticleStatus = 'coming-soon';
+type ArticleStatus = 'planned';
 
 interface BlogArticle {
   /** Editorial index, used as a quiet technical marker. */
@@ -20,10 +22,10 @@ interface BlogArticle {
   /** Badge variant chosen to read as "not yet published". */
   badge: BadgeVariant;
   /**
-   * Only set when a real publication date exists. Phase 1 has none,
-   * and reading time is omitted because it would be a guess.
+   * The primary source the article will be written against. This is a real,
+   * verified reference, not a link added for decoration.
    */
-  date?: string;
+  source: { label: string; url: string };
 }
 
 @Component({
@@ -39,9 +41,9 @@ interface BlogArticle {
         <span class="eyebrow">BLOG</span>
         <h1>Blog</h1>
         <p class="lead">
-          Engineering notes and research writing from QuantsMind. We write about the
-          systems we design, the technologies we build, and the reasoning behind both —
-          including the parts that are still unfinished.
+          Educational writing on software engineering and research. We read primary
+          sources — papers, specifications and official documentation — and explain
+          what they actually establish, including where the evidence runs out.
         </p>
       </qm-container>
     </section>
@@ -49,27 +51,33 @@ interface BlogArticle {
     <!-- ═══════════════════════════════════════════════════════ -->
     <!-- TOPICS                                                  -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="sm" ariaLabel="Topics covered">
+    <qm-section surface="white" size="sm" ariaLabel="Editorial scope">
       <qm-container>
-        <h2 class="topics__heading">Topics</h2>
+        <h2 class="topics__heading">Subjects covered</h2>
         <ul class="topics" role="list">
           @for (topic of topics; track topic) {
             <li class="topics__item">{{ topic }}</li>
           }
         </ul>
+        <p class="topics__note">
+          Articles here are educational. They cover published research and established
+          engineering practice from primary sources, and they do not promote products
+          or describe internal projects. Nothing on this page is an announcement.
+        </p>
       </qm-container>
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
     <!-- ARTICLES                                                -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas" ariaLabel="Latest engineering notes">
+    <qm-section surface="canvas" ariaLabel="Planned articles">
       <qm-container>
         <div class="notes-head">
-          <h2 class="notes-head__title">Latest &amp; Engineering Notes</h2>
+          <h2 class="notes-head__title">Planned articles</h2>
           <p class="notes-head__lead">
-            Each entry below is in preparation. Nothing is published yet, and no
-            article is presented as finished work.
+            Nothing here is published. Each entry below is a topic under preparation,
+            listed with the primary source it will be written against so you can read
+            the original material yourself. No dates are shown because none exist yet.
           </p>
         </div>
 
@@ -85,11 +93,13 @@ interface BlogArticle {
               <h3 class="note__title">{{ article.title }}</h3>
               <p class="note__excerpt">{{ article.excerpt }}</p>
 
-              @if (article.date) {
-                <p class="note__date">
-                  <time [attr.datetime]="article.date">{{ article.date }}</time>
-                </p>
-              }
+              <p class="note__source">
+                <span class="note__source-label">Primary source</span>
+                <a [href]="article.source.url" target="_blank" rel="noopener noreferrer"
+                  [attr.aria-label]="'Read ' + article.source.label + ' (opens in a new tab)'">
+                  {{ article.source.label }} ↗
+                </a>
+              </p>
             </article>
           }
         </div>
@@ -97,13 +107,20 @@ interface BlogArticle {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- CLOSING NOTE                                            -->
+    <!-- PUBLISHING STANDARD                                     -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="sm" ariaLabel="Editorial note">
+    <qm-section surface="white" size="sm" ariaLabel="Publishing standards">
       <qm-container size="narrow">
+        <h2 class="closing__heading">How these articles are written</h2>
+        <ul class="standards">
+          @for (rule of standards; track rule) {
+            <li>{{ rule }}</li>
+          }
+        </ul>
         <p class="closing">
-          More engineering notes and research stories will be published as QuantsMind
-          projects progress.
+          Well-written text is not the same as verified research. Every factual claim is
+          traced to a primary source, and results that depend on an unreproducible setup
+          are labelled as such rather than presented as findings.
         </p>
       </qm-container>
     </qm-section>
@@ -184,90 +201,201 @@ interface BlogArticle {
       color: var(--color-text-secondary);
       text-wrap: pretty;
     }
-    .note__date {
-      margin: 0; padding-top: 12px;
-      border-top: 1px solid var(--color-surface-subtle);
-      font-size: 13px; color: var(--color-text-muted);
-    }
 
     /* ── CLOSING NOTE ──────────────────────────────────── */
     .closing {
-      margin: 0;
+      margin: 0; padding-top: 28px;
       font-size: 15px; line-height: 1.75;
       color: var(--color-text-muted);
       text-align: center;
       text-wrap: pretty;
     }
+    .closing__heading {
+      font-size: clamp(20px, 2.4vw, 26px); font-weight: 700;
+      color: var(--color-text-primary);
+      margin: 0 0 20px; letter-spacing: -0.01em;
+    }
+    .topics__note {
+      margin: 20px 0 0; max-width: 640px;
+      font-size: 15px; line-height: 1.7; color: var(--color-text-secondary);
+    }
+
+    /* ── PRIMARY SOURCE ──────────────────────────────────── */
+    .note__source {
+      margin: auto 0 0; padding-top: 18px;
+      display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
+      font-size: 13px;
+    }
+    .note__source-label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
+      text-transform: uppercase; color: var(--color-text-muted);
+    }
+    .note__source a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
+    .note__source a:hover { text-decoration-thickness: 2px; }
+    .note__source a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 3px; }
+
+    /* ── PUBLISHING STANDARD ─────────────────────────────── */
+    .standards {
+      margin: 0; padding-left: 22px;
+      display: flex; flex-direction: column; gap: 12px;
+      color: var(--color-text-secondary); font-size: 15px; line-height: 1.7;
+      text-align: left;
+    }
+    .standards li { text-wrap: pretty; }
   `]
 })
 export class BlogComponent {
   /**
-   * Topics are listed for orientation only. Phase 1 has no filtering,
-   * so this is a plain static strip.
+   * Subject areas, listed for orientation. There is no filtering yet, so
+   * this is a plain static strip.
    */
   readonly topics: string[] = [
-    'Engineering',
-    'Architecture',
-    'Karkain',
-    'MicroQuantum',
-    'AI & Intelligence',
-    'Labs'
+    'Software Architecture',
+    'Distributed Systems',
+    'Databases',
+    'Machine Learning Research',
+    'Quantum Computing',
+    'Developer Tooling'
   ];
 
   /**
-   * Phase 1 entries. None of these have a publication date, so `date`
-   * is omitted rather than invented, and no reading time is shown
-   * because it cannot be known before an article is written.
+   * Planned articles. None is written yet, so `date` is not modelled at all
+   * rather than filled with a placeholder. Every entry names the primary
+   * source the piece will be written against; each of those links was
+   * verified to resolve before being added here.
    */
   readonly articles: BlogArticle[] = [
     {
       index: '01',
-      title: 'Engineering QuantsMind as a Product Platform',
+      title: 'How the Transformer architecture replaced recurrence in sequence models',
       excerpt:
-        'How the QuantsMind ecosystem is structured so that independent technologies share common engineering foundations, versioning discipline and documentation standards rather than reinventing them per project.',
-      category: 'Architecture',
-      status: 'coming-soon',
-      badge: 'concept'
+        'What the attention mechanism actually computes, why removing recurrence made ' +
+        'training dramatically more parallelisable, and which parts of the original ' +
+        'design have aged well and which have been quietly superseded.',
+      category: 'Machine Learning Research',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'Vaswani et al., "Attention Is All You Need" (arXiv:1706.03762)',
+        url: 'https://arxiv.org/abs/1706.03762'
+      }
     },
     {
       index: '02',
-      title: 'Building a Compiler from the Language Boundary Up',
+      title: 'Why skip connections changed the depth of trainable networks',
       excerpt:
-        'Notes on the Karkain compiler pipeline — from lexing and parsing through semantic analysis to a C23 boundary — and on the reasoning behind delegating final machine code to established C toolchains.',
-      category: 'Karkain',
-      status: 'coming-soon',
-      badge: 'concept'
+        'The optimisation problem that made very deep networks hard to train, how ' +
+        'residual connections address it, and the honest caveat that skip connections ' +
+        'do not by themselves explain why optimisation became easy.',
+      category: 'Machine Learning Research',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'He et al., "Deep Residual Learning for Image Recognition" (arXiv:1512.03385)',
+        url: 'https://arxiv.org/abs/1512.03385'
+      }
     },
     {
       index: '03',
-      title: 'MicroQuantum: Exploring Quantum Computing in Software',
+      title: 'Reading a few-shot language-model paper without over-reading it',
       excerpt:
-        'How MicroQuantum separates the construction of a quantum program from its execution, and what that separation makes possible for testing, analysis and future backends.',
-      category: 'MicroQuantum',
-      status: 'coming-soon',
-      badge: 'concept'
+        'A close reading of what the few-shot results in the GPT-3 paper do and do not ' +
+        'show, including the datasets the authors themselves flag as methodologically ' +
+        'contaminated and the tasks where scaling still did not help.',
+      category: 'Machine Learning Research',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'Brown et al., "Language Models are Few-Shot Learners" (arXiv:2005.14165)',
+        url: 'https://arxiv.org/abs/2005.14165'
+      }
     },
     {
       index: '04',
-      title: 'From Research Lab to Released Technology',
+      title: 'What "quantum advantage" claims did and did not demonstrate',
       excerpt:
-        'A look at the path an idea takes through QuantsMind Labs before it becomes a released technology, and the discipline of labelling work honestly at every stage along the way.',
-      category: 'Labs',
-      status: 'coming-soon',
-      badge: 'concept'
+        'The sampling task behind the 2019 supremacy experiment, why it is a ' +
+        'meaningful milestone and simultaneously a very narrow one, and what a ' +
+        'simulation on a classical machine can and cannot tell you.',
+      category: 'Quantum Computing',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'Google AI Quantum, "Quantum supremacy using a programmable superconducting processor" (arXiv:1910.11333)',
+        url: 'https://arxiv.org/abs/1910.11333'
+      }
     },
     {
       index: '05',
-      title: 'Engineering Lessons from Building Independent Developer Tools',
+      title: 'Consensus algorithms: reading the Raft paper closely',
       excerpt:
-        'What building the Karkain language tooling taught us about developer experience, language server behaviour and shipping tools that people can depend on.',
-      category: 'Engineering',
-      status: 'coming-soon',
-      badge: 'concept'
+        'Leader election, log replication and safety in Raft, and why the paper ' +
+        'reorganises consensus teaching around a small number of mechanisms instead of ' +
+        'a family of subtly different protocols.',
+      category: 'Distributed Systems',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'Ongaro & Ousterhout, "In Search of an Understandable Consensus Algorithm"',
+        url: 'https://raft.github.io/'
+      }
+    },
+    {
+      index: '06',
+      title: 'Choosing an embedded database: what SQLite is and is not for',
+      excerpt:
+        'The concurrency model, the limits on write throughput, and the specific classes ' +
+        'of application where an embedded engine is the right answer and where it is not.',
+      category: 'Databases',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'SQLite project, "Appropriate Uses For SQLite"',
+        url: 'https://sqlite.org/whentouse.html'
+      }
+    },
+    {
+      index: '07',
+      title: 'Reading the Bitcoin whitepaper thirty years of commentary later',
+      excerpt:
+        'What the original paper argues, which of its claims have held up, and how ' +
+        'much of the popular description of Bitcoin is actually in the paper.',
+      category: 'Software Architecture',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'Nakamoto, "Bitcoin: A Peer-to-Peer Electronic Cash System"',
+        url: 'https://bitcoin.org/bitcoin.pdf'
+      }
+    },
+    {
+      index: '08',
+      title: 'Reading a library API reference critically',
+      excerpt:
+        'A repeatable method for checking what a standard-library interface actually ' +
+        'guarantees — and how to tell a documented promise from an observed ' +
+        'implementation detail.',
+      category: 'Developer Tooling',
+      status: 'planned',
+      badge: 'concept',
+      source: {
+        label: 'Python documentation, "sqlite3 — DB-API 2.0 interface for SQLite databases"',
+        url: 'https://docs.python.org/3/library/sqlite3.html'
+      }
     }
   ];
 
+  /** Lightweight editorial standard applied to every article before publication. */
+  readonly standards: string[] = [
+    'A stated question or technical objective that the article actually answers.',
+    'Primary sources — research papers, official documentation, specifications — cited directly.',
+    'Reproducible code, experiments or benchmarks wherever the topic allows them.',
+    'Explicit limitations, environment details and negative results included, not omitted.',
+    'Measured results kept clearly separate from interpretation and from opinion.',
+    'Human review before anything is published.'
+  ];
+
   statusLabel(status: ArticleStatus): string {
-    return status === 'coming-soon' ? 'Coming Soon' : status;
+    return status === 'planned' ? 'Planned' : status;
   }
 }

@@ -37,7 +37,7 @@ interface FlowStep { title: string; description: string; }
       <qm-container>
         <a routerLink="/technology" class="mq-back">&larr; Technology Ecosystem</a>
 
-        <qm-badge variant="stable" class="mq-hero__badge">Stable · v1.1.0</qm-badge>
+        <qm-badge variant="experimental" class="mq-hero__badge">Developer Preview · v1.1.0</qm-badge>
         <h1 class="mq-hero__title">MicroQuantum</h1>
         <p class="mq-hero__tagline">Quantum computing, built for developers.</p>
         <p class="mq-hero__lead">
@@ -373,7 +373,7 @@ interface FlowStep { title: string; description: string; }
           <article class="mq-res-card">
             <div class="mq-res-card__icon" aria-hidden="true" [innerHTML]="resPyPi.icon | qmSafeHtml"></div>
             <h3 class="mq-res-card__title">PyPI</h3>
-            <p class="mq-res-card__desc">Install the current stable release from PyPI.</p>
+            <p class="mq-res-card__desc">Install the current published release from PyPI.</p>
             <qm-button variant="secondary" size="sm" [href]="resPyPi.href" target="_blank">
               Install MicroQuantum →
             </qm-button>
@@ -393,7 +393,7 @@ interface FlowStep { title: string; description: string; }
               <span class="mq-eyebrow">INSTALLATION</span>
               <h2 class="mq-install__title">Ready to Install</h2>
             </div>
-            <qm-badge variant="stable">MicroQuantum v1.1.0</qm-badge>
+            <qm-badge variant="experimental">MicroQuantum v1.1.0</qm-badge>
           </div>
           <p class="mq-install__note">
             Requires Python 3.10–3.13. NumPy is installed automatically.
@@ -419,10 +419,10 @@ interface FlowStep { title: string; description: string; }
       <qm-container size="narrow">
         <div class="mq-notice" role="note">
           <span class="mq-eyebrow">RELEASE STATUS</span>
-          <h2>MicroQuantum 1.1.0 Is a Stable Public Release</h2>
+          <h2>MicroQuantum 1.1.0 Is a Published Public Release</h2>
           <p class="mq-notice__desc">
             Version 1.1.0 is published on PyPI as a final release, so
-            <code>pip install microquantum</code> gives you a stable package.
+            <code>pip install microquantum</code> gives you a pinned, published package.
             Individual capabilities still evolve between releases, and we keep
             developing the SDK beyond 1.1.0. Feedback, issues and contributions are
             welcome through the project's
@@ -487,7 +487,7 @@ interface FlowStep { title: string; description: string; }
         <h2 class="mq-cta__title">Explore MicroQuantum</h2>
         <p class="mq-cta__sub">
           Start with the documentation, explore the source code, or install the
-          current stable release.
+          current published release.
         </p>
         <div class="mq-cta__actions">
           <qm-button variant="primary" size="lg" [href]="links.docs" target="_blank">

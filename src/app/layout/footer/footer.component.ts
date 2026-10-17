@@ -193,7 +193,9 @@ interface FooterLink {
       gap: 40px;
     }
     @media (min-width: 1100px) {
-      .qm-footer__grid { grid-template-columns: 1.5fr repeat(4, 1fr); gap: 32px; }
+      /* Brand + Site + Products + Technology = 4 items. A 5th track left an
+         empty trailing column after the Developer Tools column was removed. */
+      .qm-footer__grid { grid-template-columns: 1.5fr repeat(3, 1fr); gap: 32px; }
     }
 
     /* Brand */
@@ -359,7 +361,9 @@ interface FooterLink {
 
     /* ── Responsive ────────────────────────────────────── */
     @media (max-width: 1099px) and (min-width: 768px) {
-      .qm-footer__grid { grid-template-columns: 1fr 1fr; }
+      /* 3 nav columns under a full-width brand. At 2 columns the third nav
+         column wrapped alone and left a gap beside it. */
+      .qm-footer__grid { grid-template-columns: repeat(3, 1fr); }
       .qm-footer__brand { grid-column: 1 / -1; }
     }
     @media (max-width: 767px) {

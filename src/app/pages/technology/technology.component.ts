@@ -15,7 +15,16 @@ interface EcosystemTech {
   badge: BadgeVariant;
   mark: string;
   description: string;
+  /**
+   * Primary destination for the card. Internal route for projects that have a
+   * detail page; the verified public repository (external) for the rest, so the
+   * card never links back to the page it is already on.
+   */
   href: string;
+  /** True when `href` is an off-site URL, which opens in a new tab. */
+  external?: boolean;
+  /** Trailing link text. Defaults to "Explore <name>". */
+  ctaText?: string;
   /** Public repository. Omitted only when a project has no public repository. */
   repoUrl?: string;
   /** Release, package index or documentation reference backing the version shown. */
@@ -53,26 +62,34 @@ interface EcosystemTech {
               <span class="qm-mark tech-card__mark" aria-hidden="true" [innerHTML]="tech.mark | qmSafeHtml"></span>
               <div class="tech-card__meta">
                 <h2 class="tech-card__title">
-                  <a [routerLink]="tech.href" class="tech-card__title-link">{{ tech.name }}</a>
+                  @if (tech.external) {
+                    <a [href]="tech.href" target="_blank" rel="noopener noreferrer"
+                      class="tech-card__title-link"
+                      [attr.aria-label]="tech.name + ' — open repository on GitHub in a new tab'">{{ tech.name }}</a>
+                  } @else {
+                    <a [routerLink]="tech.href" class="tech-card__title-link">{{ tech.name }}</a>
+                  }
                 </h2>
                 <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
               </div>
               <p class="tech-card__version">{{ tech.version }}</p>
               <p class="tech-card__tagline">{{ tech.tagline }}</p>
               <p class="tech-card__desc">{{ tech.description }}</p>
-              <span class="tech-card__link" aria-hidden="true">Explore {{ tech.name }} →</span>
-              @if (tech.repoUrl || tech.releaseUrl) {
+              <span class="tech-card__link" aria-hidden="true">{{ tech.ctaText || ('Explore ' + tech.name) }}</span>
+              @if ((tech.repoUrl && !tech.external) || tech.releaseUrl) {
                 <p class="tech-card__refs">
-                  @if (tech.repoUrl) {
+                  @if (tech.repoUrl && !tech.external) {
                     <a [href]="tech.repoUrl" target="_blank" rel="noopener noreferrer"
-                      class="tech-card__ref">{{ tech.name }} on GitHub ↗</a>
+                      class="tech-card__ref"
+                      [attr.aria-label]="tech.name + ' — open repository on GitHub in a new tab'">{{ tech.name }} on GitHub ↗</a>
                   }
-                  @if (tech.repoUrl && tech.releaseUrl) {
+                  @if (tech.repoUrl && !tech.external && tech.releaseUrl) {
                     <span class="tech-card__refsep" aria-hidden="true">·</span>
                   }
                   @if (tech.releaseUrl) {
                     <a [href]="tech.releaseUrl" target="_blank" rel="noopener noreferrer"
-                      class="tech-card__ref">{{ tech.releaseLabel }} ↗</a>
+                      class="tech-card__ref"
+                      [attr.aria-label]="tech.releaseLabel + ' — opens in a new tab'">{{ tech.releaseLabel }} ↗</a>
                   }
                 </p>
               }
@@ -88,9 +105,15 @@ interface EcosystemTech {
           <h2>Behind the Ecosystem</h2>
           <p class="lead">
             These technologies are built with the same engineering discipline we apply
-            to client work. Each project page states its current maturity and its known
+            to client work. Each entry states its current maturity and its known
             limitations. Where a project is incomplete, pre-release, or simulation-only,
             the description says so rather than rounding it up.
+          </p>
+          <p class="lead section-lead">
+            Karkain, MicroQuantum and the QuantsMind SDK have their own pages below. The
+            remaining projects do not have a dedicated page yet, so their cards link
+            straight to the public repository, where the source and its documentation can
+            be read directly.
           </p>
           <qm-button variant="secondary" [routerLinkValue]="'/contact'">
             Discuss a Collaboration Idea →
@@ -249,7 +272,9 @@ export class TechnologyComponent {
         '0.1.0 is published as a pre-release. It supports a subset of SQL rather than ' +
         'full conformance, and recovery is redo-only without physical checkpoints. Not ' +
         'published to crates.io or npm; build from source.',
-      href: '/technology',
+      href: 'https://github.com/ajit-ai/Quantsmind-Relational-DB',
+      external: true,
+      ctaText: 'View repository on GitHub ↗',
       repoUrl: 'https://github.com/ajit-ai/Quantsmind-Relational-DB',
       releaseUrl: 'https://github.com/ajit-ai/Quantsmind-Relational-DB/releases/tag/v0.1.0',
       releaseLabel: 'Release v0.1.0'
@@ -268,7 +293,9 @@ export class TechnologyComponent {
         '0.1.0. Development is partway through a documented phase plan and the current ' +
         'distribution contains the core package only; the remaining gateway, ' +
         'persistence and observability services are not yet packaged for third-party use.',
-      href: '/technology',
+      href: 'https://github.com/ajit-ai/GuardMCP',
+      external: true,
+      ctaText: 'View repository on GitHub ↗',
       repoUrl: 'https://github.com/ajit-ai/GuardMCP'
     },
     {
@@ -290,7 +317,9 @@ export class TechnologyComponent {
         'release or package has been published. Windows is the only platform the GUI has ' +
         'been run on; macOS is listed as planned and BSD is unsupported. An intermittent ' +
         'GUI abort on one CPython version is documented as unresolved.',
-      href: '/technology',
+      href: 'https://github.com/ajit-ai/QuantsMind-Agent',
+      external: true,
+      ctaText: 'View repository on GitHub ↗',
       repoUrl: 'https://github.com/ajit-ai/QuantsMind-Agent'
     },
     {
@@ -314,7 +343,9 @@ export class TechnologyComponent {
         'MBPP suites it names. Its figures are therefore not comparable to published ' +
         'benchmark results, and no independent model-quality assessment has been carried ' +
         'out.',
-      href: '/technology',
+      href: 'https://github.com/ajit-ai/Quantsmind-LLM',
+      external: true,
+      ctaText: 'View repository on GitHub ↗',
       repoUrl: 'https://github.com/ajit-ai/Quantsmind-LLM'
     }
   ];

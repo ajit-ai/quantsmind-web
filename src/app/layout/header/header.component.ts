@@ -48,10 +48,16 @@ interface SearchEntry {
         <a routerLink="/" class="qm-header__logo" aria-label="QuantsMind — Home">
           <span class="qm-header__logo-mark" aria-hidden="true">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-              <path d="M12 2l7 4v5c0 5-3 9.5-7 11-4-1.5-7-6-7-11V6l7-4z" stroke="#fff"
-                stroke-width="1.6" stroke-linejoin="round"/>
-              <path d="M9 9.5l3 3 3-3M12 12.5v3" stroke="#fff" stroke-width="1.6"
-                stroke-linecap="round" stroke-linejoin="round"/>
+              <g stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="10.5" cy="10.5" r="7" stroke-width="2.1"/>
+                <path d="M14.9 14.9 19.8 19.8" stroke-width="2.3"/>
+                <path d="M7.1 9.2 11.3 6.5 13.3 11.4" stroke-width="0.95" opacity="0.55"/>
+              </g>
+              <g fill="#fff">
+                <circle cx="7.1" cy="9.2" r="1.25"/>
+                <circle cx="11.3" cy="6.5" r="1"/>
+                <circle cx="13.3" cy="11.4" r="1.25"/>
+              </g>
             </svg>
           </span>
           <span class="qm-header__logo-text">
@@ -192,10 +198,16 @@ interface SearchEntry {
               (click)="closeMobile()">
               <span class="qm-header__logo-mark" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2l7 4v5c0 5-3 9.5-7 11-4-1.5-7-6-7-11V6l7-4z" stroke="#fff"
-                    stroke-width="1.6" stroke-linejoin="round"/>
-                  <path d="M9 9.5l3 3 3-3M12 12.5v3" stroke="#fff" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round"/>
+                  <g stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="10.5" cy="10.5" r="7" stroke-width="2.1"/>
+              <path d="M14.9 14.9 19.8 19.8" stroke-width="2.3"/>
+              <path d="M7.1 9.2 11.3 6.5 13.3 11.4" stroke-width="0.95" opacity="0.55"/>
+            </g>
+            <g fill="#fff">
+              <circle cx="7.1" cy="9.2" r="1.25"/>
+              <circle cx="11.3" cy="6.5" r="1"/>
+              <circle cx="13.3" cy="11.4" r="1.25"/>
+            </g>
                 </svg>
               </span>
               <span class="qm-header__logo-text">
@@ -998,13 +1010,12 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering intelligent software' },
     { type: 'Page', title: 'Services', href: '/services', keywords: 'services capabilities software architecture ai cloud devops consulting' },
     { type: 'Page', title: 'Products', href: '/products', keywords: 'products product di mini document intelligence quantsmind document intelligence mini software' },
-    { type: 'Page', title: 'Karkain Language Tools', href: '/technology#developer-tools', keywords: 'karkain language tools vs code visual studio code extension developer tools editor marketplace' },
-    { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum' },
+    { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum relational database guardmcp security mcp' },
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },
     { type: 'Page', title: 'QuantsMind SDK', href: '/quantsmind-sdk', keywords: 'quantsmind sdk software foundation intelligent computing' },
-    { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs exploration experimentation emerging technologies quantum ai ml' },
-    { type: 'Page', title: 'Blog', href: '/blog', keywords: 'blog engineering notes articles writing research publication karkain compiler microquantum architecture' },
+    { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs exploration experimentation emerging technologies quantum ai ml vector database research projects vsector' },
+    { type: 'Page', title: 'Blog', href: '/blog', keywords: 'blog educational articles writing research publication architecture distributed systems databases transformers quantum computing' },
     { type: 'Page', title: 'About', href: '/about', keywords: 'about company engineering services technology development' },
     { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry email form build' },
     { type: 'Capability', title: 'Software Architecture', href: '/services#software-architecture', keywords: 'architecture system design technical foundations' },

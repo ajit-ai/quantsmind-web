@@ -29,7 +29,7 @@ export const routes: Routes = [
     data: {
       title: 'Products — QuantsMind',
       description:
-        'Software products developed by QuantsMind from its engineering and technology ecosystem, including QuantsMind Document Intelligence Mini.'
+        'Software products developed by QuantsMind. Availability, release status and licensing terms are confirmed directly with QuantsMind.'
     },
     loadComponent: () =>
       import('./pages/products/products.component').then(m => m.ProductsComponent)
@@ -39,7 +39,7 @@ export const routes: Routes = [
     data: {
       title: 'Technology — QuantsMind',
       description:
-        'The QuantsMind technology ecosystem: MicroQuantum, Karkain and the QuantsMind SDK — released software technologies designed, engineered and maintained by QuantsMind.'
+        'The QuantsMind technology ecosystem: Karkain, MicroQuantum, the QuantsMind SDK, QuantsMind Relational DB, GuardMCP, QuantsMind-Agent and QuantsMind-LLM, each with its current maturity and public source.'
     },
     loadComponent: () =>
       import('./pages/technology/technology.component').then(m => m.TechnologyComponent)
@@ -49,7 +49,7 @@ export const routes: Routes = [
     data: {
       title: 'MicroQuantum | Quantum Computing SDK | QuantsMind',
       description:
-        'MicroQuantum is an open Python SDK for building, executing and analyzing quantum programs. The stable 1.1.0 release is published on PyPI.'
+        'MicroQuantum is an open, NumPy-only Python SDK for building, executing and analyzing quantum programs, published on PyPI at version 1.1.0. A developer preview: execution is by simulation.'
     },
     loadComponent: () =>
       import('./pages/microquantum/microquantum.component').then(m => m.MicroQuantumComponent)
@@ -59,7 +59,7 @@ export const routes: Routes = [
     data: {
       title: 'Karkain | Programming Language & Computing Ecosystem | QuantsMind',
       description:
-        'Karkain is an independently developed, statically typed systems programming language and computing ecosystem, published as the stable 1.1.0 release.'
+        'Karkain is an independently developed, statically typed systems programming language with a self-hosted compiler, published at version 1.1.0. A developer preview: the language and API surface may still change.'
     },
     loadComponent: () =>
       import('./pages/karkain/karkain.component').then(m => m.KarkainComponent)
@@ -69,7 +69,7 @@ export const routes: Routes = [
     data: {
       title: 'QuantsMind SDK | QuantsMind',
       description:
-        'QuantsMind SDK is a universal, vendor-independent Python SDK for scientific computing, published as the stable 1.1.0 release.'
+        'QuantsMind SDK is an open, vendor-independent Python SDK for scientific computing, published on PyPI at version 1.1.0. A developer preview: module coverage and numerical accuracy vary by domain.'
     },
     loadComponent: () =>
       import('./pages/quantsmind-sdk/quantsmind-sdk.component').then(m => m.QuantsMindSdkComponent)
@@ -77,9 +77,9 @@ export const routes: Routes = [
   {
     path: 'labs',
     data: {
-      title: 'QuantsMind Labs | Technology Exploration',
+      title: 'QuantsMind Labs | Open Research Projects',
       description:
-        'Explore experiments, prototypes and emerging technology directions across the QuantsMind ecosystem.'
+        'Open research code from QuantsMind Labs, including vector search, small language-model training, quantum algorithms and OSINT tooling. Each project states its maturity and its limitations.'
     },
     loadComponent: () =>
       import('./pages/labs/labs.component').then(m => m.LabsComponent)
@@ -89,7 +89,7 @@ export const routes: Routes = [
     data: {
       title: 'Blog — QuantsMind',
       description:
-        'Engineering notes and research writing from QuantsMind: software architecture, the Karkain language and compiler, MicroQuantum, and the path from research to released technology.'
+        'Educational articles on software architecture, distributed systems, databases, machine-learning research and quantum computing, written from primary sources.'
     },
     loadComponent: () =>
       import('./pages/blog/blog.component').then(m => m.BlogComponent)

@@ -31,10 +31,16 @@ interface FooterLink {
             <a routerLink="/" class="qm-footer__logo" aria-label="QuantsMind — Home">
               <span class="qm-footer__logo-mark" aria-hidden="true">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2l7 4v5c0 5-3 9.5-7 11-4-1.5-7-6-7-11V6l7-4z" stroke="#fff"
-                    stroke-width="1.6" stroke-linejoin="round"/>
-                  <path d="M9 9.5l3 3 3-3M12 12.5v3" stroke="#fff" stroke-width="1.6"
-                    stroke-linecap="round" stroke-linejoin="round"/>
+                  <g stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="10.5" cy="10.5" r="7" stroke-width="2.1"/>
+                    <path d="M14.9 14.9 19.8 19.8" stroke-width="2.3"/>
+                    <path d="M7.1 9.2 11.3 6.5 13.3 11.4" stroke-width="0.95" opacity="0.55"/>
+                  </g>
+                  <g fill="#fff">
+                    <circle cx="7.1" cy="9.2" r="1.25"/>
+                    <circle cx="11.3" cy="6.5" r="1"/>
+                    <circle cx="13.3" cy="11.4" r="1.25"/>
+                  </g>
                 </svg>
               </span>
               <span class="qm-footer__logo-text">
@@ -94,23 +100,7 @@ interface FooterLink {
             </ul>
           </nav>
 
-          <!-- Developer Tools column -->
-          <nav class="qm-footer__col" aria-label="Developer tools links">
-            <h3 class="qm-footer__heading">Developer Tools</h3>
-            <ul class="qm-footer__list" role="list">
-              @for (link of developerTools; track link) {
-                <li>
-                  @if (link.external) {
-                    <a [href]="link.href" target="_blank" rel="noopener noreferrer" class="qm-footer__link">{{ link.label }}</a>
-                  } @else {
-                    @let target = link.href | hrefParts;
-                    <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
-                  }
-                </li>
-              }
-            </ul>
-          </nav>
-        </div>
+          </div>
       </div>
     
       <!-- ═══════════════════════════════════════════════ -->
@@ -203,7 +193,9 @@ interface FooterLink {
       gap: 40px;
     }
     @media (min-width: 1100px) {
-      .qm-footer__grid { grid-template-columns: 1.5fr repeat(4, 1fr); gap: 32px; }
+      /* Brand + Site + Products + Technology = 4 items. A 5th track left an
+         empty trailing column after the Developer Tools column was removed. */
+      .qm-footer__grid { grid-template-columns: 1.5fr repeat(3, 1fr); gap: 32px; }
     }
 
     /* Brand */
@@ -369,7 +361,9 @@ interface FooterLink {
 
     /* ── Responsive ────────────────────────────────────── */
     @media (max-width: 1099px) and (min-width: 768px) {
-      .qm-footer__grid { grid-template-columns: 1fr 1fr; }
+      /* 3 nav columns under a full-width brand. At 2 columns the third nav
+         column wrapped alone and left a gap beside it. */
+      .qm-footer__grid { grid-template-columns: repeat(3, 1fr); }
       .qm-footer__brand { grid-column: 1 / -1; }
     }
     @media (max-width: 767px) {
@@ -398,15 +392,9 @@ export class QmFooterComponent {
   technology: FooterLink[] = [
     { label: 'MicroQuantum', href: '/microquantum' },
     { label: 'Karkain', href: '/karkain' },
-    { label: 'QuantsMind SDK', href: '/quantsmind-sdk' }
-  ];
-
-  developerTools: FooterLink[] = [
-    {
-      label: 'Karkain Language Tools',
-      href: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain&ssr=false#overview',
-      external: true
-    }
+    { label: 'QuantsMind SDK', href: '/quantsmind-sdk' },
+    { label: 'QuantsMind Relational DB', href: '/technology' },
+    { label: 'GuardMCP', href: '/technology' }
   ];
 
   legal: FooterLink[] = [

@@ -22,15 +22,15 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
       <qm-container>
         <a routerLink="/technology" class="sdk-back">&larr; Technology Ecosystem</a>
         <div class="sdk-badges">
-          <qm-badge variant="stable">v1.1.0</qm-badge>
-          <qm-badge variant="stable">Production/Stable</qm-badge>
-          <qm-badge variant="software">Python</qm-badge>
+<qm-badge variant="stable">v1.1.0</qm-badge>
+    <qm-badge variant="experimental">Developer Preview</qm-badge>
+    <qm-badge variant="software">Python</qm-badge>
         </div>
         <h1 class="sdk-title">QuantsMind SDK</h1>
         <p class="sdk-tagline">A universal, vendor-independent scientific computing SDK.</p>
         <p class="sdk-lead">
           QuantsMind SDK is an open Python SDK for scientific computing. Version 1.1.0 is a
-          stable public release with implemented functionality across mathematics,
+          published public release with implemented functionality across mathematics,
           chemistry, biology, astronomy, cosmology, finance, AI agents, knowledge graphs
           and a compiler front-end, organised around a first-principles model for
           representing systems, entities, interactions and knowledge.
@@ -45,7 +45,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         </div>
         <ul class="sdk-meta" aria-label="QuantsMind SDK at a glance">
           <li><span class="sdk-chip sdk-chip--violet">Python 3.13+</span></li>
-          <li><span class="sdk-chip">v1.1.0 Stable Release</span></li>
+          <li><span class="sdk-chip">v1.1.0 Published Release</span></li>
           <li><span class="sdk-chip">Package: quantsmind</span></li>
           <li><span class="sdk-chip">Entity → State → Interaction</span></li>
           <li><span class="sdk-chip">Observation → Knowledge</span></li>
@@ -72,7 +72,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
             modelling layer that is designed to sit below higher-level applications.
           </p>
           <p>
-            Version 1.1.0 is a stable public release. It contains implemented functionality
+            Version 1.1.0 is a published public release. It contains implemented functionality
             across mathematics, chemistry, biology, astronomy, cosmology, finance, AI
             agents, knowledge graphs and a compiler front-end, and ships runnable examples.
             Capabilities continue to evolve after this release.
@@ -116,7 +116,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           <span class="sdk-eyebrow-dark">ARCHITECTURE</span>
           <h2 class="sdk-h2 sdk-h2--dark">v1.1.0: a layered scientific computing SDK</h2>
           <p class="sdk-lead sdk-lead--dark">
-            QuantsMind SDK layers a stable core beneath domain-specific capability. The
+            QuantsMind SDK layers a common core beneath domain-specific capability. The
             v1.1.0 release implements the ontology, mathematics and a set of scientific
             domain packages on top of it, with further capability added in later releases.
           </p>
@@ -245,7 +245,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         <span class="eyebrow">RELEASE STATUS</span>
         <h2 class="sdk-h2">An honest status</h2>
         <p class="sdk-section-lead">
-          v1.1.0 is a stable public release. Here is what that release contains and what
+          v1.1.0 is a published public release. Here is what that release contains and what
           continues to be developed after it.
         </p>
         <div class="sdk-table-wrap">
@@ -329,7 +329,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
         <span class="eyebrow">ROADMAP</span>
         <h2 class="sdk-h2">Where it is heading</h2>
         <p class="sdk-section-lead">
-          v1.1.0 is a stable public release. The roadmap below records what shipped in
+          v1.1.0 is a published public release. The roadmap below records what shipped in
           that release and what continues to be developed after it.
         </p>
         <div class="sdk-grid sdk-grid--road">
@@ -374,7 +374,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           <span class="sdk-eyebrow-dark">EXPLORE</span>
           <h2 class="sdk-h2--dark">Explore the QuantsMind SDK</h2>
           <p class="sdk-lead sdk-lead--dark">
-            v1.1.0 is a stable public release. The source, implemented domain packages,
+            v1.1.0 is a published public release. The source, implemented domain packages,
             runnable examples and architecture documentation are in the repository. If
             the SDK is relevant to your work, we would be glad to hear from you.
           </p>
@@ -554,8 +554,8 @@ export class QuantsMindSdkComponent {
   ];
 
   statusRows: StatusRow[] = [
-    { area: 'Release', status: 'v1.1.0', variant: 'stable', note: 'Current stable release of the SDK, following 1.0.1 and the first stable release, 1.0.0.' },
-    { area: 'Stage', status: 'Production/Stable', variant: 'stable', note: 'Classified Production/Stable, with implemented functionality across the scientific domains listed on this page.' },
+    { area: 'Release', status: 'v1.1.0', variant: 'experimental', note: 'Current published release of the SDK, following 1.0.1 and 1.0.0. A version number means a release exists; it is not a claim of production readiness.' },
+    { area: 'Stage', status: 'Developer Preview', variant: 'experimental', note: 'The PyPI project metadata for this package carries the "Development Status :: 5 - Production/Stable" classifier. That classifier is a self-declared packaging label, not an independent assessment, and this page does not treat it as one. The project is presented here as a developer preview.' },
     { area: 'Package', status: 'quantsmind', variant: 'stable', note: 'The Python distribution name for the SDK.' },
     { area: 'Language', status: 'Python 3.13+', variant: 'default', note: 'Modern Python typing, protocols and dataclass conventions used from the start.' },
     { area: 'Source', status: 'GitHub', variant: 'default', note: 'Repository: ajit-ai/quantsmind-quantum-sdk. Apache 2.0 licensed.' },
@@ -568,7 +568,7 @@ export class QuantsMindSdkComponent {
   ];
 
   roadmap: RoadItem[] = [
-    { phase: 'v1.1.0', variant: 'stable', stage: 'Current stable release', items: ['Implemented mathematics, chemistry, biology, astronomy, cosmology and finance domains', 'AI abstractions including an agent loop and knowledge-graph traversal', 'Expression compiler front-end', 'Runnable domain and cross-domain examples'] },
+    { phase: 'v1.1.0', variant: 'experimental', stage: 'Current published release', items: ['Implemented mathematics, chemistry, biology, astronomy, cosmology and finance domains', 'AI abstractions including an agent loop and knowledge-graph traversal', 'Expression compiler front-end', 'Runnable domain and cross-domain examples'] },
     { phase: 'Next', variant: 'development', stage: 'Core and runtime', items: ['Core abstractions and exception hierarchy', 'Runtime executor, provider contracts and simulation', 'Deeper AI reasoning, datasets and visualization'] },
     { phase: 'Ongoing', variant: 'concept', stage: 'Wider reach', items: ['Broader physics, chemistry and quantum integration', 'Plugins, telemetry and security hardening', 'Continued evolution of the public API beyond 1.1.0'] }
   ];

@@ -4,16 +4,20 @@ import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
-import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
 
 interface Product {
   name: string;
   shortName: string;
   version: string;
+  /** Maturity shown next to the version badge. */
+  status: string;
+  statusBadge: BadgeVariant;
   tagline: string;
   description: string;
   intendedUse: string[];
   deployment: string;
+  availability: string;
 }
 
 interface FlowStep {
@@ -35,6 +39,11 @@ interface FlowStep {
           practical applications developed from the same foundations, disciplines and
           maturity standards as our engineering work.
         </p>
+        <p class="lead section-lead">
+          A product appears here only once it can be installed, accessed and used, and
+          once its current release state is accurate. Nothing listed below is described as
+          a generally available release.
+        </p>
       </qm-container>
     </section>
 
@@ -50,6 +59,7 @@ interface FlowStep {
               <div class="product__badges">
                 <qm-badge variant="product">{{ product.shortName }}</qm-badge>
                 <qm-badge variant="default">{{ product.version }}</qm-badge>
+                <qm-badge [variant]="product.statusBadge">{{ product.status }}</qm-badge>
               </div>
             </div>
 
@@ -69,6 +79,10 @@ interface FlowStep {
                 <p class="product__body">{{ product.deployment }}</p>
               </div>
             </div>
+
+            <p class="product__note">
+              <strong>Availability.</strong> {{ product.availability }}
+            </p>
 
             <p class="product__note">
               Product details, availability and licensing terms are confirmed directly
@@ -106,6 +120,8 @@ interface FlowStep {
               <li>Karkain</li>
               <li>MicroQuantum</li>
               <li>QuantsMind SDK</li>
+              <li>QuantsMind Relational DB</li>
+              <li>GuardMCP</li>
             </ul>
             <qm-button variant="secondary" size="sm" [routerLinkValue]="'/technology'">
               Explore Technologies →
@@ -290,19 +306,27 @@ export class ProductsComponent {
     {
       name: 'QuantsMind Document Intelligence Mini',
       shortName: 'DI Mini',
-      version: 'v1.0.0',
+      version: 'v0.1.0',
+      status: 'Early Access',
+      statusBadge: 'early-access',
       tagline: 'Lightweight document intelligence software',
       description:
-        'A compact document-intelligence product developed by QuantsMind. DI Mini is the ' +
-        'first product released from the QuantsMind technology ecosystem, and is intended ' +
-        'to be small, practical and easy to run.',
+        'A compact document-processing application developed by QuantsMind. It reads ' +
+        'PDF, DOCX and TXT documents, extracts their text, and derives structured ' +
+        'fields deterministically by parsing labels the document itself states. It is ' +
+        'not a machine-learning system: it performs no OCR, classification, named-entity ' +
+        'recognition, embedding or semantic search.',
       intendedUse: [
         'Organising and working with document collections locally',
-        'Exploring document-intelligence workflows on your own machine',
+        'Extracting labelled fields — dates, amounts, identifiers — from documents',
+        'Exporting extracted data to JSON or CSV',
         'Evaluating the product before committing to licensed use'
       ],
       deployment:
-        'Runs on your own machine. No cloud account is required.'
+        'Runs on your own machine as a single local process serving its own web interface. No cloud account is required.',
+      availability:
+        'Not a generally available release. There is no published download, package ' +
+        'index entry or open repository. Access is arranged directly with QuantsMind.'
     }
   ];
 

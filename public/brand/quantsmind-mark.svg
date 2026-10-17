@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="none"
+     color="#1D4ED8" role="img" aria-labelledby="qmMarkTitle">
+  <title id="qmMarkTitle">QuantsMind symbol: a constellation within a quantised ring</title>
+  <!--
+    QuantsMind mark — "Constellation Q"
+    Ring + diagonal tail form a Q; the three linked nodes inside represent
+    intelligence, connected systems and quantitative structure.
+    Stroked with currentColor so it can be recoloured by CSS when inlined;
+    the root `color` above only supplies a default when the file is opened
+    directly in a browser.
+  -->
+  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="10.5" cy="10.5" r="7" stroke-width="2.1"/>
+    <path d="M14.9 14.9 19.8 19.8" stroke-width="2.3"/>
+    <path d="M7.1 9.2 11.3 6.5 13.3 11.4" stroke-width="0.95" opacity="0.55"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="7.1" cy="9.2" r="1.25"/>
+    <circle cx="11.3" cy="6.5" r="1"/>
+    <circle cx="13.3" cy="11.4" r="1.25"/>
+  </g>
+</svg>

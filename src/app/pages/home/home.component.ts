@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
-import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 import { HrefPartsPipe }        from '../../shared/pipes/href-parts.pipe';
 
@@ -21,7 +21,7 @@ interface EcosystemTech {
   description: string;
   status: string;
   version: string;
-  badge: 'stable';
+  badge: BadgeVariant;
   cta: string;
   href: string;
 }
@@ -616,32 +616,32 @@ export class HomeComponent {
 
   ecosystem: EcosystemTech[] = [
     {
-      name: 'MicroQuantum',
+name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
-      description: 'An open Python SDK for building, executing and analyzing quantum programs. Published on PyPI.',
-      status: 'Stable',
+      description: 'An open, NumPy-only Python SDK for building, executing and analyzing quantum programs, published on PyPI at version 1.1.0. Execution is by simulation.',
+      status: 'Developer Preview',
       version: 'v1.1.0',
-      badge: 'stable',
+      badge: 'experimental',
       cta: 'Explore MicroQuantum',
       href: '/microquantum'
     },
     {
       name: 'Karkain',
       tagline: 'General-Purpose Programming Language',
-      description: 'An independent, statically typed systems programming language and computing ecosystem with a published stable release.',
-      status: 'Stable',
+      description: 'An independent, statically typed systems programming language with a self-hosted compiler, published at version 1.1.0.',
+      status: 'Developer Preview',
       version: 'v1.1.0',
-      badge: 'stable',
+      badge: 'experimental',
       cta: 'Explore Karkain',
       href: '/karkain'
     },
     {
       name: 'QuantsMind SDK',
       tagline: 'Scientific Computing SDK',
-      description: 'A universal, vendor-independent Python SDK for scientific computing, with implemented functionality across mathematics, chemistry, biology, astronomy, cosmology, finance, AI agents, knowledge graphs and more.',
-      status: 'Stable',
+      description: 'An open, vendor-independent Python SDK for scientific computing, published on PyPI at version 1.1.0. Coverage and numerical accuracy vary by domain.',
+      status: 'Developer Preview',
       version: 'v1.1.0',
-      badge: 'stable',
+      badge: 'experimental',
       cta: 'Explore QuantsMind SDK',
       href: '/quantsmind-sdk'
     }
@@ -651,14 +651,14 @@ export class HomeComponent {
     {
       name: 'Products',
       label: 'QuantsMind Document Intelligence Mini',
-      description: 'Our lightweight document-intelligence product, currently at v1.0.0.',
+      description: 'Our lightweight document-processing software, currently at v0.1.0 and available by arrangement.',
       href: '/products'
     },
     {
-      name: 'Developer Tools',
-      label: 'Karkain Language Tools',
-      description: 'Karkain development environment for Visual Studio Code. Published, v0.9.0.',
-      href: '/technology#developer-tools'
+      name: 'Technologies',
+      label: 'QuantsMind Relational DB and GuardMCP',
+      description: 'An embeddable Rust relational database engine, and a policy and security control layer for MCP tool calls. Both are alpha.',
+      href: '/technology'
     }
   ];
 

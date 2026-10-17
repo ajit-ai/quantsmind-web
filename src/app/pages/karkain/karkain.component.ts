@@ -24,9 +24,9 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
       <qm-container>
         <a routerLink="/technology" class="k-back">&larr; Technology Ecosystem</a>
         <div class="k-badges">
-          <qm-badge variant="stable">Stable Release</qm-badge>
+          <qm-badge variant="experimental">Developer Preview</qm-badge>
           <qm-badge variant="software">Programming Language</qm-badge>
-          <qm-badge variant="stable">v1.1.0</qm-badge>
+          <qm-badge variant="default">v1.1.0</qm-badge>
         </div>
         <h1 class="k-title">Karkain</h1>
         <p class="k-tagline">A programming language for the next generation of computing.</p>
@@ -333,7 +333,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         <span class="eyebrow">WHERE KARKAIN IS TODAY</span>
         <h2 class="k-h2">An honest status report</h2>
         <p class="k-section-lead">
-          Karkain 1.1.0 is a published stable release. The compiler, language, standard
+          Karkain 1.1.0 is a published release. The compiler, language, standard
           library and toolchain below ship today; further engineering continues after
           the release, and planned areas are labelled as such rather than presented as
           available.
@@ -682,12 +682,12 @@ export class KarkainComponent {
   ];
 
   models: ComputingModel[] = [
-    { name: 'CPU', status: 'Current', variant: 'development', detail: 'Compiles to C23 and links with GCC, Clang or MSVC. Full native support with Karkain\u2019s own target-triple model (x86_64, aarch64).' },
+    { name: 'CPU', status: 'Current', variant: 'development', detail: 'Compiles to C23 and links with GCC, Clang or MSVC. Full native support with Karkain’s own target-triple model (x86_64, aarch64).' },
     { name: 'SIMD', status: 'Evolving', variant: 'experimental', detail: 'AVX2-aware intrinsics and optimized matrix operations for performance-critical kernels.' },
     { name: 'WASM', status: 'Active', variant: 'development', detail: 'A wasm32-wasi target whose module is emitted directly, without an external linker.' },
     { name: 'GPU', status: 'Evolving', variant: 'experimental', detail: 'Kernel-driven design aiming to emit WGSL, OpenCL and SPIR-V shaders from the same source file.' },
     { name: 'Quantum', status: 'Direction', variant: 'research', detail: 'Gate-level circuits targeted at OpenQASM 3.0 and QIR as part of the long-term heterogeneous architecture.' },
-    { name: 'Hardware reach', status: 'Future', variant: 'concept', detail: 'NPU, FPGA, DPU and neuromorphic-class targets remain long-term research horizons on the project\u2019s abstraction agenda.' }
+    { name: 'Hardware reach', status: 'Future', variant: 'concept', detail: 'NPU, FPGA, DPU and neuromorphic-class targets remain long-term research horizons on the project’s abstraction agenda.' }
   ];
 
   compilerComponents: KernelFact[] = [
@@ -699,12 +699,12 @@ export class KarkainComponent {
   ];
 
   ecosystem: EcosystemCard[] = [
-    { name: 'Language', status: 'Released · 1.1.0', variant: 'stable', detail: 'Static typing, ownership and borrow checking, algebraic data types, pattern matching, and a spec tracked in SPEC.md.' },
-    { name: 'Compiler', status: 'Released · 1.1.0', variant: 'stable', detail: 'The self-hosted engine lexes, parses, analyzes, optimizes and emits C23.' },
-    { name: 'Runtime', status: 'Released · 1.1.0', variant: 'stable', detail: 'A concurrency runtime with tasks and channels. No garbage collector. A JIT tier remains planned.' },
-    { name: 'Standard Library', status: 'Released · 1.1.0', variant: 'stable', detail: '.kark modules for core semantics, strings, collections, I/O, encoding, crypto, math and more.' },
-    { name: 'Toolchain', status: 'Released · 1.1.0', variant: 'stable', detail: 'run, build, check, test, fmt, lint, bench, prof, plus package manager and workspaces.' },
-    { name: 'Developer Tools', status: 'Published · v0.9.0', variant: 'stable', detail: 'LSP server for hover and go-to-definition, with the Karkain Language Tools extension for Visual Studio Code. Some semantic features are not yet provided by the language server.' }
+    { name: 'Language', status: 'Published · 1.1.0', variant: 'experimental', detail: 'Static typing, ownership and borrow checking, algebraic data types, pattern matching, and a spec tracked in SPEC.md.' },
+    { name: 'Compiler', status: 'Published · 1.1.0', variant: 'experimental', detail: 'The self-hosted engine lexes, parses, analyzes, optimizes and emits C23.' },
+    { name: 'Runtime', status: 'Published · 1.1.0', variant: 'experimental', detail: 'A concurrency runtime with tasks and channels. No garbage collector. A JIT tier remains planned.' },
+    { name: 'Standard Library', status: 'Published · 1.1.0', variant: 'experimental', detail: '.kark modules for core semantics, strings, collections, I/O, encoding, crypto, math and more.' },
+    { name: 'Toolchain', status: 'Published · 1.1.0', variant: 'experimental', detail: 'run, build, check, test, fmt, lint, bench, prof, plus package manager and workspaces.' },
+    { name: 'Developer Tools', status: 'Partial', variant: 'development', detail: 'A language server providing hover and go-to-definition. Some semantic features are not yet provided by the server, and the editor extension is not part of this public repository.' }
   ];
 
   stdlib: StdlibCard[] = [
@@ -726,12 +726,12 @@ export class KarkainComponent {
   ];
 
   statusRows: StatusRow[] = [
-    { area: 'Compiler core · Karkain 1.1', status: 'Released · 1.1.0', variant: 'stable', note: 'The production release gate passed and version 1.1.0 is published as the stable release line. Further engineering continues after the release.' },
-    { area: 'Self-hosting', status: 'Released · 1.1.0', variant: 'stable', note: 'The compiler\u2019s Karkain-written front-end is the default engine and builds Karkain programs today.' },
-    { area: 'Language & core pipeline', status: 'Released · 1.1.0', variant: 'stable', note: 'The core language and pipeline ship in 1.1.0. Additional type-system features, autodiff and quantum safety remain in development for later phases.' },
-    { area: 'Concurrency runtime', status: 'Released · 1.1.0', variant: 'stable', note: 'Task model, channels and synchronization primitives ship in 1.1.0. A JIT tier remains planned.' },
-    { area: 'Standard library', status: 'Released · 1.1.0', variant: 'stable', note: 'Core, string, collections, I/O, encoding, crypto, math and system modules ship in 1.1.0 as .kark.' },
-    { area: 'Cross-compilation', status: 'Released · 1.1.0', variant: 'stable', note: 'An owned target-triple model covering x86_64, aarch64 and wasm32 over windows, linux and wasi. Running foreign targets is refused for honesty.' },
+    { area: 'Compiler core · Karkain 1.1', status: 'Published · 1.1.0', variant: 'experimental', note: 'The project’s own release gate passed and version 1.1.0 was published as its release line. Further engineering continues after the release. No independent performance or reliability assessment has been carried out.' },
+    { area: 'Self-hosting', status: 'Published · 1.1.0', variant: 'experimental', note: 'The compiler’s Karkain-written front-end is the default engine and builds Karkain programs today.' },
+    { area: 'Language & core pipeline', status: 'Published · 1.1.0', variant: 'experimental', note: 'The core language and pipeline ship in 1.1.0. Additional type-system features, autodiff and quantum safety remain in development for later phases.' },
+    { area: 'Concurrency runtime', status: 'Published · 1.1.0', variant: 'experimental', note: 'Task model, channels and synchronization primitives ship in 1.1.0. A JIT tier remains planned.' },
+    { area: 'Standard library', status: 'Published · 1.1.0', variant: 'experimental', note: 'Core, string, collections, I/O, encoding, crypto, math and system modules ship in 1.1.0 as .kark.' },
+    { area: 'Cross-compilation', status: 'Published · 1.1.0', variant: 'experimental', note: 'An owned target-triple model covering x86_64, aarch64 and wasm32 over windows, linux and wasi. Running foreign targets is refused for honesty.' },
     { area: 'Heterogeneous backends', status: 'Direction', variant: 'research', note: 'GPU and quantum backends are documented in the compiler architecture and on the roadmap.' }
   ];
 }

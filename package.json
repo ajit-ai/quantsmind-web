@@ -5,6 +5,9 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "prerender": "node scripts/prerender.mjs",
+    "build:static": "npm run build && npm run prerender",
+    "test:prerender": "ng test --include=src/app/pages/blog/blog-prerender.spec.ts --watch=false",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

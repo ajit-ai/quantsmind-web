@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { blogArticleResolver } from './pages/blog/blog-article.resolver';
 
 export const HOME_TITLE = 'QuantsMind | Engineering Software & Intelligent Technologies';
 export const HOME_DESCRIPTION =
@@ -87,12 +88,21 @@ export const routes: Routes = [
   {
     path: 'blog',
     data: {
-      title: 'Blog — QuantsMind',
+      title: 'Articles — QuantsMind',
       description:
-        'Educational articles on software architecture, distributed systems, databases, machine-learning research and quantum computing, written from primary sources.'
+        'Technical articles on the QuantsMind technology ecosystem, Labs research projects and products, covering architecture, release maturity and known limitations.'
     },
     loadComponent: () =>
       import('./pages/blog/blog.component').then(m => m.BlogComponent)
+  },
+  {
+    // Must follow 'blog' so the index route is matched first.
+    path: 'blog/:slug',
+    // The resolver supplies the article (and redirects unknown slugs to the
+    // index) so the page and its metadata share a single source of truth.
+    resolve: { article: blogArticleResolver },
+    loadComponent: () =>
+      import('./pages/blog/article.component').then(m => m.BlogArticleComponent)
   },
   {
     path: 'about',

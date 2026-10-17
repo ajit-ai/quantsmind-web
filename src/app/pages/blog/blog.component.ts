@@ -1,127 +1,84 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, signal, computed } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
-import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
 
-/**
- * Publication state of an article. This page lists articles that are still
- * in preparation; nothing is published yet, and every card says so.
- * `date` is deliberately optional and is left unset rather than invented,
- * and reading time is omitted because it cannot be known before writing.
- */
-type ArticleStatus = 'planned';
+import { ArticleCategory, BlogArticle, ARTICLE_CATEGORIES } from './blog-article.model';
+import { BLOG_ARTICLES } from './articles';
 
-interface BlogArticle {
-  /** Editorial index, used as a quiet technical marker. */
-  index: string;
-  title: string;
-  excerpt: string;
-  category: string;
-  status: ArticleStatus;
-  /** Badge variant chosen to read as "not yet published". */
-  badge: BadgeVariant;
-  /**
-   * The primary source the article will be written against. This is a real,
-   * verified reference, not a link added for decoration.
-   */
-  source: { label: string; url: string };
+type CategoryFilter = ArticleCategory | 'All';
+
+/** One filterable block of the index: a heading plus its preview cards. */
+interface ArticleGroup {
+  category: ArticleCategory;
+  blurb: string;
+  articles: BlogArticle[];
 }
 
 @Component({
     selector: 'app-blog',
-    imports: [QmContainerComponent, QmSectionComponent, QmBadgeComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmBadgeComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- HERO                                                     -->
-    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- HERO -->
     <section class="page-hero surface-subtle">
       <qm-container>
         <span class="eyebrow">BLOG</span>
-        <h1>Blog</h1>
+        <h1>Articles</h1>
         <p class="lead">
-          Educational writing on software engineering and research. We read primary
-          sources — papers, specifications and official documentation — and explain
-          what they actually establish, including where the evidence runs out.
+          Long-form technical writing about the software QuantsMind builds: the
+          technologies in the ecosystem, the research carried out in Labs, and the
+          products that come out of them. Each article states what a project does
+          today, how it does it, and where it is still incomplete.
         </p>
       </qm-container>
     </section>
 
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- TOPICS                                                  -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="sm" ariaLabel="Editorial scope">
+    <!-- FILTERS -->
+    <qm-section surface="white" size="sm" ariaLabel="Filter articles by category">
       <qm-container>
-        <h2 class="topics__heading">Subjects covered</h2>
-        <ul class="topics" role="list">
-          @for (topic of topics; track topic) {
-            <li class="topics__item">{{ topic }}</li>
-          }
-        </ul>
-        <p class="topics__note">
-          Articles here are educational. They cover published research and established
-          engineering practice from primary sources, and they do not promote products
-          or describe internal projects. Nothing on this page is an announcement.
-        </p>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- ARTICLES                                                -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas" ariaLabel="Planned articles">
-      <qm-container>
-        <div class="notes-head">
-          <h2 class="notes-head__title">Planned articles</h2>
-          <p class="notes-head__lead">
-            Nothing here is published. Each entry below is a topic under preparation,
-            listed with the primary source it will be written against so you can read
-            the original material yourself. No dates are shown because none exist yet.
-          </p>
-        </div>
-
-        <div class="notes-grid">
-          @for (article of articles; track article.index) {
-            <article class="note">
-              <div class="note__top">
-                <span class="note__index" aria-hidden="true">{{ article.index }}</span>
-                <qm-badge [variant]="article.badge">{{ statusLabel(article.status) }}</qm-badge>
-              </div>
-
-              <p class="note__category">{{ article.category }}</p>
-              <h3 class="note__title">{{ article.title }}</h3>
-              <p class="note__excerpt">{{ article.excerpt }}</p>
-
-              <p class="note__source">
-                <span class="note__source-label">Primary source</span>
-                <a [href]="article.source.url" target="_blank" rel="noopener noreferrer"
-                  [attr.aria-label]="'Read ' + article.source.label + ' (opens in a new tab)'">
-                  {{ article.source.label }} ↗
-                </a>
-              </p>
-            </article>
+        <div class="filters" role="group" aria-label="Article categories">
+          @for (option of filterOptions; track option.value) {
+            <button type="button" class="filters__btn" [class.filters__btn--on]="selected() === option.value"
+              [attr.aria-pressed]="selected() === option.value"
+              (click)="select(option.value)">
+              {{ option.label }}
+              <span class="filters__count">{{ countFor(option.value) }}</span>
+            </button>
           }
         </div>
       </qm-container>
     </qm-section>
 
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- PUBLISHING STANDARD                                     -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="sm" ariaLabel="Publishing standards">
-      <qm-container size="narrow">
-        <h2 class="closing__heading">How these articles are written</h2>
-        <ul class="standards">
-          @for (rule of standards; track rule) {
-            <li>{{ rule }}</li>
-          }
-        </ul>
-        <p class="closing">
-          Well-written text is not the same as verified research. Every factual claim is
-          traced to a primary source, and results that depend on an unreproducible setup
-          are labelled as such rather than presented as findings.
-        </p>
+    <!-- INDEX -->
+    <qm-section surface="canvas" ariaLabel="Article index">
+      <qm-container>
+        @for (group of visibleGroups(); track group.category) {
+          <section class="group" [attr.aria-label]="group.category + ' articles'">
+            <div class="group__head">
+              <h2 class="group__title">{{ group.category }}</h2>
+              <p class="group__blurb">{{ group.blurb }}</p>
+            </div>
+
+            <div class="grid">
+              @for (article of group.articles; track article.slug) {
+                <article class="card">
+                  <div class="card__top">
+                    <span class="card__category">{{ article.category }}</span>
+                    <qm-badge [variant]="article.maturityVariant">{{ article.maturity }}</qm-badge>
+                  </div>
+                  <h3 class="card__title">
+                    <a [routerLink]="['/blog', article.slug]" class="card__link">{{ article.title }}</a>
+                  </h3>
+                  <p class="card__summary">{{ article.summary }}</p>
+                  <span class="card__cta" aria-hidden="true">Read article</span>
+                </article>
+              }
+            </div>
+          </section>
+        }
       </qm-container>
     </qm-section>
     `,
@@ -130,272 +87,165 @@ interface BlogArticle {
     .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
     @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
     .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
-    .page-hero .lead { max-width: 620px; margin: 0; }
+    .page-hero .lead { max-width: 700px; margin: 0; }
+    .eyebrow {
+      display: inline-block; font-size: 12px; font-weight: 600;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--color-accent); margin-bottom: 16px;
+    }
+    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
 
-    /* ── TOPICS ────────────────────────────────────────── */
-    .topics__heading {
-      font-size: 13px; font-weight: 600;
-      letter-spacing: 0.07em; text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin: 0 0 16px;
-    }
-    .topics {
-      list-style: none; margin: 0; padding: 0;
-      display: flex; flex-wrap: wrap; gap: 10px;
-    }
-    .topics__item {
-      font-size: 13px; font-weight: 500;
+    /* ── FILTERS ───────────────────────────────────────── */
+    .filters { display: flex; flex-wrap: wrap; gap: 10px; }
+    .filters__btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-family: inherit; font-size: 14px; font-weight: 500;
       color: var(--color-text-secondary);
-      background: var(--card-bg-subtle);
+      background: var(--card-bg);
       border: 1px solid var(--card-border);
       border-radius: 9999px;
-      padding: 6px 16px;
+      padding: 9px 18px;
+      cursor: pointer;
+      transition: color 200ms ease, border-color 200ms ease, background 200ms ease;
+    }
+    .filters__btn:hover { border-color: var(--card-border-hi); color: var(--color-accent); }
+    .filters__btn:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+    .filters__btn--on {
+      color: var(--color-accent-dark);
+      background: var(--color-accent-subtle);
+      border-color: var(--color-accent-muted);
+      font-weight: 600;
+    }
+    .filters__count {
+      font-size: 12px; font-weight: 600;
+      color: var(--color-text-muted);
+      background: var(--color-surface-subtle);
+      border-radius: 9999px; padding: 1px 8px;
+    }
+    .filters__btn--on .filters__count { background: var(--color-surface); color: var(--color-accent-dark); }
+
+    /* ── GROUPS ────────────────────────────────────────── */
+    .group { margin-bottom: 56px; }
+    .group:last-child { margin-bottom: 0; }
+    .group__head { max-width: 720px; margin-bottom: 28px; }
+    .group__title {
+      font-size: clamp(22px, 2.6vw, 28px); font-weight: 700;
+      letter-spacing: -0.01em; color: var(--color-text-primary);
+      margin: 0 0 8px;
+    }
+    .group__blurb {
+      margin: 0; font-size: 15px; line-height: 1.7;
+      color: var(--color-text-secondary);
     }
 
-    /* ── NOTES HEAD ────────────────────────────────────── */
-    .notes-head { max-width: 680px; margin: 0 0 40px; }
-    .notes-head__title { margin: 0 0 12px; }
-    .notes-head__lead {
-      font-size: 16px; line-height: 1.7;
-      color: var(--color-text-secondary); margin: 0;
-    }
-
-    /* ── ARTICLE GRID ──────────────────────────────────── */
-    .notes-grid {
+    /* ── CARD GRID ─────────────────────────────────────── */
+    .grid {
       display: grid; grid-template-columns: 1fr; gap: 24px;
     }
-    @media (min-width: 640px)  { .notes-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 1024px) { .notes-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 640px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
 
-    .note {
-      display: flex; flex-direction: column; gap: 10px;
+    .card {
+      position: relative;
+      display: flex; flex-direction: column; gap: 12px;
       padding: 28px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
-      border-radius: var(--card-radius);
+      border-radius: var(--radius-lg);
       box-shadow: var(--card-shadow);
+      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
     }
-    .note__top {
+    .card:hover {
+      border-color: var(--card-border-hi);
+      box-shadow: var(--card-shadow-hi);
+      transform: translateY(-2px);
+    }
+    .card:focus-within {
+      border-color: var(--card-border-hi);
+      box-shadow: var(--card-shadow-hi);
+    }
+    .card__top {
       display: flex; align-items: center; justify-content: space-between;
-      gap: 12px; flex-wrap: wrap;
+      gap: 10px; flex-wrap: wrap;
     }
-    .note__index {
-      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
-      font-size: 13px; font-weight: 600;
-      color: var(--color-text-muted);
-    }
-    .note__category {
-      margin: 0;
+    .card__category {
       font-size: 11px; font-weight: 600;
       letter-spacing: 0.07em; text-transform: uppercase;
       color: var(--color-accent);
     }
-    .note__title {
-      font-size: 18px; font-weight: 600; line-height: 1.35;
-      color: var(--color-text-primary);
-      margin: 0;
+    .card__title { margin: 0; font-size: 19px; font-weight: 600; line-height: 1.35; }
+    .card__link { color: inherit; text-decoration: none; }
+    /* Stretched link keeps the whole card clickable while the maturity
+       badge remains a separate, non-interactive element. */
+    .card__link::after {
+      content: ''; position: absolute; inset: 0;
+      border-radius: var(--radius-lg);
     }
-    .note__excerpt {
+    .card__link:hover { color: var(--color-accent); }
+    .card__link:focus-visible {
+      outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 4px;
+    }
+    .card__summary {
       margin: 0; flex: 1;
-      font-size: 14px; line-height: 1.65;
+      font-size: 14.5px; line-height: 1.7;
       color: var(--color-text-secondary);
       text-wrap: pretty;
     }
-
-    /* ── CLOSING NOTE ──────────────────────────────────── */
-    .closing {
-      margin: 0; padding-top: 28px;
-      font-size: 15px; line-height: 1.75;
-      color: var(--color-text-muted);
-      text-align: center;
-      text-wrap: pretty;
-    }
-    .closing__heading {
-      font-size: clamp(20px, 2.4vw, 26px); font-weight: 700;
-      color: var(--color-text-primary);
-      margin: 0 0 20px; letter-spacing: -0.01em;
-    }
-    .topics__note {
-      margin: 20px 0 0; max-width: 640px;
-      font-size: 15px; line-height: 1.7; color: var(--color-text-secondary);
+    .card__cta {
+      font-size: 13px; font-weight: 500; color: var(--color-accent);
+      margin-top: 4px;
     }
 
-    /* ── PRIMARY SOURCE ──────────────────────────────────── */
-    .note__source {
-      margin: auto 0 0; padding-top: 18px;
-      display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
-      font-size: 13px;
+    @media (prefers-reduced-motion: reduce) {
+      .card, .filters__btn { transition: none; }
+      .card:hover { transform: none; }
     }
-    .note__source-label {
-      font-size: 11px; font-weight: 600; letter-spacing: 0.07em;
-      text-transform: uppercase; color: var(--color-text-muted);
-    }
-    .note__source a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
-    .note__source a:hover { text-decoration-thickness: 2px; }
-    .note__source a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 3px; }
-
-    /* ── PUBLISHING STANDARD ─────────────────────────────── */
-    .standards {
-      margin: 0; padding-left: 22px;
-      display: flex; flex-direction: column; gap: 12px;
-      color: var(--color-text-secondary); font-size: 15px; line-height: 1.7;
-      text-align: left;
-    }
-    .standards li { text-wrap: pretty; }
-  `]
+    `]
 })
 export class BlogComponent {
-  /**
-   * Subject areas, listed for orientation. There is no filtering yet, so
-   * this is a plain static strip.
-   */
-  readonly topics: string[] = [
-    'Software Architecture',
-    'Distributed Systems',
-    'Databases',
-    'Machine Learning Research',
-    'Quantum Computing',
-    'Developer Tooling'
+  readonly filterOptions: { value: CategoryFilter; label: string }[] = [
+    { value: 'All', label: 'All articles' },
+    ...ARTICLE_CATEGORIES.map(category => ({ value: category as CategoryFilter, label: category }))
   ];
 
-  /**
-   * Planned articles. None is written yet, so `date` is not modelled at all
-   * rather than filled with a placeholder. Every entry names the primary
-   * source the piece will be written against; each of those links was
-   * verified to resolve before being added here.
-   */
-  readonly articles: BlogArticle[] = [
-    {
-      index: '01',
-      title: 'How the Transformer architecture replaced recurrence in sequence models',
-      excerpt:
-        'What the attention mechanism actually computes, why removing recurrence made ' +
-        'training dramatically more parallelisable, and which parts of the original ' +
-        'design have aged well and which have been quietly superseded.',
-      category: 'Machine Learning Research',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'Vaswani et al., "Attention Is All You Need" (arXiv:1706.03762)',
-        url: 'https://arxiv.org/abs/1706.03762'
-      }
-    },
-    {
-      index: '02',
-      title: 'Why skip connections changed the depth of trainable networks',
-      excerpt:
-        'The optimisation problem that made very deep networks hard to train, how ' +
-        'residual connections address it, and the honest caveat that skip connections ' +
-        'do not by themselves explain why optimisation became easy.',
-      category: 'Machine Learning Research',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'He et al., "Deep Residual Learning for Image Recognition" (arXiv:1512.03385)',
-        url: 'https://arxiv.org/abs/1512.03385'
-      }
-    },
-    {
-      index: '03',
-      title: 'Reading a few-shot language-model paper without over-reading it',
-      excerpt:
-        'A close reading of what the few-shot results in the GPT-3 paper do and do not ' +
-        'show, including the datasets the authors themselves flag as methodologically ' +
-        'contaminated and the tasks where scaling still did not help.',
-      category: 'Machine Learning Research',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'Brown et al., "Language Models are Few-Shot Learners" (arXiv:2005.14165)',
-        url: 'https://arxiv.org/abs/2005.14165'
-      }
-    },
-    {
-      index: '04',
-      title: 'What "quantum advantage" claims did and did not demonstrate',
-      excerpt:
-        'The sampling task behind the 2019 supremacy experiment, why it is a ' +
-        'meaningful milestone and simultaneously a very narrow one, and what a ' +
-        'simulation on a classical machine can and cannot tell you.',
-      category: 'Quantum Computing',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'Google AI Quantum, "Quantum supremacy using a programmable superconducting processor" (arXiv:1910.11333)',
-        url: 'https://arxiv.org/abs/1910.11333'
-      }
-    },
-    {
-      index: '05',
-      title: 'Consensus algorithms: reading the Raft paper closely',
-      excerpt:
-        'Leader election, log replication and safety in Raft, and why the paper ' +
-        'reorganises consensus teaching around a small number of mechanisms instead of ' +
-        'a family of subtly different protocols.',
-      category: 'Distributed Systems',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'Ongaro & Ousterhout, "In Search of an Understandable Consensus Algorithm"',
-        url: 'https://raft.github.io/'
-      }
-    },
-    {
-      index: '06',
-      title: 'Choosing an embedded database: what SQLite is and is not for',
-      excerpt:
-        'The concurrency model, the limits on write throughput, and the specific classes ' +
-        'of application where an embedded engine is the right answer and where it is not.',
-      category: 'Databases',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'SQLite project, "Appropriate Uses For SQLite"',
-        url: 'https://sqlite.org/whentouse.html'
-      }
-    },
-    {
-      index: '07',
-      title: 'Reading the Bitcoin whitepaper thirty years of commentary later',
-      excerpt:
-        'What the original paper argues, which of its claims have held up, and how ' +
-        'much of the popular description of Bitcoin is actually in the paper.',
-      category: 'Software Architecture',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'Nakamoto, "Bitcoin: A Peer-to-Peer Electronic Cash System"',
-        url: 'https://bitcoin.org/bitcoin.pdf'
-      }
-    },
-    {
-      index: '08',
-      title: 'Reading a library API reference critically',
-      excerpt:
-        'A repeatable method for checking what a standard-library interface actually ' +
-        'guarantees — and how to tell a documented promise from an observed ' +
-        'implementation detail.',
-      category: 'Developer Tooling',
-      status: 'planned',
-      badge: 'concept',
-      source: {
-        label: 'Python documentation, "sqlite3 — DB-API 2.0 interface for SQLite databases"',
-        url: 'https://docs.python.org/3/library/sqlite3.html'
-      }
-    }
-  ];
+  private readonly articles: BlogArticle[] = BLOG_ARTICLES;
 
-  /** Lightweight editorial standard applied to every article before publication. */
-  readonly standards: string[] = [
-    'A stated question or technical objective that the article actually answers.',
-    'Primary sources — research papers, official documentation, specifications — cited directly.',
-    'Reproducible code, experiments or benchmarks wherever the topic allows them.',
-    'Explicit limitations, environment details and negative results included, not omitted.',
-    'Measured results kept clearly separate from interpretation and from opinion.',
-    'Human review before anything is published.'
-  ];
+  /** Short framing line shown above each category's cards. */
+  private readonly blurbs: Record<ArticleCategory, string> = {
+    'Products':
+      'Applications delivered from the ecosystem, written up with their real ' +
+      'operational scope and their current availability.',
+    'Technology':
+      'Languages, databases, SDKs and security libraries, described through their ' +
+      'architecture and their verified release state.',
+    'Labs':
+      'Research code and feasibility studies, where the limitations are as much a ' +
+      'part of the subject as the implementation.'
+  };
 
-  statusLabel(status: ArticleStatus): string {
-    return status === 'planned' ? 'Planned' : status;
+  selected = signal<CategoryFilter>('All');
+
+  /** Groups shown for the current filter, preserving category order. */
+  visibleGroups = computed<ArticleGroup[]>(() => {
+    const selected = this.selected();
+    return ARTICLE_CATEGORIES
+      .map(category => ({
+        category,
+        blurb: this.blurbs[category],
+        articles: this.articles.filter(article =>
+          article.category === category && (selected === 'All' || selected === category))
+      }))
+      .filter(group => group.articles.length > 0);
+  });
+
+  /** Article count shown beside each filter chip. */
+  countFor(filter: CategoryFilter): number {
+    return filter === 'All'
+      ? this.articles.length
+      : this.articles.filter(article => article.category === filter).length;
+  }
+
+  select(filter: CategoryFilter): void {
+    this.selected.set(filter);
   }
 }

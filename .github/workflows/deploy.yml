@@ -36,7 +36,14 @@ jobs:
       - name: Build production bundle
         run: npm run build -- --configuration=production --base-href=/
 
-      - name: Copy index.html to 404.html (SPA fallback for deep links)
+      - name: Prerender static HTML for every public route
+        # Serves the built app in headless Chrome and writes real HTML to
+        # <route>/index.html, so crawlers and link unfurlers receive
+        # route-specific metadata and GitHub Pages answers deep links with
+        # HTTP 200 instead of relying on the 404 document.
+        run: npm run prerender
+
+      - name: Copy index.html to 404.html (SPA fallback for unprerendered URLs)
         run: cp dist/quantsmind-web/browser/index.html dist/quantsmind-web/browser/404.html
 
       - name: Create CNAME file for custom domain

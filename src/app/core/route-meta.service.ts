@@ -5,13 +5,15 @@ import { filter, map, mergeMap } from 'rxjs/operators';
 
 import { HOME_DESCRIPTION, HOME_TITLE } from '../app.routes';
 
-const SITE_URL = 'https://www.quantsmind.com';
+/** Canonical origin for the deployed site. All absolute URLs derive from this. */
+export const SITE_URL = 'https://www.quantsmind.com';
 
-/**
- * RouteMetaService
- * Keeps the document title, meta description, and social tags in sync
- * with the currently activated route (driven by route `data`).
- */
+/** The subset of a resolved blog article that contributes to document metadata. */
+interface RouteArticleMeta {
+  title: string;
+  summary: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class RouteMetaService {
   private readonly titleService = inject(Title);
@@ -28,9 +30,16 @@ export class RouteMetaService {
         mergeMap(route => route.data)
       )
       .subscribe(data => {
-        const title = (data['title'] as string) || HOME_TITLE;
-        const description = (data['description'] as string) || HOME_DESCRIPTION;
-        const url = `${SITE_URL}${this.router.url}`;
+        // A route may resolve an article; when it does, that article is the
+        // authority for the title and description. Routes without one keep
+        // their static metadata.
+        const article = data['article'] as RouteArticleMeta | undefined;
+
+        const title = article ? `${article.title} — QuantsMind`
+                              : ((data['title'] as string) || HOME_TITLE);
+        const description = article ? article.summary
+                                    : ((data['description'] as string) || HOME_DESCRIPTION);
+        const url = this.canonicalUrl(this.router.url);
 
         this.titleService.setTitle(title);
 
@@ -46,6 +55,26 @@ export class RouteMetaService {
           canonical.setAttribute('href', url);
         }
       });
+  }
+
+  /**
+   * Builds the canonical URL for the current router URL.
+   *
+   * The sitemap advertises every non-root page with a trailing slash, so the
+   * canonical form matches that convention exactly — a canonical that disagrees
+   * with the sitemap tells a crawler the two are different documents. Query
+   * strings and fragments are dropped, since they identify a view of a page
+   * rather than a distinct page.
+   */
+  canonicalUrl(url: string): string {
+    const [pathOnly] = url.split(/[?#]/);
+    const path = (pathOnly || '/').replace(/\/{2,}/g, '/');
+
+    if (path === '/') {
+      return `${SITE_URL}/`;
+    }
+
+    return `${SITE_URL}${path.endsWith('/') ? path : `${path}/`}`;
   }
 
   private deepestRoute(route: ActivatedRoute): ActivatedRoute {

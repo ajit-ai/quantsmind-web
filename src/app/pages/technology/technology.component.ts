@@ -290,9 +290,11 @@ export class TechnologyComponent {
         'An open Python library that evaluates policy, risk, budget and delegation ' +
         'rules before an agent or client calls a protected Model Context Protocol tool, ' +
         'and inspects the result afterwards. The package manifest declares version ' +
-        '0.1.0. Development is partway through a documented phase plan and the current ' +
-        'distribution contains the core package only; the remaining gateway, ' +
-        'persistence and observability services are not yet packaged for third-party use.',
+        '0.1.0. Development is partway through a documented phase plan: the root ' +
+        'distribution packages the core package, while the eleven component packages ' +
+        'each carry their own manifest and source. The gateway and control-plane ' +
+        'applications described in its documentation are not present in the repository, ' +
+        'and no persistence layer is implemented.',
       href: 'https://github.com/ajit-ai/GuardMCP',
       external: true,
       ctaText: 'View repository on GitHub ↗',

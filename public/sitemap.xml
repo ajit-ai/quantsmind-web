@@ -47,6 +47,61 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.quantsmind.com/blog/quantsmind-document-intelligence-mini/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/microquantum/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/karkain/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/quantsmind-sdk/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/quantsmind-relational-db/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/guardmcp/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/quantsmind-agent/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/quantsmind-llm/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/vsector/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/quantsmind-osint-intelligence-platform/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/blog/quantsmind-fake-news-detection/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.quantsmind.com/about/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

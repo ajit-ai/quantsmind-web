@@ -286,25 +286,25 @@ export class ServicesComponent implements OnInit, OnDestroy {
       outcome: 'A codebase with sound structural decisions — one that is maintainable, testable and cheaper to evolve.'
     },
     {
-      id: 'application-development',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`,
-      title: 'Application Development',
-      short: 'Backend systems, APIs and developer platforms engineered for correctness and clarity.',
+      id: 'quantum-computing',
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`,
+      title: 'Quantum Computing',
+      short: 'Quantum program and algorithm development, with classical simulation, built on QuantsMind’s open quantum SDK.',
       provides: [
-        'Backend services and business APIs',
-        'Developer platforms and internal tooling',
-        'Data modelling and storage design',
-        'System integration and third-party connectivity',
-        'Code review and quality engineering practices'
+        'Quantum circuit construction: states, gates, circuits and measurement',
+        'Quantum algorithm development across variational, search, optimisation and phase-estimation families',
+        'Simulation of quantum programs using statevector and density-matrix backends',
+        'Parameterised and hybrid optimisation workflows built around quantum subroutines',
+        'Quantum technology research, including circuit interchange formats such as OpenQASM and QIR'
       ],
       deliverables: [
-        'Working, tested applications and services',
-        'Documented API contracts',
-        'Deployment-ready builds and configuration',
-        'Integration code and connectors'
+        'Implemented, tested quantum programs and algorithms',
+        'Simulation results backed by reproducible experiment records',
+        'Parameter sweeps and analysis of sampled results',
+        'Technical assessments that separate demonstrated behaviour from roadmap intent'
       ],
-      context: 'Modern backend stacks, databases, message queues and cloud services.',
-      outcome: 'Applications that are practical to build, test and evolve over time.'
+      context: 'Open, NumPy-based quantum tooling with local simulation backends. No quantum hardware backend is included, so results describe simulated behaviour rather than device behaviour.',
+      outcome: 'Quantum programs that are implemented, testable and honestly characterised, with the limits of simulation stated explicitly.'
     },
     {
       id: 'ai-ml-engineering',

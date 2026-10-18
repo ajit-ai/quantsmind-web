@@ -952,9 +952,9 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`
         },
         {
-          label: 'Application Development', href: '/services#application-development',
-          description: 'Backend systems, APIs and platforms',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`
+          label: 'Quantum Computing', href: '/services#quantum-computing',
+          description: 'Quantum algorithms and simulation',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`
         },
         {
           label: 'AI & Machine Learning', href: '/services#ai-ml-engineering',
@@ -1019,7 +1019,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'About', href: '/about', keywords: 'about company engineering services technology development' },
     { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry email form build' },
     { type: 'Capability', title: 'Software Architecture', href: '/services#software-architecture', keywords: 'architecture system design technical foundations' },
-    { type: 'Capability', title: 'Application Development', href: '/services#application-development', keywords: 'application development backend systems apis platforms engineering' },
+    { type: 'Capability', title: 'Quantum Computing', href: '/services#quantum-computing', keywords: 'quantum computing algorithms simulation circuits qasm optimization' },
     { type: 'Capability', title: 'AI & Machine Learning', href: '/services#ai-ml-engineering', keywords: 'ai artificial intelligence machine learning llm' },
     { type: 'Capability', title: 'Cloud Engineering', href: '/services#cloud-engineering', keywords: 'cloud kubernetes platform infrastructure distributed' },
     { type: 'Capability', title: 'DevOps & CI/CD', href: '/services#devops-ci-cd', keywords: 'devops ci cd delivery environments pipelines' },

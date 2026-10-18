@@ -20,7 +20,7 @@ export const routes: Routes = [
     data: {
       title: 'Services — QuantsMind',
       description:
-        'Practical software engineering and technology consulting: software architecture, application development, AI/ML engineering, cloud engineering, DevOps & CI/CD, and technical consulting.'
+        'Practical software engineering and technology consulting: software architecture, quantum computing, AI/ML engineering, cloud engineering, DevOps & CI/CD, and technical consulting.'
     },
     loadComponent: () =>
       import('./pages/services/services.component').then(m => m.ServicesComponent)

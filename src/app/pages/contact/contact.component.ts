@@ -408,7 +408,7 @@ export class ContactComponent {
 
   areas = [
     'Software Architecture',
-    'Application Development',
+    'Quantum Computing',
     'AI / ML Engineering',
     'Cloud & Platform Engineering',
     'DevOps & CI/CD',

@@ -5,7 +5,7 @@ import { ServicesComponent } from './services.component';
 
 const SERVICE_IDS = [
   'software-architecture',
-  'application-development',
+  'quantum-computing',
   'ai-ml-engineering',
   'cloud-engineering',
   'devops-ci-cd',

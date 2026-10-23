@@ -51,16 +51,17 @@ interface EcosystemLink {
               Building Intelligent Technologies.
             </h1>
             <p class="hero__lead">
-              QuantsMind is an engineering and technology company focused on software
-              architecture, application engineering, AI/ML, cloud technologies, and
-              emerging computing technologies.
+              QuantsMind helps organisations design, build and modernise software systems.
+              We work on the problems that slow teams down: architecture that is hard to
+              change, cloud reliability and cost, release pipelines, AI/ML integration,
+              and quantum computing - understood through classical simulation.
             </p>
             <div class="hero__actions">
-              <qm-button variant="primary" size="lg" [routerLinkValue]="'/services'">
-                Explore Services →
+              <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
+                Discuss Your Requirement →
               </qm-button>
-              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/technology'">
-                Explore Technology →
+              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/services'">
+                Explore Services →
               </qm-button>
             </div>
             <div class="hero__focus">

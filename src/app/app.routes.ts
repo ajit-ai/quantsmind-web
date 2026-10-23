@@ -3,7 +3,7 @@ import { blogArticleResolver } from './pages/blog/blog-article.resolver';
 
 export const HOME_TITLE = 'QuantsMind | Engineering Software & Intelligent Technologies';
 export const HOME_DESCRIPTION =
-  'QuantsMind provides software engineering, AI/ML, cloud and technology consulting while developing an ecosystem of emerging software technologies.';
+  'QuantsMind helps organisations design, build and modernise software systems: software architecture, quantum computing, AI/ML engineering, cloud, DevOps and technical consulting.';
 
 export const routes: Routes = [
   {

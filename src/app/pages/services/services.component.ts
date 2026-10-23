@@ -16,6 +16,8 @@ interface ServiceArea {
   icon: string;
   title: string;
   short: string;
+  /** The customer situation this service is intended to address. */
+  problem: string;
   provides: string[];
   deliverables: string[];
   context: string;
@@ -69,6 +71,10 @@ interface ServiceArea {
                     <p class="svc-detail__short">{{ svc.short }}</p>
                   </div>
                 </div>
+
+                <p class="svc-detail__problem">
+                  <strong>Typical problem.</strong> {{ svc.problem }}
+                </p>
 
                 <div class="svc-detail__grid">
                   <div>
@@ -230,6 +236,13 @@ interface ServiceArea {
       font-size: 15px; line-height: 1.7; text-wrap: pretty;
     }
 
+    .svc-detail__problem {
+      margin: 0 0 24px;
+      color: var(--color-text-secondary);
+      font-size: 15px; line-height: 1.7;
+    }
+    .svc-detail__problem strong { color: var(--color-text-primary); }
+
     .svc-detail__outcome {
       margin: 0 0 24px;
       padding: 14px 18px;
@@ -269,6 +282,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 9h18M9 21V9"/></svg>`,
       title: 'Software Architecture',
       short: 'System design and solution architecture that establishes sound structural decisions before implementation begins.',
+      problem: 'A system that is hard to change, costly to operate, or unable to support the next stage of growth.',
       provides: [
         'Solution architecture and system design',
         'Technical foundations, patterns and design guidelines',
@@ -290,6 +304,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`,
       title: 'Quantum Computing',
       short: 'Quantum program and algorithm development, with classical simulation, built on QuantsMind’s open quantum SDK.',
+      problem: 'A quantum algorithm or program that needs to be prototyped and evaluated without access to quantum hardware.',
       provides: [
         'Quantum circuit construction: states, gates, circuits and measurement',
         'Quantum algorithm development across variational, search, optimisation and phase-estimation families',
@@ -311,6 +326,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
       title: 'AI & ML Engineering',
       short: 'Applied AI and ML development, integrated into products that genuinely benefit from it.',
+      problem: 'A product idea that may benefit from AI, but where the value, cost and reliability are not yet clear.',
       provides: [
         'AI/ML application development',
         'Integration of modern AI models into products',
@@ -332,6 +348,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
       title: 'Cloud Engineering',
       short: 'Cloud architecture, deployment and infrastructure automation built for reliability and controlled cost.',
+      problem: 'Cloud infrastructure that is unreliable, hard to reason about, or more expensive than it should be.',
       provides: [
         'Cloud architecture and environment design',
         'Infrastructure-as-code and environment automation',
@@ -353,6 +370,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
       title: 'DevOps & CI/CD',
       short: 'Continuous delivery, automated testing and release engineering that make delivery repeatable and safe.',
+      problem: 'Releases that depend on manual steps, take too long, or fail in ways nobody can trace.',
       provides: [
         'CI/CD pipeline design and implementation',
         'Build, test and release automation',
@@ -374,6 +392,7 @@ export class ServicesComponent implements OnInit, OnDestroy {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
       title: 'Technical Consulting',
       short: 'Technical modernization, system design and honest engineering guidance for teams making important decisions.',
+      problem: 'An important technical decision where the team needs an independent, experienced assessment.',
       provides: [
         'Modernization assessments and roadmaps',
         'Architecture and code reviews',

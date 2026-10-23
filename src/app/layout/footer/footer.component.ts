@@ -189,7 +189,7 @@ interface FooterLink {
 
     /* ── Main grid ─────────────────────────────────────── */
     .qm-footer__main {
-      padding: 56px 0 40px;
+      padding: 40px 0 32px;
       border-bottom: 1px solid var(--qm-footer-border);
     }
     .qm-footer__grid {

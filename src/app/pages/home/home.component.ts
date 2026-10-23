@@ -47,14 +47,12 @@ interface EcosystemLink {
           <div class="hero__inner">
             <span class="eyebrow hero__eyebrow">QUANTSMIND</span>
             <h1 class="hero__headline">
-              Engineering Software.<br />
-              Building Intelligent Technologies.
+              Software Engineering, AI and Data Solutions for Modern Businesses
             </h1>
             <p class="hero__lead">
-              QuantsMind helps organisations design, build and modernise software systems.
-              We work on the problems that slow teams down: architecture that is hard to
-              change, cloud reliability and cost, release pipelines, AI/ML integration,
-              and quantum computing - understood through classical simulation.
+              QuantsMind helps organisations design, build, modernise and integrate
+              software systems through architecture consulting, AI engineering, data
+              platforms, cloud technologies and specialised technical development.
             </p>
             <div class="hero__actions">
               <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
@@ -131,7 +129,7 @@ interface EcosystemLink {
     <!-- ═══════════════════════════════════════════════════════ -->
     <!-- WHAT WE DO                                              -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white">
+    <qm-section surface="white" size="sm">
       <qm-container>
         <div class="section-header">
           <span class="eyebrow">WHAT WE DO</span>
@@ -157,13 +155,71 @@ interface EcosystemLink {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- WHAT WE DELIVER                                          -->
+    <!-- ════════════════════════════════════════════════════════ -->
+    <qm-section surface="subtle" size="sm">
+      <qm-container>
+        <div class="section-header">
+          <span class="eyebrow">WHAT WE DELIVER</span>
+          <h2>Capabilities You Can Engage.</h2>
+          <p class="lead section-header__lead">
+            Practical outcomes QuantsMind can design, build and deliver with you.
+          </p>
+        </div>
+        <div class="delivery-grid">
+          <div class="delivery-card">
+            <h3 class="delivery-card__title">Software Architecture & Modernisation</h3>
+            <p class="delivery-card__desc">
+              System design, legacy modernisation, architecture reviews and
+              engineering guidance for teams building or evolving software platforms.
+            </p>
+          </div>
+          <div class="delivery-card">
+            <h3 class="delivery-card__title">AI & Intelligent Automation</h3>
+            <p class="delivery-card__desc">
+              Practical AI/ML application development, intelligent systems and
+              integration of modern AI technologies into existing workflows.
+            </p>
+          </div>
+          <div class="delivery-card">
+            <h3 class="delivery-card__title">Data Engineering & Analytics</h3>
+            <p class="delivery-card__desc">
+              Data platforms, pipelines and analytics foundations that support
+              informed decision-making and operational reporting.
+            </p>
+          </div>
+          <div class="delivery-card">
+            <h3 class="delivery-card__title">Cloud & Infrastructure Engineering</h3>
+            <p class="delivery-card__desc">
+              Cloud architecture, deployment, CI/CD, infrastructure automation and
+              engineering environments across AWS, Azure and GCP.
+            </p>
+          </div>
+          <div class="delivery-card">
+            <h3 class="delivery-card__title">Specialised Software Development</h3>
+            <p class="delivery-card__desc">
+              Custom software development for domains where general-purpose
+              off-the-shelf tools do not fit the problem.
+            </p>
+          </div>
+          <div class="delivery-card">
+            <h3 class="delivery-card__title">Quantum Software Experimentation</h3>
+            <p class="delivery-card__desc">
+              Quantum program and algorithm development, classical simulation of
+              circuits and hybrid optimisation workflows for feasibility exploration.
+            </p>
+          </div>
+        </div>
+      </qm-container>
+    </qm-section>
+
     <!-- TECHNOLOGY ECOSYSTEM                                     -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas">
+    <qm-section surface="canvas" size="sm">
       <qm-container>
         <div class="section-header">
           <span class="eyebrow">TECHNOLOGY ECOSYSTEM</span>
-          <h2>Released Software We Maintain.</h2>
+          <h2>Technologies We Develop.</h2>
           <p class="lead section-header__lead">
             Alongside engineering services, QuantsMind develops and maintains its own
             software technologies. Each has a published, versioned release.
@@ -252,7 +308,7 @@ interface EcosystemLink {
     <!-- ═══════════════════════════════════════════════════════ -->
     <!-- WHY QUANTSMIND                                          -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="subtle">
+    <qm-section surface="subtle" size="sm">
       <qm-container>
         <div class="section-header">
           <span class="eyebrow">WHY QUANTSMIND</span>
@@ -291,7 +347,7 @@ interface EcosystemLink {
     styles: [`
     /* ── HERO ── */
     .hero {
-      padding: 88px 0 72px;
+      padding: 72px 0 56px;
       background:
         radial-gradient(1200px 520px at 78% -12%, var(--color-accent-wash) 0%, rgba(239,246,255,0) 62%),
         radial-gradient(900px 420px at 6% 110%, var(--color-canvas-lagoon) 0%, rgba(232,238,245,0) 60%),
@@ -300,7 +356,7 @@ interface EcosystemLink {
       overflow: hidden;
     }
     @media (min-width: 1024px) {
-      .hero { padding: 128px 0 112px; }
+      .hero { padding: 88px 0 64px; }
     }
 
     .hero__grid {
@@ -538,6 +594,27 @@ interface EcosystemLink {
     .why-card__title { font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin: 0 0 8px; }
     .why-card__desc  { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; }
 
+    /* ── DELIVERY ── */
+    .delivery-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 640px)  { .delivery-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .delivery-grid { grid-template-columns: repeat(3, 1fr); } }
+
+    .delivery-card {
+      padding: 24px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .delivery-card__title { font-size: 15px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+    .delivery-card__desc  { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; }
+
     /* ── FINAL CTA ── */
     .final-cta {
       text-align: center;
@@ -612,6 +689,18 @@ export class HomeComponent {
       title: 'Architecture & Consulting',
       description: 'Solution architecture, technical modernization, system design and engineering guidance.',
       href: '/services#technical-consulting'
+    },
+    {
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
+      title: 'Software Architecture',
+      description: 'System design, technical foundations and architecture reviews for teams building or modernising software.',
+      href: '/services#software-architecture'
+    },
+    {
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+      title: 'DevOps & CI/CD',
+      description: 'Continuous delivery, automated testing and release engineering that make software delivery repeatable and safe.',
+      href: '/services#devops-ci-cd'
     }
   ];
 

@@ -31,8 +31,8 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
   `,
     styles: [`
     .not-found {
-      min-height: 70vh; display: flex; align-items: center;
-      padding: 96px 0; background: var(--color-canvas);
+      min-height: 50vh; display: flex; align-items: center;
+      padding: 64px 0; background: var(--color-canvas);
     }
     .not-found__inner {
       display: flex; flex-direction: column; align-items: flex-start; gap: 20px;

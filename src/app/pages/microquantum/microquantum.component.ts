@@ -536,9 +536,9 @@ interface FlowStep { title: string; description: string; }
         radial-gradient(900px 420px at 85% -10%, #EFF6FF 0%, rgba(239,246,255,0) 60%),
         #FFFFFF;
       border-bottom: 1px solid #E2E8F0;
-      padding: 72px 0 64px;
+      padding: 64px 0 56px;
     }
-    @media (min-width: 768px) { .mq-hero { padding: 104px 0 88px; } }
+    @media (min-width: 768px) { .mq-hero { padding: 88px 0 72px; } }
 
     .mq-back {
       display: inline-block; margin-bottom: 28px;

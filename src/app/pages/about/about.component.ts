@@ -85,8 +85,8 @@ interface Pillar {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
+    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
+    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
     .page-hero h1 { max-width: 700px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
 

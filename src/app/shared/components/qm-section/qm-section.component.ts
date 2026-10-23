@@ -18,21 +18,21 @@ export type SectionSurface = 'canvas' | 'white' | 'subtle' | 'accent' | 'dark';
     :host { display: block; scroll-margin-top: 88px; }
 
     .qm-section {
+      padding-top: 64px;
+      padding-bottom: 64px;
+    }
+    .qm-section--sm {
+      padding-top: 40px;
+      padding-bottom: 40px;
+    }
+    .qm-section--lg {
       padding-top: 80px;
       padding-bottom: 80px;
     }
-    .qm-section--sm {
-      padding-top: 48px;
-      padding-bottom: 48px;
-    }
-    .qm-section--lg {
-      padding-top: 96px;
-      padding-bottom: 96px;
-    }
     @media (min-width: 768px) {
-      .qm-section     { padding-top: 96px;  padding-bottom: 96px; }
-      .qm-section--sm { padding-top: 64px;  padding-bottom: 64px; }
-      .qm-section--lg { padding-top: 128px; padding-bottom: 128px; }
+      .qm-section     { padding-top: 80px;  padding-bottom: 80px; }
+      .qm-section--sm { padding-top: 56px;  padding-bottom: 56px; }
+      .qm-section--lg { padding-top: 104px; padding-bottom: 104px; }
     }
 
     .surface-canvas  { background-color: var(--color-canvas); }

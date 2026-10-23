@@ -423,8 +423,8 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
     .sdk-modules { color: #7C3AED; font-size: 13px; margin-bottom: 4px; word-break: break-word; }
 
     /* ══════════ HERO ══════════ */
-    .sdk-hero { padding: 80px 0 56px; border-bottom: 1px solid #E2E8F0; }
-    @media (min-width: 768px) { .sdk-hero { padding: 112px 0 72px; } }
+    .sdk-hero { padding: 64px 0 48px; border-bottom: 1px solid #E2E8F0; }
+    @media (min-width: 768px) { .sdk-hero { padding: 88px 0 64px; } }
     .sdk-back { display: inline-block; margin-bottom: 28px; font-size: 14px; font-weight: 500; color: #475569; text-decoration: none; }
     .sdk-back:hover { color: #2563EB; text-decoration: underline; }
     .sdk-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }

@@ -284,13 +284,13 @@ type SubmitErrorReason = ContactErrorReason | 'rate-limited';
                 </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
+    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
+    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
     .page-hero h1 { max-width: 760px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
 
     .contact-layout {
-      display: grid; grid-template-columns: 1fr; gap: 56px; align-items: start;
+      display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start;
     }
     @media (min-width: 1024px) { .contact-layout { grid-template-columns: 1.4fr 1fr; } }
 
@@ -371,7 +371,7 @@ type SubmitErrorReason = ContactErrorReason | 'rate-limited';
     }
 
     /* Sidebar */
-    .contact-sidebar { display: flex; flex-direction: column; gap: 24px; }
+    .contact-sidebar { display: flex; flex-direction: column; gap: 16px; }
 
     .sidebar-entry-points { display: flex; flex-direction: column; gap: 12px; }
     .sidebar-entry {

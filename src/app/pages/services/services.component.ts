@@ -47,6 +47,22 @@ interface ServiceArea {
           what you can expect to receive, and the value it is designed to deliver.
         </p>
 
+        <section class="svc-overview" aria-label="Service overview">
+          <div class="svc-grid">
+            @for (svc of services; track svc.id) {
+              <button type="button"
+                class="svc-card"
+                [class.svc-card--active]="activeTab === svc.id"
+                [attr.aria-pressed]="activeTab === svc.id"
+                (click)="selectTab(svc.id)">
+                <span class="svc-card__icon" aria-hidden="true" [innerHTML]="svc.icon | qmSafeHtml"></span>
+                <span class="svc-card__title">{{ svc.title }}</span>
+                <p class="svc-card__desc">{{ svc.short }}</p>
+              </button>
+            }
+          </div>
+        </section>
+
         <div class="svc-tabs" role="group" aria-label="Service areas">
           @for (svc of services; track svc.id) {
             <button type="button"
@@ -133,8 +149,8 @@ interface ServiceArea {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 80px 0 64px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 112px 0 80px; } }
+    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
+    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
     .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }
 
@@ -188,6 +204,39 @@ interface ServiceArea {
     }
     .svc-tab--active .svc-tab__label { font-weight: 600; color: var(--color-text-primary); }
     .svc-tab:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+    /* ── SERVICE OVERVIEW GRID ── */
+    .svc-overview { margin-bottom: 48px; }
+    @media (min-width: 768px) { .svc-overview { margin-bottom: 64px; } }
+    .svc-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 640px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 1024px) { .svc-grid { grid-template-columns: repeat(3, 1fr); } }
+    .svc-card {
+      display: flex; flex-direction: column; gap: 12px;
+      padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border);
+      border-radius: 12px; text-align: left; cursor: pointer;
+      transition: border-color var(--duration-fast) var(--easing-standard),
+                  box-shadow var(--duration-fast) var(--easing-standard);
+    }
+    .svc-card:hover { border-color: var(--color-accent-muted); }
+    .svc-card--active { border-color: var(--color-accent); box-shadow: 0 2px 10px rgba(37, 99, 235, 0.08); }
+    .svc-card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+    .svc-card__icon {
+      width: 40px; height: 40px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--mark-bg); border-radius: 10px; color: var(--mark-color);
+    }
+    .svc-card__title {
+      margin: 0; font-size: 15px; font-weight: 600; color: var(--color-text-primary);
+      line-height: 1.4;
+    }
+    .svc-card__desc {
+      margin: 0; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary);
+    }
 
     /* ── DETAIL PANEL ── */
     .svc-panel { scroll-margin-top: 96px; }

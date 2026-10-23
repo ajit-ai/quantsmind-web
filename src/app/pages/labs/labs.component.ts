@@ -415,11 +415,11 @@ interface ExploreArea { name: string; tag: string; }
       background:
         radial-gradient(1000px 460px at 82% -10%, var(--color-labs-subtle) 0%, rgba(240,253,250,0) 62%),
         var(--color-surface-subtle);
-      padding: 80px 0 56px; border-bottom: 1px solid var(--color-border);
+      padding: 64px 0 48px; border-bottom: 1px solid var(--color-border);
       position: relative;
       overflow: hidden;
     }
-    @media (min-width: 768px) { .labs-hero { padding: 112px 0 72px; } }
+    @media (min-width: 768px) { .labs-hero { padding: 88px 0 64px; } }
     .labs-hero::before {
       content: ''; position: absolute; inset: 0; pointer-events: none;
       background-image: radial-gradient(var(--color-border-strong) 1px, transparent 1px);

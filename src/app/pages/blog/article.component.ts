@@ -148,8 +148,8 @@ import { BLOG_ARTICLES } from './articles';
     `,
     styles: [`
     /* ── HERO ──────────────────────────────────────────── */
-    .page-hero { padding: 64px 0 56px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 96px 0 72px; } }
+    .page-hero { padding: 56px 0 48px; border-bottom: 1px solid var(--color-border); }
+    @media (min-width: 768px) { .page-hero { padding: 80px 0 64px; } }
     .back {
       display: inline-block; margin-bottom: 24px;
       font-size: 14px; font-weight: 500;

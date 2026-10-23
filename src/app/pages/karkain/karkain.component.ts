@@ -489,8 +489,8 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     .k-card-head h3 { margin: 0; }
 
     /* ══════════ HERO ══════════ */
-    .k-hero { padding: 80px 0 56px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .k-hero { padding: 112px 0 72px; } }
+    .k-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
+    @media (min-width: 768px) { .k-hero { padding: 88px 0 64px; } }
     .k-back {
       display: inline-block; margin-bottom: 28px;
       font-size: 14px; font-weight: 500;

@@ -952,7 +952,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`
         },
         {
-          label: 'Quantum Computing', href: '/services#quantum-computing',
+          label: 'Quantum Computing', href: '/quantum',
           description: 'Quantum algorithms and simulation',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`
         },
@@ -1011,6 +1011,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'Services', href: '/services', keywords: 'services capabilities software architecture ai cloud devops consulting' },
     { type: 'Page', title: 'Products', href: '/products', keywords: 'products product di mini document intelligence quantsmind document intelligence mini software' },
     { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum relational database guardmcp security mcp' },
+    { type: 'Page', title: 'Quantum Computing', href: '/quantum', keywords: 'quantum computing engineering services algorithms simulation hybrid' },
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },
     { type: 'Page', title: 'QuantsMind SDK', href: '/quantsmind-sdk', keywords: 'quantsmind sdk software foundation intelligent computing' },

@@ -124,6 +124,17 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/contact/contact.component').then(m => m.ContactComponent)
   },
+  {
+    path: 'quantum',
+    data: {
+      title: 'Quantum Computing Engineering — QuantsMind',
+      description:
+        'Quantum computing engineering services from QuantsMind: quantum software, algorithms, simulation, and hybrid classical–quantum workflows. Built on classical simulation; no quantum hardware access or quantum advantage is claimed.'
+    },
+    loadComponent: () =>
+      import('./pages/quantum/quantum.component').then(m => m.QuantumComponent)
+  },
+
   // Legal pages
   {
     path: 'privacy',

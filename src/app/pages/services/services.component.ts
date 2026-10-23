@@ -120,6 +120,12 @@ interface ServiceArea {
                   <strong>Outcome.</strong> {{ svc.outcome }}
                 </p>
 
+                @if (svc.id === 'quantum-computing') {
+                  <p class="svc-detail__explore">
+                    <a routerLink="/quantum" class="svc-detail__explore-link">Explore Quantum Computing Services &rarr;</a>
+                  </p>
+                }
+
                 <div class="svc-detail__cta">
                   <qm-button variant="primary" size="md" [routerLinkValue]="'/contact'" [ariaLabel]="'Discuss ' + svc.title + ' with QuantsMind'">
                     Discuss this requirement →
@@ -304,6 +310,9 @@ interface ServiceArea {
     .svc-detail__outcome strong { color: var(--color-text-primary); }
 
     .svc-detail__cta { display: flex; }
+    .svc-detail__explore { margin: 0 0 24px; }
+    .svc-detail__explore-link { font-weight: 500; color: var(--color-accent); text-decoration: none; }
+    .svc-detail__explore-link:hover { text-decoration: underline; }
 
     /* ── CTA ── */
     .page-cta {

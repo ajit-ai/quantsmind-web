@@ -1,11 +1,18 @@
-import { Component, ChangeDetectionStrategy, signal } from '@angular/core';
+import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
 
 import { FormsModule } from '@angular/forms';
+import {
+  ContactService,
+  ContactSubmitError,
+  ContactErrorReason
+} from '../../core/contact.service';
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+
+type SubmitErrorReason = ContactErrorReason | 'rate-limited';
 
 @Component({
     selector: 'app-contact',
@@ -56,14 +63,27 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
               }
     
               @if (!submitted()) {
-                <div class="contact-form">
+                @if (!configured) {
+                  <div class="form-notice" role="status">
+                    <p class="form-notice__text">
+                      The automated enquiry form is temporarily unavailable. Please
+                      email us directly and we will respond.
+                    </p>
+                    <qm-button variant="primary" size="md"
+                      href="mailto:ajitkumar&#64;quantsmind.com"
+                      ariaLabel="Email QuantsMind">
+                      Email ajitkumar&#64;quantsmind.com →
+                    </qm-button>
+                  </div>
+                } @else {
+                <form class="contact-form" (ngSubmit)="handleSubmit()" novalidate>
                   <div class="form-row">
                     <div class="form-group">
                       <label class="form-label" for="contact-name">
                         Name <span class="form-required" aria-label="required">*</span>
                       </label>
                       <input id="contact-name" type="text" class="form-input"
-                        [(ngModel)]="form.name" placeholder="Your name"
+                        name="name" maxlength="100" [(ngModel)]="form.name" placeholder="Your name"
                         autocomplete="name" required
                         [class.form-input--error]="errors.name"/>
                         @if (errors.name) {
@@ -75,7 +95,7 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                           Company <span class="form-required" aria-label="required">*</span>
                         </label>
                         <input id="contact-company" type="text" class="form-input"
-                          [(ngModel)]="form.company" placeholder="Organisation name"
+                          name="company" maxlength="120" [(ngModel)]="form.company" placeholder="Organisation name"
                           autocomplete="organization" required
                           [class.form-input--error]="errors.company"/>
                           @if (errors.company) {
@@ -88,7 +108,7 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                           Work Email <span class="form-required" aria-label="required">*</span>
                         </label>
                         <input id="contact-email" type="email" class="form-input"
-                          [(ngModel)]="form.email" placeholder="you&#64;company.com"
+                          name="email" maxlength="254" [(ngModel)]="form.email" placeholder="you&#64;company.com"
                           autocomplete="email" required
                           [class.form-input--error]="errors.email"/>
                           @if (errors.email) {
@@ -101,7 +121,7 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                           </label>
                           <div class="form-select-wrapper">
                             <select id="contact-area" class="form-select"
-                              [(ngModel)]="form.area" required
+                              name="area" [(ngModel)]="form.area" required
                               [class.form-input--error]="errors.area">
                               <option value="">Select an area…</option>
                               @for (area of areas; track area) {
@@ -124,7 +144,7 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                               Message <span class="form-required" aria-label="required">*</span>
                             </label>
                             <textarea id="contact-message" class="form-textarea"
-                              [(ngModel)]="form.message"
+                              name="message" maxlength="5000" [(ngModel)]="form.message"
                               placeholder="Describe the problem you are trying to solve, the system you are building, or the challenge you face."
                               rows="6" required
                             [class.form-input--error]="errors.message"></textarea>
@@ -132,10 +152,30 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
                               <span class="form-error" role="alert">{{ errors.message }}</span>
                             }
                           </div>
-                          <qm-button variant="primary" size="lg" type="submit" (clicked)="handleSubmit()">
-                            Send Enquiry →
+                          <!-- Honeypot: hidden from users and assistive technology. -->
+                          <div class="form-honeypot" aria-hidden="true">
+                            <label for="contact-website">Leave this field empty</label>
+                            <input id="contact-website" name="website" type="text"
+                              tabindex="-1" autocomplete="off"
+                              [(ngModel)]="form.website" />
+                          </div>
+
+                          @if (submitError()) {
+                            <div class="form-failure" role="alert">
+                              <p class="form-failure__text">{{ errorMessage() }}</p>
+                              <p class="form-failure__text">
+                                You can also email us directly at
+                                <a class="contact-email-link" href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>
+                              </p>
+                            </div>
+                          }
+
+                          <qm-button variant="primary" size="lg" type="submit"
+                            [disabled]="submitting()">
+                            {{ submitting() ? 'Sending…' : 'Send Enquiry →' }}
                           </qm-button>
-                        </div>
+                        </form>
+                }
                       }
     
                       <p class="contact-email-note">
@@ -299,6 +339,21 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
     .form-textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
     .form-error { font-size: 12px; color: var(--color-error); font-weight: 500; }
 
+    /* Off-screen, not display:none, so bots that skip hidden nodes still see it. */
+    .form-honeypot {
+      position: absolute; left: -9999px; width: 1px; height: 1px;
+      overflow: hidden;
+    }
+
+    .form-failure, .form-notice {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+      padding: 18px 20px; background: var(--color-error-subtle, #FEF2F2);
+      border: 1px solid var(--color-error-muted, #FECACA); border-radius: 10px;
+    }
+    .form-failure__text, .form-notice__text {
+      font-size: 14px; color: var(--color-text-primary); line-height: 1.6; margin: 0;
+    }
+
     .contact-email-note { font-size: 13px; color: var(--color-text-muted); margin: 20px 0 0; }
     .contact-email-link { color: var(--color-accent); text-decoration: none; font-weight: 500; }
     .contact-email-link:hover { text-decoration: underline; }
@@ -401,10 +456,26 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
   `]
 })
 export class ContactComponent {
-  submitted = signal(false);
+  private readonly contact = inject(ContactService);
 
-  form = { name: '', company: '', email: '', area: '', message: '' };
+  readonly submitted = signal(false);
+  readonly submitting = signal(false);
+  readonly submitError = signal<SubmitErrorReason | ''>('');
+
+  /** Whether a real endpoint is configured; drives the fallback UI. */
+  readonly configured = this.contact.isConfigured();
+
+  form = { name: '', company: '', email: '', area: '', message: '', website: '' };
   errors: { name?: string; company?: string; email?: string; area?: string; message?: string } = {};
+
+  /** Spam and abuse controls. */
+  formOpenedAt = Date.now();
+  lastAttemptAt = 0;
+  readonly minFormAgeMs = 2500;
+  readonly cooldownMs = 5000;
+
+  private readonly emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  private readonly maxLengths = { name: 100, company: 120, email: 254, message: 5000 };
 
   areas = [
     'Software Architecture',
@@ -434,18 +505,107 @@ export class ContactComponent {
     { title: 'We determine whether we can help', desc: 'We are honest about fit. If we are not the right partner, we will say so.' }
   ];
 
-  handleSubmit(): void {
-    this.errors = {};
-    if (!this.form.name.trim())    this.errors.name    = 'Please enter your name.';
-    if (!this.form.company.trim()) this.errors.company = 'Please enter your company name.';
-    if (!this.form.email.trim() || !this.form.email.includes('@'))
-                                    this.errors.email  = 'Please enter a valid work email address.';
-    if (!this.form.area)            this.errors.area   = 'Please select an area of interest.';
-    if (!this.form.message.trim() || this.form.message.trim().length < 20)
-                                    this.errors.message = 'Please describe your challenge (at least 20 characters).';
-    if (!this.errors.name && !this.errors.company && !this.errors.email &&
-        !this.errors.area && !this.errors.message) {
-      this.submitted.set(true);
+  /** Human-readable text for the current failure, if any. */
+  errorMessage(): string {
+    switch (this.submitError()) {
+      case 'not-configured':
+        return 'The enquiry form is not connected yet. Please email us directly.';
+      case 'timeout':
+        return 'The enquiry took too long to send. Please try again.';
+      case 'rejected':
+        return 'We could not deliver your enquiry. Please try again.';
+      case 'rate-limited':
+        return 'Please wait a moment before sending another enquiry.';
+      case 'network':
+        return 'We could not reach the enquiry service. Please check your connection and try again.';
+      default:
+        return '';
     }
+  }
+
+  handleSubmit(): void {
+    if (this.submitting()) {
+      return;
+    }
+
+    this.errors = {};
+    this.submitError.set('');
+
+    const name = this.form.name.trim();
+    const company = this.form.company.trim();
+    const email = this.form.email.trim();
+    const message = this.form.message.trim();
+
+    if (name.length < 2) {
+      this.errors.name = 'Please enter your name.';
+    } else if (name.length > this.maxLengths.name) {
+      this.errors.name = `Please keep your name under ${this.maxLengths.name} characters.`;
+    }
+
+    if (company.length < 2) {
+      this.errors.company = 'Please enter your company name.';
+    } else if (company.length > this.maxLengths.company) {
+      this.errors.company = `Please keep your company name under ${this.maxLengths.company} characters.`;
+    }
+
+    if (!this.emailPattern.test(email)) {
+      this.errors.email = 'Please enter a valid work email address.';
+    } else if (email.length > this.maxLengths.email) {
+      this.errors.email = 'Please enter a shorter email address.';
+    }
+
+    if (!this.form.area) {
+      this.errors.area = 'Please select an area of interest.';
+    }
+
+    if (message.length < 20) {
+      this.errors.message = 'Please describe your challenge (at least 20 characters).';
+    } else if (message.length > this.maxLengths.message) {
+      this.errors.message = `Please keep your message under ${this.maxLengths.message} characters.`;
+    }
+
+    if (Object.keys(this.errors).length > 0) {
+      return;
+    }
+
+    const now = Date.now();
+
+    // Bots submit far faster than a person can read the form, and populate
+    // fields that are hidden from users.
+    if (this.form.website.trim() !== '' || now - this.formOpenedAt < this.minFormAgeMs) {
+      this.submitError.set('rejected');
+      return;
+    }
+
+    if (now - this.lastAttemptAt < this.cooldownMs) {
+      this.submitError.set('rate-limited');
+      return;
+    }
+
+    this.lastAttemptAt = now;
+
+    if (!this.configured) {
+      this.submitError.set('not-configured');
+      return;
+    }
+
+    this.submitting.set(true);
+
+    void this.contact
+      .send({
+        name,
+        company,
+        email,
+        area: this.form.area,
+        message,
+        gotcha: this.form.website
+      })
+      .then(() => this.submitted.set(true))
+      .catch((error: unknown) => {
+        this.submitError.set(
+          error instanceof ContactSubmitError ? error.reason : 'network'
+        );
+      })
+      .finally(() => this.submitting.set(false));
   }
 }

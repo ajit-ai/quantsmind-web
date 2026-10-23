@@ -16,7 +16,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
           <span>Privacy Policy</span>
         </div>
         <h1>Privacy Policy</h1>
-        <p class="qm-legal-meta">Last updated: 15 August 2025</p>
+        <p class="qm-legal-meta">Last updated: 23 October 2026</p>
       </qm-container>
     </section>
 
@@ -51,6 +51,11 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
               When you submit an enquiry through our Contact page, we collect your name,
               company name, work email address, selected area of interest, and the message
               you provide. We collect only what is necessary to respond to your enquiry.
+            </p>
+            <p>
+              Enquiries are submitted through Formspree, a third-party form-processing
+              service, which forwards them to our business inbox and stores a copy in its
+              dashboard. Formspree processes this data on our behalf.
             </p>
             <h3>2.2 Information Collected Automatically</h3>
             <p>
@@ -112,6 +117,11 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
               24 months. You may request deletion of your data at any time by contacting
               us at <a href="mailto:ajitkumar&#64;quantsmind.com">ajitkumar&#64;quantsmind.com</a>.
             </p>
+            <p>
+              Formspree retains its submission archive for 30 days on the free plan, after
+              which submissions are no longer available in its dashboard. Copies delivered
+              to our business inbox are retained as described above.
+            </p>
           </section>
 
           <section class="qm-legal-section">
@@ -123,7 +133,12 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             <ul>
               <li><strong>Service providers</strong> — we may share data with trusted
                   third-party service providers (such as email infrastructure providers)
-                  who process data on our behalf and are contractually bound to protect it.</li>
+                  who process data on our behalf and are contractually bound to protect it.
+                  Contact form submissions are processed by
+                  <a href="https://formspree.io" target="_blank" rel="noopener noreferrer">Formspree</a>,
+                  which stores them in its dashboard and forwards them to our business inbox.
+                  Formspree may process submissions in countries other than yours; its
+                  privacy policy describes its retention, security and transfer practices.</li>
               <li><strong>Legal requirements</strong> — we may disclose information where
                   required to do so by law or in response to valid legal process.</li>
               <li><strong>Business transfers</strong> — in the event of a merger,

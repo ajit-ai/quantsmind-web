@@ -32,6 +32,18 @@ interface EcosystemTech {
   releaseLabel?: string;
 }
 
+interface EcosystemMapItem {
+  name: string;
+  maturity: string;
+  badge: BadgeVariant;
+}
+
+interface EcosystemMapGroup {
+  title: string;
+  note: string;
+  items: EcosystemMapItem[];
+}
+
 @Component({
     selector: 'app-technology',
     imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
@@ -53,6 +65,38 @@ interface EcosystemTech {
         </p>
       </qm-container>
     </section>
+
+    <qm-section surface="canvas" size="sm" ariaLabel="Ecosystem map">
+      <qm-container>
+        <span class="eyebrow">ECOSYSTEM MAP</span>
+        <h2 id="ecosystem-map-heading">How the QuantsMind ecosystem is organised</h2>
+        <p class="lead section-lead">
+          A compact view of what QuantsMind builds and discusses. Entries are grouped by
+          category; the label next to each name is its own maturity, not a claim about
+          integration with the other entries.
+        </p>
+        <div class="ecosystem-map" role="group" aria-labelledby="ecosystem-map-heading">
+          @for (group of ecosystemGroups; track group.title) {
+            <section class="ecosystem-group">
+              <h3 class="ecosystem-group__title">{{ group.title }}</h3>
+              <p class="ecosystem-group__note">{{ group.note }}</p>
+              <ul class="ecosystem-group__list">
+                @for (item of group.items; track item.name) {
+                  <li class="ecosystem-item">
+                    <span class="ecosystem-item__name">{{ item.name }}</span>
+                    <qm-badge [variant]="item.badge" [attr.aria-label]="item.name + ' maturity: ' + item.maturity">{{ item.maturity }}</qm-badge>
+                  </li>
+                }
+              </ul>
+            </section>
+          }
+        </div>
+        <p class="ecosystem-map__note">
+          Grouping indicates category membership, not technical integration or dependency.
+          Maturity and availability are stated per entry and are deliberately conservative.
+        </p>
+      </qm-container>
+    </qm-section>
 
     <qm-section surface="white">
       <qm-container>
@@ -129,14 +173,15 @@ interface EcosystemTech {
     .page-hero .lead { max-width: 640px; margin: 0; }
 
     .ecosystem-grid {
-      display: grid; grid-template-columns: 1fr; gap: 24px;
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px;
     }
-    @media (min-width: 768px) { .ecosystem-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 768px) { .ecosystem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
     .tech-card {
       position: relative;
       display: flex; flex-direction: column; gap: 12px;
       padding: 32px;
+      min-width: 0; overflow-wrap: anywhere;
       background: var(--card-bg-subtle);
       border: 1px solid var(--card-border); border-radius: var(--card-radius);
       box-shadow: var(--card-shadow);
@@ -164,18 +209,19 @@ interface EcosystemTech {
       display: flex; align-items: center; justify-content: space-between;
       gap: 12px; flex-wrap: wrap; min-width: 0;
     }
-    .tech-card__title { font-size: 20px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
-    .tech-card__version { font-size: 13px; font-weight: 600; color: var(--color-text-muted); margin: -4px 0 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; }
-    .tech-card__tagline { font-size: 14px; font-weight: 500; color: var(--color-accent); margin: 0; }
-    .tech-card__desc  { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; }
-    .tech-card__link  { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: 4px; }
+    .tech-card__title { font-size: 20px; font-weight: 600; color: var(--color-text-primary); margin: 0; overflow-wrap: anywhere; min-width: 0; }
+    .tech-card__version { font-size: 13px; font-weight: 600; color: var(--color-text-muted); margin: -4px 0 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; overflow-wrap: anywhere; }
+    .tech-card__tagline { font-size: 14px; font-weight: 500; color: var(--color-accent); margin: 0; overflow-wrap: anywhere; }
+    .tech-card__desc  { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; overflow-wrap: anywhere; min-width: 0; }
+    .tech-card__link  { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: 4px; overflow-wrap: anywhere; }
     .tech-card__refs {
       position: relative; z-index: 1;
       display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
       margin: 0; padding-top: 12px;
       border-top: 1px solid var(--card-border);
+      min-width: 0;
     }
-    .tech-card__ref { font-size: 12px; color: var(--color-text-muted); text-decoration: underline; text-underline-offset: 2px; }
+    .tech-card__ref { font-size: 12px; color: var(--color-text-muted); text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
     .tech-card__ref:hover { color: var(--color-accent); }
     .tech-card__ref:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
     .tech-card__refsep { font-size: 12px; color: var(--color-text-muted); }
@@ -201,9 +247,90 @@ interface EcosystemTech {
     }
     .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
     .section-lead { max-width: 680px; margin: 16px 0 0; font-size: 16px; }
+
+    /* ── ECOSYSTEM MAP ── */
+    .ecosystem-map {
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px;
+      margin-top: 24px;
+    }
+    @media (min-width: 768px) { .ecosystem-map { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .ecosystem-map { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+    .ecosystem-group {
+      display: flex; flex-direction: column; gap: 8px;
+      padding: 20px;
+      background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border); border-radius: var(--card-radius);
+      min-width: 0;
+    }
+    .ecosystem-group__title { font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text-primary); overflow-wrap: anywhere; }
+    .ecosystem-group__note { font-size: 13px; line-height: 1.5; color: var(--color-text-secondary); margin: 0; overflow-wrap: anywhere; }
+    .ecosystem-group__list {
+      list-style: none; margin: 8px 0 0; padding: 0;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .ecosystem-item {
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+      flex-wrap: wrap; min-width: 0;
+    }
+    .ecosystem-item__name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); overflow-wrap: anywhere; min-width: 0; }
+    ::ng-deep .ecosystem-map qm-badge .qm-badge { white-space: normal; overflow-wrap: anywhere; }
+    ::ng-deep .ecosystem-grid qm-badge .qm-badge { white-space: normal; overflow-wrap: anywhere; }
+    .ecosystem-map__note {
+      font-size: 13px; line-height: 1.6; color: var(--color-text-secondary);
+      margin: 20px 0 0; max-width: 720px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ecosystem-group { transition: none; }
+    }
   `]
 })
 export class TechnologyComponent {
+  ecosystemGroups: EcosystemMapGroup[] = [
+    {
+      title: 'Engineering Services',
+      note: 'Commercial engineering services QuantsMind can discuss, evaluate and deliver.',
+      items: [
+        { name: 'Software Architecture', maturity: 'Service', badge: 'default' },
+        { name: 'Quantum Computing', maturity: 'Service', badge: 'default' },
+        { name: 'AI & ML Engineering', maturity: 'Service', badge: 'default' },
+        { name: 'Cloud Engineering', maturity: 'Service', badge: 'default' },
+        { name: 'DevOps & CI/CD', maturity: 'Service', badge: 'default' },
+        { name: 'Technical Consulting', maturity: 'Service', badge: 'default' }
+      ]
+    },
+    {
+      title: 'Products',
+      note: 'Applications delivered by QuantsMind; availability and licensing are arranged directly.',
+      items: [
+        { name: 'QuantsMind Document Intelligence Mini', maturity: 'Early Access · v0.1.0', badge: 'early-access' }
+      ]
+    },
+    {
+      title: 'Developer Technologies',
+      note: 'Open developer technologies and tools; maturity is stated per project.',
+      items: [
+        { name: 'MicroQuantum', maturity: 'Developer Preview · v1.1.0', badge: 'experimental' },
+        { name: 'Karkain', maturity: 'Developer Preview · v1.1.0', badge: 'experimental' },
+        { name: 'QuantsMind SDK', maturity: 'Developer Preview · v1.1.0', badge: 'experimental' },
+        { name: 'QuantsMind Relational DB', maturity: 'Alpha · Under Development · v0.1.0 (pre-release)', badge: 'prototype' },
+        { name: 'GuardMCP', maturity: 'Alpha · Under Development · v0.1.0', badge: 'prototype' },
+        { name: 'QuantsMind-Agent', maturity: 'Alpha · Under Development · v0.2.0 (in-repo, unreleased)', badge: 'prototype' },
+        { name: 'QuantsMind-LLM', maturity: 'Research Prototype · No validated release', badge: 'research' }
+      ]
+    },
+    {
+      title: 'Labs and Experimental Work',
+      note: 'Exploratory research code and prototypes; not production-ready.',
+      items: [
+        { name: 'Vsector', maturity: 'Experimental', badge: 'experimental' },
+        { name: 'QuantsMind OSINT Intelligence Platform', maturity: 'Experimental · Under Development', badge: 'development' },
+        { name: 'QuantsMind AI Fake News Detection System', maturity: 'Feasibility Study', badge: 'prototype' }
+      ]
+    }
+  ];
+
   ecosystem: EcosystemTech[] = [
     {
       name: 'MicroQuantum',

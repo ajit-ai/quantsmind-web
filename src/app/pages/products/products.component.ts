@@ -65,6 +65,35 @@ interface FlowStep {
 
             <p class="product__desc">{{ product.description }}</p>
 
+            <div class="product__workflow" aria-labelledby="product-workflow-title">
+              <h3 id="product-workflow-title" class="product__h3">Processing workflow</h3>
+              <ol class="doc-flow" aria-label="Document Intelligence Mini processing workflow">
+                <li class="doc-flow__step">
+                  <span class="doc-flow__label">Input documents</span>
+                  <span class="doc-flow__detail">PDF, DOCX, TXT</span>
+                </li>
+                <li class="doc-flow__connector" aria-hidden="true">→</li>
+                <li class="doc-flow__step">
+                  <span class="doc-flow__label">Text extraction</span>
+                  <span class="doc-flow__detail">Format readers resolve to one text representation</span>
+                </li>
+                <li class="doc-flow__connector" aria-hidden="true">→</li>
+                <li class="doc-flow__step">
+                  <span class="doc-flow__label">Field identification</span>
+                  <span class="doc-flow__detail">Configurable labels; value follows label</span>
+                </li>
+                <li class="doc-flow__connector" aria-hidden="true">→</li>
+                <li class="doc-flow__step">
+                  <span class="doc-flow__label">Structured output</span>
+                  <span class="doc-flow__detail">JSON or CSV; missing fields reported as absent</span>
+                </li>
+              </ol>
+              <p class="doc-flow__note">
+                Deterministic parsing: no OCR, machine learning, classification, embeddings or semantic search.
+              </p>
+            </div>
+
+
             <div class="product__grid">
               <div>
                 <h3 class="product__h3">Intended use</h3>
@@ -251,6 +280,40 @@ interface FlowStep {
     }
     .product__note--center { text-align: center; border-left: none; background: none; padding: 16px 0 0; }
     .product__cta { display: flex; flex-wrap: wrap; }
+
+    .product__workflow { margin: 4px 0 8px; }
+    .doc-flow {
+      display: flex; flex-direction: column; gap: 10px;
+      margin: 14px 0 12px; padding: 0; list-style: none;
+    }
+    .doc-flow__step {
+      display: flex; flex-direction: column; gap: 4px;
+      padding: 14px 16px; background: var(--color-canvas);
+      border: 1px solid var(--color-border); border-radius: var(--radius-sm);
+      min-width: 0;
+    }
+    .doc-flow__label {
+      font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin: 0;
+    }
+    .doc-flow__detail {
+      font-size: 13px; line-height: 1.5; color: var(--color-text-secondary); margin: 0;
+    }
+    .doc-flow__connector {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--color-accent); font-size: 18px; line-height: 1; flex-shrink: 0;
+    }
+    .doc-flow__note {
+      margin: 0; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary);
+    }
+    @media (min-width: 768px) {
+      .doc-flow { flex-direction: row; align-items: stretch; gap: 8px; }
+      .doc-flow__step { flex: 1 1 0; }
+      .doc-flow__connector { padding-top: 18px; }
+    }
+    @media (max-width: 767px) {
+      .doc-flow__connector { transform: rotate(90deg); }
+    }
+
 
     .compare { display: grid; grid-template-columns: 1fr; gap: 24px; }
     @media (min-width: 768px) { .compare { grid-template-columns: 1fr 1fr; } }

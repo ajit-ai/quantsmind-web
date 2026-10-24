@@ -89,3 +89,70 @@ describe('ServicesComponent fragment routing', () => {
     expect(router.url).toBe('/services#technical-consulting');
   });
 });
+
+describe('ServicesComponent illustrations', () => {
+  let fixture: ComponentFixture<ServicesComponent>;
+  let component: ServicesComponent;
+
+  beforeAll(() => {
+    Element.prototype.scrollIntoView = vi.fn();
+  });
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ServicesComponent],
+      providers: [provideRouter([{ path: '**', component: ServicesComponent }])]
+    }).compileComponents();
+    fixture = TestBed.createComponent(ServicesComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('renders an illustration in the selected service detail panel', () => {
+    const ill = fixture.nativeElement.querySelector('.svc-detail__illustration');
+    expect(ill).toBeTruthy();
+    expect(ill.getAttribute('aria-hidden')).toBe('true');
+    expect(ill.querySelector('svg.svc-illustration')).toBeTruthy();
+  });
+
+  it('renders an illustration for every service', () => {
+    for (const id of SERVICE_IDS) {
+      component.selectTab(id);
+      fixture.detectChanges();
+      const ill = fixture.nativeElement.querySelector('.svc-detail__illustration svg.svc-illustration');
+      expect(ill, `missing illustration for ${id}`).toBeTruthy();
+    }
+  });
+
+  it('keeps the Quantum Computing exploration link', () => {
+    component.selectTab('quantum-computing');
+    fixture.detectChanges();
+    const link = fixture.nativeElement.querySelector('a.svc-detail__explore-link');
+    expect(link).toBeTruthy();
+    expect(link.textContent).toContain('Explore Quantum Computing Services');
+  });
+
+  it('preserves service content and headings', () => {
+    const text = fixture.nativeElement.textContent as string;
+    expect(text).toContain('What we provide');
+    expect(text).toContain('Practical deliverables');
+    expect(text).toContain('Technology & capability context');
+    expect(text).toContain('Outcome.');
+    for (const id of SERVICE_IDS) {
+      // titles rendered in overview cards
+    }
+    expect(text).toContain('Software Architecture');
+    expect(text).toContain('Quantum Computing');
+    expect(text).toContain('AI & ML Engineering');
+    expect(text).toContain('Cloud Engineering');
+    expect(text).toContain('DevOps & CI/CD');
+    expect(text).toContain('Technical Consulting');
+  });
+
+  it('exposes accessible tab semantics', () => {
+    const tabs = fixture.nativeElement.querySelectorAll('.svc-tab');
+    expect(tabs.length).toBe(6);
+    const pressed = fixture.nativeElement.querySelectorAll('.svc-tab[aria-pressed="true"]');
+    expect(pressed.length).toBe(1);
+  });
+});

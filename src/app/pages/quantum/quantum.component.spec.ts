@@ -112,6 +112,54 @@ describe('QuantumComponent details', () => {
   });
 });
 
+describe('QuantumComponent hybrid workflow diagram', () => {
+  let fixture: ComponentFixture<QuantumComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [QuantumComponent],
+      providers: [provideRouter([])]
+    }).compileComponents();
+    fixture = TestBed.createComponent(QuantumComponent);
+    fixture.detectChanges();
+  });
+
+  it('renders the example hybrid workflow heading', () => {
+    const text = fixture.nativeElement.textContent as string;
+    expect(text).toContain('Example Hybrid Quantum–Classical Workflow');
+  });
+
+  it('renders all five workflow stage labels', () => {
+    const text = fixture.nativeElement.textContent as string;
+    for (const label of [
+      'Classical input',
+      'Parameterized quantum circuit (simulated)',
+      'Measurement / expectation estimate',
+      'Classical optimizer',
+      'Updated parameters'
+    ]) {
+      expect(text).toContain(label);
+    }
+  });
+
+  it('states that quantum execution is simulated', () => {
+    const text = fixture.nativeElement.textContent as string;
+    expect(text.toLowerCase()).toContain('simulated');
+    expect(text).toContain('classical simulation');
+  });
+
+  it('includes the illustrative-only disclaimer', () => {
+    const text = fixture.nativeElement.textContent as string;
+    expect(text).toContain('Illustrative example only');
+    expect(text).toContain('not proof of an implemented end-to-end product');
+  });
+
+  it('keeps the Bloch sphere illustration', () => {
+    const svg = fixture.nativeElement.querySelector('svg.q-bloch');
+    expect(svg).toBeTruthy();
+  });
+});
+
 describe('quantum navigation integration', () => {
   it('services quantum detail panel links to /quantum', async () => {
     await TestBed.configureTestingModule({

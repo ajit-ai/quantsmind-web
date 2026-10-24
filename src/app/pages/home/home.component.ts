@@ -69,59 +69,108 @@ interface EcosystemLink {
             </div>
           </div>
 
-          <!-- Decorative: abstract computational-architecture visual -->
+          <!-- Decorative: software engineering delivery lifecycle diagram -->
           <div class="hero__visual" aria-hidden="true">
             <div class="hero__visual-panel qm-glass">
-              <svg class="qm-visual" viewBox="0 0 520 520" role="presentation" focusable="false">
-                <!-- Colours are set via style="" because var() does not resolve
-                     inside SVG presentation attributes. -->
+              <svg class="qm-visual" viewBox="0 0 520 300" role="presentation" focusable="false">
                 <defs>
-                  <linearGradient id="qmHeroStroke" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" style="stop-color: var(--color-accent-soft)"/>
-                    <stop offset="55%" style="stop-color: var(--color-accent)"/>
-                    <stop offset="100%" style="stop-color: var(--color-accent-deep)"/>
-                  </linearGradient>
-                  <radialGradient id="qmHeroGlow" cx="50%" cy="45%" r="55%">
-                    <stop offset="0%" stop-opacity="0.9" style="stop-color: var(--color-accent-glow)"/>
-                    <stop offset="100%" stop-opacity="0" style="stop-color: var(--color-accent-glow)"/>
-                  </radialGradient>
+                  <marker id="qmHeroArrow" markerWidth="8" markerHeight="8" refX="7" refY="4"
+                          orient="auto" markerUnits="strokeWidth">
+                    <path d="M0 0 L8 4 L0 8 Z" style="fill: var(--color-accent)" />
+                  </marker>
                 </defs>
 
-                <circle cx="260" cy="250" r="210" fill="url(#qmHeroGlow)"/>
-
-                <g class="qm-visual__drift" fill="none" stroke="url(#qmHeroStroke)">
-                  <circle cx="260" cy="250" r="188" stroke-width="1" stroke-opacity="0.30"/>
-                  <circle cx="260" cy="250" r="146" stroke-width="1" stroke-opacity="0.45"/>
-                  <ellipse cx="260" cy="250" rx="188" ry="68" stroke-width="1" stroke-opacity="0.40" transform="rotate(-18 260 250)"/>
-                  <ellipse cx="260" cy="250" rx="188" ry="68" stroke-width="1" stroke-opacity="0.22" transform="rotate(38 260 250)"/>
+                <!-- Delivery lifecycle -->
+                <g>
+                  <rect x="24" y="62" width="112" height="74" rx="12"
+                        style="fill: var(--color-surface); stroke: var(--color-border)" stroke-width="1"/>
+                  <text x="80" y="92" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">Business</text>
+                  <text x="80" y="108" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">requirements</text>
+                  <text x="80" y="126" text-anchor="middle" font-size="11"
+                        style="fill: var(--color-text-secondary)">Discovery &amp; scope</text>
                 </g>
 
-                <g fill="none" stroke-width="1.25" stroke-opacity="0.6"
-                   style="stroke: var(--color-accent-soft)">
-                  <path d="M260 118 L360 172 L392 272 L300 336 L196 312 L150 214 Z"/>
-                  <path d="M260 118 L300 336"/>
-                  <path d="M150 214 L360 172"/>
-                  <path d="M196 312 L392 272"/>
+                <line x1="136" y1="99" x2="146" y2="99" stroke-width="1.5"
+                      marker-end="url(#qmHeroArrow)" style="stroke: var(--color-accent)"/>
+
+                <g>
+                  <rect x="148" y="62" width="112" height="74" rx="12"
+                        style="fill: var(--color-surface); stroke: var(--color-border)" stroke-width="1"/>
+                  <text x="204" y="92" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">Solution</text>
+                  <text x="204" y="108" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">architecture</text>
+                  <text x="204" y="126" text-anchor="middle" font-size="11"
+                        style="fill: var(--color-text-secondary)">Design &amp; decisions</text>
                 </g>
 
-                <circle class="qm-visual__pulse" cx="260" cy="250" r="34"
-                        fill="none" stroke-width="1.5" stroke-opacity="0.55"
-                        style="stroke: var(--color-accent)"/>
-                <circle cx="260" cy="250" r="12" fill-opacity="0.9"
-                        style="fill: var(--color-accent)"/>
-                <circle cx="260" cy="250" r="5" style="fill: var(--color-surface)"/>
+                <line x1="260" y1="99" x2="270" y2="99" stroke-width="1.5"
+                      marker-end="url(#qmHeroArrow)" style="stroke: var(--color-accent)"/>
 
-                <g stroke-width="1.5" style="fill: var(--color-surface); stroke: var(--color-accent)">
-                  <circle cx="260" cy="118" r="6"/>
-                  <circle cx="360" cy="172" r="6"/>
-                  <circle cx="392" cy="272" r="6"/>
-                  <circle cx="300" cy="336" r="6"/>
-                  <circle cx="196" cy="312" r="6"/>
-                  <circle cx="150" cy="214" r="6"/>
+                <g>
+                  <rect x="272" y="62" width="112" height="74" rx="12"
+                        style="fill: var(--color-surface); stroke: var(--color-border)" stroke-width="1"/>
+                  <text x="328" y="92" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">Engineering &amp;</text>
+                  <text x="328" y="108" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">integration</text>
+                  <text x="328" y="126" text-anchor="middle" font-size="11"
+                        style="fill: var(--color-text-secondary)">Build &amp; test</text>
                 </g>
+
+                <line x1="384" y1="99" x2="394" y2="99" stroke-width="1.5"
+                      marker-end="url(#qmHeroArrow)" style="stroke: var(--color-accent)"/>
+
+                <g>
+                  <rect x="396" y="62" width="100" height="74" rx="12"
+                        style="fill: var(--color-surface); stroke: var(--color-border)" stroke-width="1"/>
+                  <text x="446" y="92" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">Deployment &amp;</text>
+                  <text x="446" y="108" text-anchor="middle" font-size="12" font-weight="600"
+                        style="fill: var(--color-text-primary)">operations</text>
+                  <text x="446" y="126" text-anchor="middle" font-size="11"
+                        style="fill: var(--color-text-secondary)">Release &amp; run</text>
+                </g>
+
+                <!-- Supporting capabilities -->
+                <text x="260" y="174" text-anchor="middle" font-size="11" font-weight="600"
+                      style="fill: var(--color-text-muted)">Supporting capabilities</text>
+
+                <g>
+                  <rect x="44" y="188" width="132" height="46" rx="10"
+                        style="fill: var(--color-canvas); stroke: var(--color-border)" stroke-width="1"/>
+                  <text x="110" y="210" text-anchor="middle" font-size="11" font-weight="600"
+                        style="fill: var(--color-text-primary)">AI engineering</text>
+                  <text x="110" y="226" text-anchor="middle" font-size="11"
+                        style="fill: var(--color-text-secondary)">Applied where useful</text>
+                </g>
+
+                <g>
+                  <rect x="194" y="188" width="132" height="46" rx="10"
+                        style="fill: var(--color-canvas); stroke: var(--color-border)" stroke-width="1"/>
+                  <text x="260" y="210" text-anchor="middle" font-size="11" font-weight="600"
+                        style="fill: var(--color-text-primary)">Data platforms</text>
+                  <text x="260" y="226" text-anchor="middle" font-size="11"
+                        style="fill: var(--color-text-secondary)">Applied where useful</text>
+                </g>
+
+                <g>
+                  <rect x="344" y="188" width="132" height="46" rx="10"
+                        style="fill: var(--color-canvas); stroke: var(--color-border)" stroke-width="1"/>
+                  <text x="410" y="210" text-anchor="middle" font-size="11" font-weight="600"
+                        style="fill: var(--color-text-primary)">Cloud delivery</text>
+                  <text x="410" y="226" text-anchor="middle" font-size="11"
+                        style="fill: var(--color-text-secondary)">Applied where useful</text>
+                </g>
+
+                <text x="260" y="262" text-anchor="middle" font-size="11"
+                      style="fill: var(--color-text-muted)">Capabilities are selected per engagement.</text>
               </svg>
             </div>
           </div>
+
         </div>
       </qm-container>
     </section>

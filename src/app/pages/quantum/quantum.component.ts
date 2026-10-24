@@ -49,6 +49,55 @@ interface TechLink { title: string; description: string; href: string; badge: st
       </qm-container>
     </section>
 
+    <qm-section surface="subtle" size="md">
+      <qm-container>
+        <figure class="q-workflow" aria-labelledby="q-workflow-title" aria-describedby="q-workflow-caption">
+          <h2 id="q-workflow-title" class="q-workflow__title">Example Hybrid Quantum–Classical Workflow</h2>
+          <p class="q-workflow__lead">A representative variational loop, shown as a software pattern rather than a finished product.</p>
+          <ol class="q-workflow__flow" aria-label="Hybrid quantum-classical variational workflow stages">
+            <li class="q-workflow__node">
+              <span class="q-workflow__node-label">Classical input</span>
+              <span class="q-workflow__node-detail">Problem, data and initial parameters</span>
+            </li>
+            <li class="q-workflow__connector" aria-hidden="true">→</li>
+            <li class="q-workflow__node q-workflow__node--quantum">
+              <span class="q-workflow__node-label">Parameterized quantum circuit (simulated)</span>
+              <span class="q-workflow__node-detail">Executed by classical simulation</span>
+            </li>
+            <li class="q-workflow__connector" aria-hidden="true">→</li>
+            <li class="q-workflow__node">
+              <span class="q-workflow__node-label">Measurement / expectation estimate</span>
+              <span class="q-workflow__node-detail">Sampled or exact expectation values</span>
+            </li>
+            <li class="q-workflow__connector" aria-hidden="true">→</li>
+            <li class="q-workflow__node">
+              <span class="q-workflow__node-label">Classical optimizer</span>
+              <span class="q-workflow__node-detail">Updates parameters from the estimate</span>
+            </li>
+            <li class="q-workflow__connector" aria-hidden="true">→</li>
+            <li class="q-workflow__node">
+              <span class="q-workflow__node-label">Updated parameters</span>
+              <span class="q-workflow__node-detail">Fed back into the circuit</span>
+            </li>
+          </ol>
+          <div class="q-workflow__feedback" aria-hidden="true">
+            <svg class="q-workflow__feedback-arrow" viewBox="0 0 120 24" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+              <defs>
+                <marker id="qWorkflowArrowLeft" markerWidth="8" markerHeight="8" refX="1" refY="4" orient="auto" markerUnits="strokeWidth">
+                  <path d="M8 0 L0 4 L8 8 Z" style="fill: var(--color-accent)" />
+                </marker>
+              </defs>
+              <line x1="112" y1="12" x2="8" y2="12" stroke-width="1.5" marker-end="url(#qWorkflowArrowLeft)" style="stroke: var(--color-accent)" />
+            </svg>
+            <span class="q-workflow__feedback-label">Feedback: updated parameters return to the parameterized circuit, repeating the loop</span>
+          </div>
+          <figcaption id="q-workflow-caption" class="q-workflow__caption">
+            Illustrative example only. The diagram shows a representative hybrid variational software pattern: a classical loop drives a parameterized quantum circuit whose execution here is by classical simulation. It is not proof of an implemented end-to-end product, and it does not imply quantum advantage, speedup, validated algorithm performance, or production readiness. Whether this pattern applies, and how far MicroQuantum or the QuantsMind SDK currently support it, depends on the specific engagement.
+          </figcaption>
+        </figure>
+      </qm-container>
+    </qm-section>
+
     <qm-section surface="white" size="md">
       <qm-container>
         <div class="q-section-header"><h2>Engineering Capabilities</h2><p class="lead">Service offerings framed as engineering capabilities — not guaranteed commercial outcomes.</p></div>
@@ -165,6 +214,47 @@ interface TechLink { title: string; description: string; href: string; badge: st
       .q-cta h2 { margin: 0 0 12px; }
       .q-cta p { margin: 0 0 24px; color: var(--color-text-secondary); }
       .q-cta__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+
+      /* ── Hybrid workflow diagram ─────────────────────────────── */
+      .q-workflow { margin: 0; }
+      .q-workflow__title { font-size: 24px; font-weight: 700; margin: 0 0 8px; }
+      @media (min-width: 768px) { .q-workflow__title { font-size: 28px; } }
+      .q-workflow__lead { font-size: 16px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 24px; max-width: 720px; }
+      .q-workflow__flow {
+        list-style: none; padding: 0; margin: 0;
+        display: flex; flex-direction: column; gap: 8px; align-items: stretch;
+      }
+      @media (min-width: 1024px) {
+        .q-workflow__flow { flex-direction: row; align-items: stretch; gap: 6px; }
+      }
+      .q-workflow__node {
+        flex: 1 1 0; min-width: 0;
+        display: flex; flex-direction: column; gap: 4px;
+        padding: 14px 16px;
+        background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 10px;
+      }
+      .q-workflow__node--quantum {
+        border-color: var(--color-accent-muted, var(--color-border));
+        background: var(--color-accent-subtle, var(--color-surface));
+      }
+      .q-workflow__node-label { font-size: 14px; font-weight: 600; color: var(--color-text-primary); margin: 0; }
+      .q-workflow__node-detail { font-size: 12px; line-height: 1.5; color: var(--color-text-secondary); margin: 0; }
+      .q-workflow__connector {
+        display: flex; align-items: center; justify-content: center;
+        color: var(--color-accent); font-size: 18px; line-height: 1; flex-shrink: 0;
+      }
+      @media (max-width: 1023px) { .q-workflow__connector { transform: rotate(90deg); } }
+      @media (min-width: 1024px) { .q-workflow__connector { padding-top: 18px; } }
+      .q-workflow__feedback {
+        display: flex; align-items: center; gap: 10px; margin-top: 16px; flex-wrap: wrap;
+      }
+      .q-workflow__feedback-arrow { width: 120px; height: 24px; flex-shrink: 0; }
+      @media (max-width: 1023px) { .q-workflow__feedback-arrow { transform: rotate(-90deg); width: 24px; height: 60px; } }
+      .q-workflow__feedback-label { font-size: 12px; line-height: 1.5; color: var(--color-text-secondary); }
+      .q-workflow__caption { font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); margin: 16px 0 0; max-width: 880px; }
+      @media (prefers-reduced-motion: reduce) {
+        .q-workflow__node { transition: none; }
+      }
     `]
 })
 export class QuantumComponent {

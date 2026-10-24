@@ -87,6 +87,8 @@ interface ServiceArea {
                     <p class="svc-detail__short">{{ svc.short }}</p>
                   </div>
                 </div>
+                 <div class="svc-detail__illustration" aria-hidden="true" [innerHTML]="illustrations[svc.id] | qmSafeHtml"></div>
+
 
                 <p class="svc-detail__problem">
                   <strong>Typical problem.</strong> {{ svc.problem }}
@@ -314,6 +316,24 @@ interface ServiceArea {
     .svc-detail__explore-link { font-weight: 500; color: var(--color-accent); text-decoration: none; }
     .svc-detail__explore-link:hover { text-decoration: underline; }
 
+    .svc-detail__illustration {
+      margin: 0 0 24px;
+      padding: 16px;
+      background: var(--card-bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .svc-illustration {
+      width: 100%;
+      height: auto;
+      display: block;
+      max-height: 160px;
+    }
+    @media (max-width: 639px) {
+      .svc-illustration { max-height: 140px; }
+    }
+
     /* ── CTA ── */
     .page-cta {
       text-align: center; display: flex; flex-direction: column;
@@ -470,6 +490,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
   ];
 
   activeTab = 'software-architecture';
+  illustrations: Record<string, string> = {};
+
 
   @ViewChild('panel') panel?: ElementRef<HTMLElement>;
 
@@ -480,6 +502,8 @@ export class ServicesComponent implements OnInit, OnDestroy {
   private pendingScroll = false;
 
   ngOnInit(): void {
+    this.initIllustrations();
+
     const frag = this.readFragment();
     if (this.applyFragment(frag)) {
       this.pendingScroll = true;
@@ -517,6 +541,22 @@ export class ServicesComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
     this.router.navigate([], { fragment: id, replaceUrl: true });
   }
+  private initIllustrations(): void {
+    this.illustrations['technical-consulting'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><defs><marker id="consArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="var(--color-accent)"/></marker></defs><rect x="20" y="44" width="64" height="72" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="52" y="62" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Assess</text><line x1="30" y1="74" x2="74" y2="74" stroke="var(--color-text-muted)" stroke-width="1"/><line x1="30" y1="82" x2="74" y2="82" stroke="var(--color-text-muted)" stroke-width="1"/><line x1="30" y1="90" x2="60" y2="90" stroke="var(--color-text-muted)" stroke-width="1"/><rect x="96" y="44" width="64" height="72" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="128" y="62" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Options</text><circle cx="116" cy="80" r="6" fill="none" stroke="var(--color-accent)" stroke-width="1.2"/><circle cx="140" cy="80" r="6" fill="none" stroke="var(--color-accent)" stroke-width="1.2"/><circle cx="128" cy="96" r="6" fill="none" stroke="var(--color-accent)" stroke-width="1.2"/><rect x="172" y="44" width="64" height="72" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="204" y="62" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Recommend</text><path d="M184 78 L196 90 L224 70" fill="none" stroke="var(--color-accent)" stroke-width="1.5"/><rect x="248" y="44" width="52" height="72" rx="6" fill="var(--color-accent-subtle)" stroke="var(--color-accent-muted)" stroke-width="1"/><text x="274" y="62" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-accent)">Plan</text><line x1="258" y1="74" x2="290" y2="74" stroke="var(--color-accent)" stroke-width="1"/><line x1="258" y1="82" x2="290" y2="82" stroke="var(--color-accent)" stroke-width="1"/><line x1="258" y1="90" x2="278" y2="90" stroke="var(--color-accent)" stroke-width="1"/><line x1="84" y1="80" x2="96" y2="80" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#consArrow)"/><line x1="160" y1="80" x2="172" y2="80" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#consArrow)"/><line x1="236" y1="80" x2="248" y2="80" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#consArrow)"/></svg>`;
+
+    this.illustrations['devops-ci-cd'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><defs><marker id="devArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="var(--color-accent)"/></marker></defs><rect x="14" y="56" width="50" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="39" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Source</text><text x="39" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">git</text><rect x="76" y="56" width="50" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="101" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Build</text><text x="101" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">compile</text><rect x="138" y="56" width="50" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="163" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Test</text><text x="163" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">verify</text><rect x="200" y="56" width="50" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="225" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Release</text><text x="225" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">deploy</text><rect x="262" y="56" width="46" height="40" rx="6" fill="var(--color-accent-subtle)" stroke="var(--color-accent-muted)" stroke-width="1"/><text x="285" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-accent)">Monitor</text><text x="285" y="88" text-anchor="middle" font-size="8" fill="var(--color-accent)">observe</text><line x1="64" y1="76" x2="76" y2="76" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#devArrow)"/><line x1="126" y1="76" x2="138" y2="76" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#devArrow)"/><line x1="188" y1="76" x2="200" y2="76" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#devArrow)"/><line x1="250" y1="76" x2="262" y2="76" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#devArrow)"/></svg>`;
+
+    this.illustrations['cloud-engineering'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect x="24" y="24" width="272" height="36" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="160" y="46" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">Application services</text><rect x="24" y="72" width="272" height="36" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="160" y="94" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">Infrastructure (IaC)</text><rect x="24" y="120" width="272" height="24" rx="6" fill="var(--color-accent-subtle)" stroke="var(--color-accent-muted)" stroke-width="1"/><text x="160" y="136" text-anchor="middle" font-size="9" fill="var(--color-accent)">Observability · cost · access controls</text><line x1="60" y1="60" x2="60" y2="72" stroke="var(--color-text-muted)" stroke-width="1.2"/><line x1="260" y1="60" x2="260" y2="72" stroke="var(--color-text-muted)" stroke-width="1.2"/><line x1="160" y1="108" x2="160" y2="120" stroke="var(--color-text-muted)" stroke-width="1.2"/></svg>`;
+
+    this.illustrations['ai-ml-engineering'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><defs><marker id="aiArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="var(--color-accent)"/></marker></defs><rect x="16" y="56" width="52" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="42" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Data</text><text x="42" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">prep</text><rect x="84" y="56" width="52" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="110" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Model</text><text x="110" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">integrate</text><rect x="152" y="56" width="52" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="178" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">Eval</text><text x="178" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">metrics</text><rect x="220" y="56" width="52" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="246" y="74" text-anchor="middle" font-size="9" font-weight="600" fill="var(--color-text-primary)">App</text><text x="246" y="88" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">integrate</text><line x1="68" y1="76" x2="84" y2="76" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#aiArrow)"/><line x1="136" y1="76" x2="152" y2="76" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#aiArrow)"/><line x1="204" y1="76" x2="220" y2="76" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#aiArrow)"/><path d="M178 96 L178 120 L42 120 L42 96" fill="none" stroke="var(--color-text-muted)" stroke-width="1.2" stroke-dasharray="3 3"/><text x="110" y="134" text-anchor="middle" font-size="8" fill="var(--color-text-muted)">feedback loop</text></svg>`;
+
+    this.illustrations['quantum-computing'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><text x="16" y="24" font-size="9" fill="var(--color-text-muted)">Simulated execution context</text><line x1="40" y1="48" x2="280" y2="48" stroke="var(--color-border-strong)" stroke-width="1.5"/><line x1="40" y1="80" x2="280" y2="80" stroke="var(--color-border-strong)" stroke-width="1.5"/><line x1="40" y1="112" x2="280" y2="112" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="24" y="52" font-size="9" fill="var(--color-text-muted)">q0</text><text x="24" y="84" font-size="9" fill="var(--color-text-muted)">q1</text><text x="24" y="116" font-size="9" fill="var(--color-text-muted)">q2</text><rect x="60" y="36" width="24" height="24" rx="4" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="72" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="var(--color-accent)">H</text><circle cx="110" cy="80" r="12" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="110" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="var(--color-accent)">X</text><line x1="110" y1="48" x2="110" y2="112" stroke="var(--color-accent)" stroke-width="1.5"/><rect x="150" y="68" width="24" height="24" rx="4" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="162" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="var(--color-accent)">Ry</text><path d="M210 68 L234 92 M210 92 L234 68" stroke="var(--color-text-primary)" stroke-width="1.5"/><line x1="222" y1="48" x2="222" y2="68" stroke="var(--color-text-primary)" stroke-width="1.5"/><text x="206" y="130" font-size="9" fill="var(--color-text-muted)">Measure</text><rect x="250" y="100" width="50" height="22" rx="4" fill="var(--color-accent-subtle)" stroke="var(--color-accent-muted)" stroke-width="1"/><text x="275" y="115" text-anchor="middle" font-size="8" fill="var(--color-accent)">Simulated</text></svg>`;
+
+    this.illustrations['software-architecture'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect x="12" y="12" width="296" height="136" rx="10" fill="none" stroke="var(--color-border)" stroke-dasharray="4 4"/><text x="24" y="26" font-size="9" fill="var(--color-text-muted)">System boundary</text><rect x="34" y="52" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="69" y="76" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">UI</text><rect x="125" y="36" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="160" y="60" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">API</text><rect x="125" y="92" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="160" y="116" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">Data</text><rect x="216" y="52" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="251" y="76" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">Service</text><defs><marker id="archArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="var(--color-accent)"/></marker></defs><line x1="104" y1="72" x2="125" y2="56" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#archArrow)"/><line x1="195" y1="56" x2="216" y2="72" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#archArrow)"/><line x1="160" y1="76" x2="160" y2="92" stroke="var(--color-text-muted)" stroke-width="1.5" marker-end="url(#archArrow)"/><text x="168" y="86" font-size="8" fill="var(--color-text-muted)">interface</text></svg>`;
+
+  }
+
+
 
   private readFragment(): string | null {
     const url = this.router.url;

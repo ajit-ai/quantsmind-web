@@ -432,6 +432,14 @@ export class QmFooterComponent {
   ];
 
   scrollToTop(): void {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: this.scrollBehavior() });
+  }
+
+  private scrollBehavior(): ScrollBehavior {
+    try {
+      return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ? 'auto' : 'smooth';
+    } catch {
+      return 'smooth';
+    }
   }
 }

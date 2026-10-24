@@ -253,16 +253,19 @@ interface SearchEntry {
             @for (item of navItems; track item) {
               <li class="qm-mobile-nav__item"
                 [class.qm-mobile-nav__item--open]="mobileSubOpen[item.label]">
-                <a [routerLink]="item.href"
-                  class="qm-mobile-nav__link"
-                  routerLinkActive="qm-mobile-nav__link--active"
-                  [routerLinkActiveOptions]="{exact: item.href === '/'}"
-                  (click)="closeMobile()">
-                  {{ item.label }}
+                <div class="qm-mobile-nav__row">
+                  <a [routerLink]="item.href"
+                    class="qm-mobile-nav__link"
+                    routerLinkActive="qm-mobile-nav__link--active"
+                    [routerLinkActiveOptions]="{exact: item.href === '/'}"
+                    (click)="closeMobile()">
+                    {{ item.label }}
+                  </a>
                   @if (item.children) {
                     <button type="button"
                       class="qm-mobile-nav__toggle"
-                      aria-hidden="true" tabindex="-1"
+                      [attr.aria-expanded]="mobileSubOpen[item.label]"
+                      [attr.aria-label]="'Toggle ' + item.label + ' submenu'"
                       (click)="toggleSub($event, item.label)">
                       <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                         <path d="M3 5.5l4 4 4-4" stroke="currentColor" stroke-width="1.6"
@@ -270,7 +273,7 @@ interface SearchEntry {
                       </svg>
                     </button>
                   }
-                </a>
+                </div>
                 @if (item.children) {
                   <ul class="qm-mobile-nav__sub"
                     role="list" [class.qm-mobile-nav__sub--open]="mobileSubOpen[item.label]">
@@ -453,6 +456,13 @@ interface SearchEntry {
       text-decoration: none;
       border-radius: 8px;
       transition: color 150ms ease;
+    }
+    .qm-header__nav-link:focus-visible,
+    .qm-header__icon-btn:focus-visible,
+    .qm-mega__link:focus-visible,
+    .qm-mega__overview:focus-visible {
+      outline: 2px solid var(--qm-header-accent);
+      outline-offset: 2px;
     }
     .qm-header__nav-link:hover,
     .qm-header__nav-link--active {
@@ -739,18 +749,26 @@ interface SearchEntry {
       transition: color 150ms ease;
     }
     .qm-mobile-nav__link--active { color: var(--qm-header-accent); }
+    .qm-mobile-nav__row {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      padding-right: 8px;
+    }
+    .qm-mobile-nav__row .qm-mobile-nav__link { flex: 1; }
     .qm-mobile-nav__toggle {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
+      width: 44px;
+      height: 44px;
       background: transparent;
       border: none;
       color: var(--qm-header-muted);
       cursor: pointer;
-      pointer-events: none;
+      pointer-events: auto;
+      border-radius: 8px;
     }
+    .qm-mobile-nav__toggle:hover { color: var(--qm-header-accent); background: var(--qm-panel-hover); }
+    .qm-mobile-nav__toggle:focus-visible { outline: 2px solid var(--qm-header-accent); outline-offset: 2px; }
     .qm-mobile-nav__item--open .qm-mobile-nav__toggle svg { transform: rotate(180deg); }
     .qm-mobile-nav__toggle svg { transition: transform 200ms ease; }
     .qm-mobile-nav__sub {
@@ -952,9 +970,9 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`
         },
         {
-          label: 'Quantum Computing', href: '/quantum',
-          description: 'Quantum algorithms and simulation',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`
+          label: 'Data Engineering & Intelligence', href: '/services#data-engineering',
+          description: 'Data platforms, ETL/ELT and analytics',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>`
         },
         {
           label: 'AI & Machine Learning', href: '/services#ai-ml-engineering',
@@ -970,6 +988,16 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
           label: 'DevOps & CI/CD', href: '/services#devops-ci-cd',
           description: 'Reliable delivery and environments',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 18 13.5 6 4.5 6"/><polyline points="21.5 15.5 23 18 21.5 20.5"/><polyline points="6 3.5 4.5 6 6 8.5"/><circle cx="21.5" cy="18" r="1.5"/><circle cx="4.5" cy="6" r="1.5"/></svg>`
+        },
+        {
+          label: 'Quantum Computing', href: '/quantum',
+          description: 'Quantum algorithms and simulation',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`
+        },
+        {
+          label: 'Space Exploration Software Engineering', href: '/services#space-exploration',
+          description: 'Telemetry, mission data and feasibility',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>`
         },
         {
           label: 'Technical Consulting', href: '/services#technical-consulting',
@@ -1002,8 +1030,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     },
     { label: 'Labs', href: '/labs' },
     { label: 'Blog', href: '/blog' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'About', href: '/about' }
   ];
 
   searchIndex: SearchEntry[] = [
@@ -1025,6 +1052,8 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Capability', title: 'Cloud Engineering', href: '/services#cloud-engineering', keywords: 'cloud kubernetes platform infrastructure distributed' },
     { type: 'Capability', title: 'DevOps & CI/CD', href: '/services#devops-ci-cd', keywords: 'devops ci cd delivery environments pipelines' },
     { type: 'Capability', title: 'Technical Consulting', href: '/services#technical-consulting', keywords: 'consulting modernization system design engineering guidance' },
+  { type: 'Capability', title: 'Data Engineering & Intelligence', href: '/services#data-engineering', keywords: 'data engineering etl elt data lake analytics quality processing' },
+  { type: 'Capability', title: 'Space Exploration Software Engineering', href: '/services#space-exploration', keywords: 'space telemetry mission data ground system simulation feasibility' },
     { type: 'Legal', title: 'Privacy Policy', href: '/privacy', keywords: 'privacy policy data gdpr' },
     { type: 'Legal', title: 'Terms of Use', href: '/terms', keywords: 'terms use conditions legal' },
     { type: 'Legal', title: 'Cookie Policy', href: '/cookies', keywords: 'cookies cookie policy tracking' }
@@ -1161,7 +1190,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
       const stored = localStorage.getItem('qm-theme');
       if (stored) {
         dark = stored === 'dark';
-      } else {
+      } else if (window.matchMedia) {
         dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       }
     } catch { /* noop */ }

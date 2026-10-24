@@ -7,12 +7,12 @@ Corporate and technology ecosystem website for QuantsMind, built with [Angular](
 ## Pages
 
 - `/` — Home
-- `/services` — Engineering services (Software Architecture, Application Development, AI/ML, Cloud, DevOps/CI/CD, Technical Consulting)
+- `/services` — Engineering services (Software Architecture, Data Engineering & Intelligence, AI/ML, Cloud, DevOps/CI/CD, Quantum Computing, Space Exploration Software Engineering, Technical Consulting)
 - `/products` — Commercial products (QuantsMind Document Intelligence Mini)
-- `/technology` — Released technologies (MicroQuantum, Karkain, QuantsMind SDK) and Developer Tools (Karkain Language Tools)
-- `/microquantum` — Open quantum computing SDK (Stable · v1.1.0)
-- `/karkain` — General-purpose programming language (Stable Release · v1.1.0)
-- `/quantsmind-sdk` — Universal scientific computing SDK (Production/Stable · v1.1.0)
+- `/technology` — Published technologies (MicroQuantum, Karkain, QuantsMind SDK) and Developer Tools
+- `/microquantum` — Open quantum computing SDK (Developer Preview · v1.1.0)
+- `/karkain` — General-purpose programming language (Developer Preview · v1.1.0)
+- `/quantsmind-sdk` — Universal scientific computing SDK (Developer Preview · v1.1.0)
 - `/labs` — QuantsMind Labs (exploration and future R&D directions)
 - `/about` — About QuantsMind
 - `/contact` — Contact

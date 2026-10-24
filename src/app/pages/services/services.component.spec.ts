@@ -5,10 +5,12 @@ import { ServicesComponent } from './services.component';
 
 const SERVICE_IDS = [
   'software-architecture',
-  'quantum-computing',
+  'data-engineering',
   'ai-ml-engineering',
   'cloud-engineering',
   'devops-ci-cd',
+  'quantum-computing',
+  'space-exploration',
   'technical-consulting'
 ] as const;
 
@@ -142,16 +144,18 @@ describe('ServicesComponent illustrations', () => {
       // titles rendered in overview cards
     }
     expect(text).toContain('Software Architecture');
+    expect(text).toContain('Data Engineering & Intelligence');
     expect(text).toContain('Quantum Computing');
     expect(text).toContain('AI & ML Engineering');
     expect(text).toContain('Cloud Engineering');
     expect(text).toContain('DevOps & CI/CD');
+    expect(text).toContain('Space Exploration Software Engineering');
     expect(text).toContain('Technical Consulting');
   });
 
   it('exposes accessible tab semantics', () => {
     const tabs = fixture.nativeElement.querySelectorAll('.svc-tab');
-    expect(tabs.length).toBe(6);
+    expect(tabs.length).toBe(8);
     const pressed = fixture.nativeElement.querySelectorAll('.svc-tab[aria-pressed="true"]');
     expect(pressed.length).toBe(1);
   });

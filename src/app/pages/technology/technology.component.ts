@@ -120,21 +120,11 @@ interface EcosystemMapGroup {
               <p class="tech-card__tagline">{{ tech.tagline }}</p>
               <p class="tech-card__desc">{{ tech.description }}</p>
               <span class="tech-card__link" aria-hidden="true">{{ tech.ctaText || ('Explore ' + tech.name) }}</span>
-              @if ((tech.repoUrl && !tech.external) || tech.releaseUrl) {
+              @if (tech.releaseUrl) {
                 <p class="tech-card__refs">
-                  @if (tech.repoUrl && !tech.external) {
-                    <a [href]="tech.repoUrl" target="_blank" rel="noopener noreferrer"
-                      class="tech-card__ref"
-                      [attr.aria-label]="tech.name + ' — open repository on GitHub in a new tab'">{{ tech.name }} on GitHub ↗</a>
-                  }
-                  @if (tech.repoUrl && !tech.external && tech.releaseUrl) {
-                    <span class="tech-card__refsep" aria-hidden="true">·</span>
-                  }
-                  @if (tech.releaseUrl) {
-                    <a [href]="tech.releaseUrl" target="_blank" rel="noopener noreferrer"
-                      class="tech-card__ref"
-                      [attr.aria-label]="tech.releaseLabel + ' — opens in a new tab'">{{ tech.releaseLabel }} ↗</a>
-                  }
+                  <a [href]="tech.releaseUrl" target="_blank" rel="noopener noreferrer"
+                    class="tech-card__ref"
+                    [attr.aria-label]="tech.releaseLabel + ' — opens in a new tab'">{{ tech.releaseLabel }} ↗</a>
                 </p>
               }
             </article>
@@ -167,7 +157,7 @@ interface EcosystemMapGroup {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
+    .page-hero { padding: 48px 0 32px; border-bottom: 1px solid var(--color-border); }
     @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
     .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
     .page-hero .lead { max-width: 640px; margin: 0; }

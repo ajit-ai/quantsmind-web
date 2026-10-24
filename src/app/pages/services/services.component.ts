@@ -43,9 +43,45 @@ interface ServiceArea {
     <qm-section surface="white">
       <qm-container>
         <p class="services-intro">
-          Six core service areas. Select a service to see what QuantsMind provides,
+          Eight core service areas. Select a service to see what QuantsMind provides,
           what you can expect to receive, and the value it is designed to deliver.
         </p>
+
+        <section class="svc-commercial" aria-label="Engagement models and solutions">
+          <div class="svc-commercial__block">
+            <h2 class="svc-commercial__title">Engagement Models</h2>
+            <p class="svc-commercial__lead">
+              Flexible ways to work with QuantsMind, from a short assessment to an
+              ongoing technology partnership.
+            </p>
+            <ul class="svc-commercial__list">
+              <li><strong>Technical Assessment</strong> — review an existing system, architecture or decision.</li>
+              <li><strong>Solution Design</strong> — define the approach, interfaces and delivery plan.</li>
+              <li><strong>Project Engineering</strong> — build or modernise the software with QuantsMind.</li>
+              <li><strong>Technology Partnership</strong> — ongoing engineering support and evolution.</li>
+            </ul>
+          </div>
+          <div class="svc-commercial__block">
+            <h2 class="svc-commercial__title">Solutions and Use Cases</h2>
+            <p class="svc-commercial__lead">
+              Illustrative examples of the kinds of work QuantsMind takes on. These are
+              representative scenarios, not completed client case studies.
+            </p>
+            <ul class="svc-commercial__list">
+              <li>Enterprise application modernisation</li>
+              <li>Data-platform and ETL modernisation</li>
+              <li>AI-assisted document-processing workflows</li>
+              <li>Cloud and DevOps automation</li>
+              <li>Spacecraft telemetry and mission-data feasibility</li>
+              <li>Quantum simulation and software prototyping</li>
+            </ul>
+          </div>
+          <div class="svc-commercial__cta">
+            <qm-button variant="primary" size="md" [routerLinkValue]="'/contact'">
+              Discuss a Requirement
+            </qm-button>
+          </div>
+        </section>
 
         <section class="svc-overview" aria-label="Service overview">
           <div class="svc-grid">
@@ -179,7 +215,7 @@ interface ServiceArea {
       border-radius: var(--card-radius);
     }
     @media (min-width: 768px)  { .svc-tabs { grid-template-columns: repeat(3, 1fr); } }
-    @media (min-width: 1200px) { .svc-tabs { grid-template-columns: repeat(6, 1fr); } }
+    @media (min-width: 1200px) { .svc-tabs { grid-template-columns: repeat(4, 1fr); } }
 
     .svc-tab {
       display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -214,6 +250,19 @@ interface ServiceArea {
     .svc-tab:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
     /* ── SERVICE OVERVIEW GRID ── */
+    .svc-commercial {
+      display: grid; gap: 24px; margin-bottom: 48px;
+      padding: 24px; background: var(--color-canvas); border: 1px solid var(--card-border);
+      border-radius: var(--card-radius);
+    }
+    @media (min-width: 768px) { .svc-commercial { grid-template-columns: 1fr 1fr; align-items: start; } }
+    .svc-commercial__title { margin: 0 0 8px; font-size: 18px; font-weight: 600; color: var(--color-text-primary); }
+    .svc-commercial__lead { margin: 0 0 12px; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    .svc-commercial__list { margin: 0; padding-left: 18px; color: var(--color-text-secondary); font-size: 14px; line-height: 1.7; }
+    .svc-commercial__list li { margin-bottom: 6px; }
+    .svc-commercial__cta { grid-column: 1 / -1; display: flex; justify-content: flex-start; }
+    @media (max-width: 767px) { .svc-commercial { padding: 18px; } }
+
     .svc-overview { margin-bottom: 48px; }
     @media (min-width: 768px) { .svc-overview { margin-bottom: 64px; } }
     .svc-grid {
@@ -486,6 +535,54 @@ export class ServicesComponent implements OnInit, OnDestroy {
       ],
       context: 'A wide range of legacy and modern stacks, from established frameworks to greenfield services.',
       outcome: 'Sound, defensible technical decisions made with good information.'
+    },
+    {
+      id: 'data-engineering',
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>`,
+      title: 'Data Engineering & Intelligence',
+      short: 'Practical data-platform architecture, integration, ETL/ELT, data lakes, analytics engineering, quality and processing.',
+      problem: 'Data that is scattered, slow to query, hard to trust, or expensive to move between systems.',
+      provides: [
+        'Data-platform and pipeline architecture',
+        'Data integration and ETL/ELT pipelines',
+        'Data lakes, warehouses and analytics models',
+        'Analytics engineering and semantic layers',
+        'Data quality, validation and observability',
+        'Batch and stream processing workflows'
+      ],
+      deliverables: [
+        'Data architecture and pipeline designs',
+        'Implemented ingestion and transformation pipelines',
+        'Analytics-ready data models and documentation',
+        'Data quality checks and monitoring',
+        'Migration and modernisation plans'
+      ],
+      context: 'Cloud data warehouses, object storage, streaming and batch platforms, and modern analytics tooling.',
+      outcome: 'Trusted, well-modelled data that teams can query, monitor and build on with confidence.'
+    },
+    {
+      id: 'space-exploration',
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>`,
+      title: 'Space Exploration Software Engineering',
+      short: 'Spacecraft telemetry processing, mission-data workflows, ground-system software, simulation, integration and feasibility engineering. A developing capability, presented with conservative, evidence-based claims.',
+      problem: 'Mission and telemetry data that must be ingested, processed and understood without overstating what has been validated.',
+      provides: [
+        'Spacecraft telemetry ingestion and processing',
+        'Mission-data workflows and ground-system software',
+        'Simulation and test harnesses for mission scenarios',
+        'Integration planning and interface engineering',
+        'Feasibility studies and technical assessments',
+        'Data quality, traceability and reproducibility support'
+      ],
+      deliverables: [
+        'Telemetry processing and data-flow designs',
+        'Prototype ground-system and workflow software',
+        'Simulation results with stated assumptions',
+        'Feasibility and integration assessments',
+        'Risk, limitation and next-step reports'
+      ],
+      context: 'Telemetry formats, mission-data pipelines, simulation environments and ground-system integration. Software and feasibility engineering only; no flight qualification, mission deployment, aerospace customer or hardware-integration claim is made.',
+      outcome: 'Clear feasibility evidence and maintainable ground software, with limitations and validation gaps stated explicitly.'
     }
   ];
 
@@ -553,6 +650,11 @@ export class ServicesComponent implements OnInit, OnDestroy {
     this.illustrations['quantum-computing'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><text x="16" y="24" font-size="9" fill="var(--color-text-muted)">Simulated execution context</text><line x1="40" y1="48" x2="280" y2="48" stroke="var(--color-border-strong)" stroke-width="1.5"/><line x1="40" y1="80" x2="280" y2="80" stroke="var(--color-border-strong)" stroke-width="1.5"/><line x1="40" y1="112" x2="280" y2="112" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="24" y="52" font-size="9" fill="var(--color-text-muted)">q0</text><text x="24" y="84" font-size="9" fill="var(--color-text-muted)">q1</text><text x="24" y="116" font-size="9" fill="var(--color-text-muted)">q2</text><rect x="60" y="36" width="24" height="24" rx="4" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="72" y="52" text-anchor="middle" font-size="11" font-weight="700" fill="var(--color-accent)">H</text><circle cx="110" cy="80" r="12" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="110" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="var(--color-accent)">X</text><line x1="110" y1="48" x2="110" y2="112" stroke="var(--color-accent)" stroke-width="1.5"/><rect x="150" y="68" width="24" height="24" rx="4" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="162" y="84" text-anchor="middle" font-size="11" font-weight="700" fill="var(--color-accent)">Ry</text><path d="M210 68 L234 92 M210 92 L234 68" stroke="var(--color-text-primary)" stroke-width="1.5"/><line x1="222" y1="48" x2="222" y2="68" stroke="var(--color-text-primary)" stroke-width="1.5"/><text x="206" y="130" font-size="9" fill="var(--color-text-muted)">Measure</text><rect x="250" y="100" width="50" height="22" rx="4" fill="var(--color-accent-subtle)" stroke="var(--color-accent-muted)" stroke-width="1"/><text x="275" y="115" text-anchor="middle" font-size="8" fill="var(--color-accent)">Simulated</text></svg>`;
 
     this.illustrations['software-architecture'] = `<svg class="svc-illustration" viewBox="0 0 320 160" xmlns="http://www.w3.org/2000/svg" focusable="false"><rect x="12" y="12" width="296" height="136" rx="10" fill="none" stroke="var(--color-border)" stroke-dasharray="4 4"/><text x="24" y="26" font-size="9" fill="var(--color-text-muted)">System boundary</text><rect x="34" y="52" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="69" y="76" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">UI</text><rect x="125" y="36" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-accent)" stroke-width="1.5"/><text x="160" y="60" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">API</text><rect x="125" y="92" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="160" y="116" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">Data</text><rect x="216" y="52" width="70" height="40" rx="6" fill="var(--card-bg-subtle)" stroke="var(--color-border-strong)" stroke-width="1.5"/><text x="251" y="76" text-anchor="middle" font-size="10" font-weight="600" fill="var(--color-text-primary)">Service</text><defs><marker id="archArrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="var(--color-accent)"/></marker></defs><line x1="104" y1="72" x2="125" y2="56" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#archArrow)"/><line x1="195" y1="56" x2="216" y2="72" stroke="var(--color-accent)" stroke-width="1.5" marker-end="url(#archArrow)"/><line x1="160" y1="76" x2="160" y2="92" stroke="var(--color-text-muted)" stroke-width="1.5" marker-end="url(#archArrow)"/><text x="168" y="86" font-size="8" fill="var(--color-text-muted)">interface</text></svg>`;
+    this.illustrations['data-engineering'] = `<svg class=\"svc-illustration\" viewBox=\"0 0 320 160\" xmlns=\"http://www.w3.org/2000/svg\" focusable=\"false\"><rect x=\"12\" y=\"12\" width=\"296\" height=\"136\" rx=\"10\" fill=\"none\" stroke=\"var(--color-border)\" stroke-dasharray=\"4 4\"/><text x=\"24\" y=\"26\" font-size=\"9\" fill=\"var(--color-text-muted)\">Data pipeline</text><rect x=\"40\" y=\"60\" width=\"60\" height=\"40\" rx=\"6\" fill=\"var(--card-bg-subtle)\" stroke=\"var(--color-accent)\" stroke-width=\"1.5\"/><text x=\"70\" y=\"85\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"600\" fill=\"var(--color-text-primary)\">Source</text><rect x=\"130\" y=\"60\" width=\"60\" height=\"40\" rx=\"6\" fill=\"var(--card-bg-subtle)\" stroke=\"var(--color-accent)\" stroke-width=\"1.5\"/><text x=\"160\" y=\"85\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"600\" fill=\"var(--color-text-primary)\">ETL</text><rect x=\"220\" y=\"60\" width=\"60\" height=\"40\" rx=\"6\" fill=\"var(--card-bg-subtle)\" stroke=\"var(--color-border-strong)\" stroke-width=\"1.5\"/><text x=\"250\" y=\"85\" text-anchor=\"middle\" font-size=\"10\" font-weight=\"600\" fill=\"var(--color-text-primary)\">Lake</text></svg>`;
+
+    this.illustrations['space-exploration'] = `<svg class=\"svc-illustration\" viewBox=\"0 0 320 160\" xmlns=\"http://www.w3.org/2000/svg\" focusable=\"false\"><rect x=\"12\" y=\"12\" width=\"296\" height=\"136\" rx=\"10\" fill=\"none\" stroke=\"var(--color-border)\" stroke-dasharray=\"4 4\"/><text x=\"24\" y=\"26\" font-size=\"9\" fill=\"var(--color-text-muted)\">Mission data flow</text><circle cx=\"70\" cy=\"80\" r=\"24\" fill=\"var(--card-bg-subtle)\" stroke=\"var(--color-accent)\" stroke-width=\"1.5\"/><text x=\"70\" y=\"84\" text-anchor=\"middle\" font-size=\"9\" font-weight=\"600\" fill=\"var(--color-text-primary)\">Telemetry</text><rect x=\"130\" y=\"62\" width=\"60\" height=\"36\" rx=\"6\" fill=\"var(--card-bg-subtle)\" stroke=\"var(--color-border-strong)\" stroke-width=\"1.5\"/><text x=\"160\" y=\"84\" text-anchor=\"middle\" font-size=\"9\" font-weight=\"600\" fill=\"var(--color-text-primary)\">Ground</text><rect x=\"220\" y=\"62\" width=\"60\" height=\"36\" rx=\"6\" fill=\"var(--color-accent-subtle)\" stroke=\"var(--color-accent-muted)\" stroke-width=\"1\"/><text x=\"250\" y=\"84\" text-anchor=\"middle\" font-size=\"9\" font-weight=\"600\" fill=\"var(--color-accent)\">Sim</text></svg>`;
+
+
 
   }
 
@@ -575,7 +677,15 @@ export class ServicesComponent implements OnInit, OnDestroy {
 
   private doScroll(): void {
     requestAnimationFrame(() => {
-      this.panel?.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      this.panel?.nativeElement.scrollIntoView({ behavior: this.scrollBehavior(), block: 'start' });
     });
+  }
+
+  private scrollBehavior(): ScrollBehavior {
+    try {
+      return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ? 'auto' : 'smooth';
+    } catch {
+      return 'smooth';
+    }
   }
 }

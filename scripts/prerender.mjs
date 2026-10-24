@@ -110,21 +110,52 @@ function launchChrome(userDataDir, port) {
       'No Chrome/Chromium executable found. Install Chrome or set CHROME_PATH to its executable.'
     );
   }
-  const child = spawn(executable, [
+  console.log(`[prerender] launching Chrome: ${executable}`);
+
+  // Chrome's sandbox requires kernel features that are unavailable or unreliable
+  // on many CI runners (including GitHub Actions ubuntu-latest). There, Chrome
+  // can stay alive but never expose the DevTools endpoint. Disable the sandbox
+  // only in a CI environment; local Windows execution keeps the original
+  // (sandboxed) behaviour.
+  const isCI = process.env.GITHUB_ACTIONS === 'true' || process.env.CI === 'true';
+  const args = [
     '--headless=new', `--remote-debugging-port=${port}`, `--user-data-dir=${userDataDir}`,
     '--no-first-run', '--no-default-browser-check', '--disable-gpu', '--hide-scrollbars',
-    '--disable-extensions', '--disable-dev-shm-usage', 'about:blank'
-  ], { stdio: 'ignore' });
+    '--disable-extensions', '--disable-dev-shm-usage',
+    'about:blank'
+  ];
+  if (isCI) {
+    args.splice(args.length - 1, 0, '--no-sandbox', '--disable-setuid-sandbox');
+  }
+
+  const child = spawn(executable, args, { stdio: ['ignore', 'pipe', 'pipe'] });
+
+  // Capture stderr so a failed launch reports the actual reason instead of a
+  // bare timeout. stdout is drained to avoid back-pressure.
+  const stderrChunks = [];
+  child.stderr.on('data', chunk => stderrChunks.push(chunk));
+  child.stdout.on('data', () => {});
 
   return new Promise((resolveLaunch, rejectLaunch) => {
     const deadline = Date.now() + 30000;
     const attempt = async () => {
-      if (child.exitCode !== null) return rejectLaunch(new Error('Chrome exited during startup'));
+      if (child.exitCode !== null) {
+        const stderr = Buffer.concat(stderrChunks).toString('utf8').trim();
+        return rejectLaunch(new Error(
+          `Chrome exited during startup (exit code ${child.exitCode})${stderr ? `: ${stderr}` : ''}`
+        ));
+      }
       try {
         const res = await fetch(`http://127.0.0.1:${port}/json/version`);
         if (res.ok) return resolveLaunch({ child, version: (await res.json()).Browser });
       } catch { /* not up yet */ }
-      if (Date.now() > deadline) return rejectLaunch(new Error('Chrome DevTools endpoint did not start'));
+      if (Date.now() > deadline) {
+        const stderr = Buffer.concat(stderrChunks).toString('utf8').trim();
+        try { child.kill(); } catch { /* already dead */ }
+        return rejectLaunch(new Error(
+          `Chrome DevTools endpoint did not start within 30s${stderr ? `. Chrome stderr: ${stderr}` : ''}`
+        ));
+      }
       setTimeout(attempt, 250);
     };
     attempt();

@@ -599,11 +599,7 @@ export class LabsComponent {
         'backend, a Vue frontend, role-based access control and an audit middleware that ' +
         'redacts sensitive payload keys. Ships container and Kubernetes manifests.',
       limitation:
-        'Not verified end to end. Every recorded continuous-integration run failed, so ' +
-        'the backend test suite has never been observed to pass, and several pipeline ' +
-        'steps are written so that they cannot fail the build. Entity extraction depends ' +
-        'on a language model the install requirements do not include, and map coordinates ' +
-        'come from a small hard-coded city table. There is no licence file and no release.',
+        'Experimental. An exploratory initiative investigating open-source intelligence collection, analysis and information workflows. The project remains under feasibility evaluation and is not offered as a production-ready product. The backend test suite has not passed, and there is no licence file or release.',
       repoUrl: 'https://github.com/ajit-ai/Quantsmind-OSINT-Intelligence-Platform'
     },
     {

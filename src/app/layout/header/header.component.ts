@@ -82,7 +82,8 @@ interface SearchEntry {
                   class="qm-header__nav-link"
                   [attr.aria-expanded]="item.children ? (activeMega === item.label) : null"
                   [attr.aria-haspopup]="item.children ? 'true' : null"
-                  (click)="onNavClick($event, item)">
+                  (click)="onNavClick($event, item)"
+                  (keydown)="onNavKeydown($event, item)">
                   {{ item.label }}
                   @if (item.children) {
                     <svg class="qm-header__nav-chevron" aria-hidden="true"
@@ -107,7 +108,7 @@ interface SearchEntry {
                             <span class="qm-mega__icon" aria-hidden="true" [innerHTML]="child.icon | qmSafeHtml"></span>
                             <span class="qm-mega__body">
                               <span class="qm-mega__label">{{ child.label }}</span>
-                              @if (child.description) {
+                              @if (child.description && item.children && item.children.length <= 5) {
                                 <span class="qm-mega__desc">{{ child.description }}</span>
                               }
                             </span>
@@ -535,44 +536,48 @@ interface SearchEntry {
     /* ── Mega menu ───────────────────────────────────── */
     .qm-mega {
       position: absolute;
-      top: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
+      top: calc(100% + 8px);
+      left: 0;
+      transform: none;
       background: var(--qm-panel-bg);
       border: 1px solid var(--qm-panel-border);
-      border-radius: 14px;
-      box-shadow: 0 24px 60px rgba(2, 6, 23, 0.14);
+      border-radius: 10px;
+      box-shadow: 0 16px 40px rgba(2, 6, 23, 0.12);
       z-index: 300;
-      min-width: 300px;
-      animation: qmMegaIn 180ms ease;
+      min-width: 240px;
+      max-width: min(520px, calc(100vw - 24px));
+      max-height: min(60vh, 420px);
+      overflow-y: auto;
+      overflow-x: hidden;
+      animation: qmMegaIn 150ms ease;
     }
     .qm-mega::before {
       content: '';
       position: absolute;
-      top: -10px;
+      top: -8px;
       left: 0;
       right: 0;
-      height: 10px;
+      height: 8px;
     }
     @keyframes qmMegaIn {
-      from { opacity: 0; transform: translateX(-50%) translateY(8px); }
-      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+      from { opacity: 0; transform: translateY(6px); }
+      to   { opacity: 1; transform: none; }
     }
-    .qm-mega__inner { padding: 10px; }
+    .qm-mega__inner { padding: 6px; }
     .qm-mega__grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 4px;
+      gap: 2px;
     }
     .qm-mega__grid--wide { grid-template-columns: 1fr 1fr; }
     @media (max-width: 1199px) { .qm-mega__grid--wide { grid-template-columns: 1fr; } }
 
     .qm-mega__link {
       display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 10px;
-      border-radius: 10px;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 8px;
+      border-radius: 8px;
       text-decoration: none;
       transition: background 150ms ease, transform 150ms ease;
     }
@@ -588,35 +593,36 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 34px;
-      height: 34px;
-      border-radius: 8px;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
       background: var(--qm-panel-icon);
       color: var(--qm-header-accent);
       flex-shrink: 0;
     }
-    .qm-mega__body { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+    .qm-mega__body { display: flex; flex-direction: column; gap: 0; min-width: 0; }
     .qm-mega__label {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 600;
       color: var(--qm-header-text-strong);
+      line-height: 1.25;
     }
     .qm-mega__desc {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--qm-header-muted);
-      line-height: 1.45;
+      line-height: 1.3;
     }
     .qm-mega__footer {
-      margin-top: 6px;
-      padding-top: 8px;
+      margin-top: 4px;
+      padding-top: 6px;
       border-top: 1px solid var(--qm-panel-border);
     }
     .qm-mega__overview {
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 6px 10px;
-      font-size: 13px;
+      padding: 4px 8px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--qm-header-accent);
       text-decoration: none;
@@ -779,11 +785,11 @@ interface SearchEntry {
       overflow: hidden;
       transition: max-height 260ms ease;
     }
-    .qm-mobile-nav__sub--open { max-height: 400px; }
+    .qm-mobile-nav__sub--open { max-height: 480px; }
     .qm-mobile-nav__sub-link {
       display: block;
-      padding: 12px 32px;
-      font-size: 14px;
+      padding: 8px 24px;
+      font-size: 13px;
       color: var(--qm-header-text);
       text-decoration: none;
       transition: color 150ms ease, background 150ms ease;
@@ -1133,6 +1139,19 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
       }
     } else {
       this.closeMega();
+    }
+  }
+
+  onNavKeydown(event: KeyboardEvent, item: NavItem): void {
+    if (!item.children?.length) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      if (this.activeMega === item.label) {
+        this.closeMega();
+      } else {
+        this.openMega(item.label);
+      }
+      this.cdr.markForCheck();
     }
   }
 

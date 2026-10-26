@@ -30,7 +30,7 @@ export const routes: Routes = [
     data: {
       title: 'Products — QuantsMind',
       description:
-        'Software products developed by QuantsMind. Availability, release status and licensing terms are confirmed directly with QuantsMind.'
+        'Catalogue of QuantsMind software products and initiatives at various stages of development. Availability, release status and licensing terms are confirmed directly with QuantsMind.'
     },
     loadComponent: () =>
       import('./pages/products/products.component').then(m => m.ProductsComponent)

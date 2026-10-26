@@ -8,6 +8,7 @@ import { RouterModule, Router, NavigationStart } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { QmButtonComponent } from '../../shared/components/qm-button/qm-button.component';
+import { getAllProducts } from '../../content/products/product.registry';
 import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
 import { HrefPartsPipe } from '../../shared/pipes/href-parts.pipe';
 
@@ -970,46 +971,12 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
       label: 'Services',
       href: '/services',
       children: [
-        {
-          label: 'Software Architecture', href: '/services#software-architecture',
-          description: 'System design and technical foundations',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`
-        },
-        {
-          label: 'Data Engineering & Intelligence', href: '/services#data-engineering',
-          description: 'Data platforms, ETL/ELT and analytics',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/><path d="M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>`
-        },
-        {
-          label: 'AI & Machine Learning', href: '/services#ai-ml-engineering',
-          description: 'Applied AI built into products',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`
-        },
-        {
-          label: 'Cloud Engineering', href: '/services#cloud-engineering',
-          description: 'Cloud architecture and infrastructure',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`
-        },
-        {
-          label: 'DevOps & CI/CD', href: '/services#devops-ci-cd',
-          description: 'Reliable delivery and environments',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 18 13.5 18 13.5 6 4.5 6"/><polyline points="21.5 15.5 23 18 21.5 20.5"/><polyline points="6 3.5 4.5 6 6 8.5"/><circle cx="21.5" cy="18" r="1.5"/><circle cx="4.5" cy="6" r="1.5"/></svg>`
-        },
-        {
-          label: 'Quantum Computing', href: '/quantum',
-          description: 'Quantum algorithms and simulation',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`
-        },
-        {
-          label: 'Space Exploration Software Engineering', href: '/services#space-exploration',
-          description: 'Telemetry, mission data and feasibility',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>`
-        },
-        {
-          label: 'Technical Consulting', href: '/services#technical-consulting',
-          description: 'Modernization and engineering guidance',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>`
-        }
+        { label: 'Quantum Computing & Quantum Software Engineering', href: '/quantum', description: 'Quantum computing and quantum software engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>` },
+        { label: 'Space Systems & Mission Software Engineering', href: '/services#space-systems', description: 'Space systems and mission software engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>` },
+        { label: 'AI Engineering & Autonomous Intelligent Systems', href: '/services#ai-intelligent-systems', description: 'AI engineering and autonomous intelligent systems', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>` },
+        { label: 'Scientific Computing & Digital Simulation', href: '/services#scientific-computing', description: 'Scientific computing and digital simulation', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>` },
+        { label: 'Cybersecurity Engineering & Digital Trust', href: '/services#cybersecurity-digital-trust', description: 'Cybersecurity engineering and digital trust', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>` },
+        { label: 'Industrial Intelligence & Digital Twin Engineering', href: '/services#industrial-intelligence-digital-twin', description: 'Industrial intelligence and digital twin engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>` }
       ]
     },
     { label: 'Products', href: '/products' },
@@ -1052,14 +1019,12 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'Blog', href: '/blog', keywords: 'blog educational articles writing research publication architecture distributed systems databases transformers quantum computing' },
     { type: 'Page', title: 'About', href: '/about', keywords: 'about company engineering services technology development' },
     { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry email form build' },
-    { type: 'Capability', title: 'Software Architecture', href: '/services#software-architecture', keywords: 'architecture system design technical foundations' },
-    { type: 'Capability', title: 'Quantum Computing', href: '/services#quantum-computing', keywords: 'quantum computing algorithms simulation circuits qasm optimization' },
-    { type: 'Capability', title: 'AI & Machine Learning', href: '/services#ai-ml-engineering', keywords: 'ai artificial intelligence machine learning llm' },
-    { type: 'Capability', title: 'Cloud Engineering', href: '/services#cloud-engineering', keywords: 'cloud kubernetes platform infrastructure distributed' },
-    { type: 'Capability', title: 'DevOps & CI/CD', href: '/services#devops-ci-cd', keywords: 'devops ci cd delivery environments pipelines' },
-    { type: 'Capability', title: 'Technical Consulting', href: '/services#technical-consulting', keywords: 'consulting modernization system design engineering guidance' },
-  { type: 'Capability', title: 'Data Engineering & Intelligence', href: '/services#data-engineering', keywords: 'data engineering etl elt data lake analytics quality processing' },
-  { type: 'Capability', title: 'Space Exploration Software Engineering', href: '/services#space-exploration', keywords: 'space telemetry mission data ground system simulation feasibility' },
+    { type: 'Capability', title: 'Quantum Computing & Quantum Software Engineering', href: '/services#quantum-computing', keywords: 'quantum computing quantum software engineering algorithms simulation circuits qasm optimization' },
+    { type: 'Capability', title: 'Space Systems & Mission Software Engineering', href: '/services#space-systems', keywords: 'space systems mission software engineering telemetry mission data ground system simulation feasibility' },
+    { type: 'Capability', title: 'AI Engineering & Autonomous Intelligent Systems', href: '/services#ai-intelligent-systems', keywords: 'ai engineering autonomous intelligent systems artificial intelligence machine learning llm' },
+    { type: 'Capability', title: 'Scientific Computing & Digital Simulation', href: '/services#scientific-computing', keywords: 'scientific computing digital simulation data engineering analytics modeling' },
+    { type: 'Capability', title: 'Cybersecurity Engineering & Digital Trust', href: '/services#cybersecurity-digital-trust', keywords: 'cybersecurity digital trust security privacy application security' },
+    { type: 'Capability', title: 'Industrial Intelligence & Digital Twin Engineering', href: '/services#industrial-intelligence-digital-twin', keywords: 'industrial intelligence digital twin engineering software architecture system design technical foundations cloud devops data' },
     { type: 'Legal', title: 'Privacy Policy', href: '/privacy', keywords: 'privacy policy data gdpr' },
     { type: 'Legal', title: 'Terms of Use', href: '/terms', keywords: 'terms use conditions legal' },
     { type: 'Legal', title: 'Cookie Policy', href: '/cookies', keywords: 'cookies cookie policy tracking' }
@@ -1068,7 +1033,13 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
   searchResults = computed(() => {
     const q = this.searchQuery().trim().toLowerCase();
     if (!q) return [];
-    return this.searchIndex
+    const productEntries: SearchEntry[] = getAllProducts().map(product => ({
+      type: 'Product',
+      title: product.name,
+      href: product.route ?? '/products',
+      keywords: [product.name, product.summary, ...(product.capabilities ?? []), ...(product.technologyTags ?? [])].join(' ')
+    }));
+    return [...this.searchIndex, ...productEntries]
       .filter(entry =>
         (entry.title + ' ' + entry.type + ' ' + entry.keywords).toLowerCase().includes(q))
       .slice(0, 8);
@@ -1198,7 +1169,11 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     const results = this.searchResults();
     if (results.length) {
       this.closeSearch();
-      this.router.navigateByUrl(results[0].href);
+      const href = results[0].href;
+      const hashIndex = href.indexOf('#');
+      const path = hashIndex >= 0 ? href.slice(0, hashIndex) : href;
+      const fragment = hashIndex >= 0 ? href.slice(hashIndex + 1) : undefined;
+      this.router.navigate([path || '/'], fragment ? { fragment } : {});
     }
   }
 
@@ -1229,3 +1204,4 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     this.cdr.markForCheck();
   }
 }
+

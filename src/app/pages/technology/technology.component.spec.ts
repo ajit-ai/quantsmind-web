@@ -46,11 +46,17 @@ describe('TechnologyComponent ecosystem map', () => {
     expect(text).toContain('Feasibility Study');
   });
 
-  it('keeps the detailed technology cards and their links', () => {
+  it('keeps the detailed technology cards and their verified links', () => {
     const cards = fixture.nativeElement.querySelectorAll('.tech-card');
     expect(cards.length).toBe(7);
     const links = fixture.nativeElement.querySelectorAll('a.tech-card__title-link');
-    expect(links.length).toBe(7);
+    // Two projects no longer expose an unverified public repository URL.
+    expect(links.length).toBe(5);
+    const hrefs = [...links].map((link: any) => link.getAttribute('href'));
+    expect(hrefs).not.toContain('https://github.com/ajit-ai/QuantsMind-Agent');
+    expect(hrefs).not.toContain('https://github.com/ajit-ai/Quantsmind-LLM');
+    expect(fixture.nativeElement.textContent).toContain('QuantsMind-Agent');
+    expect(fixture.nativeElement.textContent).toContain('QuantsMind-LLM');
     expect(fixture.nativeElement.querySelector('.ecosystem-grid')).toBeTruthy();
   });
 

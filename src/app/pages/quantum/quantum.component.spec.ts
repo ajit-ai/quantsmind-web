@@ -198,7 +198,7 @@ describe('quantum navigation integration', () => {
     const fixture = TestBed.createComponent(QmHeaderComponent);
     const header = fixture.componentInstance;
     const services = ((header as any).navItems as any[]).find(n => n.label === 'Services');
-    const quantum = services.children.find((c: any) => c.label === 'Quantum Computing');
+    const quantum = services.children.find((c: any) => c.label === 'Quantum Computing & Quantum Software Engineering');
     expect(quantum).toBeTruthy();
     expect(quantum.href).toBe('/quantum');
   });

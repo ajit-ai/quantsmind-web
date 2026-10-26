@@ -20,7 +20,7 @@ interface EcosystemTech {
    * detail page; the verified public repository (external) for the rest, so the
    * card never links back to the page it is already on.
    */
-  href: string;
+  href?: string;
   /** True when `href` is an off-site URL, which opens in a new tab. */
   external?: boolean;
   /** Trailing link text. Defaults to "Explore <name>". */
@@ -106,12 +106,16 @@ interface EcosystemMapGroup {
               <span class="qm-mark tech-card__mark" aria-hidden="true" [innerHTML]="tech.mark | qmSafeHtml"></span>
               <div class="tech-card__meta">
                 <h2 class="tech-card__title">
-                  @if (tech.external) {
-                    <a [href]="tech.href" target="_blank" rel="noopener noreferrer"
-                      class="tech-card__title-link"
-                      [attr.aria-label]="tech.name + ' — open repository on GitHub in a new tab'">{{ tech.name }}</a>
+                  @if (tech.href) {
+                    @if (tech.external) {
+                      <a [href]="tech.href" target="_blank" rel="noopener noreferrer"
+                        class="tech-card__title-link"
+                        [attr.aria-label]="tech.name + ' — open repository on GitHub in a new tab'">{{ tech.name }}</a>
+                    } @else {
+                      <a [routerLink]="tech.href" class="tech-card__title-link">{{ tech.name }}</a>
+                    }
                   } @else {
-                    <a [routerLink]="tech.href" class="tech-card__title-link">{{ tech.name }}</a>
+                    {{ tech.name }}
                   }
                 </h2>
                 <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
@@ -119,7 +123,9 @@ interface EcosystemMapGroup {
               <p class="tech-card__version">{{ tech.version }}</p>
               <p class="tech-card__tagline">{{ tech.tagline }}</p>
               <p class="tech-card__desc">{{ tech.description }}</p>
-              <span class="tech-card__link" aria-hidden="true">{{ tech.ctaText || ('Explore ' + tech.name) }}</span>
+              @if (tech.href || tech.ctaText) {
+                <span class="tech-card__link" aria-hidden="true">{{ tech.ctaText || ('Explore ' + tech.name) }}</span>
+              }
               @if (tech.releaseUrl) {
                 <p class="tech-card__refs">
                   <a [href]="tech.releaseUrl" target="_blank" rel="noopener noreferrer"
@@ -436,10 +442,7 @@ export class TechnologyComponent {
         'release or package has been published. Windows is the only platform the GUI has ' +
         'been run on; macOS is listed as planned and BSD is unsupported. An intermittent ' +
         'GUI abort on one CPython version is documented as unresolved.',
-      href: 'https://github.com/ajit-ai/QuantsMind-Agent',
-      external: true,
-      ctaText: 'View repository on GitHub ↗',
-      repoUrl: 'https://github.com/ajit-ai/QuantsMind-Agent'
+      // No verified public repository URL is currently available for this project.
     },
     {
       name: 'QuantsMind-LLM',
@@ -462,10 +465,7 @@ export class TechnologyComponent {
         'MBPP suites it names. Its figures are therefore not comparable to published ' +
         'benchmark results, and no independent model-quality assessment has been carried ' +
         'out.',
-      href: 'https://github.com/ajit-ai/Quantsmind-LLM',
-      external: true,
-      ctaText: 'View repository on GitHub ↗',
-      repoUrl: 'https://github.com/ajit-ai/Quantsmind-LLM'
+      // No verified public repository URL is currently available for this project.
     }
   ];
 }

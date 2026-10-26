@@ -5,6 +5,8 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { QmProductPortfolioComponent } from '../../shared/components/qm-product-portfolio/qm-product-portfolio.component';
+import { getProductsByPortfolio } from '../../content/products/product.registry';
 
 interface Product {
   name: string;
@@ -27,7 +29,7 @@ interface FlowStep {
 
 @Component({
     selector: 'app-products',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmProductPortfolioComponent],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <section class="page-hero surface-subtle">
@@ -126,6 +128,48 @@ interface FlowStep {
             </div>
           </article>
         }
+      </qm-container>
+    </qm-section>
+
+    <qm-section surface="white" ariaLabel="Products and applications">
+      <qm-container>
+        <qm-product-portfolio
+          title="Products & Applications"
+          description="Individual QuantsMind software applications at various stages of development."
+          [products]="applicationProducts" />
+      </qm-container>
+    </qm-section>
+
+    <qm-section id="quantum-software" surface="subtle" ariaLabel="Quantum Computing Software">
+      <qm-container>
+        <qm-product-portfolio
+          title="Quantum Computing Software"
+          description="Quantum computing software initiatives, including the verified MicroQuantum developer preview and proposed initiatives."
+          [products]="quantumProducts"
+          relatedServiceId="quantum-computing"
+          serviceLinkLabel="Explore quantum computing services" />
+      </qm-container>
+    </qm-section>
+
+    <qm-section id="space-software" surface="white" ariaLabel="Space Systems Software">
+      <qm-container>
+        <qm-product-portfolio
+          title="Space Systems Software"
+          description="Space systems software initiatives, including mission software in development and proposed data intelligence tooling."
+          [products]="spaceProducts"
+          relatedServiceId="space-systems"
+          serviceLinkLabel="Explore space systems services" />
+      </qm-container>
+    </qm-section>
+
+    <qm-section id="cybersecurity-software" surface="subtle" ariaLabel="Cybersecurity and Digital Trust Software">
+      <qm-container>
+        <qm-product-portfolio
+          title="Cybersecurity & Digital Trust Software"
+          description="Cybersecurity and digital trust software initiatives currently proposed for future development."
+          [products]="cyberProducts"
+          relatedServiceId="cybersecurity-digital-trust"
+          serviceLinkLabel="Explore cybersecurity services" />
       </qm-container>
     </qm-section>
 
@@ -392,6 +436,11 @@ export class ProductsComponent {
         'index entry or open repository. Access is arranged directly with QuantsMind.'
     }
   ];
+
+  applicationProducts = getProductsByPortfolio('standalone').filter(product => product.id !== 'quantsmind-document-intelligence-mini');
+  quantumProducts = getProductsByPortfolio('quantum');
+  spaceProducts = getProductsByPortfolio('space');
+  cyberProducts = getProductsByPortfolio('cybersecurity');
 
   stages: string[] = [
     'Concept',

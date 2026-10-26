@@ -141,6 +141,7 @@ interface ArticleGroup {
     /* ── CARD GRID ─────────────────────────────────────── */
     .grid {
       display: grid; grid-template-columns: 1fr; gap: 24px;
+      min-width: 0;
     }
     @media (min-width: 640px)  { .grid { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px) { .grid { grid-template-columns: repeat(3, 1fr); } }
@@ -148,6 +149,7 @@ interface ArticleGroup {
     .card {
       position: relative;
       display: flex; flex-direction: column; gap: 12px;
+      min-width: 0;
       padding: 28px;
       background: var(--card-bg);
       border: 1px solid var(--card-border);
@@ -167,6 +169,15 @@ interface ArticleGroup {
     .card__top {
       display: flex; align-items: center; justify-content: space-between;
       gap: 10px; flex-wrap: wrap;
+      min-width: 0;
+    }
+    .card__top > * { min-width: 0; max-width: 100%; }
+    /* The shared QmBadge defaults to white-space: nowrap. On the index cards
+       the maturity labels are long phrases, so allow wrapping and breaking
+       inside the badge without changing its text or article-detail styling. */
+    ::ng-deep .card__top .qm-badge {
+      white-space: normal !important;
+      overflow-wrap: anywhere;
     }
     .card__category {
       font-size: 11px; font-weight: 600;

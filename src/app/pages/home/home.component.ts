@@ -708,49 +708,51 @@ interface EcosystemLink {
 })
 export class HomeComponent {
   focusAreas = [
-    'Software Engineering',
-    'AI / ML',
-    'Cloud & Infrastructure',
-    'Emerging Computing'
+    'Quantum Computing & Quantum Software Engineering',
+    'Space Systems & Mission Software Engineering',
+    'AI Engineering & Autonomous Intelligent Systems',
+    'Scientific Computing & Digital Simulation',
+    'Cybersecurity Engineering & Digital Trust',
+    'Industrial Intelligence & Digital Twin Engineering'
   ];
 
   capabilities: Capability[] = [
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`,
-      title: 'Quantum Computing',
-      description: 'Quantum program and algorithm development, with classical simulation of circuits and hybrid optimisation workflows.',
+      title: 'Quantum Computing & Quantum Software Engineering',
+      description: 'Quantum circuit software engineering, simulation, algorithm experimentation, and quantum-classical workflows.',
       href: '/services#quantum-computing'
     },
     {
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
-      title: 'AI & Machine Learning',
-      description: 'AI/ML application development, intelligent systems and practical integration of modern AI technologies.',
-      href: '/services#ai-ml-engineering'
-    },
-    {
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>`,
-      title: 'Cloud & Infrastructure',
-      description: 'Cloud architecture, deployment, CI/CD, infrastructure automation and engineering environments.',
-      href: '/services#cloud-engineering'
-    },
-    {
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
-      title: 'Architecture & Consulting',
-      description: 'Solution architecture, technical modernization, system design and engineering guidance.',
-      href: '/services#technical-consulting'
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><path d="M2 12h4M18 12h4"/></svg>`,
+      title: 'Space Systems & Mission Software Engineering',
+      description: 'Ground-segment operations, telemetry processing, mission-support workflows, and satellite engineering data.',
+      href: '/services#space-systems'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
-      title: 'Software Architecture',
-      description: 'System design, technical foundations and architecture reviews for teams building or modernising software.',
-      href: '/services#software-architecture'
+      title: 'AI Engineering & Autonomous Intelligent Systems',
+      description: 'Intelligent software, AI integrations, controlled agent workflows, and reliable AI-enabled applications.',
+      href: '/services#ai-intelligent-systems'
     },
     {
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06-.06a1.65 1.65 0 0 0 1.82.33h.09a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v.09a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
-      title: 'DevOps & CI/CD',
-      description: 'Continuous delivery, automated testing and release engineering that make software delivery repeatable and safe.',
-      href: '/services#devops-ci-cd'
-    }
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>`,
+      title: 'Scientific Computing & Digital Simulation',
+      description: 'Numerical software, scientific workflows, modelling systems, and computational simulations.',
+      href: '/services#scientific-computing'
+    },
+    {
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
+      title: 'Cybersecurity Engineering & Digital Trust',
+      description: 'Security-focused software, security analysis workflows, integrity verification, and trustworthy digital systems.',
+      href: '/services#cybersecurity-digital-trust'
+    },
+    {
+      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>`,
+      title: 'Industrial Intelligence & Digital Twin Engineering',
+      description: 'Industrial data systems, operational intelligence software, digital simulation models, and digital twin integration workflows.',
+      href: '/services#industrial-intelligence-digital-twin'
+    },
   ];
 
   ecosystem: EcosystemTech[] = [

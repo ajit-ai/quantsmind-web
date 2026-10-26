@@ -4,17 +4,26 @@ import { provideRouter, Router } from '@angular/router';
 import { ServicesComponent } from './services.component';
 
 const SERVICE_IDS = [
-  'software-architecture',
-  'data-engineering',
-  'ai-ml-engineering',
-  'cloud-engineering',
-  'devops-ci-cd',
   'quantum-computing',
-  'space-exploration',
-  'technical-consulting'
+  'space-systems',
+  'ai-intelligent-systems',
+  'scientific-computing',
+  'cybersecurity-digital-trust',
+  'industrial-intelligence-digital-twin'
 ] as const;
 
-const DEFAULT_TAB = 'software-architecture';
+const APPROVED_SERVICE_TITLES = [
+  'Quantum Computing & Quantum Software Engineering',
+  'Space Systems & Mission Software Engineering',
+  'AI Engineering & Autonomous Intelligent Systems',
+  'Scientific Computing & Digital Simulation',
+  'Cybersecurity Engineering & Digital Trust',
+  'Industrial Intelligence & Digital Twin Engineering'
+] as const;
+
+const DEFAULT_TAB = 'quantum-computing';
+const LEGACY_SERVICE_ID = 'software-architecture';
+const LEGACY_TARGET_ID = 'industrial-intelligence-digital-twin';
 
 describe('ServicesComponent fragment routing', () => {
   let fixture: ComponentFixture<ServicesComponent>;
@@ -39,8 +48,20 @@ describe('ServicesComponent fragment routing', () => {
     fixture.detectChanges();
   });
 
-  it('defaults to the software-architecture tab with no fragment', () => {
+  it('defaults to the first approved service tab with no fragment', () => {
     expect(component.activeTab).toBe(DEFAULT_TAB);
+  });
+
+  it('presents exactly the six approved services in order', () => {
+    expect(component.services.map(service => service.id)).toEqual([...SERVICE_IDS]);
+    expect(component.services.map(service => service.title)).toEqual([...APPROVED_SERVICE_TITLES]);
+  });
+
+  it('maps the legacy software-architecture fragment to Industrial Intelligence', async () => {
+    await router.navigateByUrl(`/services#${LEGACY_SERVICE_ID}`);
+    fixture.detectChanges();
+
+    expect(component.activeTab).toBe(LEGACY_TARGET_ID);
   });
 
   it.each(SERVICE_IDS)('activates the %s tab from the URL fragment', async id => {
@@ -58,7 +79,7 @@ describe('ServicesComponent fragment routing', () => {
   });
 
   it('renders the panel for the active tab only', async () => {
-    await router.navigateByUrl('/services#cloud-engineering');
+    await router.navigateByUrl('/services#scientific-computing');
     fixture.detectChanges();
 
     const panels = fixture.nativeElement.querySelectorAll('.svc-detail');
@@ -66,29 +87,29 @@ describe('ServicesComponent fragment routing', () => {
 
     const pressed = fixture.nativeElement.querySelectorAll('.svc-tab[aria-pressed="true"]');
     expect(pressed.length).toBe(1);
-    expect(pressed[0].querySelector('.svc-tab__label').textContent.trim()).toBe('Cloud Engineering');
+    expect(pressed[0].querySelector('.svc-tab__label').textContent.trim()).toBe('Scientific Computing & Digital Simulation');
   });
 
   it('keeps selectTab working after a fragment has activated a tab', async () => {
-    await router.navigateByUrl('/services#ai-ml-engineering');
+    await router.navigateByUrl('/services#ai-intelligent-systems');
     fixture.detectChanges();
-    expect(component.activeTab).toBe('ai-ml-engineering');
+    expect(component.activeTab).toBe('ai-intelligent-systems');
 
-    component.selectTab('devops-ci-cd');
+    component.selectTab('scientific-computing');
     fixture.detectChanges();
 
-    expect(component.activeTab).toBe('devops-ci-cd');
+    expect(component.activeTab).toBe('scientific-computing');
   });
 
   it('writes the selected tab back into the URL', async () => {
     await router.navigateByUrl('/services');
     fixture.detectChanges();
 
-    component.selectTab('technical-consulting');
+    component.selectTab('space-systems');
     await fixture.whenStable();
     fixture.detectChanges();
 
-    expect(router.url).toBe('/services#technical-consulting');
+    expect(router.url).toBe('/services#space-systems');
   });
 });
 
@@ -140,22 +161,15 @@ describe('ServicesComponent illustrations', () => {
     expect(text).toContain('Practical deliverables');
     expect(text).toContain('Technology & capability context');
     expect(text).toContain('Outcome.');
-    for (const id of SERVICE_IDS) {
-      // titles rendered in overview cards
+    for (const title of APPROVED_SERVICE_TITLES) {
+      expect(text).toContain(title);
     }
-    expect(text).toContain('Software Architecture');
-    expect(text).toContain('Data Engineering & Intelligence');
-    expect(text).toContain('Quantum Computing');
-    expect(text).toContain('AI & ML Engineering');
-    expect(text).toContain('Cloud Engineering');
-    expect(text).toContain('DevOps & CI/CD');
-    expect(text).toContain('Space Exploration Software Engineering');
-    expect(text).toContain('Technical Consulting');
+    expect(text).not.toContain('Software & System Architecture');
   });
 
   it('exposes accessible tab semantics', () => {
     const tabs = fixture.nativeElement.querySelectorAll('.svc-tab');
-    expect(tabs.length).toBe(8);
+    expect(tabs.length).toBe(6);
     const pressed = fixture.nativeElement.querySelectorAll('.svc-tab[aria-pressed="true"]');
     expect(pressed.length).toBe(1);
   });

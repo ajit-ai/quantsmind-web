@@ -157,7 +157,9 @@ import { BLOG_ARTICLES } from './articles';
     }
     .back:hover { color: var(--color-accent); text-decoration: underline; }
     .back:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 3px; }
-    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; max-width: 100%; min-width: 0; }
+    .badges > * { min-width: 0; max-width: 100%; }
+    ::ng-deep .badges .qm-badge { white-space: normal !important; overflow-wrap: anywhere; }
     .page-hero h1 {
       max-width: 820px; margin: 0 0 20px;
       font-size: clamp(30px, 4vw, 44px); line-height: 1.15; letter-spacing: -0.02em;

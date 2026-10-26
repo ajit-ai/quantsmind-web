@@ -7,6 +7,8 @@ export default defineConfig({
     // worker ... Timeout waiting for worker to respond", even though it passes
     // on the Linux CI runner. 'forks' passes in both environments.
     pool: 'forks',
-    fileParallelism: false
+    fileParallelism: false,
+    singleFork: true,
+    isolate: false
   }
 });

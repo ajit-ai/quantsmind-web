@@ -478,12 +478,12 @@ export class ContactComponent {
   private readonly maxLengths = { name: 100, company: 120, email: 254, message: 5000 };
 
   areas = [
-    'Software Architecture',
+    'Software & System Architecture',
     'Quantum Computing',
-    'AI / ML Engineering',
-    'Cloud & Platform Engineering',
-    'DevOps & CI/CD',
-    'Technical Consulting',
+    'AI & Intelligent Systems',
+    'Scientific Computing',
+    'Cybersecurity & Digital Trust',
+    'Space Systems',
     'Technology Collaboration',
     'Research / QuantsMind Labs',
     'Other'

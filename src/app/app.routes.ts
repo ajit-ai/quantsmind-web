@@ -3,7 +3,7 @@ import { blogArticleResolver } from './pages/blog/blog-article.resolver';
 
 export const HOME_TITLE = 'QuantsMind | Engineering Software & Intelligent Technologies';
 export const HOME_DESCRIPTION =
-  'QuantsMind helps organisations design, build and modernise software systems: software architecture, quantum computing, AI/ML engineering, cloud, DevOps and technical consulting.';
+  'QuantsMind engineers software products, intelligent systems and advanced technology solutions across quantum computing, AI, space systems, scientific computing, cybersecurity and industrial intelligence.';
 
 export const routes: Routes = [
   {
@@ -18,9 +18,9 @@ export const routes: Routes = [
   {
     path: 'services',
     data: {
-      title: 'Services — QuantsMind',
+      title: 'Engineering Services — QuantsMind',
       description:
-        'Practical software engineering and technology consulting: software architecture, quantum computing, AI/ML engineering, cloud engineering, DevOps & CI/CD, and technical consulting.'
+        'Six engineering service areas: quantum computing and quantum software, space systems and mission software, AI engineering, scientific computing, cybersecurity and digital trust, and industrial intelligence and digital twins.'
     },
     loadComponent: () =>
       import('./pages/services/services.component').then(m => m.ServicesComponent)
@@ -28,19 +28,29 @@ export const routes: Routes = [
   {
     path: 'products',
     data: {
-      title: 'Products — QuantsMind',
+      title: 'Products & Applications — QuantsMind',
       description:
-        'Catalogue of QuantsMind software products and initiatives at various stages of development. Availability, release status and licensing terms are confirmed directly with QuantsMind.'
+        'A registry-driven portfolio of QuantsMind software products and proposed initiatives across standalone software, quantum computing, space systems, and cybersecurity. Maturity and availability are stated per product.'
     },
     loadComponent: () =>
       import('./pages/products/products.component').then(m => m.ProductsComponent)
   },
   {
+    path: 'quantum-mission',
+    data: {
+      title: 'Quantum Mission | Proposed Quantum Software Applications | QuantsMind',
+      description:
+        'Quantum Mission is a portfolio of ten independent proposed quantum software applications exploring circuit development, simulation, optimisation, verification and hybrid workflows. All are proposed and not available.'
+    },
+    loadComponent: () =>
+      import('./pages/quantum-mission/quantum-mission.component').then(m => m.QuantumMissionComponent)
+  },
+  {
     path: 'technology',
     data: {
-      title: 'Technology — QuantsMind',
+      title: 'Technologies We Develop — QuantsMind',
       description:
-        'The QuantsMind technology ecosystem: Karkain, MicroQuantum, the QuantsMind SDK, QuantsMind Relational DB, GuardMCP, QuantsMind-Agent and QuantsMind-LLM, each with its current maturity and public source.'
+        'The technologies QuantsMind develops: Karkain, MicroQuantum and the QuantsMind SDK, each with verified capabilities, language details, version, maturity and documentation, plus the wider engineering ecosystem.'
     },
     loadComponent: () =>
       import('./pages/technology/technology.component').then(m => m.TechnologyComponent)

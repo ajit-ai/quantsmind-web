@@ -66,6 +66,14 @@ import {
         </ul>
       }
 
+      @if (product.technologyTags?.length) {
+        <ul class="qm-product-card__tags" role="list" aria-label="Associated technologies">
+          @for (tag of product.technologyTags; track tag) {
+            <li class="qm-product-card__tag">{{ tag }}</li>
+          }
+        </ul>
+      }
+
       @if (ctaRoute) {
         <div class="qm-product-card__cta">
           <qm-button variant="primary" size="sm" [routerLinkValue]="ctaRoute"
@@ -108,6 +116,16 @@ import {
     .qm-product-card__meta-row dd { margin: 0; }
     .qm-product-card__capabilities { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; color: var(--color-text-secondary); }
     .qm-product-card__capabilities li { margin-bottom: 4px; }
+    .qm-product-card__tags {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin: 0; padding: 0; list-style: none;
+    }
+    .qm-product-card__tag {
+      padding: 3px 8px; border-radius: var(--radius-pill);
+      background: var(--color-accent-subtle); color: var(--color-accent-dark);
+      font-size: 11px; font-weight: 600; line-height: 1.4;
+      overflow-wrap: anywhere;
+    }
     .qm-product-card__cta { margin-top: auto; }
     .qm-product-card__service-link { font-size: 13px; color: var(--color-accent); text-decoration: none; }
     .qm-product-card__service-link:hover { text-decoration: underline; }

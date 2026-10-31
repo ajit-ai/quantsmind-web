@@ -392,18 +392,18 @@ interface SearchEntry {
     .qm-header__inner {
       display: flex;
       align-items: center;
-      gap: 20px;
+      gap: 16px;
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 32px;
-      height: 72px;
+      padding: 0 28px;
+      height: 68px;
     }
 
     /* ── Logo ────────────────────────────────────────── */
     .qm-header__logo {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-decoration: none;
       flex-shrink: 0;
     }
@@ -412,34 +412,34 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       background: var(--gradient-brand);
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow:
-        0 8px 20px -8px rgba(37, 99, 235, 0.65),
+        0 8px 18px -8px rgba(37, 99, 235, 0.65),
         inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
     .qm-header__logo-mark::after {
       content: '';
       position: absolute;
       inset: -3px;
-      border-radius: 15px;
+      border-radius: 13px;
       border: 1px solid rgba(37, 99, 235, 0.18);
       pointer-events: none;
     }
-    .qm-header__logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+    .qm-header__logo-text { display: flex; flex-direction: column; line-height: 1.12; }
     .qm-header__logo-name {
       font-family: 'Sora', 'Inter', system-ui, sans-serif;
-      font-size: 16px;
+      font-size: 15.5px;
       font-weight: 700;
       color: var(--qm-header-text-strong);
       letter-spacing: -0.03em;
     }
     .qm-header__logo-tag {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       color: var(--qm-header-muted);
     }
@@ -451,7 +451,7 @@ interface SearchEntry {
     .qm-header__nav-list {
       display: flex;
       align-items: center;
-      gap: 2px;
+      gap: 1px;
       list-style: none;
       margin: 0;
       padding: 0;
@@ -462,12 +462,13 @@ interface SearchEntry {
       position: relative;
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 9px 13px;
-      font-size: 14px;
+      gap: 4px;
+      padding: 8px 12px;
+      font-size: 13.5px;
       font-weight: 500;
       color: var(--qm-header-text);
       text-decoration: none;
+      white-space: nowrap;
       border-radius: 999px;
       transition: color 180ms ease, background-color 180ms ease;
     }
@@ -490,20 +491,21 @@ interface SearchEntry {
     .qm-header__nav-link::after {
       content: '';
       position: absolute;
-      left: 50%;
-      bottom: 1px;
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
+      left: 12px;
+      right: 12px;
+      bottom: 2px;
+      height: 2px;
+      border-radius: 999px;
       background: var(--gradient-signal);
       opacity: 0;
-      transform: translateX(-50%) scale(0.4);
-      transition: opacity 200ms ease, transform 200ms ease;
+      transform: scaleX(0.35);
+      transform-origin: center;
+      transition: opacity 200ms ease, transform 240ms var(--qm-ease-out);
     }
     .qm-header__nav-link:hover::after,
     .qm-header__nav-link--active::after {
       opacity: 1;
-      transform: translateX(-50%) scale(1);
+      transform: scaleX(1);
     }
     .qm-header__nav-link:focus-visible {
       outline: 2px solid var(--qm-header-accent);
@@ -524,7 +526,7 @@ interface SearchEntry {
     .qm-header__actions {
       display: none;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
       flex-shrink: 0;
     }
     @media (min-width: 1200px) { .qm-header__actions { display: flex; } }
@@ -533,8 +535,8 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 38px;
-      height: 38px;
+      width: 34px;
+      height: 34px;
       border: 1px solid var(--qm-header-border);
       border-radius: 999px;
       background: rgba(255, 255, 255, 0.45);
@@ -556,12 +558,12 @@ interface SearchEntry {
     /* ── Mega menu ───────────────────────────────────── */
     .qm-mega {
       position: absolute;
-      top: calc(100% + 10px);
+      top: calc(100% + 8px);
       left: 0;
       transform: none;
       background: var(--qm-panel-bg);
       border: 1px solid var(--qm-panel-border);
-      border-radius: 16px;
+      border-radius: 14px;
       box-shadow:
         0 24px 60px -12px rgba(2, 6, 23, 0.18),
         0 8px 24px -12px rgba(2, 6, 23, 0.12);
@@ -671,9 +673,9 @@ interface SearchEntry {
       flex-direction: column;
       justify-content: center;
       gap: 5px;
-      width: 42px;
-      height: 42px;
-      padding: 0 10px;
+      width: 44px;
+      height: 44px;
+      padding: 0 11px;
       background: transparent;
       border: 1px solid var(--qm-header-border);
       border-radius: 10px;
@@ -736,8 +738,8 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
+      width: 44px;
+      height: 44px;
       border: 1px solid var(--qm-panel-border);
       border-radius: 8px;
       background: transparent;
@@ -758,6 +760,7 @@ interface SearchEntry {
       align-items: center;
       justify-content: center;
       gap: 8px;
+      min-height: 44px;
       padding: 10px 12px;
       font-family: inherit;
       font-size: 13px;
@@ -782,8 +785,9 @@ interface SearchEntry {
       align-items: center;
       justify-content: space-between;
       gap: 8px;
-      padding: 16px 20px;
-      font-size: 16px;
+      min-height: 52px;
+      padding: 14px 20px;
+      font-size: 15.5px;
       font-weight: 600;
       color: var(--qm-header-text-strong);
       text-decoration: none;
@@ -822,9 +826,12 @@ interface SearchEntry {
     }
     .qm-mobile-nav__sub--open { max-height: 480px; }
     .qm-mobile-nav__sub-link {
-      display: block;
-      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 10px 24px;
       font-size: 13px;
+      line-height: 1.4;
       color: var(--qm-header-text);
       text-decoration: none;
       transition: color 150ms ease, background 150ms ease;
@@ -892,8 +899,8 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 32px;
-      height: 32px;
+      width: 44px;
+      height: 44px;
       border: none;
       border-radius: 8px;
       background: transparent;
@@ -1015,7 +1022,27 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
         { label: 'Industrial Intelligence & Digital Twin Engineering', href: '/services#industrial-intelligence-digital-twin', description: 'Industrial intelligence and digital twin engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>` }
       ]
     },
-    { label: 'Products', href: '/products' },
+    {
+      label: 'Products',
+      href: '/products',
+      children: [
+        {
+          label: 'Quantum Mission', href: '/quantum-mission',
+          description: 'Ten proposed quantum software applications',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/></svg>`
+        },
+        {
+          label: 'Quantum Software', href: '/products#quantum-software',
+          description: 'MicroQuantum and the Quantum Mission portfolio',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 19 19 5M7 5h12v12"/></svg>`
+        },
+        {
+          label: 'Space Systems', href: '/products#space-software',
+          description: 'Ground-segment and telemetry software initiatives',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/></svg>`
+        }
+      ]
+    },
     {
       label: 'Technology',
       href: '/technology',
@@ -1046,6 +1073,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering intelligent software' },
     { type: 'Page', title: 'Services', href: '/services', keywords: 'services capabilities software architecture ai cloud devops consulting' },
     { type: 'Page', title: 'Products', href: '/products', keywords: 'products product di mini document intelligence quantsmind document intelligence mini software' },
+    { type: 'Portfolio', title: 'Quantum Mission', href: '/quantum-mission', keywords: 'quantum mission quantumstudio qubitsim quantumforge qoptima quantumshield hybridq quantumbench quantumchem qresource quantumverify proposed applications' },
     { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum relational database guardmcp security mcp' },
     { type: 'Page', title: 'Quantum Computing', href: '/quantum', keywords: 'quantum computing engineering services algorithms simulation hybrid' },
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },

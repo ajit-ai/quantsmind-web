@@ -30,6 +30,7 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
       @if (routerLinkValue) {
         <a
           [routerLink]="routerLinkValue"
+          [fragment]="fragment"
           [class]="buttonClass"
           [attr.aria-label]="ariaLabel || null"
           >
@@ -187,6 +188,7 @@ export class QmButtonComponent {
   @Input() size: ButtonSize       = 'md';
   @Input() href?: string;
   @Input() routerLinkValue?: string | string[];
+  @Input() fragment?: string;
   @Input() target: string         = '_self';
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() disabled               = false;

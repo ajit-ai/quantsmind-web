@@ -8,6 +8,8 @@
     "prerender": "node scripts/prerender.mjs",
     "build:static": "npm run build && npm run prerender",
     "test:prerender": "ng test --include=src/app/pages/blog/blog-prerender.spec.ts --watch=false",
+    "smoke": "node scripts/responsive-smoke.mjs",
+    "verify": "npm run build:static && npm run test:prerender && npm run smoke",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

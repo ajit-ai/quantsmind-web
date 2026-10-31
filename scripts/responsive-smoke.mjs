@@ -1,10 +1,14 @@
 ﻿/**
  * Responsive smoke test for QuantsMind Web.
  *
- * Spins up a headless Chrome, serves the production build, and checks for
- * horizontal overflow at three viewport sizes for the main public routes.
+ * Serves the prerendered production build, loads every route recorded in
+ * `dist/quantsmind-web/prerender-manifest.json`, and checks each one at six
+ * viewport widths for horizontal overflow and runtime console errors.
  *
- * Usage: node scripts/responsive-smoke-1.mjs
+ * This is a release gate: any overflow or console error exits non-zero.
+ *
+ * Usage: npm run smoke
+ * Requires: npm run build:static
  */
 
 import http from 'node:http';
@@ -16,6 +20,7 @@ import { fileURLToPath } from 'url';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_DIR = resolve(ROOT, 'dist/quantsmind-web/browser');
+const MANIFEST = resolve(ROOT, 'dist/quantsmind-web/prerender-manifest.json');
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -30,6 +35,15 @@ const MIME = {
   '.txt': 'text/plain; charset=utf-8'
 };
 
+const VIEWPORTS = [
+  { width: 1440, height: 900, label: '1440px' },
+  { width: 1280, height: 800, label: '1280px' },
+  { width: 1024, height: 768, label: '1024px' },
+  { width: 768, height: 1024, label: '768px' },
+  { width: 390, height: 844, label: '390px' },
+  { width: 360, height: 800, label: '360px' }
+];
+
 const CHROME_CANDIDATES = [
   process.env.CHROME_PATH,
   'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe',
@@ -41,7 +55,7 @@ const CHROME_CANDIDATES = [
 
 function launchChrome(userDataDir, port) {
   const executable = CHROME_CANDIDATES.find((p) => existsSync(p));
-  if (!executable) throw new Error('Chrome not found');
+  if (!executable) throw new Error('Chrome not found. Set CHROME_PATH or install Chrome.');
   const child = spawn(executable, [
     '--headless=new',
     `--remote-debugging-port=${port}`,
@@ -77,6 +91,7 @@ function launchChrome(userDataDir, port) {
     attempt();
   });
 }
+
 class CdpSession {
   constructor(ws) {
     this.ws = ws;
@@ -95,6 +110,12 @@ class CdpSession {
     });
   }
 
+  on(method, handler) {
+    const list = this.handlers.get(method) ?? [];
+    list.push(handler);
+    this.handlers.set(method, list);
+  }
+
   send(method, params = {}) {
     const id = ++this.id;
     return new Promise((ok, no) => {
@@ -103,6 +124,7 @@ class CdpSession {
     });
   }
 }
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function openPage(port) {
@@ -116,7 +138,27 @@ async function openPage(port) {
   const session = new CdpSession(ws);
   await session.send('Page.enable');
   await session.send('Runtime.enable');
-  return session;
+
+  // Console errors are captured as CDP events. The previous implementation
+  // installed a console.error wrapper *after* the page had rendered, so it
+  // could never observe anything. These handlers are registered before the
+  // first navigation and the buffer is cleared per route.
+  const consoleErrors = [];
+  session.on('Runtime.consoleAPICalled', ({ type, args }) => {
+    if (type !== 'error') return;
+    consoleErrors.push(
+      args.map((a) => a.value ?? a.description ?? a.type ?? '').join(' ').trim()
+    );
+  });
+  session.on('Runtime.exceptionThrown', ({ exceptionDetails }) => {
+    consoleErrors.push(
+      exceptionDetails?.exception?.description
+        ?? exceptionDetails?.text
+        ?? 'Uncaught exception'
+    );
+  });
+
+  return { session, consoleErrors };
 }
 
 async function evaluate(session, expression) {
@@ -162,27 +204,16 @@ async function waitForRender(session, expectedCanonical) {
   }
   throw new Error(`Timed out waiting for ${expectedCanonical}`);
 }
-const ROUTES = ['', '/services', '/products', '/technology', '/contact'];
-const VIEWPORTS = [
-  { width: 1440, height: 900, label: '1440px' },
-  { width: 768, height: 1024, label: '768px' },
-  { width: 390, height: 844, label: '390px' }
-];
 
-async function checkRoute(session, baseUrl, route, vp) {
-  const url = `${baseUrl}${route === '' ? '/' : route}`;
-  console.log(`[smoke] ${vp.label} -> ${route || '/'}`);
-  await session.send('Page.navigate', { url });
-  const canonicalPath = (p) => {
-    const trimmed = (p || '').replace(/^\/+/, '').replace(/\/+$/, '');
-    return trimmed ? `/${trimmed}/` : '/';
-  };
-  const expectedCanonical = `https://www.quantsmind.com${canonicalPath(route)}`;
-  await waitForRender(session, expectedCanonical);
+/** Let layout settle after a viewport change (two frames + a short pause). */
+async function settleLayout(session) {
+  await evaluate(session, `
+    new Promise((resolve) => {
+      requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(resolve, 150)));
+    })`);
+}
 
-  // Apply the viewport settings after the route has rendered, then measure
-  // overflow.  Setting the metrics before navigation caused the app to stall
-  // on a few routes (notably /services), so we apply them only for measurement.
+async function measureViewport(session, entry, vp) {
   await session.send('Emulation.setDeviceMetricsOverride', {
     width: vp.width,
     height: vp.height,
@@ -190,62 +221,85 @@ async function checkRoute(session, baseUrl, route, vp) {
     mobile: false,
     fitWindow: false
   });
+  await settleLayout(session);
 
-  const overflowInfo = await evaluate(session, `
+  const measurement = await evaluate(session, `
     (() => {
       const doc = document.documentElement;
       const body = document.body;
-      const maxW = Math.max(
+      const winW = window.innerWidth;
+      const scrollWidth = Math.max(
         doc.scrollWidth, body.scrollWidth,
         doc.offsetWidth, body.offsetWidth,
         doc.clientWidth, body.clientWidth
       );
-      const winW = window.innerWidth;
-      return {
-        horizontalOverflow: maxW > winW + 1,
-        docScrollWidth: doc.scrollWidth,
-        bodyScrollWidth: body.scrollWidth,
-        winWidth: winW
-      };
-    })()`);
-
-  const consoleErrors = await evaluate(session, `
-    (() => {
-      const errors = [];
-      const orig = console.error;
-      console.error = (...args) => { errors.push(args.join(' ')); };
-      return errors;
+      const horizontalOverflow = scrollWidth > winW + 1;
+      const offenders = [];
+      if (horizontalOverflow) {
+        for (const el of document.querySelectorAll('body *')) {
+          const rect = el.getBoundingClientRect();
+          if (rect.width > 0 && rect.right > winW + 1) {
+            const cls = typeof el.className === 'string'
+              ? el.className.trim().split(/\\s+/).filter(Boolean).slice(0, 3).join('.')
+              : '';
+            offenders.push({
+              tag: el.tagName.toLowerCase(),
+              cls,
+              right: Math.round(rect.right)
+            });
+            if (offenders.length >= 8) break;
+          }
+        }
+      }
+      return { horizontalOverflow, scrollWidth, winWidth: winW, offenders };
     })()`);
 
   return {
-    route,
+    route: entry.route,
     viewport: vp.label,
-    horizontalOverflow: overflowInfo.horizontalOverflow,
-    docScrollWidth: overflowInfo.docScrollWidth,
-    bodyScrollWidth: overflowInfo.bodyScrollWidth,
-    winWidth: overflowInfo.winWidth,
-    consoleErrors
+    ...measurement
   };
 }
-async function startServer(OUT_DIR) {
+
+async function readManifestRoutes() {
+  if (!existsSync(MANIFEST)) {
+    throw new Error(
+      `No prerender manifest at ${MANIFEST}. Run "npm run build:static" first.`
+    );
+  }
+  const manifest = JSON.parse(await readFile(MANIFEST, 'utf8'));
+  const routes = (manifest.routes ?? [])
+    .filter((r) => typeof r.route === 'string' && r.route.startsWith('/'))
+    .map((r) => ({
+      route: r.route,
+      canonical: r.canonical ?? `https://www.quantsmind.com${r.route}`
+    }));
+
+  if (routes.length === 0) {
+    throw new Error('The prerender manifest contains no routes.');
+  }
+  return routes;
+}
+
+async function startServer(outDir) {
   return new Promise((resolve) => {
     const server = http.createServer(async (req, res) => {
       const url = new URL(req.url, 'http://localhost');
-      let pathname = url.pathname === '/' ? '/index.html' : url.pathname;
-      const filePath = join(OUT_DIR, pathname);
+      const pathname = url.pathname === '/' ? '/index.html' : url.pathname;
+      const filePath = join(outDir, pathname);
       try {
         let target = filePath;
-        const stats = await statSync(target);
+        const stats = statSync(target);
         if (stats.isDirectory()) target = join(target, 'index.html');
         const data = await readFile(target);
         res.writeHead(200, { 'Content-Type': MIME[extname(target)] || 'application/octet-stream' });
         res.end(data);
       } catch {
-        // Fallback to index.html (SPA shell) with 404, mirroring prerender script
+        // Mirror GitHub Pages: unknown paths fall back to the 404 document.
         try {
-          const shell = await readFile(join(OUT_DIR, 'index.html'));
+          const notFound = await readFile(join(outDir, '404.html'));
           res.writeHead(404, { 'Content-Type': MIME['.html'] });
-          res.end(shell);
+          res.end(notFound);
         } catch {
           res.writeHead(404, { 'Content-Type': 'text/plain' });
           res.end('Not found');
@@ -262,40 +316,84 @@ async function startServer(OUT_DIR) {
 
 async function main() {
   if (!existsSync(join(OUT_DIR, 'index.html'))) {
-    throw new Error('No production build found. Run "npm run build" first.');
+    throw new Error('No production build found. Run "npm run build:static" first.');
   }
 
+  const routes = await readManifestRoutes();
   const { server, port } = await startServer(OUT_DIR);
   const userDataDir = join(ROOT, 'node_modules/.cache/responsive-smoke-chrome');
   await mkdir(userDataDir, { recursive: true });
 
-  let chrome, session;
+  let chrome, session, consoleErrors;
+  const failures = [];
+  let checks = 0;
+
   try {
     chrome = await launchChrome(userDataDir, port + 1);
-    session = await openPage(port + 1);
+    ({ session, consoleErrors } = await openPage(port + 1));
     const baseUrl = `http://127.0.0.1:${port}`;
 
-    for (const route of ROUTES) {
+    console.log(
+      `[smoke] ${routes.length} routes × ${VIEWPORTS.length} viewports ` +
+      `(${VIEWPORTS.map((v) => v.label).join(', ')})`
+    );
+
+    for (const entry of routes) {
+      consoleErrors.length = 0;
+      const failuresBefore = failures.length;
+
+      // Render at a desktop size first; the viewport is then changed for each
+      // measurement. Setting metrics before navigation caused the app to
+      // stall on some routes, so metrics are applied only after render.
+      await session.send('Emulation.clearDeviceMetricsOverride');
+      await session.send('Page.navigate', { url: `${baseUrl}${entry.route}` });
+      await waitForRender(session, entry.canonical);
+      await sleep(200);
+
       for (const vp of VIEWPORTS) {
-        const result = await checkRoute(session, baseUrl, route, vp);
-        console.log(
-          `  ${result.route || '/'} @ ${result.viewport}: ` +
-          `overflow=${result.horizontalOverflow}, ` +
-          `docScroll=${result.docScrollWidth}, ` +
-          `bodyScroll=${result.bodyScrollWidth}, ` +
-          `winWidth=${result.winWidth}`
-        );
-        if (result.consoleErrors.length) {
-          console.log(`    console errors: ${result.consoleErrors.join(' | ')}`);
+        const result = await measureViewport(session, entry, vp);
+        checks++;
+
+        const offenderDetail = result.offenders.length
+          ? ` (${result.offenders
+              .map((o) => `${o.tag}${o.cls ? `.${o.cls}` : ''} right=${o.right}`)
+              .join(', ')})`
+          : '';
+
+        if (result.horizontalOverflow) {
+          failures.push(
+            `${result.route} @ ${vp.label}: horizontal overflow ` +
+            `${result.scrollWidth}px > ${result.winWidth}px${offenderDetail}`
+          );
         }
       }
+
+      if (consoleErrors.length) {
+        failures.push(
+          `${entry.route}: ${consoleErrors.length} console error(s): ` +
+          consoleErrors.map((e) => e.slice(0, 240)).join(' | ')
+        );
+      }
+
+      const routeFailures = failures.length - failuresBefore;
+      console.log(
+        `[smoke] ${entry.route.padEnd(40)} ${routeFailures === 0 ? 'ok' : `${routeFailures} failure(s)`}`
+      );
     }
-    console.log('[smoke] Responsive smoke test completed.');
+
+    if (failures.length) {
+      console.error(`[smoke] ${failures.length} failure(s) in ${checks} checks:`);
+      for (const failure of failures) console.error(`  ✗ ${failure}`);
+      throw new Error('Responsive smoke test failed');
+    }
+
+    console.log(`[smoke] PASS — ${checks} checks, no overflow or console errors.`);
   } finally {
     if (session?.ws) {
       try { session.ws.close(); } catch { /* ignore */ }
     }
     if (chrome?.child) {
+      if (chrome.child.exitCode === null) chrome.child.kill();
       await new Promise((resolve) => {
         if (chrome.child.exitCode !== null) return resolve();
         chrome.child.once('exit', resolve);
@@ -307,6 +405,6 @@ async function main() {
 }
 
 main().then(() => process.exit(0)).catch((err) => {
-  console.error('[smoke] FAILED:', err);
-  process.exitCode = 1;
+  console.error('[smoke] FAILED:', err.message);
+  process.exit(1);
 });

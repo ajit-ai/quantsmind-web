@@ -213,6 +213,59 @@
     linear-gradient(180deg, #FBFFFE 0%, #F4FBFA 100%);
 }
 
+// Labs artwork carries the Labs signal colour instead of the default blue:
+// teal inner rings, a cyan middle ring and a blue outer accent.
+.qm-page-hero--labs .qm-page-hero__art::before {
+  background: radial-gradient(circle, rgba($color-labs, 0.18), rgba($color-labs, 0) 68%);
+}
+
+.qm-page-hero--labs .qm-orbit__ring {
+  border-color: rgba($color-labs, 0.20);
+}
+
+.qm-page-hero--labs .qm-orbit__ring::before {
+  background: $color-labs;
+  box-shadow:
+    0 0 0 5px rgba($color-labs, 0.10),
+    0 0 20px rgba($color-labs, 0.55);
+}
+
+.qm-page-hero--labs .qm-orbit__ring--2 {
+  border-color: rgba($color-cyan, 0.24);
+}
+
+.qm-page-hero--labs .qm-orbit__ring--2::before {
+  background: $color-cyan;
+  box-shadow:
+    0 0 0 5px rgba($color-cyan, 0.10),
+    0 0 20px rgba($color-cyan, 0.55);
+}
+
+.qm-page-hero--labs .qm-orbit__ring--3 {
+  border-color: rgba($color-accent, 0.18);
+}
+
+.qm-page-hero--labs .qm-orbit__ring--3::before {
+  background: $color-accent;
+  box-shadow:
+    0 0 0 5px rgba($color-accent, 0.10),
+    0 0 18px rgba($color-accent, 0.45);
+}
+
+.qm-page-hero--labs .qm-orbit__core {
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.10) 42%),
+    linear-gradient(145deg, $color-labs, $color-labs-dark 55%, $color-accent);
+  box-shadow:
+    0 30px 70px -20px rgba($color-labs, 0.60),
+    inset 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.qm-page-hero--labs .qm-orbit__satellite::before {
+  background: $color-labs;
+  box-shadow: 0 0 0 3px rgba($color-labs, 0.10);
+}
+
 .qm-page-hero--sdk {
   --qm-hero-accent: #{$color-sdk};
   --qm-hero-accent-soft: #{$color-sdk-soft};

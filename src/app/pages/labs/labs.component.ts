@@ -5,6 +5,7 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
 import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
@@ -25,97 +26,40 @@ interface ExploreArea { name: string; tag: string; }
 
 @Component({
     selector: 'app-labs',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmRevealDirective, SafeHtmlPipe],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmPageHeroComponent, QmRevealDirective, SafeHtmlPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- ══════════ HERO ══════════ -->
-    <section class="labs-hero">
-      <qm-container>
-        <div class="labs-hero__grid">
-          <div class="labs-hero__inner">
-            <div class="labs-hero__badges">
-              <qm-badge variant="experimental">Experimental</qm-badge>
-              <qm-badge variant="concept">Exploration</qm-badge>
-            </div>
-            <h1 class="labs-hero__title">QuantsMind Labs</h1>
-            <p class="labs-hero__tagline">Exploring ideas before they become technologies.</p>
-            <p class="labs-hero__lead">
-              QuantsMind Labs is the exploration space for experiments, prototypes,
-              technical investigations and emerging ideas across the QuantsMind
-              technology ecosystem. Labs explores new ideas, prototypes technologies
-              and validates technical directions before they are committed to a product
-              or commercial offering.
-            </p>
-            <div class="labs-hero__cta">
-              <qm-button variant="primary" size="lg" [routerLinkValue]="'/technology'" [ariaLabel]="'Explore the QuantsMind technology ecosystem'">
-                Explore the Ecosystem →
-              </qm-button>
-              <qm-button variant="outline" size="lg" [routerLinkValue]="'/contact'" [ariaLabel]="'Get in touch with QuantsMind'">
-                Get in Touch
-              </qm-button>
-            </div>
-            <ul class="labs-hero__meta" aria-label="What you will find in Labs">
-              <li class="labs-chip">Experiments</li>
-              <li class="labs-chip">Prototypes</li>
-              <li class="labs-chip">Technical investigations</li>
-              <li class="labs-chip">Future directions</li>
-            </ul>
-          </div>
-
-          <!-- Decorative: abstract research-network visual, same family as Home -->
-          <div class="labs-hero__visual" aria-hidden="true" qmReveal [qmRevealDelay]="160">
-            <svg class="qm-visual" viewBox="0 0 460 460" role="presentation" focusable="false">
-              <!-- Colours are set via style="" because var() does not resolve
-                   inside SVG presentation attributes. -->
-              <defs>
-                <radialGradient id="qmLabsGlow" cx="50%" cy="50%" r="52%">
-                  <stop offset="0%" stop-opacity="0.8" style="stop-color: var(--color-labs-glow)"/>
-                  <stop offset="100%" stop-opacity="0" style="stop-color: var(--color-labs-glow)"/>
-                </radialGradient>
-              </defs>
-
-              <circle cx="230" cy="230" r="190" fill="url(#qmLabsGlow)"/>
-
-              <g class="qm-visual__drift" fill="none" stroke-width="1" stroke-opacity="0.6"
-                 style="stroke: var(--color-labs-bright)">
-                <circle cx="230" cy="230" r="176"/>
-                <circle cx="230" cy="230" r="124" stroke-opacity="0.4"/>
-              </g>
-
-              <g fill="none" stroke-width="1.25" stroke-opacity="0.75"
-                 style="stroke: var(--color-labs-soft)">
-                <path d="M230 92 L344 158 L368 286 L252 356 L128 300 L108 168 Z"/>
-                <path d="M230 92 L252 356"/>
-                <path d="M128 300 L344 158"/>
-                <path d="M108 168 L368 286"/>
-              </g>
-
-              <g fill="none" stroke-width="1" stroke-opacity="0.7" stroke-dasharray="3 5"
-                 style="stroke: var(--color-labs-muted)">
-                <path d="M344 158 L252 356"/>
-                <path d="M368 286 L128 300"/>
-              </g>
-
-              <circle class="qm-visual__pulse" cx="230" cy="230" r="46"
-                      fill="none" stroke-width="1.5" stroke-opacity="0.5"
-                      style="stroke: var(--color-labs)"/>
-              <circle cx="230" cy="230" r="11" fill-opacity="0.9"
-                      style="fill: var(--color-labs)"/>
-              <circle cx="230" cy="230" r="4.5" style="fill: var(--color-surface)"/>
-
-              <g stroke-width="1.5" style="fill: var(--color-surface); stroke: var(--color-labs)">
-                <circle cx="230" cy="92" r="5.5"/>
-                <circle cx="344" cy="158" r="5.5"/>
-                <circle cx="368" cy="286" r="5.5"/>
-                <circle cx="252" cy="356" r="5.5"/>
-                <circle cx="128" cy="300" r="5.5"/>
-                <circle cx="108" cy="168" r="5.5"/>
-              </g>
-            </svg>
-          </div>
-        </div>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="LABS"
+      title="QuantsMind Labs"
+      tone="labs"
+      [artLabels]="['Vsector', 'OSINT', 'Fake News AI', 'Prototypes']">
+      <div heroBadge class="labs-hero__badges">
+        <qm-badge variant="experimental">Experimental</qm-badge>
+        <qm-badge variant="concept">Exploration</qm-badge>
+      </div>
+      <p heroLead class="labs-hero__tagline">Exploring ideas before they become technologies.</p>
+      <p heroLead class="qm-page-hero__lead">
+        QuantsMind Labs is the exploration space for experiments, prototypes,
+        technical investigations and emerging ideas across the QuantsMind
+        technology ecosystem. Labs explores new ideas, prototypes technologies
+        and validates technical directions before they are committed to a product
+        or commercial offering.
+      </p>
+      <qm-button heroActions variant="primary" size="lg" [routerLinkValue]="'/technology'" [ariaLabel]="'Explore the QuantsMind technology ecosystem'">
+        Explore the Ecosystem →
+      </qm-button>
+      <qm-button heroActions variant="outline" size="lg" [routerLinkValue]="'/contact'" [ariaLabel]="'Get in touch with QuantsMind'">
+        Get in Touch
+      </qm-button>
+      <ul heroMeta class="qm-page-hero__meta labs-hero__meta" aria-label="What you will find in Labs">
+        <li>Experiments</li>
+        <li>Prototypes</li>
+        <li>Technical investigations</li>
+        <li>Future directions</li>
+      </ul>
+    </qm-page-hero>
 
     <!-- ══════════ PHILOSOPHY ══════════ -->
     <qm-section surface="white" ariaLabel="QuantsMind Labs philosophy">
@@ -426,65 +370,23 @@ interface ExploreArea { name: string; tag: string; }
     }
 
     /* ══════════ HERO ══════════ */
-    .labs-hero {
-      position: relative;
-      isolation: isolate;
-      overflow: hidden;
-      background:
-        radial-gradient(900px 460px at 88% -20%, rgba(13, 148, 136, 0.18) 0%, rgba(13, 148, 136, 0) 60%),
-        radial-gradient(640px 420px at 2% 118%, rgba(6, 182, 212, 0.10) 0%, rgba(6, 182, 212, 0) 62%),
-        linear-gradient(180deg, #FBFFFE 0%, #F4FBFA 100%);
-      padding: 64px 0 48px; border-bottom: 1px solid var(--color-border);
-    }
-    @media (min-width: 768px) { .labs-hero { padding: 88px 0 72px; } }
-    .labs-hero::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: -1;
-      background-image:
-        linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
-      background-size: 56px 56px;
-      mask-image: radial-gradient(ellipse 72% 90% at 80% 20%, #000 10%, transparent 72%);
-      -webkit-mask-image: radial-gradient(ellipse 72% 90% at 80% 20%, #000 10%, transparent 72%);
-    }
-    .labs-hero::after {
-      content: ''; position: absolute; right: -150px; top: -220px; z-index: -1;
-      width: 520px; height: 520px; border-radius: 50%;
-      border: 1px solid rgba(13, 148, 136, 0.14);
-      box-shadow:
-        0 0 0 44px rgba(13, 148, 136, 0.035),
-        0 0 0 96px rgba(6, 182, 212, 0.025);
-      pointer-events: none;
-    }
-    .labs-hero qm-container { position: relative; z-index: 1; }
-
-    .labs-hero__grid {
-      display: grid; grid-template-columns: 1fr; gap: 44px; align-items: center;
-    }
-    @media (min-width: 1024px) {
-      .labs-hero__grid {
-        grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-        gap: 56px;
-      }
-    }
-    .labs-hero__inner { min-width: 0; }
     .labs-hero__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-    .labs-hero__title { margin: 0 0 12px; font-size: clamp(42px, 5.2vw, 66px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 700; }
-    .labs-hero__tagline { margin: 0 0 20px; font-size: clamp(18px, 2vw, 23px); font-weight: 600; color: var(--color-labs-dark); letter-spacing: -0.02em; }
-    .labs-hero__lead { max-width: 680px; margin: 0 0 0; font-size: 17px; line-height: 1.8; color: var(--color-text-secondary); text-wrap: pretty; }
-    .labs-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
-    .labs-hero__meta { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 24px 0 0; margin: 32px 0 0; border-top: 1px solid var(--color-border); }
-    .labs-hero__meta li { margin: 0; }
-    .labs-chip { display: inline-flex; align-items: center; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(13, 148, 136, 0.18); border-radius: 9999px; padding: 7px 14px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-
-    /* Labs hero visual — decorative, stacked then side-by-side */
-    .labs-hero__visual { display: none; }
-    @media (min-width: 768px) {
-      .labs-hero__visual { display: block; max-width: 400px; margin: 0 auto; }
+    .labs-hero__tagline {
+      margin: 0 0 18px;
+      font-size: clamp(18px, 2vw, 23px);
+      font-weight: 600;
+      color: var(--color-labs-dark);
+      letter-spacing: -0.02em;
     }
-    @media (min-width: 1024px) {
-      .labs-hero__visual { max-width: none; margin: 0; }
+    .qm-page-hero__meta.labs-hero__meta {
+      margin-top: 32px;
+      padding-top: 24px;
+      border-top: 1px solid var(--color-border);
     }
-    .labs-hero__visual .qm-visual { max-width: 460px; margin: 0 auto; }
+    .qm-page-hero__meta.labs-hero__meta li {
+      border-color: rgba(13, 148, 136, 0.18);
+      background: rgba(255, 255, 255, 0.7);
+    }
 
     /* ══════════ PHILOSOPHY ══════════ */
     .labs-grid--philosophy { grid-template-columns: 1fr; }

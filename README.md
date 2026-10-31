@@ -204,10 +204,19 @@ A rollback normally completes in a few minutes. After rolling back, verify `/`,
 
 ## Design system
 
+The site uses the **Precision Systems** visual language: a light editorial canvas, deep navy
+feature bands, blue/cyan signal accents, bespoke SVG artwork and restrained motion. Motion is
+always optional — every animation is disabled under `prefers-reduced-motion: reduce`.
+
 Global styles and design tokens live in `src/styles` (`_tokens.scss`, `_typography.scss`,
-`_layout.scss`, `_surface.scss`, `_utilities.scss`). Shared building blocks are in
-`src/app/shared/components` (`qm-container`, `qm-section`, `qm-button`, `qm-badge`) and
-`src/app/shared/pipes` (`qmSafeHtml`, `hrefParts`).
+`_layout.scss`, `_surface.scss`, `_utilities.scss`, `_visuals.scss`). Shared building blocks
+are in `src/app/shared/components`:
+
+- `qm-container`, `qm-section`, `qm-button`, `qm-badge` — layout and controls
+- `qm-page-hero` — shared interior-page hero with projected actions and artwork
+- `qm-count-up`, `qm-marquee` — restrained stat and ticker primitives
+- `qm-reveal` (in `src/app/shared/directives`) — IntersectionObserver enter animation that
+  leaves content visible when JavaScript or the API is unavailable
 
 Pages are standalone components with inline templates and inline styles — a new page only
 needs a route in `src/app/app.routes.ts` (which also carries per-route SEO metadata consumed

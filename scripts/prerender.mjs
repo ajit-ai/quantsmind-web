@@ -33,7 +33,7 @@
  */
 
 import { createServer } from 'node:http';
-import { readFile, writeFile, mkdir, readdir, stat, copyFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, readdir, stat } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { spawn } from 'node:child_process';
 import { extname, join, resolve, dirname, posix } from 'node:path';
@@ -257,14 +257,14 @@ async function waitForRender(session, expectedCanonical) {
   throw new Error(`Timed out waiting for ${expectedCanonical}`);
 }
 
-async function captureRoute(session, baseUrl, route) {
+async function captureRoute(session, baseUrl, route, options = {}) {
   const expectedCanonical = `https://www.quantsmind.com${route}`;
   const url = `${baseUrl}${route}`;
   console.log(`[prerender]   navigating ${url}`);
   await session.send('Page.navigate', { url });
   await waitForRender(session, expectedCanonical);
 
-  const html = await evaluate(session, 'document.documentElement.outerHTML');
+  let html = await evaluate(session, 'document.documentElement.outerHTML');
 
   // Guard the capture itself: never write a page that has correct metadata but
   // no rendered content, because that is a silent, hard-to-spot regression.
@@ -286,10 +286,38 @@ async function captureRoute(session, baseUrl, route) {
     };
   })()`);
 
-  const target = join(OUT_DIR, route === '/' ? 'index.html' : `${route}index.html`);
+  if (options.noindex) html = addNoindex(html);
+
+  const target = options.outputFile
+    ?? join(OUT_DIR, route === '/' ? 'index.html' : `${route}index.html`);
   await mkdir(dirname(target), { recursive: true });
   await writeFile(target, `<!DOCTYPE html>\n${html}`, 'utf8');
   return { route, file: target.replace(OUT_DIR, '').replace(/\\/g, '/'), ...facts };
+}
+
+/** A 404 document must never be indexed, whatever path served it. */
+function addNoindex(html) {
+  const tag = '<meta name="robots" content="noindex">';
+  if (/<meta[^>]+name=["']robots["'][^>]*>/i.test(html)) {
+    return html.replace(/<meta[^>]+name=["']robots["'][^>]*>/i, tag);
+  }
+  return html.replace(/<\/head>/i, `  ${tag}\n</head>`);
+}
+
+/**
+ * GitHub Pages serves `404.html` for any path that has no matching file.
+ * Capture the wildcard route so that document carries the not-found page's
+ * metadata and rendered content instead of the home page shell.
+ */
+async function captureNotFound(session, baseUrl) {
+  const facts = await captureRoute(session, baseUrl, '/404/', {
+    outputFile: join(OUT_DIR, '404.html'),
+    noindex: true
+  });
+  if (!facts.title.includes('Page Not Found')) {
+    throw new Error(`404 document has unexpected title "${facts.title}"`);
+  }
+  return { ...facts, isNotFound: true };
 }
 
 
@@ -367,14 +395,17 @@ async function main() {
     const manifest = [];
 
     for (const route of routes) {
-      const facts = await captureRoute(session, baseUrl, route, port);
+      const facts = await captureRoute(session, baseUrl, route);
       manifest.push(facts);
       console.log(`[prerender] ${route.padEnd(42)} -> ${facts.title.slice(0, 56)}`);
     }
 
-    // GitHub Pages still needs a 404 document for URLs that were never
-    // prerendered. Copying the shell keeps client-side routing working there.
-    await copyFile(join(OUT_DIR, 'index.html'), join(OUT_DIR, '404.html'));
+    // GitHub Pages answers unknown paths with this document and an HTTP 404.
+    // It is captured from the real wildcard route so the initial HTML carries
+    // the not-found page's title and content, not the home page's.
+    const notFound = await captureNotFound(session, baseUrl);
+    manifest.push(notFound);
+    console.log(`[prerender] ${'/404/'.padEnd(42)} -> ${notFound.title.slice(0, 56)}`);
 
     const declared = await verifySitemap(routes);
     await mkdir(join(ROOT, 'dist/quantsmind-web'), { recursive: true });
@@ -384,7 +415,7 @@ async function main() {
       'utf8'
     );
 
-    console.log(`[prerender] wrote ${manifest.length} route files + 404.html`);
+    console.log(`[prerender] wrote ${routes.length} route files + 404.html`);
     console.log(`[prerender] sitemap.xml declares ${declared} URLs — consistent`);
   } finally {
     // Cleanup runs on every path — success, render failure, or navigation

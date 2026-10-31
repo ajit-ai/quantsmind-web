@@ -18,6 +18,7 @@ jobs:
   test:
     name: Unit Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 20
 
     steps:
       - name: Checkout repository
@@ -34,3 +35,40 @@ jobs:
 
       - name: Run unit tests
         run: npm test -- --watch=false
+
+  build:
+    name: Build, Prerender & Smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '^22.22.3'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Set up Chrome
+        id: setup-chrome
+        uses: browser-actions/setup-chrome@v2.2.0
+        with:
+          chrome-version: stable
+
+      - name: Build production bundle and prerender every route
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run build:static
+
+      - name: Verify prerendered HTML, metadata and 404 document
+        run: npm run test:prerender
+
+      - name: Responsive smoke test (all routes × six widths)
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run smoke

@@ -115,6 +115,17 @@ describeArtifacts('prerendered article HTML', () => {
     expect(attribute(html, /<link rel="canonical" href="([^"]*)"/)).toBe(`${SITE_URL}/`);
   });
 
+  it('gives Labs the shared animated hero artwork', () => {
+    const html = read('labs/index.html');
+    const app = html.match(/<app-root[\s\S]*?<\/app-root>/)?.[0] ?? '';
+
+    expect(html).toContain('qm-page-hero--labs');
+    expect(html).toContain('qm-orbit');
+    expect(html).toMatch(/qm-orbit__satellite[^>]*>Vsector</);
+    expect(html).toMatch(/qm-orbit__satellite[^>]*>Fake News AI</);
+    expect(app).not.toContain('labs-hero__visual');
+  });
+
   it('emits a 404 document with the not-found page, not the home page', () => {
     const html = read('404.html');
 

@@ -19,6 +19,7 @@ jobs:
   build:
     name: Build Angular Application
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
       - name: Checkout repository
@@ -36,26 +37,31 @@ jobs:
       - name: Run unit tests
         run: npm test -- --watch=false
 
-      - name: Build production bundle
-        run: npm run build -- --configuration=production --base-href=/
-
       - name: Set up Chrome for prerendering
         id: setup-chrome
         uses: browser-actions/setup-chrome@v2.2.0
         with:
           chrome-version: stable
 
+      - name: Build production bundle
+        run: npm run build -- --configuration=production --base-href=/
+
       - name: Prerender static HTML for every public route
         # Serves the built app in headless Chrome and writes real HTML to
         # <route>/index.html, so crawlers and link unfurlers receive
         # route-specific metadata and GitHub Pages answers deep links with
-        # HTTP 200 instead of relying on the 404 document.
+        # HTTP 200. The same pass writes 404.html from the wildcard route.
         env:
           CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
         run: npm run prerender
 
-      - name: Copy index.html to 404.html (SPA fallback for unprerendered URLs)
-        run: cp dist/quantsmind-web/browser/index.html dist/quantsmind-web/browser/404.html
+      - name: Verify prerendered HTML, metadata and 404 document
+        run: npm run test:prerender
+
+      - name: Responsive smoke test (all routes × six widths)
+        env:
+          CHROME_PATH: ${{ steps.setup-chrome.outputs.chrome-path }}
+        run: npm run smoke
 
       - name: Create CNAME file for custom domain
         run: echo "www.quantsmind.com" > dist/quantsmind-web/browser/CNAME

@@ -378,7 +378,7 @@ interface ExploreArea { name: string; tag: string; }
     .labs-index { font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, Consolas, monospace; font-size: 13px; color: var(--color-labs); margin-bottom: 12px; }
 
     .labs-grid { display: grid; gap: 24px; grid-template-columns: 1fr; margin-bottom: 24px; }
-    @media (min-width: 640px) { .labs-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (min-width: 640px) { .labs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
     .labs-card {
       position: relative;
@@ -388,7 +388,8 @@ interface ExploreArea { name: string; tag: string; }
         var(--color-surface);
       border: 1px solid var(--card-border); border-radius: var(--radius-xl);
       box-shadow: var(--shadow-xs);
-      padding: 28px; transition: box-shadow 280ms var(--qm-ease-out), transform 280ms var(--qm-ease-out), border-color 280ms ease;
+      padding: 28px; min-width: 0; overflow-wrap: anywhere;
+      transition: box-shadow 280ms var(--qm-ease-out), transform 280ms var(--qm-ease-out), border-color 280ms ease;
     }
     .labs-card::before {
       content: '';
@@ -487,8 +488,8 @@ interface ExploreArea { name: string; tag: string; }
 
     /* ══════════ PHILOSOPHY ══════════ */
     .labs-grid--philosophy { grid-template-columns: 1fr; }
-    @media (min-width: 640px) { .labs-grid--philosophy { grid-template-columns: repeat(3, 1fr); } }
-    @media (min-width: 1024px) { .labs-grid--philosophy { grid-template-columns: repeat(5, 1fr); } }
+    @media (min-width: 640px) { .labs-grid--philosophy { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .labs-grid--philosophy { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 
     .labs-ph-flow { display: grid; gap: 12px; grid-template-columns: 1fr; align-items: center; justify-items: center; margin: 40px 0 16px; }
     .labs-ph-stage {
@@ -518,8 +519,8 @@ interface ExploreArea { name: string; tag: string; }
     .labs-legend { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 32px; align-items: center; }
     .labs-legend-item { display: inline-flex; align-items: center; }
     .labs-grid--directions { grid-template-columns: 1fr; }
-    @media (min-width: 640px) { .labs-grid--directions { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 1024px) { .labs-grid--directions { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 640px) { .labs-grid--directions { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1024px) { .labs-grid--directions { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
     /* ══════════ DARK / PIPELINE ══════════ */
     .labs-dark-band {
@@ -565,7 +566,7 @@ interface ExploreArea { name: string; tag: string; }
 
     /* ══════════ CONNECTIONS ══════════ */
     .labs-grid--connections { grid-template-columns: 1fr; }
-    @media (min-width: 768px) { .labs-grid--connections { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 768px) { .labs-grid--connections { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
     .labs-card--connection { display: flex; flex-direction: column; }
     .labs-card__cta { margin-top: auto; padding-top: 20px; }
 

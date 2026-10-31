@@ -122,13 +122,13 @@ describe('product registry', () => {
     }
   });
 
-  it('classifies proposed quantum initiatives as proposed', () => {
+  it('classifies Quantum Mission applications as released', () => {
     const quantumIds = getProductsByPortfolio('quantum')
       .filter(product => product.id !== 'microquantum')
       .map(product => product.id);
     expect(quantumIds).toHaveLength(10);
     for (const id of quantumIds) {
-      expect(getProductById(id)?.maturity).toBe('proposed');
+      expect(getProductById(id)?.maturity).toBe('released');
     }
   });
 

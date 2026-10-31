@@ -11,11 +11,35 @@ import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directiv
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 import { HrefPartsPipe }        from '../../shared/pipes/href-parts.pipe';
 
+import { BLOG_ARTICLES } from '../blog/articles';
+import { BlogArticle } from '../blog/blog-article.model';
+import { getProductById, getProductsByPortfolio } from '../../content/products/product.registry';
+import {
+  Product,
+  maturityLabel,
+  availabilityLabel,
+  maturityBadgeVariant
+} from '../../content/products/product.model';
+
 interface Capability {
   icon: string;
   title: string;
   description: string;
   href: string;
+}
+
+interface TrustMetric {
+  value: number;
+  label: string;
+}
+
+interface FeaturedProduct {
+  product: Product;
+  href: string;
+  maturity: string;
+  availability: string;
+  maturityVariant: BadgeVariant;
+  portfolio: string;
 }
 
 interface EcosystemTech {
@@ -25,21 +49,44 @@ interface EcosystemTech {
   status: string;
   version: string;
   badge: BadgeVariant;
+  accent: 'blue' | 'violet' | 'teal';
+  mark: string;
   cta: string;
   href: string;
 }
 
-interface EcosystemLink {
-  name: string;
-  label: string;
-  description: string;
-  href: string;
-}
-
-interface DeliveryItem {
+interface WhyCard {
+  icon: string;
   title: string;
   description: string;
 }
+
+interface FeaturedSelection {
+  id: string;
+  href: string;
+}
+
+const FEATURED_SELECTION: readonly FeaturedSelection[] = [
+  { id: 'quantsmind-document-intelligence-mini', href: '/products' },
+  { id: 'microquantum', href: '/microquantum' },
+  { id: 'quantum-studio', href: '/quantum-mission' },
+  { id: 'ground-link', href: '/products#space-software' },
+  { id: 'threat-intel', href: '/products#cybersecurity-software' },
+  { id: 'ai-guard', href: '/products#cybersecurity-software' }
+];
+
+const INSIGHT_SLUGS: readonly string[] = [
+  'quantsmind-document-intelligence-mini',
+  'karkain',
+  'vsector'
+];
+
+const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
+  standalone: 'Product',
+  quantum: 'Quantum',
+  space: 'Space Systems',
+  cybersecurity: 'Cybersecurity'
+};
 
 @Component({
     selector: 'app-home',
@@ -58,7 +105,7 @@ interface DeliveryItem {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- HERO                                                     -->
+    <!-- 01 · HERO                                                -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <section class="home-hero qm-aurora qm-precision-grid" aria-label="QuantsMind overview">
       <qm-container>
@@ -66,30 +113,29 @@ interface DeliveryItem {
           <div class="home-hero__copy">
             <span class="eyebrow">QUANTSMIND · TECHNOLOGY ENGINEERING</span>
             <h1>
-              Software engineering, AI and data solutions for
-              <span class="qm-gradient-text">modern businesses.</span>
+              Engineering Intelligent Software for a
+              <span class="qm-gradient-text">Changing World.</span>
             </h1>
             <p class="home-hero__lead">
-              QuantsMind helps organisations design, build, modernise and integrate
-              software systems through architecture consulting, AI engineering, data
-              platforms, cloud technologies and specialised technical development.
+              We build software products, intelligent systems and advanced engineering
+              solutions for businesses and emerging technology domains.
             </p>
             <div class="home-hero__actions">
-              <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-                Discuss Your Requirement
+              <qm-button variant="primary" size="lg" [routerLinkValue]="'/products'">
+                Explore Our Products
                 <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </qm-button>
-              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/services'">
-                Explore Services
+              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/contact'">
+                Discuss Your Project
               </qm-button>
             </div>
             <div class="home-hero__values">
-              <span>Architecture-led</span>
-              <span>Simulation-first</span>
-              <span>Production-minded</span>
+              <span>Products</span>
+              <span>Intelligent systems</span>
+              <span>Advanced engineering</span>
             </div>
           </div>
 
@@ -97,7 +143,7 @@ interface DeliveryItem {
           <div class="home-hero__visual" aria-hidden="true">
             <div class="home-hero__panel qm-glass-panel">
               <div class="home-hero__panel-head">
-                <span class="home-hero__signal"><i></i> System map</span>
+                <span class="home-hero__signal"><i></i> Engineering system map</span>
                 <span class="home-hero__live">Live</span>
               </div>
 
@@ -108,9 +154,9 @@ interface DeliveryItem {
 
                 <span class="home-hero__node home-hero__node--1"><i></i>Quantum</span>
                 <span class="home-hero__node home-hero__node--2"><i></i>AI systems</span>
-                <span class="home-hero__node home-hero__node--3"><i></i>Cloud</span>
+                <span class="home-hero__node home-hero__node--3"><i></i>Space</span>
                 <span class="home-hero__node home-hero__node--4"><i></i>Security</span>
-                <span class="home-hero__node home-hero__node--5"><i></i>Data</span>
+                <span class="home-hero__node home-hero__node--5"><i></i>Digital twins</span>
 
                 <div class="home-hero__core">
                   <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
@@ -131,8 +177,8 @@ interface DeliveryItem {
 
               <div class="home-hero__panel-foot">
                 <div><strong>06</strong><span>engineering domains</span></div>
+                <div><strong>40</strong><span>portfolio products</span></div>
                 <div><strong>03</strong><span>published technologies</span></div>
-                <div><strong>01</strong><span>released product</span></div>
               </div>
             </div>
 
@@ -146,43 +192,54 @@ interface DeliveryItem {
     <qm-marquee [items]="focusAreas" label="Areas of engineering focus"></qm-marquee>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- PROOF / STATS                                            -->
+    <!-- 02 · TRUST AND CAPABILITIES                              -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="sm">
+    <qm-section surface="white" size="sm" ariaLabel="Trust and capabilities">
       <qm-container>
-        <div class="qm-stat-strip" qmReveal>
-          <div class="qm-stat">
-            <span class="qm-stat__value"><qm-count-up [end]="6"></qm-count-up></span>
-            <span class="qm-stat__label">engineering domains</span>
+        <div class="trust-panel">
+          <div class="trust-head" qmReveal>
+            <div>
+              <span class="eyebrow">TRUST &amp; CAPABILITIES</span>
+              <h2>Engineering depth, across connected domains.</h2>
+            </div>
+            <p>
+              QuantsMind combines product engineering with advanced technology
+              development. Our portfolio spans software applications, quantum
+              software, space systems, AI, scientific computing and cybersecurity.
+            </p>
           </div>
-          <div class="qm-stat">
-            <span class="qm-stat__value"><qm-count-up [end]="40"></qm-count-up></span>
-            <span class="qm-stat__label">portfolio products</span>
+
+          <div class="qm-stat-strip" qmReveal>
+            @for (metric of trustMetrics; track metric.label) {
+              <div class="qm-stat">
+                <span class="qm-stat__value"><qm-count-up [end]="metric.value"></qm-count-up></span>
+                <span class="qm-stat__label">{{ metric.label }}</span>
+              </div>
+            }
           </div>
-          <div class="qm-stat">
-            <span class="qm-stat__value"><qm-count-up [end]="3"></qm-count-up></span>
-            <span class="qm-stat__label">published technologies</span>
-          </div>
-          <div class="qm-stat">
-            <span class="qm-stat__value"><qm-count-up [end]="1"></qm-count-up></span>
-            <span class="qm-stat__label">released product</span>
+
+          <div class="trust-values" qmReveal>
+            <span class="trust-value">Architecture-led</span>
+            <span class="trust-value">Simulation-first</span>
+            <span class="trust-value">Production-minded</span>
+            <span class="trust-value">Open technology where appropriate</span>
           </div>
         </div>
       </qm-container>
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- WHAT WE DO                                              -->
+    <!-- 03 · ENGINEERING SERVICES                                -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas" size="lg">
+    <qm-section surface="canvas" size="md" ariaLabel="Engineering services">
       <qm-container>
         <div class="qm-section-head">
           <div class="qm-section-head__copy">
-            <span class="eyebrow">WHAT WE DO</span>
-            <h2>Engineering capabilities, connected.</h2>
+            <span class="eyebrow">ENGINEERING SERVICES</span>
+            <h2>Six domains. One engineering discipline.</h2>
             <p>
-              Clear, practical engineering across the core disciplines that building
-              software depends on.
+              Focused capabilities for organisations building software in demanding
+              or emerging technology domains.
             </p>
           </div>
           <div class="qm-section-head__aside">
@@ -196,24 +253,21 @@ interface DeliveryItem {
           </div>
         </div>
 
-        <div class="cap-bento">
-          @for (cap of capabilities; track cap; let i = $index) {
+        <div class="service-grid">
+          @for (cap of capabilities; track cap.title; let i = $index) {
             @let capLink = cap.href | hrefParts;
             <a [routerLink]="capLink.path" [fragment]="capLink.fragment"
-              class="qm-bento-card cap-card"
-              [class.qm-bento-card--dark]="i === 0"
-              [class.qm-bento-card--tint]="i === 1"
-              [class.cap-card--feature]="i < 2"
+              class="home-card service-card"
               [attr.aria-label]="cap.title"
               qmReveal
-              [qmRevealDelay]="i * 70">
-              <div class="cap-card__top">
-                <span class="qm-bento-card__index">0{{ i + 1 }}</span>
-                <span class="cap-card__icon" aria-hidden="true" [innerHTML]="cap.icon | qmSafeHtml"></span>
+              [qmRevealDelay]="i * 60">
+              <div class="service-card__top">
+                <span class="service-card__icon" aria-hidden="true" [innerHTML]="cap.icon | qmSafeHtml"></span>
+                <span class="service-card__index">0{{ i + 1 }}</span>
               </div>
               <h3>{{ cap.title }}</h3>
               <p>{{ cap.description }}</p>
-              <span class="qm-bento-card__link">Explore service →</span>
+              <span class="service-card__link">Explore service <span aria-hidden="true">→</span></span>
             </a>
           }
         </div>
@@ -221,191 +275,90 @@ interface DeliveryItem {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- WHAT WE DELIVER                                          -->
+    <!-- 04 · FEATURED PRODUCTS                                   -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="subtle" size="lg">
-      <qm-container>
-        <div class="delivery-layout">
-          <div class="delivery-intro" qmReveal>
-            <span class="eyebrow">WHAT WE DELIVER</span>
-            <h2>Capabilities you can engage.</h2>
-            <p>
-              Practical outcomes QuantsMind can design, build and deliver with you.
-            </p>
-            <div class="delivery-intro__note">
-              <span class="delivery-intro__count">06</span>
-              <span>delivery tracks, selected to fit the requirement</span>
-            </div>
-          </div>
-
-          <div class="delivery-list">
-            @for (item of deliveryItems; track item.title; let i = $index) {
-              <article class="delivery-item" qmReveal [qmRevealDelay]="i * 55">
-                <span class="delivery-item__index">0{{ i + 1 }}</span>
-                <div class="delivery-item__body">
-                  <h3>{{ item.title }}</h3>
-                  <p>{{ item.description }}</p>
-                </div>
-                <span class="delivery-item__arrow" aria-hidden="true">↗</span>
-              </article>
-            }
-          </div>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- TECHNOLOGY ECOSYSTEM                                     -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="lg">
+    <qm-section surface="subtle" size="md" ariaLabel="Featured products">
       <qm-container>
         <div class="qm-section-head">
           <div class="qm-section-head__copy">
-            <span class="eyebrow">TECHNOLOGY ECOSYSTEM</span>
-            <h2>Technologies we develop.</h2>
+            <span class="eyebrow">FEATURED PRODUCTS</span>
+            <h2>A balanced view of the product portfolio.</h2>
             <p>
-              Alongside engineering services, QuantsMind develops and maintains its own
-              software technologies. Each has a published, versioned release.
+              Selected applications and initiatives from the central QuantsMind
+              product registry, shown with their current maturity and availability.
             </p>
           </div>
           <div class="qm-section-head__aside">
-            <qm-button variant="outline" [routerLinkValue]="'/technology'">
-              View the Ecosystem
+            <qm-button variant="outline" [routerLinkValue]="'/products'">
+              Explore All Products
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
             </qm-button>
           </div>
         </div>
 
-        <div class="tech-showcase">
-          <div class="tech-map" aria-hidden="true" qmReveal>
-            <div class="tech-map__head">
-              <span class="home-hero__signal"><i></i> Ecosystem topology</span>
-              <span class="tech-map__version">v1.1.0</span>
-            </div>
-            <svg viewBox="0 0 460 330" role="presentation" focusable="false">
-              <defs>
-                <linearGradient id="qmTechLine" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0%" stop-color="#2563EB"/>
-                  <stop offset="55%" stop-color="#06B6D4"/>
-                  <stop offset="100%" stop-color="#5EEAD4"/>
-                </linearGradient>
-                <radialGradient id="qmTechCore" cx="35%" cy="30%" r="80%">
-                  <stop offset="0%" stop-color="#60A5FA"/>
-                  <stop offset="55%" stop-color="#2563EB"/>
-                  <stop offset="100%" stop-color="#4F46E5"/>
-                </radialGradient>
-                <filter id="qmTechGlow" x="-60%" y="-60%" width="220%" height="220%">
-                  <feGaussianBlur stdDeviation="7" result="blur"/>
-                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                </filter>
-              </defs>
-
-              <g fill="none" stroke="url(#qmTechLine)" stroke-width="1.3" opacity="0.72">
-                <path class="tech-map__path" d="M230 165 C 166 118, 128 98, 86 82"/>
-                <path class="tech-map__path" d="M230 165 C 302 116, 338 98, 382 82"/>
-                <path class="tech-map__path" d="M230 165 C 174 216, 130 242, 92 266"/>
-                <path class="tech-map__path" d="M230 165 C 292 216, 336 242, 374 266"/>
-              </g>
-
-              <circle cx="230" cy="165" r="52" fill="rgba(37,99,235,0.12)" filter="url(#qmTechGlow)"/>
-              <circle cx="230" cy="165" r="44" fill="url(#qmTechCore)" stroke="rgba(255,255,255,0.5)"/>
-              <text x="230" y="161" text-anchor="middle" font-size="13" font-weight="700" fill="#fff">QuantsMind</text>
-              <text x="230" y="177" text-anchor="middle" font-size="9" letter-spacing="1.2" fill="rgba(255,255,255,0.72)">ECOSYSTEM</text>
-
-              <g>
-                <circle cx="86" cy="82" r="26" fill="#EFF6FF" stroke="#BFDBFE"/>
-                <text x="86" y="86" text-anchor="middle" font-size="9" font-weight="700" fill="#1D4ED8">MQ</text>
-                <text x="86" y="124" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">MicroQuantum</text>
-              </g>
-              <g>
-                <circle cx="382" cy="82" r="26" fill="#F5F3FF" stroke="#C4B5FD"/>
-                <text x="382" y="86" text-anchor="middle" font-size="9" font-weight="700" fill="#5B21B6">K</text>
-                <text x="382" y="124" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">Karkain</text>
-              </g>
-              <g>
-                <circle cx="92" cy="266" r="26" fill="#F0FDFA" stroke="#99F6E4"/>
-                <text x="92" y="270" text-anchor="middle" font-size="9" font-weight="700" fill="#0F766E">SDK</text>
-                <text x="92" y="308" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">QuantsMind SDK</text>
-              </g>
-              <g>
-                <circle cx="374" cy="266" r="26" fill="#FFF7ED" stroke="#FED7AA"/>
-                <text x="374" y="270" text-anchor="middle" font-size="9" font-weight="700" fill="#C2410C">DB</text>
-                <text x="374" y="308" text-anchor="middle" font-size="10" font-weight="600" fill="#334155">Relational DB</text>
-              </g>
-            </svg>
-          </div>
-
-          <div class="tech-list">
-            @for (tech of ecosystem; track tech.name; let i = $index) {
-              <article class="tech-row" qmReveal [qmRevealDelay]="i * 80">
-                <div class="tech-row__head">
-                  <h3>{{ tech.name }}</h3>
-                  <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
+        <div class="featured-grid">
+          @for (item of featuredProducts; track item.product.id; let i = $index) {
+            @let productLink = item.href | hrefParts;
+            <article class="home-card featured-card" qmReveal [qmRevealDelay]="i * 55">
+              <div class="featured-card__top">
+                <span class="featured-card__portfolio">{{ item.portfolio }}</span>
+                <qm-badge [variant]="item.maturityVariant">{{ item.maturity }}</qm-badge>
+              </div>
+              <h3>{{ item.product.name }}</h3>
+              <p>{{ item.product.summary }}</p>
+              <dl class="featured-card__meta">
+                <div>
+                  <dt>Availability</dt>
+                  <dd>{{ item.availability }}</dd>
                 </div>
-                <div class="tech-row__meta">
-                  <span class="tech-row__tagline">{{ tech.tagline }}</span>
-                  <span class="tech-row__version">{{ tech.version }}</span>
-                </div>
-                <p>{{ tech.description }}</p>
-                <a [routerLink]="tech.href" class="tech-row__link">{{ tech.cta }} →</a>
-              </article>
-            }
-          </div>
-        </div>
-      </qm-container>
-    </qm-section>
-
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- PRODUCTS & DEVELOPER TOOLS                             -->
-    <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="subtle" size="lg">
-      <qm-container>
-        <div class="products-layout">
-          <div class="products-intro" qmReveal>
-            <span class="eyebrow">PRODUCTS &amp; DEVELOPER TOOLS</span>
-            <h2>Also available.</h2>
-            <p>
-              A released product, and the tooling we publish for the technologies above.
-            </p>
-            <qm-button variant="secondary" [routerLinkValue]="'/products'">
-              Explore Products
-            </qm-button>
-          </div>
-
-          <div class="products-cards">
-            @for (item of productsAndTools; track item.label; let i = $index) {
-              @let itemLink = item.href | hrefParts;
-              <a [routerLink]="itemLink.path" [fragment]="itemLink.fragment" class="product-link"
-                [attr.aria-label]="item.name + ': ' + item.label"
-                qmReveal
-                [qmRevealDelay]="i * 90">
-                <span class="product-link__kind">{{ item.name }}</span>
-                <h3>{{ item.label }}</h3>
-                <p>{{ item.description }}</p>
-                <span class="product-link__cta">Learn more <span aria-hidden="true">→</span></span>
-                <span class="product-link__mark" aria-hidden="true">0{{ i + 1 }}</span>
+                @if (item.product.version) {
+                  <div>
+                    <dt>Version</dt>
+                    <dd>{{ item.product.version }}</dd>
+                  </div>
+                }
+              </dl>
+              <a class="featured-card__link"
+                [routerLink]="productLink.path"
+                [fragment]="productLink.fragment"
+                [attr.aria-label]="'View ' + item.product.name">
+                View product <span aria-hidden="true">→</span>
               </a>
-            }
-          </div>
+            </article>
+          }
         </div>
+
+        <p class="featured-note" qmReveal>
+          Maturity and availability reflect the current product registry. Proposed and
+          in-development initiatives are not generally available.
+        </p>
       </qm-container>
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- QUANTSMIND LABS                                         -->
+    <!-- 05 · QUANTUM MISSION SPOTLIGHT                           -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <section class="labs-band" aria-labelledby="home-labs-title">
-      <div class="labs-band__glow" aria-hidden="true"></div>
+    <section class="mission-band" aria-labelledby="home-mission-title">
+      <div class="mission-band__glow" aria-hidden="true"></div>
       <qm-container>
-        <div class="labs-band__grid">
-          <div class="labs-band__copy" qmReveal>
-            <span class="eyebrow">QUANTSMIND LABS</span>
-            <h2 id="home-labs-title">Where we explore emerging technologies.</h2>
+        <div class="mission-band__grid">
+          <div class="mission-band__intro" qmReveal>
+            <span class="eyebrow">QUANTUM MISSION</span>
+            <h2 id="home-mission-title">Ten independent applications for quantum software engineering.</h2>
             <p>
-              QuantsMind Labs is where we explore emerging technologies, experimental
-              architectures and new computing approaches.
+              Quantum Mission brings together ten independent quantum software applications,
+              now available through their official QuantsMind GitHub v1.0.0 releases. Explore
+              the portfolio, release evidence and engineering context.
             </p>
-            <qm-button variant="secondary" size="md" [routerLinkValue]="'/labs'">
-              Explore Labs
+            <div class="mission-band__meta">
+              <qm-badge variant="product">10 applications · v1.0.0 GA</qm-badge>
+              <span>MicroQuantum is a separate published technology.</span>
+            </div>
+            <qm-button variant="secondary" size="md" [routerLinkValue]="'/quantum-mission'">
+              Explore Quantum Mission
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -413,41 +366,76 @@ interface DeliveryItem {
             </qm-button>
           </div>
 
-          <div class="labs-visual" aria-hidden="true">
-            <div class="labs-visual__ring labs-visual__ring--1"></div>
-            <div class="labs-visual__ring labs-visual__ring--2"></div>
-            <div class="labs-visual__ring labs-visual__ring--3"></div>
-            <div class="labs-visual__core">
-              <span>LABS</span>
-              <small>research</small>
-            </div>
-            <span class="labs-visual__node labs-visual__node--1">Quantum</span>
-            <span class="labs-visual__node labs-visual__node--2">Languages</span>
-            <span class="labs-visual__node labs-visual__node--3">AI / ML</span>
-            <span class="labs-visual__node labs-visual__node--4">Scientific</span>
+          <div class="mission-list" qmReveal>
+            @for (app of quantumMission; track app.id; let i = $index) {
+              <article class="mission-item">
+                <span class="mission-item__index">{{ formatCount(i + 1) }}</span>
+                <div>
+                  <h3>{{ app.name }}</h3>
+                  <p>{{ app.summary }}</p>
+                </div>
+              </article>
+            }
           </div>
-        </div>
-
-        <div class="labs-band__areas" qmReveal>
-          @for (area of labsAreas; track area; let i = $index) {
-            <span class="labs-area">
-              <span class="labs-area__index">0{{ i + 1 }}</span>
-              {{ area }}
-            </span>
-          }
         </div>
       </qm-container>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- WHY QUANTSMIND                                          -->
+    <!-- 06 · TECHNOLOGIES WE DEVELOP                             -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="white" size="lg">
+    <qm-section surface="white" size="md" ariaLabel="Technologies we develop">
+      <qm-container>
+        <div class="qm-section-head">
+          <div class="qm-section-head__copy">
+            <span class="eyebrow">TECHNOLOGIES WE DEVELOP</span>
+            <h2>Published technologies, built from first principles.</h2>
+            <p>
+              Alongside engineering services, QuantsMind develops and maintains its own
+              software technologies. Each has a published, versioned developer preview.
+            </p>
+          </div>
+          <div class="qm-section-head__aside">
+            <qm-button variant="outline" [routerLinkValue]="'/technology'">
+              View the Ecosystem
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </qm-button>
+          </div>
+        </div>
+
+        <div class="tech-grid">
+          @for (tech of ecosystem; track tech.name; let i = $index) {
+            <article [class]="'home-card tech-card tech-card--' + tech.accent"
+              qmReveal [qmRevealDelay]="i * 70">
+              <div class="tech-card__head">
+                <span class="tech-card__mark" aria-hidden="true">{{ tech.mark }}</span>
+                <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
+              </div>
+              <h3>{{ tech.name }}</h3>
+              <p class="tech-card__tagline">{{ tech.tagline }}</p>
+              <p>{{ tech.description }}</p>
+              <div class="tech-card__meta">
+                <span>{{ tech.version }}</span>
+                <a [routerLink]="tech.href" class="tech-card__link">{{ tech.cta }} <span aria-hidden="true">→</span></a>
+              </div>
+            </article>
+          }
+        </div>
+      </qm-container>
+    </qm-section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 07 · WHY QUANTSMIND                                      -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <qm-section surface="subtle" size="md" ariaLabel="Why QuantsMind">
       <qm-container>
         <div class="why-layout">
           <div class="why-intro" qmReveal>
             <span class="eyebrow">WHY QUANTSMIND</span>
-            <h2>How we work.</h2>
+            <h2>Built for difficult engineering.</h2>
             <p>
               A practical engineering posture: sound architecture, real software and
               careful exploration of what comes next.
@@ -455,8 +443,8 @@ interface DeliveryItem {
           </div>
           <div class="why-grid">
             @for (why of whyCards; track why.title; let i = $index) {
-              <article class="why-card" qmReveal [qmRevealDelay]="i * 70">
-                <span class="why-card__index">0{{ i + 1 }}</span>
+              <article class="why-card" qmReveal [qmRevealDelay]="i * 65">
+                <span class="why-card__icon" aria-hidden="true" [innerHTML]="why.icon | qmSafeHtml"></span>
                 <h3>{{ why.title }}</h3>
                 <p>{{ why.description }}</p>
               </article>
@@ -467,20 +455,111 @@ interface DeliveryItem {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- FINAL CTA                                               -->
+    <!-- 08 · LABS AND INNOVATION                                 -->
     <!-- ═══════════════════════════════════════════════════════ -->
-    <qm-section surface="canvas" size="lg">
+    <section class="labs-band" aria-labelledby="home-labs-title">
+      <div class="labs-band__glow" aria-hidden="true"></div>
+      <qm-container>
+        <div class="labs-band__grid">
+          <div class="labs-band__copy" qmReveal>
+            <span class="eyebrow">LABS &amp; INNOVATION</span>
+            <h2 id="home-labs-title">Where we explore emerging technologies.</h2>
+            <p>
+              QuantsMind Labs is where we explore emerging technologies, experimental
+              architectures and new computing approaches. Research projects are kept
+              distinct from commercial products.
+            </p>
+            <qm-button variant="secondary" size="md" [routerLinkValue]="'/labs'">
+              Explore Labs
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </qm-button>
+          </div>
+
+          <div class="qm-orbit labs-orbit" aria-hidden="true">
+            <span class="qm-orbit__ring"></span>
+            <span class="qm-orbit__ring qm-orbit__ring--2"></span>
+            <span class="qm-orbit__ring qm-orbit__ring--3"></span>
+            <span class="qm-orbit__core">
+              <span>LABS</span>
+              <small>research</small>
+            </span>
+            <span class="qm-orbit__satellite qm-orbit__satellite--a">Quantum</span>
+            <span class="qm-orbit__satellite qm-orbit__satellite--b">Languages</span>
+            <span class="qm-orbit__satellite qm-orbit__satellite--c">AI / ML</span>
+            <span class="qm-orbit__satellite qm-orbit__satellite--d">Scientific</span>
+          </div>
+        </div>
+
+        <div class="labs-band__areas" qmReveal>
+          @for (area of labsAreas; track area; let i = $index) {
+            <span class="labs-area">
+              <span class="labs-area__index">{{ formatCount(i + 1) }}</span>
+              {{ area }}
+            </span>
+          }
+        </div>
+      </qm-container>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 09 · INSIGHTS AND BLOG                                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <qm-section surface="white" size="md" ariaLabel="Insights and blog">
+      <qm-container>
+        <div class="qm-section-head">
+          <div class="qm-section-head__copy">
+            <span class="eyebrow">INSIGHTS &amp; BLOG</span>
+            <h2>Notes from the work.</h2>
+            <p>
+              Technical articles on the QuantsMind product and technology ecosystem,
+              written with their real scope, maturity and limitations.
+            </p>
+          </div>
+          <div class="qm-section-head__aside">
+            <qm-button variant="outline" [routerLinkValue]="'/blog'">
+              Read All Articles
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </qm-button>
+          </div>
+        </div>
+
+        <div class="insights-grid">
+          @for (article of insights; track article.slug; let i = $index) {
+            <a class="home-card insight-card" [routerLink]="['/blog', article.slug]"
+              qmReveal [qmRevealDelay]="i * 65">
+              <div class="insight-card__top">
+                <span class="insight-card__category">{{ article.category }}</span>
+                <span class="insight-card__maturity">{{ article.maturity }}</span>
+              </div>
+              <h3>{{ article.title }}</h3>
+              <p>{{ article.summary }}</p>
+              <span class="insight-card__link">Read article <span aria-hidden="true">→</span></span>
+            </a>
+          }
+        </div>
+      </qm-container>
+    </qm-section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 10 · BUSINESS CONTACT CTA                                -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <qm-section surface="canvas" size="md" ariaLabel="Business contact">
       <qm-container>
         <div class="qm-cta-band" qmReveal>
-          <span class="eyebrow">WORK WITH US</span>
-          <h2>Let's build something useful.</h2>
+          <span class="eyebrow">BUSINESS CONTACT</span>
+          <h2>Have an Engineering Challenge?</h2>
           <p>
-            Have an engineering requirement, technology challenge or collaboration
-            idea? Get in touch with QuantsMind.
+            Let's discuss your software, AI, data or advanced technology requirements.
           </p>
           <div class="qm-cta-band__actions">
             <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-              Discuss an Engineering Requirement
+              Discuss Your Project
               <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -494,27 +573,28 @@ interface DeliveryItem {
     styles: [`
     /* ── HERO ───────────────────────────────────────────── */
     .home-hero {
-      padding: 64px 0 56px;
+      padding: 56px 0 48px;
       border-bottom: 1px solid var(--color-border);
     }
     .home-hero__grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 48px;
+      gap: 40px;
       align-items: center;
     }
     .home-hero__copy { min-width: 0; max-width: 780px; }
     .home-hero h1 {
-      margin: 0 0 24px;
-      font-size: clamp(42px, 5.2vw, 68px);
-      line-height: 1.02;
+      margin: 0 0 22px;
+      font-size: clamp(40px, 5.1vw, 66px);
+      line-height: 1.03;
       letter-spacing: -0.045em;
       max-width: 820px;
+      text-wrap: balance;
     }
     .home-hero__lead {
-      margin: 0 0 32px;
+      margin: 0 0 28px;
       max-width: 640px;
-      font-size: clamp(17px, 1.35vw, 20px);
+      font-size: clamp(17px, 1.3vw, 19px);
       line-height: 1.7;
       color: var(--color-text-secondary);
       text-wrap: pretty;
@@ -528,7 +608,7 @@ interface DeliveryItem {
       display: flex;
       flex-wrap: wrap;
       gap: 8px 20px;
-      margin-top: 30px;
+      margin-top: 26px;
       color: var(--color-text-muted);
       font-size: 12px;
       font-weight: 500;
@@ -547,300 +627,466 @@ interface DeliveryItem {
       background: var(--gradient-signal);
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
     }
+    .home-hero__visual { display: none; position: relative; min-width: 0; }
 
-    .home-hero__visual { display: none; position: relative; }
-    /* ── CAPABILITY BENTO ───────────────────────────────── */
-    .cap-bento {
+    /* ── TRUST ──────────────────────────────────────────── */
+    .trust-panel { display: grid; gap: 26px; }
+    .trust-head {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+      align-items: end;
+    }
+    .trust-head h2 {
+      margin: 0;
+      font-size: clamp(28px, 3.2vw, 44px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+    .trust-head p {
+      margin: 0;
+      max-width: 620px;
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      line-height: 1.7;
+      text-wrap: pretty;
+    }
+    .trust-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .trust-value {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border: 1px solid var(--color-border);
+      border-radius: 999px;
+      background: var(--color-canvas);
+      color: var(--color-text-secondary);
+      font-size: 11.5px;
+      font-weight: 500;
+    }
+
+    /* ── SHARED CARD + GRID ─────────────────────────────── */
+    .home-card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-width: 0;
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      background: var(--card-bg);
+      box-shadow: var(--shadow-xs);
+      transition:
+        transform 260ms var(--qm-ease-out),
+        border-color 260ms var(--qm-ease-out),
+        box-shadow 260ms var(--qm-ease-out);
+    }
+    .home-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(37, 99, 235, 0.22);
+      box-shadow: var(--shadow-lg);
+    }
+    .home-card:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
+    }
+
+    /* ── SERVICES ───────────────────────────────────────── */
+    .service-grid,
+    .featured-grid,
+    .tech-grid,
+    .insights-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 16px;
     }
-    .cap-card { min-height: 232px; }
-    .cap-card__top {
+    .service-card {
+      position: relative;
+      min-height: 224px;
+      padding: 24px;
+      overflow: hidden;
+      text-decoration: none;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: var(--gradient-signal);
+      opacity: 0;
+      transition: opacity 220ms ease;
+    }
+    .service-card:hover::before { opacity: 1; }
+    .service-card__top {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 12px;
     }
-    .cap-card__icon {
+    .service-card__icon {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       width: 42px;
       height: 42px;
-      border-radius: 12px;
       border: 1px solid rgba(37, 99, 235, 0.16);
-      background: rgba(239, 246, 255, 0.9);
+      border-radius: 12px;
+      background: var(--color-accent-subtle);
       color: var(--color-accent);
     }
-    .cap-card.qm-bento-card--dark .cap-card__icon {
-      border-color: rgba(103, 232, 249, 0.22);
-      background: rgba(6, 182, 212, 0.10);
-      color: var(--color-cyan-soft);
-    }
-    .cap-card h3 { margin-top: 4px; }
-
-    /* ── DELIVERY ───────────────────────────────────────── */
-    .delivery-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 40px;
-    }
-    .delivery-intro h2 {
-      margin: 0 0 16px;
-      font-size: clamp(30px, 3.4vw, 48px);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-    }
-    .delivery-intro p {
-      margin: 0;
-      max-width: 420px;
-      font-size: 17px;
-      line-height: 1.7;
-    }
-    .delivery-intro__note {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      margin-top: 28px;
-      padding-top: 22px;
-      border-top: 1px solid var(--color-border);
-      max-width: 380px;
-      color: var(--color-text-muted);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-    .delivery-intro__count {
-      font-family: 'Sora', 'Inter', system-ui, sans-serif;
-      font-size: 32px;
-      font-weight: 600;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      color: var(--color-accent);
-    }
-    .delivery-list { border-top: 1px solid var(--color-border); }
-    .delivery-item {
-      display: grid;
-      grid-template-columns: 38px minmax(0, 1fr) auto;
-      gap: 16px;
-      align-items: start;
-      padding: 22px 8px;
-      border-bottom: 1px solid var(--color-border);
-      transition: background-color 220ms ease, padding-left 220ms ease;
-    }
-    .delivery-item:hover {
-      background: rgba(255, 255, 255, 0.62);
-      padding-left: 16px;
-    }
-    .delivery-item__index {
+    .service-card__index {
       font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 600;
+      letter-spacing: 0.08em;
       color: var(--color-text-muted);
-      padding-top: 4px;
     }
-    .delivery-item__body h3 {
-      margin: 0 0 7px;
-      font-size: 16px;
+    .service-card h3 {
+      margin: 2px 0 0;
+      font-size: 17px;
       line-height: 1.35;
-      letter-spacing: -0.015em;
+      letter-spacing: -0.02em;
     }
-    .delivery-item__body p {
+    .service-card p {
       margin: 0;
-      font-size: 13px;
+      font-size: 13.5px;
       line-height: 1.65;
       color: var(--color-text-secondary);
     }
-    .delivery-item__arrow {
-      color: var(--color-text-muted);
-      font-size: 16px;
-      transition: color 180ms ease, transform 180ms ease;
-    }
-    .delivery-item:hover .delivery-item__arrow {
+    .service-card__link {
+      margin-top: auto;
+      padding-top: 4px;
+      font-size: 13px;
+      font-weight: 600;
       color: var(--color-accent);
-      transform: translate(2px, -2px);
     }
 
-    /* ── TECHNOLOGY MAP ─────────────────────────────────── */
-    .tech-showcase {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 32px;
-      align-items: start;
+    /* ── FEATURED PRODUCTS ─────────────────────────────── */
+    .featured-card {
+      min-height: 250px;
+      padding: 22px;
     }
-    .tech-map {
-      position: relative;
-      overflow: hidden;
-      padding: 18px;
-      border-radius: var(--radius-xl);
-      border: 1px solid rgba(148, 197, 255, 0.18);
-      background:
-        radial-gradient(500px 300px at 80% 0%, rgba(6, 182, 212, 0.18), transparent 60%),
-        var(--gradient-ink);
-      box-shadow: var(--shadow-float);
-    }
-    .tech-map__head {
+    .featured-card__top {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 4px;
+      gap: 8px;
+      flex-wrap: wrap;
     }
-    .tech-map .home-hero__signal { color: rgba(159, 179, 207, 0.85); }
-    .tech-map__version {
+    .featured-card__portfolio {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+    }
+    .featured-card h3 {
+      margin: 2px 0 0;
+      font-size: 18px;
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+      overflow-wrap: anywhere;
+    }
+    .featured-card p {
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
+    .featured-card__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 18px;
+      margin: 0;
+      font-size: 12px;
+    }
+    .featured-card__meta div { display: flex; gap: 6px; }
+    .featured-card__meta dt { color: var(--color-text-muted); }
+    .featured-card__meta dd { margin: 0; color: var(--color-text-secondary); font-weight: 600; }
+    .featured-card__link {
+      margin-top: auto;
+      padding-top: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+    .featured-card__link:hover { text-decoration: underline; }
+    .featured-card__link:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+    .featured-note {
+      margin: 18px 0 0;
+      color: var(--color-text-muted);
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    /* ── QUANTUM MISSION ────────────────────────────────── */
+    .mission-band {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 64px 0;
+      background:
+        radial-gradient(760px 420px at 86% -10%, rgba(6, 182, 212, 0.22), transparent 62%),
+        radial-gradient(620px 380px at 4% 112%, rgba(79, 70, 229, 0.20), transparent 62%),
+        var(--gradient-ink);
+      color: var(--color-ink-text);
+    }
+    .mission-band__glow {
+      position: absolute;
+      top: -180px;
+      right: -120px;
+      width: 460px;
+      height: 460px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(34, 211, 238, 0.18), transparent 68%);
+      filter: blur(22px);
+      pointer-events: none;
+    }
+    .mission-band__grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 36px;
+      align-items: start;
+    }
+    .mission-band .eyebrow { color: var(--color-cyan-soft); }
+    .mission-band .eyebrow::before {
+      background: linear-gradient(90deg, var(--color-cyan-soft), var(--color-labs-bright));
+    }
+    .mission-band__intro h2 {
+      margin: 0 0 16px;
+      max-width: 600px;
+      color: var(--color-ink-text);
+      font-size: clamp(30px, 3.6vw, 48px);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+    }
+    .mission-band__intro > p {
+      margin: 0;
+      max-width: 580px;
+      color: var(--color-ink-muted);
+      font-size: 16px;
+      line-height: 1.7;
+      text-wrap: pretty;
+    }
+    .mission-band__meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px 14px;
+      margin: 22px 0 24px;
+      color: var(--color-ink-muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .mission-list {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid rgba(148, 197, 255, 0.16);
+      border-radius: var(--radius-lg);
+      background: rgba(148, 197, 255, 0.14);
+    }
+    .mission-item {
+      display: grid;
+      grid-template-columns: 30px minmax(0, 1fr);
+      gap: 10px;
+      padding: 13px 15px;
+      background: rgba(11, 27, 51, 0.78);
+    }
+    .mission-item__index {
+      padding-top: 2px;
       font-family: 'JetBrains Mono', ui-monospace, monospace;
       font-size: 10px;
+      font-weight: 600;
       color: var(--color-cyan-soft);
     }
-    .tech-map svg { width: 100%; height: auto; }
-    .tech-map__path {
-      stroke-dasharray: 7 7;
-      animation: tech-dash 18s linear infinite;
+    .mission-item h3 {
+      margin: 0 0 3px;
+      color: var(--color-ink-text);
+      font-size: 14px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
     }
-    .tech-list { display: flex; flex-direction: column; }
-    .tech-row {
-      padding: 22px 4px;
-      border-bottom: 1px solid var(--color-border);
-    }
-    .tech-row:first-child { padding-top: 0; }
-    .tech-row__head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    .tech-row__head h3 {
+    .mission-item p {
       margin: 0;
-      font-size: 20px;
-      letter-spacing: -0.025em;
+      color: var(--color-ink-muted);
+      font-size: 11.5px;
+      line-height: 1.5;
     }
-    .tech-row__meta {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin: 5px 0 10px;
-    }
-    .tech-row__tagline {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--color-accent);
-    }
-    .tech-row__version {
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 11px;
-      color: var(--color-text-muted);
-    }
-    .tech-row p {
-      margin: 0 0 10px;
-      font-size: 13px;
-      line-height: 1.65;
-    }
-    .tech-row__link {
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--color-accent);
-    }
-    .tech-row__link:hover { text-decoration: underline; }
 
-    /* ── PRODUCTS ───────────────────────────────────────── */
-    .products-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 32px;
-      align-items: start;
-    }
-    .products-intro h2 {
-      margin: 0 0 16px;
-      font-size: clamp(30px, 3.4vw, 48px);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
-    }
-    .products-intro p {
-      margin: 0 0 24px;
-      max-width: 400px;
-      font-size: 17px;
-      line-height: 1.7;
-    }
-    .products-cards {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 16px;
-    }
-    .product-link {
+    /* ── TECHNOLOGIES ───────────────────────────────────── */
+    .tech-card {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      min-height: 250px;
-      padding: 28px;
+      min-height: 280px;
+      padding: 24px;
       overflow: hidden;
-      border-radius: var(--radius-xl);
-      border: 1px solid var(--color-border);
-      background: rgba(255, 255, 255, 0.82);
-      box-shadow: var(--shadow-xs);
-      text-decoration: none;
-      transition: transform 300ms var(--qm-ease-out), box-shadow 300ms var(--qm-ease-out), border-color 300ms var(--qm-ease-out);
     }
-    .product-link::before {
+    .tech-card::before {
       content: '';
       position: absolute;
       inset: 0 0 auto;
       height: 3px;
       background: var(--gradient-signal);
-      opacity: 0.8;
     }
-    .product-link:hover {
-      transform: translateY(-4px);
-      border-color: rgba(37, 99, 235, 0.24);
-      box-shadow: var(--shadow-xl);
+    .tech-card--violet::before {
+      background: linear-gradient(90deg, var(--color-sdk), var(--color-sdk-soft));
     }
-    .product-link__kind {
-      font-size: 10px;
+    .tech-card--teal::before {
+      background: linear-gradient(90deg, var(--color-labs), var(--color-labs-bright));
+    }
+    .tech-card__head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .tech-card__mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--color-accent-muted);
+      border-radius: 12px;
+      background: var(--color-accent-subtle);
+      color: var(--color-accent-dark);
+      font-family: 'Sora', 'Inter', system-ui, sans-serif;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
+      letter-spacing: -0.02em;
+    }
+    .tech-card--violet .tech-card__mark {
+      border-color: var(--color-sdk-muted);
+      background: var(--color-sdk-subtle);
+      color: var(--color-sdk-deep);
+    }
+    .tech-card--teal .tech-card__mark {
+      border-color: var(--color-labs-muted);
+      background: var(--color-labs-subtle);
+      color: var(--color-labs-dark);
+    }
+    .tech-card h3 {
+      margin: 4px 0 0;
+      font-size: 20px;
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+      overflow-wrap: anywhere;
+    }
+    .tech-card__tagline {
+      margin: 0;
+      color: var(--color-accent);
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .tech-card--violet .tech-card__tagline { color: var(--color-sdk); }
+    .tech-card--teal .tech-card__tagline { color: var(--color-labs-dark); }
+    .tech-card p {
+      margin: 0;
+      color: var(--color-text-secondary);
+      font-size: 13.5px;
+      line-height: 1.65;
+    }
+    .tech-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 14px;
+      border-top: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+    }
+    .tech-card__link {
+      color: var(--color-accent);
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .tech-card__link:hover { text-decoration: underline; }
+    .tech-card__link:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ── WHY ────────────────────────────────────────────── */
+    .why-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 32px;
+    }
+    .why-intro h2 {
+      margin: 0 0 14px;
+      font-size: clamp(30px, 3.4vw, 46px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      text-wrap: balance;
+    }
+    .why-intro p {
+      margin: 0;
+      max-width: 420px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+    }
+    .why-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 1px;
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      background: var(--color-border);
+    }
+    .why-card {
+      padding: 24px;
+      background: var(--card-bg);
+      transition: background-color 220ms ease;
+    }
+    .why-card:hover { background: var(--color-canvas); }
+    .why-card__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border: 1px solid rgba(37, 99, 235, 0.16);
+      border-radius: 10px;
+      background: var(--color-accent-subtle);
       color: var(--color-accent);
     }
-    .product-link h3 {
-      margin: 14px 0 10px;
-      font-size: 20px;
-      line-height: 1.3;
-      letter-spacing: -0.025em;
-      max-width: 340px;
+    .why-card h3 {
+      margin: 14px 0 7px;
+      font-size: 16px;
+      letter-spacing: -0.02em;
     }
-    .product-link p {
-      margin: 0 0 24px;
+    .why-card p {
+      margin: 0;
       font-size: 13px;
       line-height: 1.65;
       color: var(--color-text-secondary);
-      max-width: 400px;
-    }
-    .product-link__cta {
-      margin-top: auto;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--color-accent);
-    }
-    .product-link__mark {
-      position: absolute;
-      right: 22px;
-      bottom: 12px;
-      font-family: 'Sora', 'Inter', system-ui, sans-serif;
-      font-size: 64px;
-      font-weight: 700;
-      line-height: 1;
-      letter-spacing: -0.06em;
-      color: rgba(37, 99, 235, 0.055);
-      pointer-events: none;
     }
 
-    /* ── LABS BAND ──────────────────────────────────────── */
+    /* ── LABS ───────────────────────────────────────────── */
     .labs-band {
       position: relative;
       isolation: isolate;
       overflow: hidden;
-      padding: 80px 0 64px;
+      padding: 64px 0 56px;
       background:
         radial-gradient(800px 420px at 82% 0%, rgba(13, 148, 136, 0.26), transparent 62%),
         radial-gradient(620px 380px at 6% 110%, rgba(37, 99, 235, 0.16), transparent 62%),
@@ -862,113 +1108,58 @@ interface DeliveryItem {
       position: relative;
       display: grid;
       grid-template-columns: minmax(0, 1fr);
-      gap: 40px;
+      gap: 36px;
       align-items: center;
     }
     .labs-band .eyebrow { color: var(--color-labs-bright); }
-    .labs-band .eyebrow::before { background: linear-gradient(90deg, var(--color-labs-soft), var(--color-cyan)); }
+    .labs-band .eyebrow::before {
+      background: linear-gradient(90deg, var(--color-labs-soft), var(--color-cyan));
+    }
     .labs-band__copy h2 {
-      margin: 0 0 18px;
+      margin: 0 0 16px;
       max-width: 560px;
       color: var(--color-ink-text);
-      font-size: clamp(32px, 3.8vw, 52px);
+      font-size: clamp(30px, 3.7vw, 50px);
       line-height: 1.07;
       letter-spacing: -0.035em;
+      text-wrap: balance;
     }
     .labs-band__copy p {
-      margin: 0 0 28px;
+      margin: 0 0 26px;
       max-width: 500px;
       color: var(--color-ink-muted);
-      font-size: 17px;
+      font-size: 16px;
       line-height: 1.7;
     }
-    .labs-visual {
-      position: relative;
-      width: 100%;
-      max-width: 430px;
-      aspect-ratio: 1;
-      margin: 0 auto;
-      display: grid;
-      place-items: center;
-    }
-    .labs-visual__ring {
-      position: absolute;
-      border-radius: 50%;
-      border: 1px solid rgba(94, 234, 212, 0.20);
-      animation: qm-orbit-spin 28s linear infinite;
-    }
-    .labs-visual__ring--1 { inset: 4%; }
-    .labs-visual__ring--2 {
-      inset: 20%;
-      border-color: rgba(103, 232, 249, 0.16);
-      animation-duration: 20s;
-      animation-direction: reverse;
-    }
-    .labs-visual__ring--3 { inset: 36%; border-color: rgba(94, 234, 212, 0.14); animation-duration: 14s; }
-    .labs-visual__ring::before {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: -3px;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--color-labs-bright);
-      box-shadow: 0 0 0 5px rgba(94, 234, 212, 0.08), 0 0 18px rgba(94, 234, 212, 0.5);
-    }
-    .labs-visual__core {
-      position: relative;
-      z-index: 2;
+    .labs-orbit { max-width: 430px; }
+    .labs-orbit .qm-orbit__core {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      width: 30%;
-      aspect-ratio: 1;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.08) 42%),
-        linear-gradient(145deg, #0D9488, #0891B2 55%, #2563EB);
-      box-shadow: 0 28px 64px -18px rgba(13, 148, 136, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-      color: #fff;
+      gap: 2px;
+      line-height: 1;
+      text-align: center;
     }
-    .labs-visual__core span {
+    .labs-orbit .qm-orbit__core span {
       font-family: 'Sora', 'Inter', system-ui, sans-serif;
       font-size: 14px;
       font-weight: 700;
       letter-spacing: 0.12em;
     }
-    .labs-visual__core small {
+    .labs-orbit .qm-orbit__core small {
       font-size: 8px;
+      line-height: 1.1;
       letter-spacing: 0.16em;
       text-transform: uppercase;
       color: rgba(255, 255, 255, 0.68);
     }
-    .labs-visual__node {
-      position: absolute;
-      z-index: 3;
-      padding: 7px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(94, 234, 212, 0.2);
-      background: rgba(11, 27, 51, 0.78);
-      color: var(--color-labs-bright);
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: 0.02em;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      animation: qm-float 8s ease-in-out infinite;
-    }
-    .labs-visual__node--1 { top: 6%; left: 12%; }
-    .labs-visual__node--2 { top: 24%; right: 0; animation-delay: -3s; }
-    .labs-visual__node--3 { bottom: 18%; left: -2%; animation-delay: -5s; }
-    .labs-visual__node--4 { bottom: 5%; right: 10%; animation-delay: -2s; }
     .labs-band__areas {
       position: relative;
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 0 24px;
-      margin-top: 56px;
+      margin-top: 44px;
       padding-top: 8px;
       border-top: 1px solid rgba(94, 234, 212, 0.16);
     }
@@ -976,7 +1167,7 @@ interface DeliveryItem {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 13px 0;
+      padding: 12px 0;
       border-bottom: 1px solid rgba(148, 197, 255, 0.10);
       color: var(--color-ink-muted);
       font-size: 12px;
@@ -988,102 +1179,112 @@ interface DeliveryItem {
       color: rgba(94, 234, 212, 0.65);
     }
 
-    /* ── WHY ────────────────────────────────────────────── */
-    .why-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 36px;
+    /* ── INSIGHTS ───────────────────────────────────────── */
+    .insight-card {
+      min-height: 250px;
+      padding: 24px;
+      text-decoration: none;
     }
-    .why-intro h2 {
-      margin: 0 0 16px;
-      font-size: clamp(30px, 3.4vw, 48px);
-      line-height: 1.08;
-      letter-spacing: -0.03em;
+    .insight-card__top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    .why-intro p {
-      margin: 0;
-      max-width: 420px;
-      font-size: 17px;
-      line-height: 1.7;
-    }
-    .why-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr);
-      gap: 1px;
-      background: var(--color-border);
-      border: 1px solid var(--color-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-    }
-    .why-card {
-      padding: 26px;
-      background: var(--color-surface);
-      transition: background-color 220ms ease;
-    }
-    .why-card:hover { background: #F8FBFF; }
-    .why-card__index {
-      font-family: 'JetBrains Mono', ui-monospace, monospace;
-      font-size: 10px;
-      font-weight: 600;
+    .insight-card__category {
       color: var(--color-accent);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
-    .why-card h3 {
-      margin: 14px 0 8px;
-      font-size: 17px;
+    .insight-card__maturity {
+      max-width: 100%;
+      color: var(--color-text-muted);
+      font-size: 10.5px;
+      line-height: 1.4;
+      text-align: right;
+      overflow-wrap: anywhere;
+    }
+    .insight-card h3 {
+      margin: 0;
+      color: var(--color-text-primary);
+      font-size: 18px;
+      line-height: 1.35;
       letter-spacing: -0.02em;
     }
-    .why-card p {
+    .insight-card p {
+      display: -webkit-box;
       margin: 0;
-      font-size: 13px;
-      line-height: 1.65;
+      overflow: hidden;
       color: var(--color-text-secondary);
+      font-size: 13.5px;
+      line-height: 1.65;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+    }
+    .insight-card__link {
+      margin-top: auto;
+      padding-top: 4px;
+      color: var(--color-accent);
+      font-size: 13px;
+      font-weight: 600;
     }
 
-    /* ── MOTION ─────────────────────────────────────────── */
-    @keyframes tech-dash { to { stroke-dashoffset: -140; } }
-
+    /* ── RESPONSIVE ─────────────────────────────────────── */
     @media (min-width: 640px) {
-      .cap-bento { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .service-grid,
+      .featured-grid,
+      .insights-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (min-width: 768px) {
-      .home-hero { padding: 80px 0 64px; }
-      .home-hero__visual { display: block; max-width: 520px; margin: 0 auto; }
-      .products-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mission-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .labs-band__areas { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
+    @media (min-width: 768px) {
+      .home-hero { padding: 68px 0 58px; }
+      .home-hero__visual { display: block; max-width: 520px; margin: 0 auto; }
+      .tech-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .trust-head { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 40px; }
+      .trust-head p { justify-self: end; }
+      .insights-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .labs-band__areas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+    }
+
     @media (min-width: 1024px) {
-      .home-hero { padding: 92px 0 76px; }
+      .home-hero { padding: 78px 0 68px; }
       .home-hero__grid {
         grid-template-columns: minmax(0, 1.02fr) minmax(420px, 0.98fr);
         gap: 56px;
       }
       .home-hero__visual { max-width: none; margin: 0; }
-      .cap-bento { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .cap-card--feature { grid-column: span 2; }
-      .delivery-layout { grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr); gap: 72px; }
-      .tech-showcase { grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: 56px; }
-      .products-layout { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr); gap: 64px; }
-      .labs-band__grid { grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr); gap: 64px; }
-      .labs-band__areas { grid-template-columns: repeat(4, minmax(0, 1fr)); }
-      .why-layout { grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr); gap: 72px; }
+      .service-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .featured-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .mission-band { padding: 76px 0; }
+      .mission-band__grid {
+        grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+        gap: 56px;
+      }
+      .why-layout {
+        grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+        gap: 64px;
+      }
+      .labs-band { padding: 76px 0 64px; }
+      .labs-band__grid {
+        grid-template-columns: minmax(0, 1.05fr) minmax(380px, 0.95fr);
+        gap: 56px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
       .home-hero__ring,
       .home-hero__node,
       .home-hero__float,
-      .home-hero__signal i,
-      .labs-visual__ring,
-      .labs-visual__node,
-      .tech-map__path {
-        animation: none;
-      }
-      .delivery-item,
-      .product-link,
+      .home-hero__signal i { animation: none; }
+      .home-card,
       .why-card { transition: none; }
+      .home-card:hover { transform: none; }
     }
   `]
 })
@@ -1133,37 +1334,36 @@ export class HomeComponent {
       title: 'Industrial Intelligence & Digital Twin Engineering',
       description: 'Industrial data systems, operational intelligence software, digital simulation models, and digital twin integration workflows.',
       href: '/services#industrial-intelligence-digital-twin'
-    },
-  ];
-
-  deliveryItems: DeliveryItem[] = [
-    {
-      title: 'Software Architecture & Modernisation',
-      description: 'System design, legacy modernisation, architecture reviews and engineering guidance for teams building or evolving software platforms.'
-    },
-    {
-      title: 'AI & Intelligent Automation',
-      description: 'Practical AI/ML application development, intelligent systems and integration of modern AI technologies into existing workflows.'
-    },
-    {
-      title: 'Data Engineering & Analytics',
-      description: 'Data platforms, pipelines and analytics foundations that support informed decision-making and operational reporting.'
-    },
-    {
-      title: 'Cloud & Infrastructure Engineering',
-      description: 'Cloud architecture, deployment, CI/CD, infrastructure automation and engineering environments across AWS, Azure and GCP.'
-    },
-    {
-      title: 'Specialised Software Development',
-      description: 'Custom software development for domains where general-purpose off-the-shelf tools do not fit the problem.'
-    },
-    {
-      title: 'Quantum Software Experimentation',
-      description: 'Quantum program and algorithm development, classical simulation of circuits and hybrid optimisation workflows for feasibility exploration.'
     }
   ];
 
+  quantumMission: Product[] = getProductsByPortfolio('quantum')
+    .filter(product => product.id !== 'microquantum');
+
+  trustMetrics: TrustMetric[] = [
+    { value: 6, label: 'engineering domains' },
+    { value: 40, label: 'portfolio products' },
+    { value: 3, label: 'published technologies' },
+    { value: this.quantumMission.length, label: 'quantum applications · proposed' }
+  ];
+
+  featuredProducts: FeaturedProduct[] = FEATURED_SELECTION
+    .map(selection => this.toFeaturedProduct(selection))
+    .filter((item): item is FeaturedProduct => item !== null);
+
   ecosystem: EcosystemTech[] = [
+    {
+      name: 'Karkain',
+      tagline: 'General-Purpose Programming Language',
+      description: 'An independently developed, statically typed systems programming language with a self-hosted compiler, published at version 1.1.0. A developer preview: the language and API surface may still change.',
+      status: 'Developer Preview',
+      version: 'v1.1.0',
+      badge: 'experimental',
+      accent: 'violet',
+      mark: 'K',
+      cta: 'Explore Karkain',
+      href: '/karkain'
+    },
     {
       name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
@@ -1171,43 +1371,45 @@ export class HomeComponent {
       status: 'Developer Preview',
       version: 'v1.1.0',
       badge: 'experimental',
+      accent: 'blue',
+      mark: 'MQ',
       cta: 'Explore MicroQuantum',
       href: '/microquantum'
     },
     {
-      name: 'Karkain',
-      tagline: 'General-Purpose Programming Language',
-      description: 'An independent, statically typed systems programming language with a self-hosted compiler, published at version 1.1.0.',
-      status: 'Developer Preview',
-      version: 'v1.1.0',
-      badge: 'experimental',
-      cta: 'Explore Karkain',
-      href: '/karkain'
-    },
-    {
-      name: 'QuantsMind SDK',
+      name: 'QuantsMind Quantum SDK',
       tagline: 'Scientific Computing SDK',
-      description: 'An open, vendor-independent Python SDK for scientific computing, published on PyPI at version 1.1.0. Coverage and numerical accuracy vary by domain.',
+      description: 'An open, vendor-independent Python SDK for scientific computing, published on PyPI at version 1.1.0. Module coverage and numerical accuracy vary by domain.',
       status: 'Developer Preview',
       version: 'v1.1.0',
       badge: 'experimental',
+      accent: 'teal',
+      mark: 'SDK',
       cta: 'Explore QuantsMind SDK',
       href: '/quantsmind-sdk'
     }
   ];
 
-  productsAndTools: EcosystemLink[] = [
+  whyCards: WhyCard[] = [
     {
-      name: 'Products',
-      label: 'QuantsMind Document Intelligence Mini',
-      description: 'Our lightweight document-processing software, currently at v0.1.0 and available by arrangement.',
-      href: '/products'
+      icon: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 12l8-4.5M12 12v9M12 12L4 7.5"/></svg>`,
+      title: 'Deep Engineering',
+      description: 'We work from first principles across software, systems and emerging computing — not just surface-level integration.'
     },
     {
-      name: 'Technologies',
-      label: 'QuantsMind Relational DB and GuardMCP',
-      description: 'An embeddable Rust relational database engine, and a policy and security control layer for MCP tool calls. Both are alpha.',
-      href: '/technology'
+      icon: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
+      title: 'AI-Native Thinking',
+      description: 'Intelligent systems are designed into the architecture, with clear boundaries, evaluation and human oversight.'
+    },
+    {
+      icon: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
+      title: 'Engineering Quality',
+      description: 'Maintainable code, sound architecture and honest maturity labels are part of the deliverable.'
+    },
+    {
+      icon: `<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V18h8v-3.3A7 7 0 0 0 12 2z"/></svg>`,
+      title: 'Innovation Focus',
+      description: 'We explore quantum, space and scientific computing through Labs and turn validated ideas into products.'
     }
   ];
 
@@ -1221,22 +1423,25 @@ export class HomeComponent {
     'Data Intelligence'
   ];
 
-  whyCards = [
-    {
-      title: 'Engineering First',
-      description: 'Practical engineering rather than technology for technology\u2019s sake.'
-    },
-    {
-      title: 'Architecture Driven',
-      description: 'Strong focus on maintainable systems and sound technical foundations.'
-    },
-    {
-      title: 'Build & Experiment',
-      description: 'Developing real software while exploring emerging technologies.'
-    },
-    {
-      title: 'Open Technology',
-      description: 'Where appropriate, technologies are shared openly with the developer community.'
-    }
-  ];
+  insights: BlogArticle[] = INSIGHT_SLUGS
+    .map(slug => BLOG_ARTICLES.find(article => article.slug === slug))
+    .filter((article): article is BlogArticle => article !== undefined);
+
+  formatCount(value: number): string {
+    return value < 10 ? `0${value}` : `${value}`;
+  }
+
+  private toFeaturedProduct(selection: FeaturedSelection): FeaturedProduct | null {
+    const product = getProductById(selection.id);
+    if (!product) return null;
+
+    return {
+      product,
+      href: selection.href,
+      maturity: maturityLabel(product.maturity),
+      availability: availabilityLabel(product.availability),
+      maturityVariant: maturityBadgeVariant(product.maturity) as BadgeVariant,
+      portfolio: PORTFOLIO_LABELS[product.portfolio]
+    };
+  }
 }

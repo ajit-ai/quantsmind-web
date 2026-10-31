@@ -9,7 +9,6 @@ import { HrefPartsPipe } from '../../shared/pipes/href-parts.pipe';
 interface FooterLink {
   label: string;
   href: string;
-  external?: boolean;
 }
 
 @Component({
@@ -19,14 +18,11 @@ interface FooterLink {
     template: `
     <footer class="qm-footer" role="contentinfo">
       <div class="qm-footer__accent" aria-hidden="true"></div>
-    
-      <!-- ═══════════════════════════════════════════════ -->
-      <!-- MAIN GRID                                        -->
-      <!-- ═══════════════════════════════════════════════ -->
+
       <div class="qm-footer__main">
         <div class="qm-footer__container qm-footer__grid">
-    
-          <!-- Brand column -->
+
+          <!-- Company -->
           <div class="qm-footer__brand">
             <a routerLink="/" class="qm-footer__logo" aria-label="QuantsMind — Home">
               <span class="qm-footer__logo-mark" aria-hidden="true">
@@ -49,113 +45,98 @@ interface FooterLink {
               </span>
             </a>
             <p class="qm-footer__about">
-              Engineering software. Building intelligent technologies — from architecture
-              and application engineering to AI/ML, cloud and emerging computing.
+              Engineering software products, intelligent systems and advanced
+              technology for businesses and emerging domains.
             </p>
             <div class="qm-footer__social">
-              @for (s of socials; track s) {
+              @for (s of socials; track s.label) {
                 <a [href]="s.href" target="_blank"
                   rel="noopener noreferrer" class="qm-footer__social-link"
-                [attr.aria-label]="s.label" [innerHTML]="s.icon | qmSafeHtml"></a>
+                  [attr.aria-label]="s.label + ' — opens in a new tab'"
+                  [innerHTML]="s.icon | qmSafeHtml"></a>
               }
             </div>
           </div>
-    
-          <!-- Site column -->
-          <nav class="qm-footer__col" aria-label="Site links">
-            <h3 class="qm-footer__heading">Site</h3>
+
+          <!-- Explore -->
+          <nav class="qm-footer__col" aria-label="Explore">
+            <h3 class="qm-footer__heading">Explore</h3>
             <ul class="qm-footer__list" role="list">
-              @for (link of site; track link) {
+              @for (link of explore; track link.label) {
+                @let target = link.href | hrefParts;
                 <li>
-                  @let target = link.href | hrefParts;
-                  <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
-                </li>
-              }
-            </ul>
-          </nav>
-    
-          <!-- Products column -->
-          <nav class="qm-footer__col" aria-label="Products links">
-            <h3 class="qm-footer__heading">Products</h3>
-            <ul class="qm-footer__list" role="list">
-              @for (link of products; track link) {
-                <li>
-                  @let target = link.href | hrefParts;
                   <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
                 </li>
               }
             </ul>
           </nav>
 
-          <!-- Technology column -->
-          <nav class="qm-footer__col" aria-label="Technology links">
-            <h3 class="qm-footer__heading">Technology</h3>
+          <!-- Products & Technology -->
+          <nav class="qm-footer__col" aria-label="Products and technology">
+            <h3 class="qm-footer__heading">Products &amp; Technology</h3>
             <ul class="qm-footer__list" role="list">
-              @for (link of technology; track link) {
+              @for (link of productsTechnology; track link.label) {
+                @let target = link.href | hrefParts;
                 <li>
-                  @if (link.external) {
-                    <a [href]="link.href" target="_blank" rel="noopener noreferrer" class="qm-footer__link"
-                      [attr.aria-label]="link.label + ' — opens in a new tab'">{{ link.label }}</a>
-                  } @else {
-                    @let target = link.href | hrefParts;
-                    <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
-                  }
+                  <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__link">{{ link.label }}</a>
                 </li>
               }
             </ul>
           </nav>
 
+          <!-- Connect -->
+          <div class="qm-footer__col qm-footer__connect">
+            <h3 class="qm-footer__heading">Connect</h3>
+            <ul class="qm-footer__connect-list" role="list">
+              <li>
+                <a href="mailto:ajitkumar&#64;quantsmind.com" class="qm-footer__contact-link">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                      stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                    <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="1.7"
+                      stroke-linejoin="round"/>
+                  </svg>
+                  <span>ajitkumar&#64;quantsmind.com</span>
+                </a>
+              </li>
+              <li>
+                <span class="qm-footer__location">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 21s7-6.13 7-11a7 7 0 1 0-14 0c0 4.87 7 11 7 11z"
+                      stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                    <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.7"/>
+                  </svg>
+                  <span>Jodhpur, Rajasthan, India</span>
+                </span>
+              </li>
+              <li>
+                <a routerLink="/contact" class="qm-footer__connect-link">
+                  Start a conversation
+                  <span aria-hidden="true">→</span>
+                </a>
+              </li>
+            </ul>
           </div>
-      </div>
-    
-      <!-- ═══════════════════════════════════════════════ -->
-      <!-- CONTACT                                          -->
-      <!-- ═══════════════════════════════════════════════ -->
-      <div class="qm-footer__contact">
-        <div class="qm-footer__container qm-footer__contact-grid">
-          <span class="qm-footer__contact-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-              <path d="M22 6l-10 7L2 6" stroke="currentColor" stroke-width="1.7"
-                stroke-linejoin="round"/>
-            </svg>
-            <a href="mailto:ajitkumar&#64;quantsmind.com" class="qm-footer__contact-link">
-              ajitkumar&#64;quantsmind.com
-            </a>
-          </span>
-          <span class="qm-footer__contact-item">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M12 21s7-6.13 7-11a7 7 0 1 0-14 0c0 4.87 7 11 7 11z" stroke="currentColor"
-                stroke-width="1.7" stroke-linejoin="round"/>
-              <circle cx="12" cy="10" r="2.5" stroke="currentColor" stroke-width="1.7"/>
-            </svg>
-            <span class="qm-footer__contact-text">
-              28, Shikargarh, Jodhpur – 342015, Rajasthan, India
-            </span>
-          </span>
+
         </div>
       </div>
-    
-      <!-- ═══════════════════════════════════════════════ -->
-      <!-- BOTTOM BAR                                       -->
-      <!-- ═══════════════════════════════════════════════ -->
+
       <div class="qm-footer__bottom">
         <div class="qm-footer__container qm-footer__bottom-inner">
           <p class="qm-footer__copyright">
             © {{ currentYear }} QuantsMind. All rights reserved.
           </p>
           <ul class="qm-footer__legal" role="list">
-            @for (link of legal; track link) {
+            @for (link of legal; track link.label) {
+              @let target = link.href | hrefParts;
               <li>
-                @let target = link.href | hrefParts;
                 <a [routerLink]="target.path" [fragment]="target.fragment" class="qm-footer__legal-link">{{ link.label }}</a>
               </li>
             }
           </ul>
           <button type="button" class="qm-footer__top" (click)="scrollToTop()"
             aria-label="Back to top">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M12 19V5M5 12l7-7 7 7" stroke="currentColor" stroke-width="1.8"
                 stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
@@ -176,7 +157,7 @@ interface FooterLink {
         radial-gradient(700px 400px at 8% 120%, rgba(6, 182, 212, 0.08), transparent 62%),
         var(--qm-footer-bg);
       color: var(--qm-footer-text);
-      font-size: 14px;
+      font-size: 13.5px;
     }
     .qm-footer::before {
       content: '';
@@ -202,80 +183,76 @@ interface FooterLink {
     .qm-footer__container {
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 32px;
+      padding: 0 28px;
     }
     a { color: inherit; }
     a:hover { color: var(--qm-footer-text-strong); }
 
     /* ── Main grid ─────────────────────────────────────── */
     .qm-footer__main {
-      padding: 56px 0 40px;
+      padding: 44px 0 36px;
       border-bottom: 1px solid var(--qm-footer-border);
     }
     .qm-footer__grid {
       display: grid;
-      grid-template-columns: 1.6fr 1fr 1fr;
-      gap: 40px;
-    }
-    @media (min-width: 1100px) {
-      /* Brand + Site + Products + Technology = 4 items. A 5th track left an
-         empty trailing column after the Developer Tools column was removed. */
-      .qm-footer__grid { grid-template-columns: 1.5fr repeat(3, 1fr); gap: 32px; }
+      grid-template-columns: minmax(0, 1fr);
+      gap: 30px;
     }
 
     /* Brand */
     .qm-footer__logo {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
       text-decoration: none;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
     .qm-footer__logo-mark {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       background: var(--gradient-brand);
-      border-radius: 12px;
+      border-radius: 10px;
       box-shadow:
-        0 10px 24px -10px rgba(37, 99, 235, 0.75),
+        0 10px 22px -10px rgba(37, 99, 235, 0.75),
         inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
-    .qm-footer__logo-text { display: flex; flex-direction: column; line-height: 1.15; }
+    .qm-footer__logo-text { display: flex; flex-direction: column; line-height: 1.12; }
     .qm-footer__logo-name {
       font-family: 'Sora', 'Inter', system-ui, sans-serif;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: var(--qm-footer-text-strong);
       letter-spacing: -0.03em;
     }
     .qm-footer__logo-tag {
-      font-size: 10px;
+      font-size: 9px;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.13em;
       text-transform: uppercase;
       color: var(--qm-footer-muted);
     }
     .qm-footer__about {
-      margin: 0 0 22px;
-      max-width: 320px;
+      margin: 0 0 18px;
+      max-width: 310px;
       line-height: 1.65;
+      color: var(--qm-footer-text);
     }
 
     /* Social */
-    .qm-footer__social { display: flex; gap: 10px; }
+    .qm-footer__social { display: flex; gap: 8px; }
     .qm-footer__social-link {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       color: var(--qm-footer-text);
       background: var(--qm-footer-bg-soft);
       border: 1px solid var(--qm-footer-border);
-      border-radius: 9px;
+      border-radius: 8px;
       transition: color 150ms ease, border-color 150ms ease, transform 150ms ease;
     }
     .qm-footer__social-link:hover {
@@ -289,20 +266,21 @@ interface FooterLink {
     }
 
     /* Columns */
+    .qm-footer__col { min-width: 0; }
     .qm-footer__heading {
       display: flex;
       align-items: center;
       gap: 9px;
-      margin: 0 0 18px;
-      font-size: 12px;
+      margin: 0 0 14px;
+      font-size: 11px;
       font-weight: 700;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.11em;
       text-transform: uppercase;
       color: var(--qm-footer-heading);
     }
     .qm-footer__heading::before {
       content: '';
-      width: 16px;
+      width: 14px;
       height: 1.5px;
       border-radius: 999px;
       background: var(--gradient-signal);
@@ -313,7 +291,7 @@ interface FooterLink {
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 9px;
     }
     .qm-footer__link {
       color: var(--qm-footer-text);
@@ -323,34 +301,56 @@ interface FooterLink {
     }
     .qm-footer__link:hover {
       color: var(--qm-footer-text-strong);
-      transform: translateX(3px);
+      transform: translateX(2px);
+    }
+    .qm-footer__link:focus-visible,
+    .qm-footer__contact-link:focus-visible,
+    .qm-footer__connect-link:focus-visible,
+    .qm-footer__legal-link:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 3px;
+      border-radius: 3px;
     }
 
-    /* ── Contact ───────────────────────────────────────── */
-    .qm-footer__contact {
-      border-bottom: 1px solid var(--qm-footer-border);
-      background: linear-gradient(90deg, rgba(37, 99, 235, 0.07), rgba(6, 182, 212, 0.035));
-    }
-    .qm-footer__contact-grid {
+    /* Connect */
+    .qm-footer__connect-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
       display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 16px 40px;
-      padding-top: 24px;
-      padding-bottom: 24px;
+      flex-direction: column;
+      gap: 12px;
     }
-    .qm-footer__contact-item {
+    .qm-footer__contact-link,
+    .qm-footer__location {
       display: inline-flex;
-      align-items: center;
-      gap: 10px;
+      align-items: flex-start;
+      gap: 9px;
+      max-width: 100%;
       color: var(--qm-footer-text);
-    }
-    .qm-footer__contact-link {
-      color: inherit;
+      line-height: 1.5;
       text-decoration: none;
-      transition: color 150ms ease;
+    }
+    .qm-footer__contact-link svg,
+    .qm-footer__location svg {
+      flex: 0 0 auto;
+      margin-top: 1px;
+      color: var(--color-accent-on-dark);
     }
     .qm-footer__contact-link:hover { color: var(--qm-footer-text-strong); }
+    .qm-footer__contact-link span,
+    .qm-footer__location span { min-width: 0; overflow-wrap: anywhere; }
+    .qm-footer__connect-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--color-accent-on-dark);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .qm-footer__connect-link:hover { color: var(--qm-footer-text-strong); }
+    .qm-footer__connect-link span { transition: transform 150ms ease; }
+    .qm-footer__connect-link:hover span { transform: translateX(2px); }
 
     /* ── Bottom bar ────────────────────────────────────── */
     .qm-footer__bottom-inner {
@@ -358,38 +358,42 @@ interface FooterLink {
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 14px 24px;
-      padding-top: 24px;
-      padding-bottom: 24px;
+      gap: 12px 24px;
+      padding-top: 18px;
+      padding-bottom: 18px;
     }
-    .qm-footer__copyright { margin: 0; color: var(--qm-footer-muted); }
+    .qm-footer__copyright {
+      margin: 0;
+      color: var(--qm-footer-muted);
+      font-size: 12px;
+    }
     .qm-footer__legal {
       list-style: none;
       margin: 0;
       padding: 0;
       display: flex;
       flex-wrap: wrap;
-      gap: 8px 24px;
+      gap: 8px 20px;
     }
     .qm-footer__legal-link {
       color: var(--qm-footer-text);
       text-decoration: none;
-      font-size: 13px;
+      font-size: 12px;
       transition: color 150ms ease;
     }
     .qm-footer__legal-link:hover { color: var(--qm-footer-text-strong); }
     .qm-footer__top {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 8px 14px;
+      gap: 5px;
+      padding: 6px 10px;
       font-family: inherit;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--qm-footer-text);
       background: transparent;
       border: 1px solid var(--qm-footer-border);
-      border-radius: 8px;
+      border-radius: 7px;
       cursor: pointer;
       transition: color 150ms ease, border-color 150ms ease;
     }
@@ -403,15 +407,35 @@ interface FooterLink {
     }
 
     /* ── Responsive ────────────────────────────────────── */
-    @media (max-width: 1099px) and (min-width: 768px) {
-      /* 3 nav columns under a full-width brand. At 2 columns the third nav
-         column wrapped alone and left a gap beside it. */
-      .qm-footer__grid { grid-template-columns: repeat(3, 1fr); }
+    @media (min-width: 640px) {
+      .qm-footer__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 32px 40px;
+      }
       .qm-footer__brand { grid-column: 1 / -1; }
+      .qm-footer__connect { grid-column: 1 / -1; }
+      .qm-footer__connect-list {
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 10px 28px;
+      }
+    }
+    @media (min-width: 1024px) {
+      .qm-footer__grid {
+        grid-template-columns: 1.4fr 0.85fr 1.25fr 1.1fr;
+        gap: 40px;
+      }
+      .qm-footer__brand,
+      .qm-footer__connect { grid-column: auto; }
+      .qm-footer__connect-list {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
     }
     @media (max-width: 767px) {
       .qm-footer__container { padding: 0 16px; }
-      .qm-footer__grid { grid-template-columns: 1fr; gap: 28px; }
       .qm-footer__bottom-inner { flex-direction: column; align-items: flex-start; }
     }
   `]
@@ -419,25 +443,21 @@ interface FooterLink {
 export class QmFooterComponent {
   currentYear = new Date().getFullYear();
 
-  site: FooterLink[] = [
-    { label: 'Services', href: '/services' },
-    { label: 'Products', href: '/products' },
-    { label: 'Technology', href: '/technology' },
-    { label: 'Labs', href: '/labs' },
+  explore: FooterLink[] = [
     { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' }
+    { label: 'Services', href: '/services' },
+    { label: 'Labs', href: '/labs' },
+    { label: 'Blog', href: '/blog' }
   ];
 
-  products: FooterLink[] = [
-    { label: 'Document Intelligence Mini', href: '/products' }
-  ];
-
-  technology: FooterLink[] = [
-    { label: 'MicroQuantum', href: '/microquantum' },
+  productsTechnology: FooterLink[] = [
+    { label: 'Products', href: '/products' },
+    { label: 'Quantum Mission', href: '/quantum-mission' },
+    { label: 'Space Systems', href: '/products#space-software' },
+    { label: 'Cybersecurity', href: '/products#cybersecurity-software' },
     { label: 'Karkain', href: '/karkain' },
-    { label: 'QuantsMind SDK', href: '/quantsmind-sdk' },
-    { label: 'QuantsMind Relational DB', href: 'https://github.com/ajit-ai/Quantsmind-Relational-DB', external: true },
-    { label: 'GuardMCP', href: 'https://github.com/ajit-ai/GuardMCP', external: true }
+    { label: 'MicroQuantum', href: '/microquantum' },
+    { label: 'QuantsMind Quantum SDK', href: '/quantsmind-sdk' }
   ];
 
   legal: FooterLink[] = [
@@ -448,17 +468,10 @@ export class QmFooterComponent {
 
   socials: Array<{ label: string; href: string; icon: string }> = [
     {
-      label: 'Email QuantsMind',
-      href: 'mailto:ajitkumar&#64;quantsmind.com',
-      icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>`
-    },
-    {
       label: 'QuantsMind on LinkedIn',
       href: 'https://www.linkedin.com/company/quantsmind',
       icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.36V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>`
     },
-    // The previous X/Twitter profile URL is not publicly verified, so no social
-    // link is rendered here. Other verified social and repository links remain.
     {
       label: 'QuantsMind on GitHub',
       href: 'https://github.com/quantsmind',

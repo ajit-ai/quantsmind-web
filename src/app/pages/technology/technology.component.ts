@@ -32,6 +32,13 @@ interface EcosystemTech {
   /** Release, package index or documentation reference backing the version shown. */
   releaseUrl?: string;
   releaseLabel?: string;
+  /** Detailed presentation fields used by the three primary technologies. */
+  primary?: boolean;
+  purpose?: string;
+  capabilities?: readonly string[];
+  language?: string;
+  docsUrl?: string;
+  docsLabel?: string;
 }
 
 interface EcosystemMapItem {
@@ -53,17 +60,158 @@ interface EcosystemMapGroup {
     template: `
     <qm-page-hero
       eyebrow="TECHNOLOGY"
-      title="Technology Ecosystem"
-      lead="Open software technologies built, engineered and maintained by QuantsMind. Each project below shows its own current maturity, the release it corresponds to, and a public source you can check for yourself."
+      title="Technologies We Develop"
+      lead="Open software technologies built, engineered and maintained by QuantsMind. Each project states its own purpose, verified capabilities, language, release, maturity and public documentation."
       [artLabels]="['Karkain', 'MicroQuantum', 'SDK', 'GuardMCP']">
       <p heroLead class="qm-page-hero__lead">
         Maturity is stated per project and is deliberately conservative. A published
         version number means a release exists — it is not a claim of production
         readiness, and none of these projects is described as production-ready.
       </p>
+      <div heroMeta class="tech-meta" aria-label="Primary technology status">
+        <qm-badge variant="experimental">3 developer-preview technologies</qm-badge>
+        <qm-badge variant="default">v1.1.0 verified releases</qm-badge>
+        <qm-badge variant="prototype">Wider ecosystem in alpha</qm-badge>
+      </div>
     </qm-page-hero>
 
-    <qm-section surface="canvas" size="sm" ariaLabel="Ecosystem map">
+    <qm-section surface="white" ariaLabel="Primary technologies">
+      <qm-container>
+        <header class="section-head" qmReveal>
+          <span class="eyebrow">PRIMARY TECHNOLOGIES</span>
+          <h2 class="section-head__title">Three technologies with published releases.</h2>
+          <p class="section-head__body">
+            Karkain, MicroQuantum and the QuantsMind SDK are presented first because each
+            has a verified public release and a dedicated destination. They are distinct
+            projects with different languages, purposes and maturity boundaries.
+          </p>
+        </header>
+
+        <div class="primary-grid">
+          @for (tech of primaryTechnologies; track tech.name; let i = $index) {
+            <article class="tech-card tech-card--primary" qmReveal [qmRevealDelay]="i * 80">
+              <span class="qm-mark tech-card__mark" aria-hidden="true" [innerHTML]="tech.mark | qmSafeHtml"></span>
+              <div class="tech-card__meta">
+                <h3 class="tech-card__title">
+                  @if (tech.href) {
+                    <a [routerLink]="tech.href" class="tech-card__title-link">{{ tech.name }}</a>
+                  } @else {
+                    {{ tech.name }}
+                  }
+                </h3>
+                <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
+              </div>
+              <p class="tech-card__version">{{ tech.version }}</p>
+              <p class="tech-card__tagline">{{ tech.tagline }}</p>
+              <p class="tech-card__desc">{{ tech.purpose }}</p>
+
+              @if (tech.capabilities?.length) {
+                <div class="tech-card__section">
+                  <h4 class="tech-card__h4">Verified capabilities</h4>
+                  <ul class="tech-card__capabilities">
+                    @for (capability of tech.capabilities; track capability) {
+                      <li>{{ capability }}</li>
+                    }
+                  </ul>
+                </div>
+              }
+
+              <dl class="tech-card__spec">
+                <div class="tech-card__spec-row">
+                  <dt>Language</dt>
+                  <dd>{{ tech.language }}</dd>
+                </div>
+                <div class="tech-card__spec-row">
+                  <dt>Maturity</dt>
+                  <dd>{{ tech.status }}</dd>
+                </div>
+                <div class="tech-card__spec-row">
+                  <dt>Verified version</dt>
+                  <dd>{{ tech.version }}</dd>
+                </div>
+              </dl>
+
+              <div class="tech-card__actions">
+                @if (tech.href) {
+                  <qm-button variant="primary" size="sm" [routerLinkValue]="tech.href">
+                    Explore {{ tech.name }} →
+                  </qm-button>
+                }
+                @if (tech.docsUrl) {
+                  <a class="tech-card__doc-link" [href]="tech.docsUrl" target="_blank"
+                    rel="noopener noreferrer"
+                    [attr.aria-label]="tech.name + ' documentation — opens in a new tab'">
+                    {{ tech.docsLabel ?? 'Documentation' }} ↗
+                  </a>
+                }
+              </div>
+
+              @if (tech.releaseUrl) {
+                <p class="tech-card__refs">
+                  <a [href]="tech.releaseUrl" target="_blank" rel="noopener noreferrer"
+                    class="tech-card__ref"
+                    [attr.aria-label]="tech.releaseLabel + ' — opens in a new tab'">{{ tech.releaseLabel }} ↗</a>
+                </p>
+              }
+            </article>
+          }
+        </div>
+      </qm-container>
+    </qm-section>
+
+    <qm-section surface="canvas" ariaLabel="Wider technology ecosystem">
+      <qm-container>
+        <header class="section-head" qmReveal>
+          <span class="eyebrow">WIDER ECOSYSTEM</span>
+          <h2 class="section-head__title">The wider engineering ecosystem.</h2>
+          <p class="section-head__body">
+            These projects are part of the same technology ecosystem but do not yet have a
+            dedicated page. Their cards link to the public repository where one is
+            verified; projects without a public repository are shown without an invented
+            link.
+          </p>
+        </header>
+
+        <div class="ecosystem-grid">
+          @for (tech of secondaryTechnologies; track tech.name; let i = $index) {
+            <article class="tech-card" qmReveal [qmRevealDelay]="i * 70">
+              <span class="qm-mark tech-card__mark" aria-hidden="true" [innerHTML]="tech.mark | qmSafeHtml"></span>
+              <div class="tech-card__meta">
+                <h3 class="tech-card__title">
+                  @if (tech.href) {
+                    @if (tech.external) {
+                      <a [href]="tech.href" target="_blank" rel="noopener noreferrer"
+                        class="tech-card__title-link"
+                        [attr.aria-label]="tech.name + ' — open repository on GitHub in a new tab'">{{ tech.name }}</a>
+                    } @else {
+                      <a [routerLink]="tech.href" class="tech-card__title-link">{{ tech.name }}</a>
+                    }
+                  } @else {
+                    {{ tech.name }}
+                  }
+                </h3>
+                <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
+              </div>
+              <p class="tech-card__version">{{ tech.version }}</p>
+              <p class="tech-card__tagline">{{ tech.tagline }}</p>
+              <p class="tech-card__desc">{{ tech.description }}</p>
+              @if (tech.href || tech.ctaText) {
+                <span class="tech-card__link" aria-hidden="true">{{ tech.ctaText || ('Explore ' + tech.name) }}</span>
+              }
+              @if (tech.releaseUrl) {
+                <p class="tech-card__refs">
+                  <a [href]="tech.releaseUrl" target="_blank" rel="noopener noreferrer"
+                    class="tech-card__ref"
+                    [attr.aria-label]="tech.releaseLabel + ' — opens in a new tab'">{{ tech.releaseLabel }} ↗</a>
+                </p>
+              }
+            </article>
+          }
+        </div>
+      </qm-container>
+    </qm-section>
+
+    <qm-section surface="white" size="sm" ariaLabel="Ecosystem map">
       <qm-container>
         <span class="eyebrow">ECOSYSTEM MAP</span>
         <h2 id="ecosystem-map-heading">How the QuantsMind ecosystem is organised</h2>
@@ -95,47 +243,6 @@ interface EcosystemMapGroup {
       </qm-container>
     </qm-section>
 
-    <qm-section surface="white">
-      <qm-container>
-        <div class="ecosystem-grid">
-          @for (tech of ecosystem; track tech; let i = $index) {
-            <article class="tech-card" qmReveal [qmRevealDelay]="i * 80">
-              <span class="qm-mark tech-card__mark" aria-hidden="true" [innerHTML]="tech.mark | qmSafeHtml"></span>
-              <div class="tech-card__meta">
-                <h2 class="tech-card__title">
-                  @if (tech.href) {
-                    @if (tech.external) {
-                      <a [href]="tech.href" target="_blank" rel="noopener noreferrer"
-                        class="tech-card__title-link"
-                        [attr.aria-label]="tech.name + ' — open repository on GitHub in a new tab'">{{ tech.name }}</a>
-                    } @else {
-                      <a [routerLink]="tech.href" class="tech-card__title-link">{{ tech.name }}</a>
-                    }
-                  } @else {
-                    {{ tech.name }}
-                  }
-                </h2>
-                <qm-badge [variant]="tech.badge">{{ tech.status }}</qm-badge>
-              </div>
-              <p class="tech-card__version">{{ tech.version }}</p>
-              <p class="tech-card__tagline">{{ tech.tagline }}</p>
-              <p class="tech-card__desc">{{ tech.description }}</p>
-              @if (tech.href || tech.ctaText) {
-                <span class="tech-card__link" aria-hidden="true">{{ tech.ctaText || ('Explore ' + tech.name) }}</span>
-              }
-              @if (tech.releaseUrl) {
-                <p class="tech-card__refs">
-                  <a [href]="tech.releaseUrl" target="_blank" rel="noopener noreferrer"
-                    class="tech-card__ref"
-                    [attr.aria-label]="tech.releaseLabel + ' — opens in a new tab'">{{ tech.releaseLabel }} ↗</a>
-                </p>
-              }
-            </article>
-          }
-        </div>
-      </qm-container>
-    </qm-section>
-
     <qm-section surface="canvas" size="sm">
       <qm-container size="narrow">
         <div class="qm-cta-band intro-block" qmReveal>
@@ -148,10 +255,9 @@ interface EcosystemMapGroup {
             the description says so rather than rounding it up.
           </p>
           <p>
-            Karkain, MicroQuantum and the QuantsMind SDK have their own pages below. The
+            Karkain, MicroQuantum and the QuantsMind SDK have their own pages. The
             remaining projects do not have a dedicated page yet, so their cards link
-            straight to the public repository, where the source and its documentation can
-            be read directly.
+            straight to the public repository where one is verified.
           </p>
           <div class="qm-cta-band__actions">
             <qm-button variant="secondary" [routerLinkValue]="'/contact'">
@@ -163,15 +269,30 @@ interface EcosystemMapGroup {
     </qm-section>
     `,
     styles: [`
+    .tech-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+
+    .section-head { max-width: 820px; margin-bottom: 36px; }
+    .section-head__title {
+      margin: 0 0 12px; font-size: clamp(28px, 3.4vw, 40px); line-height: 1.14;
+      letter-spacing: -0.03em; color: var(--color-text-primary);
+    }
+    .section-head__body { margin: 0; font-size: 16px; line-height: 1.7; color: var(--color-text-secondary); }
+
+    .primary-grid {
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px;
+    }
+    @media (min-width: 900px) { .primary-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+
     .ecosystem-grid {
       display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px;
     }
-    @media (min-width: 768px) { .ecosystem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+    @media (min-width: 768px) { .ecosystem-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (min-width: 1200px) { .ecosystem-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     .tech-card {
       position: relative;
       display: flex; flex-direction: column; gap: 12px;
-      padding: 32px;
+      padding: 28px;
       min-width: 0; overflow-wrap: anywhere;
       background:
         radial-gradient(420px 240px at 100% 0%, rgba(37, 99, 235, 0.07), transparent 62%),
@@ -181,42 +302,75 @@ interface EcosystemMapGroup {
       transition: border-color 260ms ease, box-shadow 260ms ease, transform 260ms var(--qm-ease-out);
     }
     .tech-card::before {
-      content: '';
-      position: absolute;
-      inset: 0 0 auto;
-      height: 3px;
-      background: var(--gradient-signal);
-      opacity: 0.8;
+      content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+      background: var(--gradient-signal); opacity: 0.8;
     }
     .tech-card:hover {
       border-color: rgba(37, 99, 235, 0.24);
       box-shadow: var(--shadow-xl);
       transform: translateY(-4px);
     }
-    .tech-card:focus-visible {
-      outline: 2px solid var(--color-accent); outline-offset: 3px;
-    }
-    /* Stretched link: the whole card stays clickable while reference links
-       below remain separately focusable siblings. */
+    .tech-card:focus-within { border-color: rgba(37, 99, 235, 0.3); }
+    .tech-card--primary { padding: 30px; }
+
     .tech-card__title-link { color: inherit; text-decoration: none; }
-    .tech-card__title-link::after {
-      content: ''; position: absolute; inset: 0; border-radius: var(--card-radius);
-    }
+    .tech-card__title-link:hover { color: var(--color-accent); }
     .tech-card__title-link:focus-visible {
       outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 4px;
     }
-    .tech-card__mark { margin-bottom: 4px; }
+    .tech-card__mark { margin-bottom: 2px; }
     .tech-card__meta {
-      display: flex; align-items: center; justify-content: space-between;
+      display: flex; align-items: flex-start; justify-content: space-between;
       gap: 12px; flex-wrap: wrap; min-width: 0;
     }
-    .tech-card__title { font-size: 20px; font-weight: 600; color: var(--color-text-primary); margin: 0; overflow-wrap: anywhere; min-width: 0; }
-    .tech-card__version { font-size: 13px; font-weight: 600; color: var(--color-text-muted); margin: -4px 0 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace; overflow-wrap: anywhere; }
-    .tech-card__tagline { font-size: 14px; font-weight: 500; color: var(--color-accent); margin: 0; overflow-wrap: anywhere; }
-    .tech-card__desc  { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; flex: 1; overflow-wrap: anywhere; min-width: 0; }
-    .tech-card__link  { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: 4px; overflow-wrap: anywhere; }
+    .tech-card__title { font-size: 20px; font-weight: 650; color: var(--color-text-primary); margin: 0; overflow-wrap: anywhere; min-width: 0; }
+    .tech-card__version {
+      font-size: 12.5px; font-weight: 600; color: var(--color-text-muted);
+      margin: -4px 0 0; font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+      overflow-wrap: anywhere;
+    }
+    .tech-card__tagline { font-size: 13.5px; font-weight: 500; color: var(--color-accent); margin: 0; overflow-wrap: anywhere; }
+    .tech-card__desc { font-size: 14px; line-height: 1.65; color: var(--color-text-secondary); margin: 0; overflow-wrap: anywhere; min-width: 0; }
+
+    .tech-card__section { margin-top: 4px; }
+    .tech-card__h4 {
+      margin: 0 0 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--color-accent);
+    }
+    .tech-card__capabilities {
+      margin: 0; padding: 0; list-style: none;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .tech-card__capabilities li {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: 13px; line-height: 1.55; color: var(--color-text-secondary);
+    }
+    .tech-card__capabilities li::before {
+      content: ''; flex: 0 0 auto; width: 5px; height: 5px; margin-top: 7px;
+      border-radius: 50%; background: var(--gradient-signal);
+    }
+
+    .tech-card__spec {
+      margin: 4px 0 0; display: flex; flex-direction: column; gap: 8px;
+      padding-top: 12px; border-top: 1px solid var(--card-border);
+    }
+    .tech-card__spec-row { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12.5px; }
+    .tech-card__spec-row dt { color: var(--color-text-muted); min-width: 100px; }
+    .tech-card__spec-row dd { margin: 0; color: var(--color-text-primary); font-weight: 500; overflow-wrap: anywhere; }
+
+    .tech-card__actions {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+      margin-top: auto; padding-top: 8px;
+    }
+    .tech-card__doc-link {
+      font-size: 12.5px; font-weight: 600; color: var(--color-accent);
+      text-decoration: underline; text-underline-offset: 2px;
+    }
+    .tech-card__doc-link:hover { color: var(--color-accent-dark); }
+    .tech-card__doc-link:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+    .tech-card__link { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: auto; overflow-wrap: anywhere; }
     .tech-card__refs {
-      position: relative; z-index: 1;
       display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
       margin: 0; padding-top: 12px;
       border-top: 1px solid var(--card-border);
@@ -225,15 +379,11 @@ interface EcosystemMapGroup {
     .tech-card__ref { font-size: 12px; color: var(--color-text-muted); text-decoration: underline; text-underline-offset: 2px; overflow-wrap: anywhere; }
     .tech-card__ref:hover { color: var(--color-accent); }
     .tech-card__ref:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-    .tech-card__refsep { font-size: 12px; color: var(--color-text-muted); }
 
     @media (prefers-reduced-motion: reduce) {
       .tech-card { transition: none; }
       .tech-card:hover { transform: none; }
     }
-
-    /* ── DEVELOPER TOOLS ── */
-    .tool-lead { max-width: 640px; margin: 0 0 36px; }
 
     .intro-block {
       text-align: center; display: flex; flex-direction: column;
@@ -242,14 +392,9 @@ interface EcosystemMapGroup {
     .intro-block h2 { margin: 0; }
     .intro-block p { max-width: 680px; margin: 0; }
 
-    .eyebrow {
-      display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); margin-bottom: 16px;
-    }
     .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
     .section-lead { max-width: 680px; margin: 16px 0 0; font-size: 16px; }
 
-    /* ── ECOSYSTEM MAP ── */
     .ecosystem-map {
       display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px;
       margin-top: 24px;
@@ -260,8 +405,7 @@ interface EcosystemMapGroup {
     .ecosystem-group {
       position: relative;
       display: flex; flex-direction: column; gap: 8px;
-      padding: 22px;
-      overflow: hidden;
+      padding: 22px; overflow: hidden;
       background:
         radial-gradient(320px 180px at 100% 0%, rgba(37, 99, 235, 0.06), transparent 62%),
         var(--color-surface);
@@ -271,12 +415,8 @@ interface EcosystemMapGroup {
       transition: transform 260ms var(--qm-ease-out), border-color 260ms ease, box-shadow 260ms ease;
     }
     .ecosystem-group::before {
-      content: '';
-      position: absolute;
-      inset: 0 0 auto;
-      height: 2px;
-      background: var(--gradient-signal);
-      opacity: 0.75;
+      content: ''; position: absolute; inset: 0 0 auto; height: 2px;
+      background: var(--gradient-signal); opacity: 0.75;
     }
     .ecosystem-group:hover {
       transform: translateY(-3px);
@@ -295,6 +435,7 @@ interface EcosystemMapGroup {
     }
     .ecosystem-item__name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); overflow-wrap: anywhere; min-width: 0; }
     ::ng-deep .ecosystem-map qm-badge .qm-badge { white-space: normal; overflow-wrap: anywhere; }
+    ::ng-deep .primary-grid qm-badge .qm-badge,
     ::ng-deep .ecosystem-grid qm-badge .qm-badge { white-space: normal; overflow-wrap: anywhere; }
     .ecosystem-map__note {
       font-size: 13px; line-height: 1.6; color: var(--color-text-secondary);
@@ -312,19 +453,20 @@ export class TechnologyComponent {
       title: 'Engineering Services',
       note: 'Commercial engineering services QuantsMind can discuss, evaluate and deliver.',
       items: [
-        { name: 'Software Architecture', maturity: 'Service', badge: 'default' },
-        { name: 'Quantum Computing', maturity: 'Service', badge: 'default' },
-        { name: 'AI & ML Engineering', maturity: 'Service', badge: 'default' },
-        { name: 'Cloud Engineering', maturity: 'Service', badge: 'default' },
-        { name: 'DevOps & CI/CD', maturity: 'Service', badge: 'default' },
-        { name: 'Technical Consulting', maturity: 'Service', badge: 'default' }
+        { name: 'Quantum Computing & Quantum Software Engineering', maturity: 'Service', badge: 'default' },
+        { name: 'Space Systems & Mission Software Engineering', maturity: 'Service', badge: 'default' },
+        { name: 'AI Engineering & Autonomous Intelligent Systems', maturity: 'Service', badge: 'default' },
+        { name: 'Scientific Computing & Digital Simulation', maturity: 'Service', badge: 'default' },
+        { name: 'Cybersecurity Engineering & Digital Trust', maturity: 'Service', badge: 'default' },
+        { name: 'Industrial Intelligence & Digital Twin Engineering', maturity: 'Service', badge: 'default' }
       ]
     },
     {
-      title: 'Products',
-      note: 'Applications delivered by QuantsMind; availability and licensing are arranged directly.',
+      title: 'Products & Portfolios',
+      note: 'Applications and proposed portfolios delivered by QuantsMind; availability and licensing are arranged directly.',
       items: [
-        { name: 'QuantsMind Document Intelligence Mini', maturity: 'Early Access · v0.1.0', badge: 'early-access' }
+        { name: 'QuantsMind Document Intelligence Mini', maturity: 'Early Access · v0.1.0', badge: 'early-access' },
+        { name: 'Quantum Mission', maturity: 'Proposed · Not available', badge: 'concept' }
       ]
     },
     {
@@ -351,41 +493,60 @@ export class TechnologyComponent {
     }
   ];
 
-  ecosystem: EcosystemTech[] = [
-    {
-      name: 'MicroQuantum',
-      tagline: 'Open Quantum Computing SDK',
-      status: 'Developer Preview',
-      version: 'v1.1.0',
-      badge: 'experimental',
-      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
-      description:
-        'An open, NumPy-only Python SDK for building, executing and analyzing quantum ' +
-        'programs. Version 1.1.0 is a published release on PyPI. Execution is by ' +
-        'simulation; no quantum hardware backend is included, so results describe ' +
-        'classical simulation rather than physical-device behaviour.',
-      href: '/microquantum',
-      repoUrl: 'https://github.com/ajit-ai/microquantum',
-      releaseUrl: 'https://pypi.org/project/microquantum/',
-      releaseLabel: 'PyPI'
-    },
+  primaryTechnologies: EcosystemTech[] = [
     {
       name: 'Karkain',
       tagline: 'General-Purpose Programming Language',
       status: 'Developer Preview',
       version: 'v1.1.0',
       badge: 'experimental',
+      primary: true,
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 4 12 9 19"/><polyline points="15 5 20 12 15 19"/></svg>',
-      description:
-        'An independent, statically typed systems programming language with a ' +
-        'self-hosted compiler. The compiler emits C23 and delegates machine-code ' +
-        'generation to a host C toolchain, so a working C compiler is required. ' +
-        'Version 1.1.0 is a published GitHub release. The language, standard library ' +
-        'and ecosystem are early and the API surface may still change.',
+      purpose:
+        'An independently developed, statically typed systems programming language with a ' +
+        'self-hosted compiler. The compiler emits C23 and delegates machine-code generation ' +
+        'to a host C toolchain, so a working C compiler is required.',
+      capabilities: [
+        'Statically typed systems programming language',
+        'Self-hosted compiler',
+        'Emits C23',
+        'Delegates machine-code generation to a host C toolchain'
+      ],
+      language: 'Karkain · self-hosted compiler · emits C23',
+      description: '',
       href: '/karkain',
       repoUrl: 'https://github.com/ajit-ai/Karkain',
+      docsUrl: 'https://github.com/ajit-ai/Karkain#readme',
+      docsLabel: 'Repository documentation',
       releaseUrl: 'https://github.com/ajit-ai/Karkain/releases/tag/v1.1.0',
       releaseLabel: 'Release v1.1.0'
+    },
+    {
+      name: 'MicroQuantum',
+      tagline: 'Open Quantum Computing SDK',
+      status: 'Developer Preview',
+      version: 'v1.1.0',
+      badge: 'experimental',
+      primary: true,
+      mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
+      purpose:
+        'An open, NumPy-only Python SDK for building, executing and analyzing quantum ' +
+        'programs. Execution is by simulation; no quantum hardware backend is included, so ' +
+        'results describe classical simulation rather than physical-device behaviour.',
+      capabilities: [
+        'Quantum circuit construction and execution workflows',
+        'Classical quantum circuit simulation',
+        'NumPy-only Python implementation',
+        'Published PyPI package at v1.1.0'
+      ],
+      language: 'Python · NumPy-only · classical simulation',
+      description: '',
+      href: '/microquantum',
+      repoUrl: 'https://github.com/ajit-ai/microquantum',
+      docsUrl: 'https://ajit-ai.github.io/microquantum/',
+      docsLabel: 'Documentation',
+      releaseUrl: 'https://pypi.org/project/microquantum/',
+      releaseLabel: 'PyPI'
     },
     {
       name: 'QuantsMind SDK',
@@ -393,19 +554,31 @@ export class TechnologyComponent {
       status: 'Developer Preview',
       version: 'v1.1.0',
       badge: 'experimental',
+      primary: true,
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
-      description:
+      purpose:
         'An open, vendor-independent Python SDK for scientific computing, published on ' +
-        'PyPI as the package "quantsmind". It provides modules across mathematics, ' +
-        'physics, chemistry, biology, astronomy, finance, agent abstractions and ' +
-        'knowledge graphs. It is a young project with a rapidly growing surface and ' +
-        'requires Python 3.13 or newer; module coverage and numerical accuracy vary by ' +
-        'domain and are not uniformly benchmarked.',
+        'PyPI as the package "quantsmind". It provides modules across mathematics, physics, ' +
+        'chemistry, biology, astronomy, finance, agent abstractions and knowledge graphs. It ' +
+        'requires Python 3.13 or newer.',
+      capabilities: [
+        'Mathematics, physics, chemistry, biology and astronomy modules',
+        'Finance modules',
+        'Agent abstractions and knowledge graphs',
+        'Python 3.13+ package published on PyPI'
+      ],
+      language: 'Python 3.13+ · package "quantsmind"',
+      description: '',
       href: '/quantsmind-sdk',
       repoUrl: 'https://github.com/ajit-ai/quantsmind-quantum-sdk',
+      docsUrl: 'https://github.com/ajit-ai/quantsmind-quantum-sdk#readme',
+      docsLabel: 'Repository documentation',
       releaseUrl: 'https://pypi.org/project/quantsmind/',
       releaseLabel: 'PyPI'
-    },
+    }
+  ];
+
+  secondaryTechnologies: EcosystemTech[] = [
     {
       name: 'QuantsMind Relational DB',
       tagline: 'Embeddable Relational Database Engine',

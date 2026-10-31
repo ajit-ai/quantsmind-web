@@ -6,30 +6,32 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
 import { QmInfoCardComponent }  from '../../shared/components/qm-info-card/qm-info-card.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 import { BlogArticle } from './blog-article.model';
 import { BLOG_ARTICLES } from './articles';
 
 @Component({
     selector: 'app-blog-article',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmBadgeComponent, QmInfoCardComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmBadgeComponent, QmInfoCardComponent, QmPageHeroComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     @if (article(); as article) {
     <!-- HERO -->
-    <section class="page-hero surface-subtle">
-      <qm-container>
+    <qm-page-hero
+      eyebrow="BLOG ARTICLE"
+      [title]="article.title"
+      [lead]="article.summary"
+      [artLabels]="['Insight', 'Research', 'Engineering', 'Practice']">
+      <div heroBadge class="article-hero__meta">
         <a routerLink="/blog" class="back">&larr; Back to articles</a>
-
         <div class="badges">
           <qm-badge variant="default">{{ article.category }}</qm-badge>
           <qm-badge [variant]="article.maturityVariant">{{ article.maturity }}</qm-badge>
         </div>
-
-        <h1>{{ article.title }}</h1>
-        <p class="standfirst">{{ article.summary }}</p>
-      </qm-container>
-    </section>
+      </div>
+    </qm-page-hero>
 
     <!-- BODY -->
     <qm-section surface="white" ariaLabel="Article">
@@ -38,7 +40,7 @@ import { BLOG_ARTICLES } from './articles';
           <p class="prose__intro">{{ article.intro }}</p>
 
           @for (section of article.sections; track section.heading) {
-            <section class="prose__section">
+            <section class="prose__section" qmReveal>
               <h2>{{ section.heading }}</h2>
 
               @for (block of section.blocks; track $index) {
@@ -104,7 +106,7 @@ import { BLOG_ARTICLES } from './articles';
           </nav>
 
           @if (article.verification?.length) {
-            <section class="verify" aria-label="Related pages on this site">
+            <section class="verify" aria-label="Related pages on this site" qmReveal>
               <h2 class="verify__title">Also on this site</h2>
               <ul class="verify__list">
                 @for (target of article.verification; track target.route) {
@@ -117,7 +119,7 @@ import { BLOG_ARTICLES } from './articles';
           }
 
           @if (related().length > 0) {
-            <section class="related" aria-label="More articles in this category">
+            <section class="related" aria-label="More articles in this category" qmReveal>
               <h2 class="related__title">More {{ article.category }} articles</h2>
               <ul class="related__list">
                 @for (other of related(); track other.slug) {
@@ -134,40 +136,29 @@ import { BLOG_ARTICLES } from './articles';
     </qm-section>
     } @else {
     <!-- Unknown slug: no article renders, and the index is shown instead. -->
-    <section class="page-hero surface-subtle">
-      <qm-container>
-        <span class="eyebrow">BLOG</span>
-        <h1>Article not found</h1>
-        <p class="lead">
-          That article does not exist. Browse the index to find the articles that are published.
-        </p>
-        <p class="notfound"><a routerLink="/blog" class="prose__nav-link">&larr; Back to all articles</a></p>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="BLOG"
+      title="Article not found"
+      lead="That article does not exist. Browse the index to find the articles that are published."
+      art="none">
+      <a heroActions routerLink="/blog" class="back">&larr; Back to all articles</a>
+    </qm-page-hero>
     }
     `,
     styles: [`
     /* ── HERO ──────────────────────────────────────────── */
-    .page-hero { padding: 56px 0 48px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 80px 0 64px; } }
+    .article-hero__meta { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
     .back {
-      display: inline-block; margin-bottom: 24px;
+      display: inline-block;
       font-size: 14px; font-weight: 500;
       color: var(--color-text-secondary); text-decoration: none;
+      transition: color 160ms ease, transform 160ms ease;
     }
-    .back:hover { color: var(--color-accent); text-decoration: underline; }
+    .back:hover { color: var(--color-accent); transform: translateX(-2px); }
     .back:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 3px; }
-    .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; max-width: 100%; min-width: 0; }
+    .badges { display: flex; flex-wrap: wrap; gap: 8px; max-width: 100%; min-width: 0; }
     .badges > * { min-width: 0; max-width: 100%; }
     ::ng-deep .badges .qm-badge { white-space: normal !important; overflow-wrap: anywhere; }
-    .page-hero h1 {
-      max-width: 820px; margin: 0 0 20px;
-      font-size: clamp(30px, 4vw, 44px); line-height: 1.15; letter-spacing: -0.02em;
-    }
-    .standfirst {
-      max-width: 760px; margin: 0;
-      font-size: 18px; line-height: 1.7; color: var(--color-text-secondary);
-    }
 
     /* ── PROSE ─────────────────────────────────────────── */
     .prose { max-width: 860px; }
@@ -239,13 +230,6 @@ import { BLOG_ARTICLES } from './articles';
     }
     .prose__nav-link:hover { text-decoration: underline; }
     .prose__nav-link:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 3px; }
-    .eyebrow {
-      display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--color-accent); margin-bottom: 16px;
-    }
-    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
-    .notfound { margin: 24px 0 0; }
 
     /* ── RELATED ───────────────────────────────────────── */
     .related { margin-top: 40px; }

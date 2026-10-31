@@ -385,8 +385,8 @@ interface SearchEntry {
       height: 2px;
       background: linear-gradient(90deg,
         var(--color-accent),
-        var(--color-sdk),
-        var(--color-labs));
+        var(--color-cyan),
+        var(--color-accent-indigo));
     }
 
     .qm-header__inner {
@@ -396,7 +396,7 @@ interface SearchEntry {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 32px;
-      height: 68px;
+      height: 72px;
     }
 
     /* ── Logo ────────────────────────────────────────── */
@@ -408,21 +408,33 @@ interface SearchEntry {
       flex-shrink: 0;
     }
     .qm-header__logo-mark {
+      position: relative;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 38px;
-      height: 38px;
-      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-indigo));
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-brand);
+      border-radius: 12px;
+      box-shadow:
+        0 8px 20px -8px rgba(37, 99, 235, 0.65),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+    .qm-header__logo-mark::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 15px;
+      border: 1px solid rgba(37, 99, 235, 0.18);
+      pointer-events: none;
     }
     .qm-header__logo-text { display: flex; flex-direction: column; line-height: 1.15; }
     .qm-header__logo-name {
+      font-family: 'Sora', 'Inter', system-ui, sans-serif;
       font-size: 16px;
       font-weight: 700;
       color: var(--qm-header-text-strong);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
     .qm-header__logo-tag {
       font-size: 10px;
@@ -451,13 +463,13 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      padding: 9px 12px;
+      padding: 9px 13px;
       font-size: 14px;
       font-weight: 500;
       color: var(--qm-header-text);
       text-decoration: none;
-      border-radius: 8px;
-      transition: color 150ms ease;
+      border-radius: 999px;
+      transition: color 180ms ease, background-color 180ms ease;
     }
     .qm-header__nav-link:focus-visible,
     .qm-header__icon-btn:focus-visible,
@@ -469,23 +481,30 @@ interface SearchEntry {
     .qm-header__nav-link:hover,
     .qm-header__nav-link--active {
       color: var(--qm-header-text-strong);
+      background: var(--qm-panel-hover);
     }
-    .qm-header__nav-link--active { color: var(--qm-header-accent); }
+    .qm-header__nav-link--active {
+      color: var(--qm-header-accent);
+      background: var(--qm-panel-icon);
+    }
     .qm-header__nav-link::after {
       content: '';
       position: absolute;
-      left: 12px;
-      right: 12px;
-      bottom: 2px;
-      height: 2px;
-      border-radius: 2px;
-      background: var(--qm-header-accent);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 200ms ease;
+      left: 50%;
+      bottom: 1px;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gradient-signal);
+      opacity: 0;
+      transform: translateX(-50%) scale(0.4);
+      transition: opacity 200ms ease, transform 200ms ease;
     }
     .qm-header__nav-link:hover::after,
-    .qm-header__nav-link--active::after { transform: scaleX(1); }
+    .qm-header__nav-link--active::after {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
     .qm-header__nav-link:focus-visible {
       outline: 2px solid var(--qm-header-accent);
       outline-offset: 2px;
@@ -517,8 +536,8 @@ interface SearchEntry {
       width: 38px;
       height: 38px;
       border: 1px solid var(--qm-header-border);
-      border-radius: 10px;
-      background: transparent;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.45);
       color: var(--qm-header-text);
       cursor: pointer;
       transition: color 150ms ease, border-color 150ms ease, transform 150ms ease, background 150ms ease;
@@ -537,20 +556,34 @@ interface SearchEntry {
     /* ── Mega menu ───────────────────────────────────── */
     .qm-mega {
       position: absolute;
-      top: calc(100% + 8px);
+      top: calc(100% + 10px);
       left: 0;
       transform: none;
       background: var(--qm-panel-bg);
       border: 1px solid var(--qm-panel-border);
-      border-radius: 10px;
-      box-shadow: 0 16px 40px rgba(2, 6, 23, 0.12);
+      border-radius: 16px;
+      box-shadow:
+        0 24px 60px -12px rgba(2, 6, 23, 0.18),
+        0 8px 24px -12px rgba(2, 6, 23, 0.12);
       z-index: 300;
-      min-width: 240px;
-      max-width: min(520px, calc(100vw - 24px));
-      max-height: min(60vh, 420px);
+      min-width: 260px;
+      max-width: min(540px, calc(100vw - 24px));
+      max-height: min(60vh, 440px);
       overflow-y: auto;
       overflow-x: hidden;
-      animation: qmMegaIn 150ms ease;
+      animation: qmMegaIn 160ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .qm-mega::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 16px;
+      right: 16px;
+      height: 2px;
+      border-radius: 0 0 2px 2px;
+      background: var(--gradient-signal);
+      opacity: 0.7;
+      pointer-events: none;
     }
     .qm-mega::before {
       content: '';
@@ -576,9 +609,9 @@ interface SearchEntry {
     .qm-mega__link {
       display: flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 8px;
-      border-radius: 8px;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
       text-decoration: none;
       transition: background 150ms ease, transform 150ms ease;
     }
@@ -594,9 +627,9 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 6px;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
       background: var(--qm-panel-icon);
       color: var(--qm-header-accent);
       flex-shrink: 0;
@@ -679,12 +712,13 @@ interface SearchEntry {
       top: 0;
       right: 0;
       bottom: 0;
-      width: min(88vw, 380px);
+      width: min(88vw, 400px);
       background: var(--qm-panel-bg);
+      border-left: 1px solid var(--qm-panel-border);
       z-index: 220;
       overflow-y: auto;
-      box-shadow: -20px 0 60px rgba(0, 0, 0, 0.25);
-      animation: qmDrawerIn 260ms ease;
+      box-shadow: -24px 0 70px rgba(2, 6, 23, 0.28);
+      animation: qmDrawerIn 260ms cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes qmDrawerIn {
       from { transform: translateX(100%); }
@@ -821,13 +855,15 @@ interface SearchEntry {
     .qm-search-overlay__panel {
       position: relative;
       width: 100%;
-      max-width: 620px;
+      max-width: 640px;
       background: var(--qm-panel-bg);
       border: 1px solid var(--qm-panel-border);
-      border-radius: 16px;
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
-      animation: qmPanelIn 200ms ease;
+      box-shadow:
+        0 32px 90px rgba(2, 6, 23, 0.36),
+        0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+      animation: qmPanelIn 220ms cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes qmPanelIn {
       from { opacity: 0; transform: translateY(-12px) scale(0.98); }

@@ -18,6 +18,9 @@
 // 5. Surface system (shared card language, glass, product marks)
 @use 'styles/surface';
 
+// 6. Visual system (heroes, aurora, bento, orbit, motion)
+@use 'styles/visuals';
+
 /* Skip link for accessibility */
 .skip-link {
   position: absolute;
@@ -46,13 +49,13 @@
   color-scheme: light;
 
   /* Header chrome */
-  --qm-header-bg: rgba(255, 255, 255, 0.88);
-  --qm-header-border: #E2E8F0;
+  --qm-header-bg: rgba(255, 255, 255, 0.82);
+  --qm-header-border: rgba(226, 232, 240, 0.85);
   --qm-header-text: #475569;
-  --qm-header-text-strong: #0F172A;
+  --qm-header-text-strong: #0B1B33;
   --qm-header-muted: #64748B;
   --qm-header-accent: #2563EB;
-  --qm-header-shadow: 0 10px 32px rgba(2, 6, 23, 0.08);
+  --qm-header-shadow: 0 18px 44px -18px rgba(2, 6, 23, 0.18);
 
   /* Dropdown / panel surfaces */
   --qm-panel-bg: #FFFFFF;
@@ -61,9 +64,9 @@
   --qm-panel-icon: #EFF6FF;
 
   /* Footer */
-  --qm-footer-bg: #0F172A;
-  --qm-footer-bg-soft: #16203A;
-  --qm-footer-border: #1E293B;
+  --qm-footer-bg: #06101F;
+  --qm-footer-bg-soft: #0B1B33;
+  --qm-footer-border: #172A45;
   --qm-footer-text: #94A3B8;
   --qm-footer-text-strong: #F1F5F9;
   --qm-footer-heading: #E2E8F0;

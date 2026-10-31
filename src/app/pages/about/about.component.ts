@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 interface Pillar {
   title: string;
@@ -15,25 +17,21 @@ interface Pillar {
 
 @Component({
     selector: 'app-about',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmPageHeroComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="page-hero surface-subtle">
-      <qm-container>
-        <span class="eyebrow">ABOUT</span>
-        <h1>About QuantsMind.</h1>
-        <p class="lead">
-          QuantsMind is a technology engineering company focused on two things:
-          engineering services and technology development.
-        </p>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="ABOUT"
+      title="About QuantsMind."
+      lead="QuantsMind is a technology engineering company focused on two things: engineering services and technology development."
+      [artLabels]="['Engineering', 'Technology', 'Research', 'Delivery']">
+    </qm-page-hero>
 
     <qm-section surface="white">
       <qm-container>
         <div class="pillars-grid">
-          @for (pillar of pillars; track pillar) {
-            <article class="pillar-card">
+          @for (pillar of pillars; track pillar; let i = $index) {
+            <article class="pillar-card" qmReveal [qmRevealDelay]="i * 90">
               <span class="eyebrow">{{ pillar.title }}</span>
               <p class="pillar-card__desc">{{ pillar.description }}</p>
               <ul class="pillar-card__list">
@@ -85,21 +83,33 @@ interface Pillar {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
-    .page-hero h1 { max-width: 700px; margin: 0 0 20px; }
-    .page-hero .lead { max-width: 640px; margin: 0; }
-
     .pillars-grid {
       display: grid; grid-template-columns: 1fr; gap: 24px;
     }
     @media (min-width: 768px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); } }
 
     .pillar-card {
+      position: relative;
       display: flex; flex-direction: column; align-items: flex-start; gap: 16px;
-      padding: 36px; background: var(--card-bg-subtle);
-      border: 1px solid var(--card-border); border-radius: var(--card-radius);
-      box-shadow: var(--card-shadow);
+      padding: 36px; overflow: hidden;
+      background:
+        radial-gradient(420px 220px at 100% 0%, rgba(37, 99, 235, 0.08), transparent 62%),
+        var(--color-surface);
+      border: 1px solid var(--card-border); border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xs);
+      transition: transform 280ms var(--qm-ease-out), box-shadow 280ms var(--qm-ease-out), border-color 280ms var(--qm-ease-out);
+    }
+    .pillar-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--gradient-signal);
+    }
+    .pillar-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(37, 99, 235, 0.22);
+      box-shadow: var(--shadow-xl);
     }
     .pillar-card__desc {
       font-size: 15px; line-height: 1.7; color: var(--color-text-secondary);

@@ -168,15 +168,35 @@ interface FooterLink {
     styles: [`
     /* ── Shell ─────────────────────────────────────────── */
     .qm-footer {
-      background: var(--qm-footer-bg);
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      background:
+        radial-gradient(900px 460px at 82% -20%, rgba(37, 99, 235, 0.16), transparent 62%),
+        radial-gradient(700px 400px at 8% 120%, rgba(6, 182, 212, 0.08), transparent 62%),
+        var(--qm-footer-bg);
       color: var(--qm-footer-text);
       font-size: 14px;
+    }
+    .qm-footer::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      background-image:
+        linear-gradient(to right, rgba(148, 163, 184, 0.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 163, 184, 0.05) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 70% 80% at 70% 0%, #000, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 80% at 70% 0%, #000, transparent 72%);
+      pointer-events: none;
     }
     .qm-footer__accent {
       height: 3px;
       background: linear-gradient(90deg,
         var(--color-accent),
-        var(--color-sdk),
+        var(--color-cyan),
+        var(--color-accent-indigo),
         var(--color-labs));
     }
     .qm-footer__container {
@@ -189,7 +209,7 @@ interface FooterLink {
 
     /* ── Main grid ─────────────────────────────────────── */
     .qm-footer__main {
-      padding: 40px 0 32px;
+      padding: 56px 0 40px;
       border-bottom: 1px solid var(--qm-footer-border);
     }
     .qm-footer__grid {
@@ -215,18 +235,21 @@ interface FooterLink {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 36px;
-      height: 36px;
-      background: linear-gradient(135deg, var(--color-accent), var(--color-accent-indigo));
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-brand);
+      border-radius: 12px;
+      box-shadow:
+        0 10px 24px -10px rgba(37, 99, 235, 0.75),
+        inset 0 1px 0 rgba(255, 255, 255, 0.35);
     }
     .qm-footer__logo-text { display: flex; flex-direction: column; line-height: 1.15; }
     .qm-footer__logo-name {
-      font-size: 16px;
+      font-family: 'Sora', 'Inter', system-ui, sans-serif;
+      font-size: 17px;
       font-weight: 700;
       color: var(--qm-footer-text-strong);
-      letter-spacing: -0.02em;
+      letter-spacing: -0.03em;
     }
     .qm-footer__logo-tag {
       font-size: 10px;
@@ -267,12 +290,22 @@ interface FooterLink {
 
     /* Columns */
     .qm-footer__heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
       margin: 0 0 18px;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--qm-footer-heading);
+    }
+    .qm-footer__heading::before {
+      content: '';
+      width: 16px;
+      height: 1.5px;
+      border-radius: 999px;
+      background: var(--gradient-signal);
     }
     .qm-footer__list {
       list-style: none;
@@ -285,13 +318,18 @@ interface FooterLink {
     .qm-footer__link {
       color: var(--qm-footer-text);
       text-decoration: none;
-      transition: color 150ms ease;
+      transition: color 150ms ease, transform 150ms ease;
+      display: inline-block;
     }
-    .qm-footer__link:hover { color: var(--qm-footer-text-strong); }
+    .qm-footer__link:hover {
+      color: var(--qm-footer-text-strong);
+      transform: translateX(3px);
+    }
 
     /* ── Contact ───────────────────────────────────────── */
     .qm-footer__contact {
       border-bottom: 1px solid var(--qm-footer-border);
+      background: linear-gradient(90deg, rgba(37, 99, 235, 0.07), rgba(6, 182, 212, 0.035));
     }
     .qm-footer__contact-grid {
       display: flex;

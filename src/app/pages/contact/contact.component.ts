@@ -11,32 +11,30 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 type SubmitErrorReason = ContactErrorReason | 'rate-limited';
 
 @Component({
     selector: 'app-contact',
-    imports: [FormsModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
+    imports: [FormsModule, RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmPageHeroComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- Hero -->
-    <section class="page-hero surface-subtle">
-      <qm-container>
-        <span class="eyebrow">CONTACT</span>
-        <h1>Let's Build Something Useful.</h1>
-        <p class="lead">
-          Tell us about your engineering requirement, technology challenge or
-          collaboration idea. We will read it carefully and respond thoughtfully.
-        </p>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="CONTACT"
+      title="Let's Build Something Useful."
+      lead="Tell us about your engineering requirement, technology challenge or collaboration idea. We will read it carefully and respond thoughtfully."
+      [artLabels]="['Requirement', 'Architecture', 'Delivery', 'Support']">
+    </qm-page-hero>
     
     <qm-section surface="white">
       <qm-container>
         <div class="contact-layout">
     
           <!-- ── FORM COLUMN ── -->
-          <div class="contact-form-col">
+          <div class="contact-form-col" qmReveal>
             <h2>Send an Enquiry</h2>
             <p class="contact-form-intro">
               Tell us what you are working on. We will read it carefully and respond thoughtfully.
@@ -185,7 +183,7 @@ type SubmitErrorReason = ContactErrorReason | 'rate-limited';
                     </div>
     
                     <!-- ── SIDEBAR ── -->
-                    <aside class="contact-sidebar">
+                    <aside class="contact-sidebar" qmReveal [qmRevealDelay]="120">
     
                       <!-- Entry points -->
                       <div class="sidebar-entry-points">
@@ -284,11 +282,6 @@ type SubmitErrorReason = ContactErrorReason | 'rate-limited';
                 </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
-    .page-hero h1 { max-width: 760px; margin: 0 0 20px; }
-    .page-hero .lead { max-width: 640px; margin: 0; }
-
     .contact-layout {
       display: grid; grid-template-columns: 1fr; gap: 40px; align-items: start;
     }

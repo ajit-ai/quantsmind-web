@@ -4,6 +4,8 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { SafeHtmlPipe } from '../../shared/pipes/safe-html.pipe';
 
 interface Capability { icon: string; title: string; description: string; }
@@ -12,46 +14,44 @@ interface TechLink { title: string; description: string; href: string; badge: st
 
 @Component({
     selector: 'app-quantum',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmPageHeroComponent, QmRevealDirective, SafeHtmlPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="q-page-hero" aria-label="Quantum Computing Engineering">
-      <qm-container>
+    <qm-page-hero
+      eyebrow="QUANTUM ENGINEERING"
+      title="Quantum Computing Engineering"
+      lead="Explore quantum software, algorithms, simulation, and hybrid computing workflows with practical engineering support."
+      tone="quantum"
+      art="none"
+      [hasProjectedArt]="true">
+      <div heroBadge class="q-hero__badges">
         <a routerLink="/services" class="q-back">&larr; Services</a>
-        <div class="q-hero__grid">
-          <div class="q-hero__content">
-            <qm-badge variant="quantum" class="q-hero__badge">Engineering Capability</qm-badge>
-            <h1 class="q-hero__title">Quantum Computing Engineering</h1>
-            <p class="q-hero__lead">Explore quantum software, algorithms, simulation, and hybrid computing workflows with practical engineering support.</p>
-            <p class="q-hero__note">QuantsMind provides quantum engineering services built on classical simulation. We do not claim access to quantum hardware, demonstrated quantum advantage, or production-ready quantum infrastructure.</p>
-            <div class="q-hero__actions">
-              <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">Discuss a Quantum Project</qm-button>
-              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/microquantum'">Explore MicroQuantum</qm-button>
-            </div>
-          </div>
-          <div class="q-hero__visual">
-            <svg class="q-bloch" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic Bloch sphere: a geometric model of a single qubit state">
-              <title>Bloch sphere: a geometric representation of a single qubit state</title>
-              <circle cx="100" cy="100" r="80" fill="none" stroke="var(--color-border)" stroke-width="1.5"/>
-              <ellipse cx="100" cy="100" rx="80" ry="28" fill="none" stroke="var(--color-border)" stroke-width="1" opacity="0.5"/>
-              <ellipse cx="100" cy="100" rx="28" ry="80" fill="none" stroke="var(--color-border)" stroke-width="1" opacity="0.5"/>
-              <line x1="100" y1="20" x2="100" y2="180" stroke="var(--color-text-muted)" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
-              <line x1="20" y1="100" x2="180" y2="100" stroke="var(--color-text-muted)" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
-              <line x1="100" y1="100" x2="155" y2="55" stroke="var(--color-accent, #6366f1)" stroke-width="2.5" stroke-linecap="round" class="q-state-vector"/>
-              <circle cx="155" cy="55" r="5" fill="var(--color-accent, #6366f1)" class="q-state-dot"/>
-              <text x="100" y="14" text-anchor="middle" font-size="11" fill="var(--color-text-muted)" font-family="monospace">|0&gt;</text>
-              <text x="100" y="196" text-anchor="middle" font-size="11" fill="var(--color-text-muted)" font-family="monospace">|1&gt;</text>
-              <text x="188" y="104" text-anchor="start" font-size="11" fill="var(--color-text-muted)" font-family="monospace">x</text>
-            </svg>
-            <p class="q-visual-caption">Bloch sphere — a schematic geometric model of a single qubit state used in circuit design and simulation.</p>
-          </div>
-        </div>
-      </qm-container>
-    </section>
+        <qm-badge variant="quantum">Engineering Capability</qm-badge>
+      </div>
+      <p heroLead class="q-hero__note">QuantsMind provides quantum engineering services built on classical simulation. We do not claim access to quantum hardware, demonstrated quantum advantage, or production-ready quantum infrastructure.</p>
+      <qm-button heroActions variant="primary" size="lg" [routerLinkValue]="'/contact'">Discuss a Quantum Project</qm-button>
+      <qm-button heroActions variant="secondary" size="lg" [routerLinkValue]="'/microquantum'">Explore MicroQuantum</qm-button>
+      <div heroArt class="q-hero__visual">
+        <svg class="q-bloch" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schematic Bloch sphere: a geometric model of a single qubit state">
+          <title>Bloch sphere: a geometric representation of a single qubit state</title>
+          <circle cx="100" cy="100" r="80" fill="none" stroke="var(--color-border)" stroke-width="1.5"/>
+          <ellipse cx="100" cy="100" rx="80" ry="28" fill="none" stroke="var(--color-border)" stroke-width="1" opacity="0.5"/>
+          <ellipse cx="100" cy="100" rx="28" ry="80" fill="none" stroke="var(--color-border)" stroke-width="1" opacity="0.5"/>
+          <line x1="100" y1="20" x2="100" y2="180" stroke="var(--color-text-muted)" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+          <line x1="20" y1="100" x2="180" y2="100" stroke="var(--color-text-muted)" stroke-width="1" stroke-dasharray="4 3" opacity="0.4"/>
+          <line x1="100" y1="100" x2="155" y2="55" stroke="var(--color-accent, #6366f1)" stroke-width="2.5" stroke-linecap="round" class="q-state-vector"/>
+          <circle cx="155" cy="55" r="5" fill="var(--color-accent, #6366f1)" class="q-state-dot"/>
+          <text x="100" y="14" text-anchor="middle" font-size="11" fill="var(--color-text-muted)" font-family="monospace">|0&gt;</text>
+          <text x="100" y="196" text-anchor="middle" font-size="11" fill="var(--color-text-muted)" font-family="monospace">|1&gt;</text>
+          <text x="188" y="104" text-anchor="start" font-size="11" fill="var(--color-text-muted)" font-family="monospace">x</text>
+        </svg>
+        <p class="q-visual-caption">Bloch sphere — a schematic geometric model of a single qubit state used in circuit design and simulation.</p>
+      </div>
+    </qm-page-hero>
 
     <qm-section surface="subtle" size="md">
       <qm-container>
-        <figure class="q-workflow" aria-labelledby="q-workflow-title" aria-describedby="q-workflow-caption">
+        <figure class="q-workflow" aria-labelledby="q-workflow-title" aria-describedby="q-workflow-caption" qmReveal>
           <h2 id="q-workflow-title" class="q-workflow__title">Example Hybrid Quantum–Classical Workflow</h2>
           <p class="q-workflow__lead">A representative variational loop, shown as a software pattern rather than a finished product.</p>
           <ol class="q-workflow__flow" aria-label="Hybrid quantum-classical variational workflow stages">
@@ -100,10 +100,10 @@ interface TechLink { title: string; description: string; href: string; badge: st
 
     <qm-section surface="white" size="md">
       <qm-container>
-        <div class="q-section-header"><h2>Engineering Capabilities</h2><p class="lead">Service offerings framed as engineering capabilities — not guaranteed commercial outcomes.</p></div>
+        <div class="q-section-header" qmReveal><h2>Engineering Capabilities</h2><p class="lead">Service offerings framed as engineering capabilities — not guaranteed commercial outcomes.</p></div>
         <div class="q-cap-grid">
-          @for (cap of capabilities; track cap.title) {
-            <article class="q-cap-card">
+          @for (cap of capabilities; track cap.title; let i = $index) {
+            <article class="q-cap-card" qmReveal [qmRevealDelay]="i * 55">
               <div class="q-cap-card__icon" aria-hidden="true" [innerHTML]="cap.icon | qmSafeHtml"></div>
               <h3 class="q-cap-card__title">{{ cap.title }}</h3>
               <p class="q-cap-card__desc">{{ cap.description }}</p>
@@ -115,10 +115,10 @@ interface TechLink { title: string; description: string; href: string; badge: st
 
     <qm-section surface="subtle" size="md">
       <qm-container>
-        <div class="q-section-header"><h2>Engagement Approach</h2><p class="lead">A realistic, step-by-step process for assessing and prototyping quantum solutions.</p></div>
+        <div class="q-section-header" qmReveal><h2>Engagement Approach</h2><p class="lead">A realistic, step-by-step process for assessing and prototyping quantum solutions.</p></div>
         <ol class="q-steps">
-          @for (step of engagementSteps; track step.number) {
-            <li class="q-step">
+          @for (step of engagementSteps; track step.number; let i = $index) {
+            <li class="q-step" qmReveal [qmRevealDelay]="i * 55">
               <span class="q-step__number" aria-hidden="true">{{ step.number }}</span>
               <div class="q-step__content">
                 <h3 class="q-step__title">{{ step.title }}</h3>
@@ -132,26 +132,26 @@ interface TechLink { title: string; description: string; href: string; badge: st
 
     <qm-section surface="white" size="md">
       <qm-container>
-        <div class="q-section-header"><h2>Technology Connections</h2><p class="lead">Quantum engineering services connect to QuantsMind's open-source quantum tooling and research.</p></div>
+        <div class="q-section-header" qmReveal><h2>Technology Connections</h2><p class="lead">Quantum engineering services connect to QuantsMind's open-source quantum tooling and research.</p></div>
         <div class="q-tech-grid">
-          @for (link of techLinks; track link.title) {
-            <a [routerLink]="link.href" class="q-tech-card">
+          @for (link of techLinks; track link.title; let i = $index) {
+            <a [routerLink]="link.href" class="q-tech-card" qmReveal [qmRevealDelay]="i * 70">
               <div class="q-tech-card__header"><h3 class="q-tech-card__title">{{ link.title }}</h3><qm-badge [variant]="link.badgeVariant" class="q-tech-card__badge">{{ link.badge }}</qm-badge></div>
               <p class="q-tech-card__desc">{{ link.description }}</p>
               <span class="q-tech-card__cta">Learn more &rarr;</span>
             </a>
           }
         </div>
-        <div class="q-disclaimer"><p><strong>Important distinctions:</strong> MicroQuantum and the QuantsMind SDK are developer-preview tools executed by classical simulation. They are not quantum hardware. Labs projects are experimental research. No production-ready quantum infrastructure or validated customer deployments are claimed.</p></div>
+        <div class="q-disclaimer" qmReveal><p><strong>Important distinctions:</strong> MicroQuantum and the QuantsMind SDK are developer-preview tools executed by classical simulation. They are not quantum hardware. Labs projects are experimental research. No production-ready quantum infrastructure or validated customer deployments are claimed.</p></div>
       </qm-container>
     </qm-section>
 
-    <qm-section surface="accent" size="md">
+    <qm-section surface="canvas" size="md">
       <qm-container>
-        <div class="q-cta">
+        <div class="qm-cta-band q-cta" qmReveal>
           <h2>Discuss Your Quantum Engineering Needs</h2>
           <p>Whether you are exploring quantum feasibility, prototyping algorithms, or evaluating simulation-based approaches, we can help assess what is realistic today.</p>
-          <div class="q-cta__actions">
+          <div class="qm-cta-band__actions q-cta__actions">
             <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">Discuss a Quantum Project</qm-button>
             <qm-button variant="secondary" size="lg" [routerLinkValue]="'/services'">View All Services</qm-button>
           </div>
@@ -160,59 +160,102 @@ interface TechLink { title: string; description: string; href: string; badge: st
     </qm-section>
     `,
     styles: [`
-      .q-page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
-      @media (min-width: 768px) { .q-page-hero { padding: 88px 0 64px; } }
-      .q-back { display: inline-block; margin-bottom: 24px; font-size: 14px; color: var(--color-text-muted); text-decoration: none; }
-      .q-back:hover { color: var(--color-text-primary); }
-      .q-hero__grid { display: grid; grid-template-columns: 1fr; gap: 40px; align-items: center; }
-      @media (min-width: 1024px) { .q-hero__grid { grid-template-columns: 1fr 1fr; gap: 64px; } }
-      .q-hero__badge { margin-bottom: 16px; }
-      .q-hero__title { font-size: 36px; line-height: 1.1; margin: 0 0 16px; font-weight: 700; }
-      @media (min-width: 768px) { .q-hero__title { font-size: 48px; } }
-      .q-hero__lead { font-size: 18px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 16px; max-width: 560px; }
-      .q-hero__note { font-size: 14px; line-height: 1.6; color: var(--color-text-muted); margin: 0 0 24px; max-width: 560px; font-style: italic; }
-      .q-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .q-hero__badges { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-bottom: 18px; }
+      .q-back { display: inline-block; font-size: 13px; font-weight: 500; color: var(--color-text-muted); text-decoration: none; transition: color 160ms ease, transform 160ms ease; }
+      .q-back:hover { color: var(--color-accent); transform: translateX(-2px); }
+      .q-hero__note {
+        font-size: 14px; line-height: 1.65; color: var(--color-text-muted);
+        margin: 20px 0 0; max-width: 580px; font-style: italic;
+        padding-left: 16px; border-left: 2px solid rgba(37, 99, 235, 0.25);
+      }
       .q-hero__visual { display: flex; flex-direction: column; align-items: center; }
-      .q-bloch { width: 100%; max-width: 280px; height: auto; }
+      .q-bloch { width: 100%; max-width: 340px; height: auto; filter: drop-shadow(0 24px 48px rgba(37, 99, 235, 0.12)); }
       .q-state-vector { animation: q-pulse 3s ease-in-out infinite; }
       .q-state-dot { animation: q-pulse 3s ease-in-out infinite; }
       @keyframes q-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
       @media (prefers-reduced-motion: reduce) { .q-state-vector, .q-state-dot { animation: none; } }
-      .q-visual-caption { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-top: 12px; max-width: 280px; }
+      .q-visual-caption { font-size: 12px; color: var(--color-text-muted); text-align: center; margin-top: 14px; max-width: 300px; line-height: 1.6; }
       .q-section-header { margin-bottom: 40px; }
       .q-section-header h2 { margin: 0 0 8px; }
       .q-section-header .lead { margin: 0; color: var(--color-text-secondary); }
-      .q-cap-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
+      .q-cap-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
       @media (min-width: 640px) { .q-cap-grid { grid-template-columns: repeat(2, 1fr); } }
       @media (min-width: 1024px) { .q-cap-grid { grid-template-columns: repeat(3, 1fr); } }
-      .q-cap-card { padding: 24px; border: 1px solid var(--color-border); border-radius: 12px; background: var(--color-surface, var(--color-bg)); transition: box-shadow 0.2s ease, transform 0.2s ease; }
-      .q-cap-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
+      .q-cap-card {
+        position: relative; overflow: hidden;
+        padding: 26px;
+        background:
+          radial-gradient(320px 180px at 100% 0%, rgba(37, 99, 235, 0.06), transparent 62%),
+          var(--color-surface);
+        border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-xs);
+        transition: box-shadow 260ms var(--qm-ease-out), transform 260ms var(--qm-ease-out), border-color 260ms ease;
+      }
+      .q-cap-card::before {
+        content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+        background: var(--gradient-signal); opacity: 0.75;
+      }
+      .q-cap-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-4px); border-color: rgba(37, 99, 235, 0.24); }
       @media (prefers-reduced-motion: reduce) { .q-cap-card { transition: none; } .q-cap-card:hover { transform: none; } }
-      .q-cap-card__icon { margin-bottom: 12px; color: var(--color-accent, #6366f1); }
-      .q-cap-card__icon svg { width: 24px; height: 24px; }
-      .q-cap-card__title { font-size: 16px; font-weight: 600; margin: 0 0 8px; }
-      .q-cap-card__desc { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; }
-      .q-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 24px; counter-reset: step; }
-      .q-step { display: flex; gap: 20px; align-items: flex-start; }
-      .q-step__number { flex-shrink: 0; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-accent, #6366f1); color: #fff; font-weight: 700; font-size: 16px; }
+      .q-cap-card__icon {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 44px; height: 44px; margin-bottom: 16px;
+        border-radius: 12px; border: 1px solid rgba(37, 99, 235, 0.16);
+        background: var(--color-accent-subtle); color: var(--color-accent);
+      }
+      .q-cap-card__icon svg { width: 22px; height: 22px; }
+      .q-cap-card__title { font-size: 16px; font-weight: 600; margin: 0 0 8px; line-height: 1.4; }
+      .q-cap-card__desc { font-size: 14px; line-height: 1.65; color: var(--color-text-secondary); margin: 0; }
+      .q-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0; counter-reset: step; max-width: 820px; }
+      .q-step { position: relative; display: flex; gap: 20px; align-items: flex-start; padding: 0 0 28px; }
+      .q-step:last-child { padding-bottom: 0; }
+      .q-step:not(:last-child)::before {
+        content: ''; position: absolute; left: 21px; top: 46px; bottom: 4px; width: 1px;
+        background: linear-gradient(to bottom, rgba(37, 99, 235, 0.24), rgba(6, 182, 212, 0.08));
+      }
+      .q-step__number {
+        position: relative; z-index: 1; flex-shrink: 0;
+        width: 42px; height: 42px; display: flex; align-items: center; justify-content: center;
+        border-radius: 50%; background: var(--gradient-brand); color: #fff;
+        font-weight: 700; font-size: 15px;
+        box-shadow: 0 10px 22px -12px rgba(37, 99, 235, 0.7);
+      }
       .q-step__title { font-size: 16px; font-weight: 600; margin: 0 0 4px; }
-      .q-step__desc { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0; }
+      .q-step__desc { font-size: 14px; line-height: 1.65; color: var(--color-text-secondary); margin: 0; }
       .q-tech-grid { display: grid; grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
       @media (min-width: 640px) { .q-tech-grid { grid-template-columns: repeat(2, 1fr); } }
       @media (min-width: 1024px) { .q-tech-grid { grid-template-columns: repeat(3, 1fr); } }
-      .q-tech-card { display: flex; flex-direction: column; padding: 20px; border: 1px solid var(--color-border); border-radius: 12px; text-decoration: none; color: inherit; transition: box-shadow 0.2s ease, transform 0.2s ease; }
-      .q-tech-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
+      .q-tech-card {
+        position: relative; overflow: hidden;
+        display: flex; flex-direction: column; padding: 24px;
+        background: var(--color-surface);
+        border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+        text-decoration: none; color: inherit;
+        box-shadow: var(--shadow-xs);
+        transition: box-shadow 260ms var(--qm-ease-out), transform 260ms var(--qm-ease-out), border-color 260ms ease;
+      }
+      .q-tech-card::before {
+        content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+        background: var(--gradient-signal); opacity: 0.7;
+      }
+      .q-tech-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-4px); border-color: rgba(37, 99, 235, 0.24); }
       @media (prefers-reduced-motion: reduce) { .q-tech-card { transition: none; } .q-tech-card:hover { transform: none; } }
-      .q-tech-card__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+      .q-tech-card__header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
       .q-tech-card__title { font-size: 16px; font-weight: 600; margin: 0; }
       .q-tech-card__badge { font-size: 11px; }
-      .q-tech-card__desc { font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); margin: 0 0 12px; flex: 1; }
-      .q-tech-card__cta { font-size: 13px; color: var(--color-accent, #6366f1); font-weight: 500; }
-      .q-disclaimer { padding: 16px 20px; border-left: 3px solid var(--color-border); background: var(--color-surface, var(--color-bg)); border-radius: 0 8px 8px 0; }
-      .q-disclaimer p { margin: 0; font-size: 13px; line-height: 1.6; color: var(--color-text-secondary); }
-      .q-cta { text-align: center; max-width: 640px; margin: 0 auto; }
-      .q-cta h2 { margin: 0 0 12px; }
-      .q-cta p { margin: 0 0 24px; color: var(--color-text-secondary); }
+      .q-tech-card__desc { font-size: 14px; line-height: 1.65; color: var(--color-text-secondary); margin: 0 0 16px; flex: 1; }
+      .q-tech-card__cta { font-size: 13px; color: var(--color-accent); font-weight: 600; }
+      .q-disclaimer {
+        padding: 18px 22px;
+        background: linear-gradient(100deg, rgba(37, 99, 235, 0.06), rgba(6, 182, 212, 0.03));
+        border: 1px solid rgba(37, 99, 235, 0.14);
+        border-left: 3px solid var(--color-accent);
+        border-radius: var(--radius-md);
+      }
+      .q-disclaimer p { margin: 0; font-size: 13px; line-height: 1.65; color: var(--color-text-secondary); }
+      .q-cta { display: flex; flex-direction: column; align-items: center; gap: 18px; }
+      .q-cta h2 { margin: 0; }
+      .q-cta p { margin: 0; }
       .q-cta__actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 
       /* ── Hybrid workflow diagram ─────────────────────────────── */

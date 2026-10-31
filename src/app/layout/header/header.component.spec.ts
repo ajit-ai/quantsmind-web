@@ -45,4 +45,23 @@ describe('QmHeaderComponent search', () => {
       expect(results.some(result => result.type === 'Product')).toBe(true);
     });
   }
+
+  it('keeps seven top-level destinations and a separate Contact CTA', () => {
+    expect(component.navItems.map(item => item.label)).toEqual([
+      'Home', 'Services', 'Products', 'Technology', 'Labs', 'Blog', 'About'
+    ]);
+  });
+
+  it('adds Quantum Mission to the existing Products menu', () => {
+    const products = component.navItems.find(item => item.label === 'Products');
+    expect(products?.children?.some(child => child.label === 'Quantum Mission'
+      && child.href === '/quantum-mission')).toBe(true);
+    expect(products?.children?.length).toBe(3);
+  });
+
+  it('finds Quantum Mission at its dedicated route', () => {
+    component.searchQuery.set('Quantum Mission');
+    const results = component.searchResults();
+    expect(results.some(result => result.href === '/quantum-mission')).toBe(true);
+  });
 });

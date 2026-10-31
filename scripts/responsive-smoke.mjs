@@ -56,7 +56,12 @@ const CHROME_CANDIDATES = [
 function launchChrome(userDataDir, port) {
   const executable = CHROME_CANDIDATES.find((p) => existsSync(p));
   if (!executable) throw new Error('Chrome not found. Set CHROME_PATH or install Chrome.');
-  const child = spawn(executable, [
+
+  // Chrome's sandbox needs kernel features that GitHub Actions runners do not
+  // reliably provide. Without these flags Chrome stays alive but never opens
+  // the DevTools endpoint. Keep the sandbox locally; disable it only in CI.
+  const isCI = process.env.GITHUB_ACTIONS === 'true' || process.env.CI === 'true';
+  const args = [
     '--headless=new',
     `--remote-debugging-port=${port}`,
     `--user-data-dir=${userDataDir}`,
@@ -67,13 +72,24 @@ function launchChrome(userDataDir, port) {
     '--disable-extensions',
     '--disable-dev-shm-usage',
     'about:blank'
-  ], { stdio: 'ignore' });
+  ];
+  if (isCI) {
+    args.splice(args.length - 1, 0, '--no-sandbox', '--disable-setuid-sandbox');
+  }
+
+  const child = spawn(executable, args, { stdio: ['ignore', 'pipe', 'pipe'] });
+  const stderrChunks = [];
+  child.stderr.on('data', (chunk) => stderrChunks.push(chunk));
+  child.stdout.on('data', () => {});
 
   return new Promise((resolve, reject) => {
     const deadline = Date.now() + 30000;
     const attempt = async () => {
       if (child.exitCode !== null) {
-        return reject(new Error('Chrome exited during startup'));
+        const stderr = Buffer.concat(stderrChunks).toString('utf8').trim();
+        return reject(new Error(
+          `Chrome exited during startup (exit code ${child.exitCode})${stderr ? `: ${stderr}` : ''}`
+        ));
       }
       try {
         const res = await fetch(`http://127.0.0.1:${port}/json/version`);
@@ -84,7 +100,11 @@ function launchChrome(userDataDir, port) {
         // not up yet
       }
       if (Date.now() > deadline) {
-        return reject(new Error('Chrome DevTools endpoint did not start'));
+        const stderr = Buffer.concat(stderrChunks).toString('utf8').trim();
+        try { child.kill(); } catch { /* already dead */ }
+        return reject(new Error(
+          `Chrome DevTools endpoint did not start within 30s${stderr ? `. Chrome stderr: ${stderr}` : ''}`
+        ));
       }
       setTimeout(attempt, 250);
     };

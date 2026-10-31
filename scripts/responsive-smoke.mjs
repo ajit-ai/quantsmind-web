@@ -139,7 +139,14 @@ class CdpSession {
   send(method, params = {}) {
     const id = ++this.id;
     return new Promise((ok, no) => {
-      this.pending.set(id, { resolve: ok, reject: no });
+      const timer = setTimeout(() => {
+        this.pending.delete(id);
+        no(new Error(`CDP ${method} timed out after 30s`));
+      }, 30000);
+      this.pending.set(id, {
+        resolve: (value) => { clearTimeout(timer); ok(value); },
+        reject: (error) => { clearTimeout(timer); no(error); }
+      });
       this.ws.send(JSON.stringify({ id, method, params }));
     });
   }
@@ -340,6 +347,16 @@ async function main() {
   }
 
   const routes = await readManifestRoutes();
+  const only = (process.env.SMOKE_ROUTES ?? '')
+    .split(',')
+    .map((value) => value.trim())
+    .filter(Boolean);
+  const selected = only.length
+    ? routes.filter((entry) => only.includes(entry.route))
+    : routes;
+  if (selected.length === 0) {
+    throw new Error(`SMOKE_ROUTES matched no generated routes: ${only.join(', ')}`);
+  }
   const { server, port } = await startServer(OUT_DIR);
   const userDataDir = join(ROOT, 'node_modules/.cache/responsive-smoke-chrome');
   await mkdir(userDataDir, { recursive: true });
@@ -354,11 +371,11 @@ async function main() {
     const baseUrl = `http://127.0.0.1:${port}`;
 
     console.log(
-      `[smoke] ${routes.length} routes × ${VIEWPORTS.length} viewports ` +
+      `[smoke] ${selected.length} routes × ${VIEWPORTS.length} viewports ` +
       `(${VIEWPORTS.map((v) => v.label).join(', ')})`
     );
 
-    for (const entry of routes) {
+    for (const entry of selected) {
       consoleErrors.length = 0;
       const failuresBefore = failures.length;
 

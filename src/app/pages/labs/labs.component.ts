@@ -5,6 +5,7 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 interface PhilosophyCard { index: string; title: string; text: string; }
@@ -24,7 +25,7 @@ interface ExploreArea { name: string; tag: string; }
 
 @Component({
     selector: 'app-labs',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmRevealDirective, SafeHtmlPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- ══════════ HERO ══════════ -->
@@ -62,7 +63,7 @@ interface ExploreArea { name: string; tag: string; }
           </div>
 
           <!-- Decorative: abstract research-network visual, same family as Home -->
-          <div class="labs-hero__visual" aria-hidden="true">
+          <div class="labs-hero__visual" aria-hidden="true" qmReveal [qmRevealDelay]="160">
             <svg class="qm-visual" viewBox="0 0 460 460" role="presentation" focusable="false">
               <!-- Colours are set via style="" because var() does not resolve
                    inside SVG presentation attributes. -->
@@ -128,8 +129,8 @@ interface ExploreArea { name: string; tag: string; }
         </p>
 
         <div class="labs-grid labs-grid--philosophy">
-          @for (p of philosophy; track p.index) {
-            <article class="labs-card">
+          @for (p of philosophy; track p.index; let i = $index) {
+            <article class="labs-card" qmReveal [qmRevealDelay]="i * 60">
               <span class="labs-index">{{ p.index }}</span>
               <h3 class="labs-card-title">{{ p.title }}</h3>
               <p class="labs-card-text">{{ p.text }}</p>
@@ -174,8 +175,8 @@ interface ExploreArea { name: string; tag: string; }
           </div>
 
         <div class="labs-grid labs-grid--directions">
-          @for (p of projects; track p.name) {
-            <article class="labs-card labs-card--direction">
+          @for (p of projects; track p.name; let i = $index) {
+            <article class="labs-card labs-card--direction" qmReveal [qmRevealDelay]="i * 80">
               <div class="labs-card__icon" aria-hidden="true" [innerHTML]="p.icon | qmSafeHtml"></div>
               <div class="labs-card__head">
                 <h3 class="labs-card-title">{{ p.name }}</h3>
@@ -205,9 +206,9 @@ interface ExploreArea { name: string; tag: string; }
     </qm-section>
 
     <!-- ══════════ EXPLORATION PIPELINE ══════════ -->
-    <qm-section surface="dark" size="lg" ariaLabel="The exploration pipeline">
+    <section class="labs-dark-band" aria-label="The exploration pipeline">
       <qm-container>
-        <div class="labs-dark-head">
+        <div class="labs-dark-head" qmReveal>
           <span class="labs-eyebrow-dark">HOW IDEAS MATURE</span>
           <h2 class="labs-h2 labs-h2--dark">The exploration pipeline</h2>
           <p class="labs-lead labs-lead--dark">
@@ -216,7 +217,7 @@ interface ExploreArea { name: string; tag: string; }
           </p>
         </div>
 
-        <div class="labs-pipeline" aria-label="Exploration pipeline stages">
+        <div class="labs-pipeline" aria-label="Exploration pipeline stages" qmReveal [qmRevealDelay]="120">
           @for (s of pipelineStages; track s; let last = $last) {
             <span class="labs-pipe-chip">{{ s }}</span>
             @if (!last) {
@@ -225,12 +226,12 @@ interface ExploreArea { name: string; tag: string; }
           }
         </div>
 
-        <p class="labs-dark-note">
+        <p class="labs-dark-note" qmReveal>
           The pipeline is directional. Ideas enter at the idea stage and move forward
           as they gain confidence — or are stopped while still early.
         </p>
       </qm-container>
-    </qm-section>
+    </section>
 
     <!-- ══════════ ECOSYSTEM CONNECTIONS ══════════ -->
     <qm-section surface="subtle" ariaLabel="Exploration that matured into technology">
@@ -243,8 +244,8 @@ interface ExploreArea { name: string; tag: string; }
         </p>
 
         <div class="labs-grid labs-grid--connections">
-          @for (c of connections; track c.name) {
-            <article class="labs-card labs-card--connection">
+          @for (c of connections; track c.name; let i = $index) {
+            <article class="labs-card labs-card--connection" qmReveal [qmRevealDelay]="i * 80">
               <div class="labs-card__icon" aria-hidden="true" [innerHTML]="c.icon | qmSafeHtml"></div>
               <div class="labs-card__head">
                 <h3 class="labs-card-title">{{ c.name }}</h3>
@@ -271,7 +272,7 @@ interface ExploreArea { name: string; tag: string; }
           Beyond today's projects, Labs keeps an eye on broader directions. These are
           areas of interest — not commitments and not completed products.
         </p>
-        <div class="labs-areas">
+        <div class="labs-areas" qmReveal>
           @for (a of areas; track a.name) {
             <span class="labs-area">
               <span class="labs-area-name">{{ a.name }}</span>
@@ -335,7 +336,7 @@ interface ExploreArea { name: string; tag: string; }
     <!-- ══════════ DISCLAIMER ══════════ -->
     <qm-section surface="white" size="sm" ariaLabel="Experimental work disclaimer">
       <qm-container size="narrow">
-        <div class="labs-disclaimer">
+        <div class="labs-disclaimer" qmReveal>
           <span class="eyebrow">TRANSPARENCY</span>
           <p class="labs-disclaimer-text">
             Labs work is exploratory. Projects may change direction, remain experimental,
@@ -346,16 +347,16 @@ interface ExploreArea { name: string; tag: string; }
     </qm-section>
 
     <!-- ══════════ FINAL CTA ══════════ -->
-    <qm-section surface="dark" size="sm" ariaLabel="Explore the QuantsMind ecosystem">
+    <qm-section surface="canvas" size="sm" ariaLabel="Explore the QuantsMind ecosystem">
       <qm-container size="narrow">
-        <div class="labs-cta">
-          <span class="labs-eyebrow-dark">EXPLORE</span>
-          <h2 class="labs-h2--dark">Explore the QuantsMind ecosystem</h2>
-          <p class="labs-lead labs-lead--dark">
+        <div class="qm-cta-band labs-cta" qmReveal>
+          <span class="eyebrow">EXPLORE</span>
+          <h2>Explore the QuantsMind ecosystem</h2>
+          <p>
             From SDKs and languages to the ideas still forming, the QuantsMind
             ecosystem is open, experimental and underway.
           </p>
-          <div class="labs-cta__buttons">
+          <div class="qm-cta-band__actions labs-cta__buttons">
             <qm-button variant="primary" size="lg" [routerLinkValue]="'/technology'" [ariaLabel]="'Explore the QuantsMind technology ecosystem'">
               Technology →
             </qm-button>
@@ -380,12 +381,25 @@ interface ExploreArea { name: string; tag: string; }
     @media (min-width: 640px) { .labs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
     .labs-card {
-      background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--card-radius);
-      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(380px 220px at 100% 0%, rgba(13, 148, 136, 0.06), transparent 62%),
+        var(--color-surface);
+      border: 1px solid var(--card-border); border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xs);
       padding: 28px; min-width: 0; overflow-wrap: anywhere;
-      transition: box-shadow 200ms ease, transform 200ms ease, border-color 200ms ease;
+      transition: box-shadow 280ms var(--qm-ease-out), transform 280ms var(--qm-ease-out), border-color 280ms ease;
     }
-    .labs-card:hover { box-shadow: var(--card-shadow-hi); transform: translateY(-2px); border-color: var(--card-border-hi); }
+    .labs-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: linear-gradient(90deg, #0D9488, #06B6D4 55%, #2563EB);
+      opacity: 0.75;
+    }
+    .labs-card:hover { box-shadow: var(--shadow-xl); transform: translateY(-4px); border-color: rgba(13, 148, 136, 0.24); }
     .labs-card-title { margin: 0 0 8px; font-size: 20px; }
     .labs-card-text { font-size: 15px; line-height: 1.7; color: var(--color-text-secondary); margin: 0; }
     .labs-card-limit {
@@ -407,26 +421,41 @@ interface ExploreArea { name: string; tag: string; }
     .labs-card__head .labs-card-title { margin: 0; }
 
     .labs-card__icon {
-      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-      background: var(--color-labs-subtle); border: 1px solid var(--color-labs-muted); border-radius: 10px; color: var(--color-labs); margin-bottom: 16px;
+      width: 46px; height: 46px; display: flex; align-items: center; justify-content: center;
+      background: var(--color-labs-subtle); border: 1px solid var(--color-labs-muted); border-radius: 12px; color: var(--color-labs); margin-bottom: 16px;
     }
 
     /* ══════════ HERO ══════════ */
     .labs-hero {
-      background:
-        radial-gradient(1000px 460px at 82% -10%, var(--color-labs-subtle) 0%, rgba(240,253,250,0) 62%),
-        var(--color-surface-subtle);
-      padding: 64px 0 48px; border-bottom: 1px solid var(--color-border);
       position: relative;
+      isolation: isolate;
       overflow: hidden;
+      background:
+        radial-gradient(900px 460px at 88% -20%, rgba(13, 148, 136, 0.18) 0%, rgba(13, 148, 136, 0) 60%),
+        radial-gradient(640px 420px at 2% 118%, rgba(6, 182, 212, 0.10) 0%, rgba(6, 182, 212, 0) 62%),
+        linear-gradient(180deg, #FBFFFE 0%, #F4FBFA 100%);
+      padding: 64px 0 48px; border-bottom: 1px solid var(--color-border);
     }
-    @media (min-width: 768px) { .labs-hero { padding: 88px 0 64px; } }
+    @media (min-width: 768px) { .labs-hero { padding: 88px 0 72px; } }
     .labs-hero::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background-image: radial-gradient(var(--color-border-strong) 1px, transparent 1px);
-      background-size: 22px 22px; opacity: 0.35;
+      content: ''; position: absolute; inset: 0; pointer-events: none; z-index: -1;
+      background-image:
+        linear-gradient(to right, rgba(15, 23, 42, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.04) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 72% 90% at 80% 20%, #000 10%, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse 72% 90% at 80% 20%, #000 10%, transparent 72%);
     }
-    .labs-hero qm-container { position: relative; }
+    .labs-hero::after {
+      content: ''; position: absolute; right: -150px; top: -220px; z-index: -1;
+      width: 520px; height: 520px; border-radius: 50%;
+      border: 1px solid rgba(13, 148, 136, 0.14);
+      box-shadow:
+        0 0 0 44px rgba(13, 148, 136, 0.035),
+        0 0 0 96px rgba(6, 182, 212, 0.025);
+      pointer-events: none;
+    }
+    .labs-hero qm-container { position: relative; z-index: 1; }
 
     .labs-hero__grid {
       display: grid; grid-template-columns: 1fr; gap: 44px; align-items: center;
@@ -439,13 +468,13 @@ interface ExploreArea { name: string; tag: string; }
     }
     .labs-hero__inner { min-width: 0; }
     .labs-hero__badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-    .labs-hero__title { margin: 0 0 12px; font-size: clamp(40px, 5vw, 64px); line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; }
-    .labs-hero__tagline { margin: 0 0 20px; font-size: 22px; font-weight: 600; color: var(--color-text-primary); }
-    .labs-hero__lead { max-width: 680px; margin: 0 0 0; font-size: 17px; line-height: 1.8; color: var(--color-text-secondary); }
+    .labs-hero__title { margin: 0 0 12px; font-size: clamp(42px, 5.2vw, 66px); line-height: 1.02; letter-spacing: -0.04em; font-weight: 700; }
+    .labs-hero__tagline { margin: 0 0 20px; font-size: clamp(18px, 2vw, 23px); font-weight: 600; color: var(--color-labs-dark); letter-spacing: -0.02em; }
+    .labs-hero__lead { max-width: 680px; margin: 0 0 0; font-size: 17px; line-height: 1.8; color: var(--color-text-secondary); text-wrap: pretty; }
     .labs-hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
     .labs-hero__meta { list-style: none; display: flex; flex-wrap: wrap; gap: 10px 20px; padding: 24px 0 0; margin: 32px 0 0; border-top: 1px solid var(--color-border); }
     .labs-hero__meta li { margin: 0; }
-    .labs-chip { display: inline-flex; align-items: center; font-size: 13px; color: var(--color-text-secondary); background: var(--color-surface); border: 1px solid var(--color-border); border-radius: 9999px; padding: 6px 14px; }
+    .labs-chip { display: inline-flex; align-items: center; font-size: 12px; font-weight: 500; color: var(--color-text-secondary); background: rgba(255, 255, 255, 0.7); border: 1px solid rgba(13, 148, 136, 0.18); border-radius: 9999px; padding: 7px 14px; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 
     /* Labs hero visual — decorative, stacked then side-by-side */
     .labs-hero__visual { display: none; }
@@ -494,15 +523,46 @@ interface ExploreArea { name: string; tag: string; }
     @media (min-width: 1024px) { .labs-grid--directions { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
     /* ══════════ DARK / PIPELINE ══════════ */
+    .labs-dark-band {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      padding: 80px 0;
+      background:
+        radial-gradient(800px 420px at 82% 0%, rgba(13, 148, 136, 0.26), transparent 62%),
+        radial-gradient(620px 380px at 6% 110%, rgba(37, 99, 235, 0.16), transparent 62%),
+        var(--gradient-ink);
+      color: var(--color-ink-text);
+    }
+    @media (min-width: 768px) { .labs-dark-band { padding: 104px 0; } }
+    .labs-dark-band::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background-image:
+        linear-gradient(to right, rgba(148, 197, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 197, 255, 0.055) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 72% 82% at 76% 0%, #000, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse 72% 82% at 76% 0%, #000, transparent 72%);
+      pointer-events: none;
+    }
+    .labs-dark-band::after {
+      content: ''; position: absolute; right: -150px; top: -190px; z-index: -1;
+      width: 460px; height: 460px; border-radius: 50%;
+      border: 1px solid rgba(94, 234, 212, 0.16);
+      box-shadow: 0 0 0 50px rgba(94, 234, 212, 0.03);
+      pointer-events: none;
+    }
+    .labs-dark-band qm-container { position: relative; }
     .labs-dark-head { max-width: 760px; margin: 0 0 40px; }
-    .labs-eyebrow-dark { display: inline-block; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-labs-bright); margin-bottom: 16px; }
-    .labs-h2--dark { color: var(--color-surface-subtle); }
-    .labs-lead--dark { color: var(--color-dark-text-muted); }
+    .labs-eyebrow-dark { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-labs-bright); margin-bottom: 16px; }
+    .labs-eyebrow-dark::before { content: ''; width: 22px; height: 1.5px; border-radius: 999px; background: linear-gradient(90deg, var(--color-labs-soft), var(--color-cyan)); }
+    .labs-h2--dark { color: var(--color-ink-text); }
+    .labs-lead--dark { color: var(--color-ink-muted); }
     .labs-pipeline { display: flex; flex-direction: column; align-items: center; gap: 0; max-width: 480px; margin: 0 auto 40px; }
-    .labs-pipe-chip { font-size: 14px; font-weight: 500; color: var(--color-border); background: var(--color-dark-surface); border: 1px solid var(--color-dark-border); border-radius: 8px; padding: 10px 24px; white-space: nowrap; }
-    .labs-pipe-chip:first-child { background: var(--color-labs); border-color: var(--color-labs); color: var(--color-surface); font-weight: 600; }
-    .labs-pipe-arrow { color: var(--color-text-secondary); font-size: 20px; padding: 6px 0; line-height: 1; }
-    .labs-dark-note { color: var(--color-text-muted); font-size: 13px; line-height: 1.6; margin: 0; max-width: 720px; }
+    .labs-pipe-chip { font-size: 14px; font-weight: 500; color: var(--color-ink-muted); background: rgba(11, 27, 51, 0.72); border: 1px solid var(--color-ink-border); border-radius: 10px; padding: 11px 26px; white-space: nowrap; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+    .labs-pipe-chip:first-child { background: linear-gradient(135deg, #0D9488, #0891B2); border-color: transparent; color: #fff; font-weight: 600; box-shadow: 0 12px 28px -14px rgba(13, 148, 136, 0.8); }
+    .labs-pipe-arrow { color: rgba(103, 232, 249, 0.55); font-size: 20px; padding: 6px 0; line-height: 1; }
+    .labs-dark-note { color: var(--color-ink-muted); font-size: 13px; line-height: 1.6; margin: 0; max-width: 720px; }
 
     /* ══════════ CONNECTIONS ══════════ */
     .labs-grid--connections { grid-template-columns: 1fr; }
@@ -536,18 +596,29 @@ interface ExploreArea { name: string; tag: string; }
 
     /* ══════════ DISCLAIMER ══════════ */
     .labs-disclaimer {
-      text-align: center; background: var(--color-labs-subtle); border: 1px solid var(--color-labs-muted);
-      border-radius: 12px; padding: 32px 24px;
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      background:
+        radial-gradient(420px 220px at 100% 0%, rgba(13, 148, 136, 0.10), transparent 64%),
+        linear-gradient(160deg, #FBFFFE 0%, #F2FBFA 100%);
+      border: 1px solid rgba(13, 148, 136, 0.20);
+      border-radius: var(--radius-xl); padding: 36px 28px;
+      box-shadow: var(--shadow-xs);
+    }
+    .labs-disclaimer::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+      background: linear-gradient(90deg, #0D9488, #06B6D4 55%, #2563EB);
     }
     .labs-disclaimer .eyebrow { color: var(--color-labs-dark); }
-    .labs-disclaimer-text { margin: 0; font-size: 17px; line-height: 1.7; color: var(--color-labs-dark); max-width: 560px; }
+    .labs-disclaimer-text { margin: 0; font-size: 17px; line-height: 1.7; color: var(--color-labs-dark); max-width: 560px; margin-inline: auto; }
 
     /* ══════════ FINAL CTA ══════════ */
-    .labs-cta { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .labs-cta { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .labs-cta .eyebrow { margin-bottom: 0; }
     .labs-cta h2 { margin: 0; }
-    .labs-cta .labs-lead { max-width: 600px; }
-    .labs-h2--dark { color: var(--color-surface-subtle); font-size: clamp(28px, 3.2vw, 40px); }
-    .labs-cta__buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 8px; }
+    .labs-cta p { margin: 0; max-width: 600px; }
+    .labs-cta__buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
 
     @media (prefers-reduced-motion: reduce) {
       .labs-card { transition: none; transform: none; }

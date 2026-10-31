@@ -5,6 +5,8 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 interface KernelFact { index: string; title: string; text: string; }
 interface ComputingModel { name: string; detail: string; status: string; variant: BadgeVariant; }
@@ -16,50 +18,74 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
 
 @Component({
     selector: 'app-karkain',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmPageHeroComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- ══════════ HERO ══════════ -->
-    <section class="k-hero surface-subtle">
-      <qm-container>
+    <qm-page-hero
+      eyebrow="KARKAIN"
+      title="Karkain"
+      lead="A programming language for the next generation of computing."
+      [artLabels]="['.kark', 'C23', 'SSA IR', 'Binary']">
+      <div heroBadge class="k-badges">
         <a routerLink="/technology" class="k-back">&larr; Technology Ecosystem</a>
-        <div class="k-badges">
+        <div class="k-badge-row">
           <qm-badge variant="experimental">Developer Preview</qm-badge>
           <qm-badge variant="software">Programming Language</qm-badge>
           <qm-badge variant="default">v1.1.0</qm-badge>
         </div>
-        <h1 class="k-title">Karkain</h1>
-        <p class="k-tagline">A programming language for the next generation of computing.</p>
-        <p class="k-lead">
-          Karkain is an independently developed, statically typed systems programming
-          language. It compiles <span class="k-mono">.kark</span> source to C23 and delegates to
-          GCC, Clang or MSVC for final machine code — built around ownership-based memory safety,
-          native concurrency, and a heterogeneous computing vision spanning CPU, GPU and quantum
-          hardware.
-        </p>
-        <div class="k-cta">
-          <qm-button variant="primary" size="lg" [href]="'#karkain-pipeline'">
-            Explore the Technology →
-          </qm-button>
-          <qm-button variant="outline" size="lg" [href]="'https://github.com/ajit-ai/Karkain'" [target]="'_blank'" [ariaLabel]="'View Karkain on GitHub (opens in a new tab)'">
-            View on GitHub
-          </qm-button>
+      </div>
+      <p heroLead class="k-hero__note">
+        Karkain is an independently developed, statically typed systems programming
+        language. It compiles <span class="k-mono">.kark</span> source to C23 and delegates to
+        GCC, Clang or MSVC for final machine code — built around ownership-based memory safety,
+        native concurrency, and a heterogeneous computing vision spanning CPU, GPU and quantum
+        hardware.
+      </p>
+      <div heroActions class="k-cta k-cta--hero">
+        <qm-button variant="primary" size="lg" [href]="'#karkain-pipeline'">
+          Explore the Technology →
+        </qm-button>
+        <qm-button variant="outline" size="lg" [href]="'https://github.com/ajit-ai/Karkain'" [target]="'_blank'" [ariaLabel]="'View Karkain on GitHub (opens in a new tab)'">
+          View on GitHub
+        </qm-button>
+      </div>
+      <ul heroMeta class="qm-page-hero__meta k-meta" aria-label="Karkain at a glance">
+        <li><span class="k-mono k-mono--accent">.kark</span> source extension</li>
+        <li><span class="k-mono">C23</span> native backend</li>
+        <li><span class="k-mono">Self-hosting</span> compiler</li>
+        <li><span class="k-mono">Borrow checking</span> memory safety</li>
+        <li><span class="k-mono">v1.1.0</span> released</li>
+      </ul>
+      <div heroArt class="k-hero-art" aria-hidden="true">
+        <span class="k-hero-art__ring k-hero-art__ring--1"></span>
+        <span class="k-hero-art__ring k-hero-art__ring--2"></span>
+        <div class="k-hero-art__panel">
+          <div class="k-hero-art__head">
+            <span class="k-dots"><i></i><i></i><i></i></span>
+            <span class="k-mono k-hero-art__filename">hello.kark</span>
+            <span class="k-hero-art__live">compiled</span>
+          </div>
+          <pre class="k-hero-art__code"><code>{{ helloCode }}</code></pre>
+          <div class="k-hero-art__pipeline">
+            <span class="k-mono">.kark</span>
+            <i aria-hidden="true">→</i>
+            <span class="k-mono">C23</span>
+            <i aria-hidden="true">→</i>
+            <span class="k-mono k-hero-art__pipeline-end">binary</span>
+          </div>
         </div>
-        <ul class="k-meta" aria-label="Karkain at a glance">
-          <li><span class="k-mono k-mono--accent">.kark</span> source extension</li>
-          <li><span class="k-mono">C23</span> native backend</li>
-          <li><span class="k-mono">Self-hosting</span> compiler</li>
-          <li><span class="k-mono">Borrow checking</span> memory safety</li>
-          <li><span class="k-mono">v1.1.0</span> released</li>
-        </ul>
-      </qm-container>
-    </section>
+        <span class="k-hero-art__chip k-hero-art__chip--a">v1.1.0 released</span>
+        <span class="k-hero-art__chip k-hero-art__chip--b">SSA IR</span>
+        <span class="k-hero-art__chip k-hero-art__chip--c">Self-hosting</span>
+      </div>
+    </qm-page-hero>
 
     <!-- ══════════ CODE PANEL SECTION ══════════ -->
     <qm-section surface="white" size="sm" ariaLabel="Hello, Karkain — a verified example program">
       <qm-container size="narrow">
         <div class="k-two">
-          <div>
+          <div qmReveal>
             <span class="eyebrow">HELLO, KARKAIN</span>
             <h2>Written in <span class="k-inline-dot">.kark</span></h2>
             <p>
@@ -74,7 +100,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
               <li>Not the last compiler — Karkain's own front-end is written in Karkain.</li>
             </ul>
           </div>
-          <div>
+          <div qmReveal [qmRevealDelay]="90">
             <div class="k-code" role="presentation">
               <div class="k-code__head">
                 <span class="k-dots"><i></i><i></i><i></i></span>
@@ -99,8 +125,8 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           compiler and the runtime.
         </p>
         <div class="k-grid">
-          @for (f of principles; track f.title) {
-            <article class="k-card">
+          @for (f of principles; track f.title; let i = $index) {
+            <article class="k-card" qmReveal [qmRevealDelay]="i * 60">
               <div class="k-index">{{ f.index }}</div>
               <h3>{{ f.title }}</h3>
               <p>{{ f.text }}</p>
@@ -111,10 +137,10 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     </qm-section>
 
     <!-- ══════════ PIPELINE ══════════ -->
-    <section class="k-pipeline surface-dark" aria-label="The Karkain compiler pipeline">
+    <section class="k-dark-band" aria-label="The Karkain compiler pipeline">
       <div id="karkain-pipeline" class="k-anchor"></div>
       <qm-container>
-        <div class="k-dark-head">
+        <div class="k-dark-head" qmReveal>
           <span class="k-eyebrow-dark">COMPILER PIPELINE</span>
           <h2 class="k-h2 k-h2--dark">From <span class="k-mono k-mono--dark">.kark</span> source to a running binary</h2>
           <p class="k-lead k-lead--dark">
@@ -124,7 +150,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           </p>
         </div>
 
-        <div class="k-flow" aria-label="High-level compilation flow">
+        <div class="k-flow" aria-label="High-level compilation flow" qmReveal [qmRevealDelay]="80">
           @for (s of flow; track s[0]) {
             <span class="k-flow-chip k-mono">{{ s[0] }}</span><span class="k-flow-arrow" aria-hidden="true">→</span>
           }
@@ -132,8 +158,8 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         </div>
 
         <div class="k-zones">
-          @for (z of zones; track z.zone) {
-            <div class="k-zone">
+          @for (z of zones; track z.zone; let i = $index) {
+            <div class="k-zone" qmReveal [qmRevealDelay]="i * 60">
               <div class="k-zone-head">
                 <span class="k-zone-name k-mono">{{ z.zone }}</span>
                 <span class="k-zone-pkg k-mono">{{ z.package }}</span>
@@ -144,7 +170,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           }
         </div>
 
-        <p class="k-dark-note">
+        <p class="k-dark-note" qmReveal>
           The CPU path is the production pipeline behind Karkain 1.1. GPU shaders (WGSL, SPIR-V,
           OpenCL) and quantum circuits (OpenQASM, QIR) are part of the documented architecture and
           represent the project's heterogeneous direction.
@@ -162,8 +188,8 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           to a spectrum of hardware — not only one architecture.
         </p>
         <div class="k-grid">
-          @for (m of models; track m.name) {
-            <article class="k-card">
+          @for (m of models; track m.name; let i = $index) {
+            <article class="k-card" qmReveal [qmRevealDelay]="i * 60">
               <div class="k-card-head">
                 <h3>{{ m.name }}</h3>
                 <qm-badge [variant]="m.variant">{{ m.status }}</qm-badge>
@@ -183,7 +209,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     <qm-section surface="subtle" ariaLabel="Karkain intermediate representation">
       <qm-container>
         <div class="k-two">
-          <div>
+          <div qmReveal>
             <span class="eyebrow">INTERMEDIATE REPRESENTATION</span>
             <h2 class="k-h2">An IR Karkain owns</h2>
             <p>
@@ -197,7 +223,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
               from native C23 compilation.
             </p>
           </div>
-          <div class="k-stack">
+          <div class="k-stack" qmReveal [qmRevealDelay]="90">
             <article class="k-card k-card--compact">
               <h4 class="k-code-subhead">AST → SSA IR</h4>
               <p>Lowered to SSA form with variable cells and a control-flow graph. Packages: <span class="k-mono">pkg/ir</span>, <span class="k-mono">pkg/codegen/lower.go</span>.</p>
@@ -226,7 +252,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           and it is already the language's default engine.
         </p>
         <div class="k-two">
-          <div>
+          <div qmReveal>
             <div class="k-code k-code--tall" role="presentation">
               <div class="k-code__head">
                 <span class="k-dots"><i></i><i></i><i></i></span>
@@ -236,7 +262,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
             </div>
             <p class="k-note">Boostrapped through C, the self-hosted front-end then builds Karkain programs by emitting C23 and linking with a system C compiler.</p>
           </div>
-          <div class="k-stack">
+          <div class="k-stack" qmReveal [qmRevealDelay]="90">
             @for (c of compilerComponents; track c.title) {
               <article class="k-card k-card--compact">
                 <h4 class="k-mono">{{ c.index }}</h4>
@@ -258,8 +284,8 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           library, a toolchain and developer tooling.
         </p>
         <div class="k-grid">
-          @for (e of ecosystem; track e.name) {
-            <article class="k-card">
+          @for (e of ecosystem; track e.name; let i = $index) {
+            <article class="k-card" qmReveal [qmRevealDelay]="i * 60">
               <div class="k-card-head">
                 <h3>{{ e.name }}</h3>
                 <qm-badge [variant]="e.variant">{{ e.status }}</qm-badge>
@@ -281,8 +307,8 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           applications use — and is an active area of development.
         </p>
         <div class="k-grid k-grid--std">
-          @for (s of stdlib; track s.category) {
-            <article class="k-card">
+          @for (s of stdlib; track s.category; let i = $index) {
+            <article class="k-card" qmReveal [qmRevealDelay]="i * 60">
               <h3>{{ s.category }}</h3>
               <div class="k-mono k-std-mods">{{ s.modules }}</div>
               <p>{{ s.detail }}</p>
@@ -302,8 +328,8 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           simple loop.
         </p>
         <div class="k-steps">
-          @for (s of steps; track s.step) {
-            <div class="k-step">
+          @for (s of steps; track s.step; let i = $index) {
+            <div class="k-step" qmReveal [qmRevealDelay]="i * 55">
               <div class="k-step-num k-mono">{{ s.step }}</div>
               <div class="k-code k-code--mini">
                 <div class="k-code__head k-mono">{{ s.command }}</div>
@@ -338,7 +364,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           the release, and planned areas are labelled as such rather than presented as
           available.
         </p>
-        <div class="qm-table-wrap">
+        <div class="qm-table-wrap" qmReveal>
           <table class="qm-table">
             <caption class="sr-only">Current status of Karkain components</caption>
             <thead>
@@ -364,7 +390,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         <span class="eyebrow">ROADMAP</span>
         <h2 class="k-h2">Where it is heading</h2>
         <div class="k-grid k-grid--roadmap">
-          <article class="k-road">
+          <article class="k-road" qmReveal>
             <qm-badge variant="development">Current</qm-badge>
             <h3>Consolidating 1.0</h3>
             <ul>
@@ -374,7 +400,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
               <li>Expanding the package ecosystem and lockfile workflow.</li>
             </ul>
           </article>
-          <article class="k-road">
+          <article class="k-road" qmReveal [qmRevealDelay]="70">
             <qm-badge variant="development">Developing</qm-badge>
             <h3>Heterogeneous reach</h3>
             <ul>
@@ -384,7 +410,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
               <li>An even richer standard library and LSP experience.</li>
             </ul>
           </article>
-          <article class="k-road">
+          <article class="k-road" qmReveal [qmRevealDelay]="140">
             <qm-badge variant="research">Future</qm-badge>
             <h3>Quantum &amp; beyond</h3>
             <ul>
@@ -400,7 +426,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     <!-- ══════════ QUANTSMIND ECOSYSTEM ══════════ -->
     <qm-section surface="canvas" size="sm" ariaLabel="Part of the QuantsMind technology ecosystem">
       <qm-container size="narrow">
-        <div class="page-cta">
+        <div class="k-eco-band" qmReveal>
           <span class="eyebrow">TECHNOLOGY ECOSYSTEM</span>
           <h2>Part of QuantsMind</h2>
           <p class="lead">
@@ -417,16 +443,16 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     </qm-section>
 
     <!-- ══════════ CTA ══════════ -->
-    <qm-section surface="dark" size="sm" ariaLabel="Explore Karkain on GitHub">
+    <qm-section surface="canvas" size="sm" ariaLabel="Explore Karkain on GitHub">
       <qm-container size="narrow">
-        <div class="page-cta">
-          <span class="k-eyebrow-dark">GET INVOLVED</span>
-          <h2 class="k-h2--dark">Explore Karkain</h2>
-          <p class="k-lead k-lead--dark">
+        <div class="qm-cta-band" qmReveal>
+          <span class="eyebrow">GET INVOLVED</span>
+          <h2>Explore Karkain</h2>
+          <p>
             Follow the project on GitHub. The language, the compiler, the standard library and the
             documentation evolve together — and the repository is the source of truth.
           </p>
-          <div class="k-cta k-cta--center">
+          <div class="qm-cta-band__actions">
             <qm-button variant="primary" size="lg" [href]="'https://github.com/ajit-ai/Karkain'" [target]="'_blank'" [ariaLabel]="'View Karkain on GitHub (opens in a new tab)'">
               View on GitHub →
             </qm-button>
@@ -434,7 +460,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
               Releases
             </qm-button>
           </div>
-          <p class="k-docs-note k-lead k-lead--dark">
+          <p class="k-docs-note">
             Documentation — the language spec and engineering reports — live in the repository and
             evolve alongside the language.
           </p>
@@ -469,17 +495,26 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     .k-stack { display: grid; gap: 16px; }
 
     .k-card {
-      background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: var(--card-radius); padding: 28px;
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(360px 200px at 100% 0%, rgba(37, 99, 235, 0.06), transparent 62%),
+        var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: 28px;
+      box-shadow: var(--shadow-xs);
       transition:
-        border-color var(--duration-base) var(--easing-standard),
-        box-shadow var(--duration-base) var(--easing-standard),
-        transform var(--duration-base) var(--easing-standard);
+        border-color 260ms ease,
+        box-shadow 260ms var(--qm-ease-out),
+        transform 260ms var(--qm-ease-out);
+    }
+    .k-card::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+      background: var(--gradient-signal); opacity: 0.7;
     }
     .k-card:hover {
-      box-shadow: var(--card-shadow-hi);
-      transform: translateY(-2px);
-      border-color: var(--card-border-hi);
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-3px);
+      border-color: rgba(37, 99, 235, 0.24);
     }
     .k-card h3 { margin: 0 0 12px; font-size: 20px; }
     .k-card h4 { margin: 0 0 8px; font-size: 15px; color: var(--color-text-secondary); }
@@ -489,31 +524,131 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     .k-card-head h3 { margin: 0; }
 
     /* ══════════ HERO ══════════ */
-    .k-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .k-hero { padding: 88px 0 64px; } }
+    .k-badges { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+    .k-badge-row { display: flex; flex-wrap: wrap; gap: 8px; }
     .k-back {
-      display: inline-block; margin-bottom: 28px;
-      font-size: 14px; font-weight: 500;
-      color: var(--color-text-secondary); text-decoration: none;
+      display: inline-block;
+      font-size: 13px; font-weight: 500;
+      color: var(--color-text-muted); text-decoration: none;
+      transition: color 160ms ease, transform 160ms ease;
     }
-    .k-back:hover { color: var(--color-accent); text-decoration: underline; }
-    .k-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
-    .k-title {
-      margin: 0 0 12px; font-size: clamp(44px, 6vw, 72px);
-      line-height: 1.02; letter-spacing: -0.03em; font-weight: 700;
+    .k-back:hover { color: var(--color-accent); transform: translateX(-2px); }
+    .k-hero__note {
+      margin: 22px 0 0; max-width: 680px;
+      font-size: 16px; line-height: 1.75; color: var(--color-text-secondary);
+      text-wrap: pretty;
     }
-    .k-tagline { margin: 0 0 20px; font-size: 22px; font-weight: 600; color: var(--color-text-primary); }
     .k-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .k-cta--hero { margin-top: 0; }
     .k-cta--center { justify-content: center; }
     .k-meta {
-      list-style: none; display: flex; flex-wrap: wrap; gap: 12px 28px;
-      padding: 24px 0 0; margin: 32px 0 0; border-top: 1px solid var(--color-border);
+      list-style: none; display: flex; flex-wrap: wrap; gap: 8px;
+      padding: 0; margin: 28px 0 0;
     }
-    .k-meta li {
-      display: flex; align-items: center; gap: 8px;
-      font-size: 14px; color: var(--color-text-secondary); margin: 0;
-    }
+    .k-meta li { margin: 0; }
     .k-mono--accent { color: var(--color-warning); }
+
+    /* ── HERO ARTWORK ── */
+    .k-hero-art {
+      position: relative;
+      width: 100%; max-width: 440px;
+      margin: 0 auto; padding: 26px 18px;
+    }
+    .k-hero-art__ring {
+      position: absolute; border-radius: 50%;
+      border: 1px solid rgba(37, 99, 235, 0.16);
+      animation: qm-orbit-spin 30s linear infinite;
+      pointer-events: none;
+    }
+    .k-hero-art__ring::before {
+      content: ''; position: absolute; top: 50%; left: -3px;
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--color-accent);
+      box-shadow: 0 0 0 5px rgba(37, 99, 235, 0.09), 0 0 18px rgba(37, 99, 235, 0.5);
+    }
+    .k-hero-art__ring--1 { inset: -4% 0; }
+    .k-hero-art__ring--2 {
+      inset: 13% 19%;
+      border-color: rgba(6, 182, 212, 0.2);
+      animation-duration: 22s; animation-direction: reverse;
+    }
+    .k-hero-art__ring--2::before {
+      background: var(--color-cyan);
+      box-shadow: 0 0 0 5px rgba(6, 182, 212, 0.1), 0 0 18px rgba(6, 182, 212, 0.5);
+    }
+    .k-hero-art__panel {
+      position: relative; z-index: 2; overflow: hidden;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-ink-border);
+      background:
+        radial-gradient(420px 240px at 100% 0%, rgba(6, 182, 212, 0.18), transparent 62%),
+        var(--gradient-ink);
+      box-shadow: var(--shadow-float);
+    }
+    .k-hero-art__panel::after {
+      content: ''; position: absolute; left: 0; right: 0; top: 0; height: 42%;
+      background: linear-gradient(180deg, transparent, rgba(103, 232, 249, 0.10) 55%, transparent);
+      animation: qm-scan 7s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .k-hero-art__head {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-ink-border);
+      background: rgba(11, 27, 51, 0.55);
+      position: relative; z-index: 1;
+    }
+    .k-hero-art__filename { color: var(--color-ink-muted); font-size: 12px; }
+    .k-hero-art__live {
+      margin-left: auto; padding: 3px 8px;
+      border-radius: 999px; border: 1px solid rgba(103, 232, 249, 0.28);
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--color-cyan-soft);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .k-hero-art__code { margin: 0; padding: 22px 20px 18px; overflow: hidden; position: relative; z-index: 1; }
+    .k-hero-art__code code {
+      background: none; border: none; padding: 0;
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', ui-monospace, monospace;
+      font-size: 12.5px; line-height: 1.75; color: #DBEAFE;
+    }
+    .k-hero-art__pipeline {
+      display: flex; align-items: center; flex-wrap: wrap; gap: 8px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-ink-border);
+      background: rgba(255, 255, 255, 0.03);
+      position: relative; z-index: 1;
+    }
+    .k-hero-art__pipeline span {
+      padding: 4px 9px; border-radius: 999px;
+      border: 1px solid var(--color-ink-border);
+      color: var(--color-ink-muted); font-size: 11px;
+    }
+    .k-hero-art__pipeline i { color: rgba(103, 232, 249, 0.55); font-style: normal; }
+    .k-hero-art__pipeline .k-hero-art__pipeline-end {
+      border-color: transparent;
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      color: #fff;
+    }
+    .k-hero-art__chip {
+      position: absolute; z-index: 3;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 11px; border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.88);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      font-size: 10px; font-weight: 600; color: var(--color-text-secondary);
+      white-space: nowrap;
+      animation: qm-float 8s ease-in-out infinite;
+    }
+    .k-hero-art__chip::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--gradient-signal);
+    }
+    .k-hero-art__chip--a { top: 4px; right: -2px; animation-delay: -2s; }
+    .k-hero-art__chip--b { bottom: 38px; left: -8px; animation-delay: -5s; }
+    .k-hero-art__chip--c { bottom: -2px; right: 20px; animation-delay: -3s; }
 
     /* ══════════ CODE PANELS ══════════ */
     .k-inline-dot {
@@ -558,68 +693,117 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     }
 
     /* ══════════ DARK SECTIONS ══════════ */
-    .k-pipeline { padding-top: 96px; padding-bottom: 96px; }
-    @media (min-width: 768px) { .k-pipeline { padding-top: 128px; padding-bottom: 128px; } }
+    .k-dark-band {
+      position: relative; isolation: isolate; overflow: hidden;
+      padding: 96px 0;
+      background:
+        radial-gradient(820px 420px at 84% 0%, rgba(6, 182, 212, 0.20), transparent 62%),
+        radial-gradient(620px 380px at 4% 110%, rgba(37, 99, 235, 0.20), transparent 62%),
+        var(--gradient-ink);
+      color: var(--color-ink-text);
+    }
+    @media (min-width: 768px) { .k-dark-band { padding: 128px 0; } }
+    .k-dark-band::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background-image:
+        linear-gradient(to right, rgba(148, 197, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 197, 255, 0.055) 1px, transparent 1px);
+      background-size: 64px 64px;
+      mask-image: radial-gradient(ellipse 72% 82% at 76% 0%, #000, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse 72% 82% at 76% 0%, #000, transparent 72%);
+      pointer-events: none;
+    }
+    .k-dark-band::after {
+      content: ''; position: absolute; right: -160px; top: -210px; z-index: -1;
+      width: 480px; height: 480px; border-radius: 50%;
+      border: 1px solid rgba(103, 232, 249, 0.16);
+      box-shadow: 0 0 0 52px rgba(103, 232, 249, 0.03);
+      pointer-events: none;
+    }
+    .k-dark-band qm-container { position: relative; }
     .k-anchor { scroll-margin-top: 88px; }
     .k-dark-head { max-width: 760px; margin: 0 0 40px; }
-    .k-eyebrow-dark {
-      display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--color-accent-on-dark); margin-bottom: 16px;
-    }
-    .k-h2--dark { color: var(--color-dark-text); }
-    .k-lead--dark { color: var(--color-dark-text-muted); }
+    .k-h2--dark { color: var(--color-ink-text); }
+    .k-lead--dark { color: var(--color-ink-muted); }
     .k-mono--dark {
-      color: var(--color-dark-text); background: var(--color-dark-surface);
-      border: 1px solid var(--color-dark-border); border-radius: 6px; padding: 1px 6px;
+      color: var(--color-ink-text); background: rgba(11, 27, 51, 0.72);
+      border: 1px solid var(--color-ink-border); border-radius: 6px; padding: 1px 6px;
     }
     .k-flow { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 0 0 40px; }
     .k-flow-chip {
-      font-size: 13px; color: var(--color-border); background: var(--color-dark-surface);
-      border: 1px solid var(--color-dark-border); padding: 8px 14px;
-      border-radius: 8px; white-space: nowrap;
+      font-size: 13px; color: var(--color-ink-text); background: rgba(11, 27, 51, 0.72);
+      border: 1px solid var(--color-ink-border); padding: 8px 14px;
+      border-radius: 999px; white-space: nowrap;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
     .k-flow-chip--accent {
-      background: var(--color-warning); border-color: var(--color-warning);
-      color: var(--color-text-inverse); font-weight: 600;
+      background: linear-gradient(135deg, #2563EB, #06B6D4); border-color: transparent;
+      color: #fff; font-weight: 600;
+      box-shadow: 0 12px 26px -14px rgba(6, 182, 212, 0.75);
     }
-    .k-flow-arrow { color: var(--color-text-muted); font-size: 16px; }
+    .k-flow-arrow { color: rgba(103, 232, 249, 0.55); font-size: 16px; }
     .k-zones { display: grid; gap: 16px; grid-template-columns: 1fr; }
     @media (min-width: 768px) { .k-zones { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px) { .k-zones { grid-template-columns: repeat(4, 1fr); } }
     .k-zone {
-      background: var(--color-dark-surface); border: 1px solid var(--color-dark-border);
-      border-radius: var(--card-radius); padding: 20px;
+      position: relative; overflow: hidden;
+      background: rgba(11, 27, 51, 0.72); border: 1px solid var(--color-ink-border);
+      border-radius: var(--radius-lg); padding: 20px;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      transition: transform 260ms var(--qm-ease-out), border-color 260ms ease, background-color 260ms ease;
     }
+    .k-zone::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 2px;
+      background: linear-gradient(90deg, #2563EB, #06B6D4); opacity: 0.7;
+    }
+    .k-zone:hover { transform: translateY(-3px); border-color: rgba(103, 232, 249, 0.28); }
     .k-zone-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 10px; }
     .k-zone-name {
-      color: var(--color-accent-on-dark); font-size: 12px;
+      color: var(--color-cyan-soft); font-size: 12px;
       letter-spacing: 0.04em; text-transform: uppercase;
     }
-    .k-zone-pkg { color: var(--color-text-muted); font-size: 12px; }
+    .k-zone-pkg { color: var(--color-ink-muted); font-size: 12px; }
     .k-zone-title {
-      color: var(--color-border); font-size: 14px; font-weight: 600; margin: 0 0 6px;
+      color: var(--color-ink-text); font-size: 14px; font-weight: 600; margin: 0 0 6px;
     }
-    .k-zone-note { color: var(--color-dark-text-muted); font-size: 13px; line-height: 1.6; margin: 0; }
+    .k-zone-note { color: var(--color-ink-muted); font-size: 13px; line-height: 1.6; margin: 0; }
     .k-dark-note {
-      color: var(--color-text-muted); font-size: 13px; line-height: 1.6;
+      color: var(--color-ink-muted); font-size: 13px; line-height: 1.6;
       margin: 32px 0 0; max-width: 820px;
     }
 
-    .page-cta { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-    .page-cta h2 { margin: 0; font-size: clamp(28px, 3.2vw, 40px); }
-    .page-cta .lead { max-width: 640px; }
-    .k-docs-note { max-width: 600px; margin: 8px auto 0; font-size: 14px; line-height: 1.6; }
+    .k-eco-band {
+      position: relative; overflow: hidden; text-align: center;
+      padding: 40px 28px;
+      background:
+        radial-gradient(420px 220px at 100% 0%, rgba(37, 99, 235, 0.08), transparent 64%),
+        var(--color-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xs);
+      display: flex; flex-direction: column; align-items: center; gap: 16px;
+    }
+    .k-eco-band::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+      background: var(--gradient-signal);
+    }
+    .k-eco-band h2 { margin: 0; }
+    .k-eco-band p { margin: 0; max-width: 620px; }
+    .k-docs-note { max-width: 600px; margin: 24px auto 0; font-size: 14px; line-height: 1.6; }
 
     /* ══════════ STEPS ══════════ */
     .k-steps { display: grid; gap: 16px; grid-template-columns: 1fr; margin-bottom: 32px; }
     @media (min-width: 480px) { .k-steps { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px) { .k-steps { grid-template-columns: repeat(3, 1fr); } }
     .k-step {
+      position: relative; overflow: hidden;
       background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: var(--card-radius); padding: 18px;
+      border-radius: var(--radius-lg); padding: 18px;
+      box-shadow: var(--shadow-xs);
       display: flex; flex-direction: column; gap: 10px;
+      transition: transform 260ms var(--qm-ease-out), border-color 260ms ease, box-shadow 260ms var(--qm-ease-out);
     }
+    .k-step:hover { transform: translateY(-3px); border-color: rgba(37, 99, 235, 0.22); box-shadow: var(--shadow-lg); }
     .k-step-num { color: var(--color-accent); font-size: 13px; text-transform: uppercase; letter-spacing: 0.06em; }
     .k-step-note { font-size: 14px; color: var(--color-text-secondary); line-height: 1.6; margin: 0; }
     .k-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
@@ -638,9 +822,19 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     .k-grid--roadmap { grid-template-columns: 1fr; }
     @media (min-width: 768px) { .k-grid--roadmap { grid-template-columns: repeat(3, 1fr); } }
     .k-road {
-      background: var(--card-bg-subtle); border: 1px solid var(--card-border);
-      border-radius: var(--card-radius); padding: 28px;
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(320px 180px at 100% 0%, rgba(37, 99, 235, 0.06), transparent 64%),
+        var(--card-bg-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); padding: 28px;
+      transition: transform 260ms var(--qm-ease-out), border-color 260ms ease, box-shadow 260ms var(--qm-ease-out);
     }
+    .k-road::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+      background: var(--gradient-signal); opacity: 0.65;
+    }
+    .k-road:hover { transform: translateY(-3px); border-color: rgba(37, 99, 235, 0.22); box-shadow: var(--shadow-lg); }
     .k-road h3 { margin: 16px 0 12px; font-size: 20px; }
     .k-road ul { margin: 0; padding-left: 20px; color: var(--color-text-secondary); }
     .k-road li { margin-bottom: 10px; line-height: 1.6; }
@@ -649,7 +843,10 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 
     @media (prefers-reduced-motion: reduce) {
-      .k-card { transition: none; transform: none; }
+      .k-card, .k-road, .k-step, .k-zone { transition: none; }
+      .k-card:hover, .k-road:hover, .k-step:hover, .k-zone:hover { transform: none; }
+      .k-hero-art__ring, .k-hero-art__chip { animation: none; }
+      .k-hero-art__panel::after { animation: none; opacity: 0; }
     }
   `]
 })

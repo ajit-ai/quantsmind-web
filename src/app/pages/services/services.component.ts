@@ -10,6 +10,8 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmServiceProductShowcaseComponent } from '../../shared/components/qm-service-product-showcase/qm-service-product-showcase.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 interface ServiceArea {
@@ -27,29 +29,29 @@ interface ServiceArea {
 
 @Component({
     selector: 'app-services',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmServiceProductShowcaseComponent, SafeHtmlPipe],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmServiceProductShowcaseComponent, QmPageHeroComponent, QmRevealDirective, SafeHtmlPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="page-hero surface-subtle">
-      <qm-container>
-        <span class="eyebrow">SERVICES</span>
-        <h1>Engineering Services</h1>
-        <p class="lead">
-          Practical software engineering and technology consulting for organizations
-          building, modernizing or scaling software systems.
-        </p>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="SERVICES"
+      title="Engineering Services"
+      lead="Practical software engineering and technology consulting for organizations building, modernizing or scaling software systems."
+      tone="quantum"
+      [artLabels]="['Architecture', 'Quantum', 'AI & ML', 'Cloud']">
+    </qm-page-hero>
 
     <qm-section surface="white">
       <qm-container>
-        <p class="services-intro">
-          Six core service areas. Select a service to see what QuantsMind provides,
-          what you can expect to receive, and the value it is designed to deliver.
-        </p>
+        <div class="services-intro" qmReveal>
+          <span class="eyebrow">SERVICE AREAS</span>
+          <p>
+            Six core service areas. Select a service to see what QuantsMind provides,
+            what you can expect to receive, and the value it is designed to deliver.
+          </p>
+        </div>
 
         <section class="svc-commercial" aria-label="Engagement models and solutions">
-          <div class="svc-commercial__block">
+          <div class="svc-commercial__block" qmReveal>
             <h2 class="svc-commercial__title">Engagement Models</h2>
             <p class="svc-commercial__lead">
               Flexible ways to work with QuantsMind, from a short assessment to an
@@ -62,7 +64,7 @@ interface ServiceArea {
               <li><strong>Technology Partnership</strong> — ongoing engineering support and evolution.</li>
             </ul>
           </div>
-          <div class="svc-commercial__block">
+          <div class="svc-commercial__block" qmReveal [qmRevealDelay]="90">
             <h2 class="svc-commercial__title">Solutions and Use Cases</h2>
             <p class="svc-commercial__lead">
               Illustrative examples of the kinds of work QuantsMind takes on. These are
@@ -77,7 +79,7 @@ interface ServiceArea {
               <li>Quantum simulation and software prototyping</li>
             </ul>
           </div>
-          <div class="svc-commercial__cta">
+          <div class="svc-commercial__cta" qmReveal>
             <qm-button variant="primary" size="md" [routerLinkValue]="'/contact'">
               Discuss a Requirement
             </qm-button>
@@ -86,12 +88,15 @@ interface ServiceArea {
 
         <section class="svc-overview" aria-label="Service overview">
           <div class="svc-grid">
-            @for (svc of services; track svc.id) {
+            @for (svc of services; track svc.id; let i = $index) {
               <button type="button"
                 class="svc-card"
                 [class.svc-card--active]="activeTab === svc.id"
                 [attr.aria-pressed]="activeTab === svc.id"
+                qmReveal
+                [qmRevealDelay]="i * 55"
                 (click)="selectTab(svc.id)">
+                <span class="svc-card__index" aria-hidden="true">0{{ i + 1 }}</span>
                 <span class="svc-card__icon" aria-hidden="true" [innerHTML]="svc.icon | qmSafeHtml"></span>
                 <span class="svc-card__title">{{ svc.title }}</span>
                 <p class="svc-card__desc">{{ svc.short }}</p>
@@ -113,7 +118,7 @@ interface ServiceArea {
           }
         </div>
 
-        <div class="svc-panel" #panel>
+        <div class="svc-panel" #panel qmReveal>
           @for (svc of services; track svc.id) {
             @if (activeTab === svc.id) {
               <article class="svc-detail">
@@ -132,7 +137,7 @@ interface ServiceArea {
                 </p>
 
                 <div class="svc-detail__grid">
-                  <div>
+                  <div class="svc-detail__group">
                     <h3 class="svc-detail__h3">What we provide</h3>
                     <ul class="svc-detail__list">
                       @for (p of svc.provides; track p) {
@@ -140,7 +145,7 @@ interface ServiceArea {
                       }
                     </ul>
                   </div>
-                  <div>
+                  <div class="svc-detail__group">
                     <h3 class="svc-detail__h3">Practical deliverables</h3>
                     <ul class="svc-detail__list">
                       @for (d of svc.deliverables; track d) {
@@ -186,43 +191,44 @@ interface ServiceArea {
       </qm-container>
     </qm-section>
 
-    <qm-section surface="subtle" size="sm">
+    <qm-section surface="canvas" size="sm">
       <qm-container size="narrow">
-        <div class="page-cta">
+        <div class="qm-cta-band page-cta" qmReveal>
           <span class="eyebrow">ENGAGEMENT</span>
           <h2>Discuss an Engineering Requirement</h2>
-          <p class="lead">
+          <p>
             Tell us about the system you are building or the problem you are facing.
             We will discuss whether and how we can help.
           </p>
-          <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-            Discuss an Engineering Requirement →
-          </qm-button>
+          <div class="qm-cta-band__actions">
+            <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
+              Discuss an Engineering Requirement →
+            </qm-button>
+          </div>
         </div>
       </qm-container>
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
-    .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
-    .page-hero .lead { max-width: 640px; margin: 0; }
-
     .services-intro {
-      max-width: 680px; margin: 0 0 36px;
-      font-size: 16px; line-height: 1.7; color: var(--color-text-secondary);
+      max-width: 760px; margin: 0 0 44px;
+    }
+    .services-intro p {
+      margin: 0;
+      font-size: 18px; line-height: 1.7; color: var(--color-text-secondary);
+      text-wrap: pretty;
     }
 
     /* ── TABS ── */
     .svc-tabs {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 10px;
+      gap: 8px;
       margin: 0 0 36px;
-      padding: 10px;
+      padding: 8px;
       background: var(--color-canvas);
       border: 1px solid var(--card-border);
-      border-radius: var(--card-radius);
+      border-radius: var(--radius-lg);
     }
     @media (min-width: 768px)  { .svc-tabs { grid-template-columns: repeat(3, 1fr); } }
     @media (min-width: 1200px) { .svc-tabs { grid-template-columns: repeat(4, 1fr); } }
@@ -232,18 +238,19 @@ interface ServiceArea {
       padding: 16px 10px;
       background: transparent;
       border: 1px solid transparent;
-      border-radius: 10px;
+      border-radius: 12px;
       cursor: pointer;
       font-family: inherit;
       text-align: center;
       transition: background-color var(--duration-fast) var(--easing-standard),
-                  border-color var(--duration-fast) var(--easing-standard);
+                  border-color var(--duration-fast) var(--easing-standard),
+                  transform 220ms var(--qm-ease-out);
     }
-    .svc-tab:hover { background: var(--card-bg); border-color: var(--card-border); }
+    .svc-tab:hover { background: var(--color-surface); border-color: var(--card-border); transform: translateY(-1px); }
     .svc-tab--active {
-      background: var(--card-bg);
-      border-color: var(--card-border-hi);
-      box-shadow: 0 2px 10px rgba(37, 99, 235, 0.10);
+      background: var(--gradient-brand);
+      border-color: transparent;
+      box-shadow: 0 12px 28px -14px rgba(37, 99, 235, 0.65);
     }
     .svc-tab__icon {
       width: 40px; height: 40px; flex-shrink: 0;
@@ -252,26 +259,47 @@ interface ServiceArea {
       transition: background-color var(--duration-fast) var(--easing-standard),
                   color var(--duration-fast) var(--easing-standard);
     }
-    .svc-tab--active .svc-tab__icon { background: var(--color-accent); color: var(--color-text-inverse); }
+    .svc-tab--active .svc-tab__icon {
+      background: rgba(255, 255, 255, 0.16);
+      color: #fff;
+    }
     .svc-tab__label {
       font-size: 13px; font-weight: 500; color: var(--color-text-secondary); line-height: 1.3;
     }
-    .svc-tab--active .svc-tab__label { font-weight: 600; color: var(--color-text-primary); }
+    .svc-tab--active .svc-tab__label { font-weight: 600; color: #fff; }
     .svc-tab:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
     /* ── SERVICE OVERVIEW GRID ── */
     .svc-commercial {
-      display: grid; gap: 24px; margin-bottom: 48px;
-      padding: 24px; background: var(--color-canvas); border: 1px solid var(--card-border);
-      border-radius: var(--card-radius);
+      display: grid; gap: 20px; margin-bottom: 56px;
     }
-    @media (min-width: 768px) { .svc-commercial { grid-template-columns: 1fr 1fr; align-items: start; } }
-    .svc-commercial__title { margin: 0 0 8px; font-size: 18px; font-weight: 600; color: var(--color-text-primary); }
-    .svc-commercial__lead { margin: 0 0 12px; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
+    @media (min-width: 768px) { .svc-commercial { grid-template-columns: 1fr 1fr; align-items: stretch; } }
+    .svc-commercial__block {
+      position: relative;
+      padding: 28px;
+      overflow: hidden;
+      background:
+        radial-gradient(420px 220px at 100% 0%, rgba(37, 99, 235, 0.07), transparent 62%),
+        var(--color-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xs);
+    }
+    .svc-commercial__block::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--gradient-signal);
+      opacity: 0.8;
+    }
+    .svc-commercial__title { margin: 0 0 8px; font-size: 18px; font-weight: 600; color: var(--color-text-primary); letter-spacing: -0.02em; }
+    .svc-commercial__lead { margin: 0 0 16px; font-size: 14px; line-height: 1.6; color: var(--color-text-secondary); }
     .svc-commercial__list { margin: 0; padding-left: 18px; color: var(--color-text-secondary); font-size: 14px; line-height: 1.7; }
     .svc-commercial__list li { margin-bottom: 6px; }
+    .svc-commercial__list li::marker { color: var(--color-accent); }
     .svc-commercial__cta { grid-column: 1 / -1; display: flex; justify-content: flex-start; }
-    @media (max-width: 767px) { .svc-commercial { padding: 18px; } }
+    @media (max-width: 767px) { .svc-commercial__block { padding: 22px; } }
 
     .svc-overview { margin-bottom: 48px; }
     @media (min-width: 768px) { .svc-overview { margin-bottom: 64px; } }
@@ -283,20 +311,54 @@ interface ServiceArea {
     @media (min-width: 640px) { .svc-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 1024px) { .svc-grid { grid-template-columns: repeat(3, 1fr); } }
     .svc-card {
-      display: flex; flex-direction: column; gap: 12px;
-      padding: 20px; background: var(--card-bg); border: 1px solid var(--card-border);
-      border-radius: 12px; text-align: left; cursor: pointer;
-      transition: border-color var(--duration-fast) var(--easing-standard),
-                  box-shadow var(--duration-fast) var(--easing-standard);
+      position: relative;
+      display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+      padding: 24px; overflow: hidden;
+      background: var(--color-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg); text-align: left; cursor: pointer;
+      transition: border-color 260ms ease,
+                  box-shadow 260ms var(--qm-ease-out),
+                  transform 260ms var(--qm-ease-out);
     }
-    .svc-card:hover { border-color: var(--color-accent-muted); }
-    .svc-card--active { border-color: var(--color-accent); box-shadow: 0 2px 10px rgba(37, 99, 235, 0.08); }
+    .svc-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--gradient-signal);
+      opacity: 0;
+      transition: opacity 260ms ease;
+    }
+    .svc-card:hover {
+      border-color: rgba(37, 99, 235, 0.24);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
+    }
+    .svc-card:hover::before { opacity: 0.6; }
+    .svc-card--active {
+      border-color: rgba(37, 99, 235, 0.42);
+      background:
+        radial-gradient(360px 200px at 100% 0%, rgba(37, 99, 235, 0.10), transparent 64%),
+        var(--color-surface);
+      box-shadow: 0 18px 44px -22px rgba(37, 99, 235, 0.45);
+    }
+    .svc-card--active::before { opacity: 1; }
     .svc-card:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-    .svc-card__icon {
-      width: 40px; height: 40px; flex-shrink: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: var(--mark-bg); border-radius: 10px; color: var(--mark-color);
+    .svc-card__index {
+      position: absolute;
+      top: 20px; right: 20px;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--color-text-muted);
     }
+    .svc-card__icon {
+      width: 44px; height: 44px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--mark-bg); border-radius: 12px; color: var(--mark-color);
+      transition: background-color 220ms ease, color 220ms ease;
+    }
+    .svc-card--active .svc-card__icon { background: var(--gradient-brand); color: #fff; }
     .svc-card__title {
       margin: 0; font-size: 15px; font-weight: 600; color: var(--color-text-primary);
       line-height: 1.4;
@@ -308,47 +370,84 @@ interface ServiceArea {
     /* ── DETAIL PANEL ── */
     .svc-panel { scroll-margin-top: 96px; }
     .svc-detail {
-      background: var(--card-bg);
+      position: relative;
+      overflow: hidden;
+      background:
+        radial-gradient(720px 360px at 100% 0%, rgba(37, 99, 235, 0.06), transparent 62%),
+        var(--color-surface);
       border: 1px solid var(--card-border);
-      border-radius: 14px;
+      border-radius: var(--radius-2xl);
       padding: 28px;
+      box-shadow: var(--shadow-xl);
+      animation: svcPanelIn 460ms var(--qm-ease-out);
     }
-    @media (min-width: 768px) { .svc-detail { padding: 40px; } }
+    .svc-detail::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--gradient-signal);
+    }
+    @media (min-width: 768px) { .svc-detail { padding: 44px; } }
+    @keyframes svcPanelIn {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
 
     .svc-detail__head {
-      display: flex; gap: 16px; align-items: flex-start;
+      display: flex; gap: 18px; align-items: flex-start;
       margin-bottom: 28px;
     }
     .svc-detail__icon {
-      width: 52px; height: 52px; flex-shrink: 0;
+      width: 56px; height: 56px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      background: var(--mark-bg); border-radius: var(--radius-md); color: var(--mark-color);
+      background: var(--gradient-brand);
+      border-radius: var(--radius-md); color: #fff;
+      box-shadow: 0 12px 26px -14px rgba(37, 99, 235, 0.65);
     }
     .svc-detail__title {
-      font-size: clamp(24px, 3vw, 30px); font-weight: 700;
-      color: var(--color-text-primary); margin: 0 0 8px; letter-spacing: -0.02em;
+      font-size: clamp(24px, 3vw, 32px); font-weight: 700;
+      color: var(--color-text-primary); margin: 0 0 8px; letter-spacing: -0.025em;
     }
-    .svc-detail__short { margin: 0; font-size: 16px; line-height: 1.7; color: var(--color-text-secondary); }
+    .svc-detail__short { margin: 0; font-size: 16px; line-height: 1.7; color: var(--color-text-secondary); max-width: 720px; }
 
     .svc-detail__grid {
-      display: grid; grid-template-columns: 1fr; gap: 24px;
+      display: grid; grid-template-columns: 1fr; gap: 18px;
       margin-bottom: 24px;
     }
-    @media (min-width: 768px) { .svc-detail__grid { grid-template-columns: 1fr 1fr; gap: 32px; } }
+    @media (min-width: 768px) { .svc-detail__grid { grid-template-columns: 1fr 1fr; gap: 20px; } }
+    .svc-detail__group {
+      padding: 22px;
+      background: var(--color-surface-subtle);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+    }
 
     .svc-detail__h3 {
       margin: 0 0 12px;
-      font-size: 13px; font-weight: 600;
-      letter-spacing: 0.07em; text-transform: uppercase;
+      font-family: 'Inter', system-ui, sans-serif;
+      font-size: 12px; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
       color: var(--color-accent);
     }
-    .svc-detail__list { margin: 0; padding-left: 20px; color: var(--color-text-secondary); }
-    .svc-detail__list li { margin-bottom: 8px; line-height: 1.6; font-size: 15px; }
+    .svc-detail__list { margin: 0; padding: 0; list-style: none; color: var(--color-text-secondary); }
+    .svc-detail__list li {
+      display: flex; align-items: flex-start; gap: 10px;
+      margin-bottom: 9px; line-height: 1.6; font-size: 14px;
+    }
+    .svc-detail__list li::before {
+      content: '';
+      flex: 0 0 auto;
+      width: 6px; height: 6px; margin-top: 8px;
+      border-radius: 50%;
+      background: var(--gradient-signal);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.07);
+    }
     .svc-detail__list li:last-child { margin-bottom: 0; }
 
     .svc-detail__context { margin-bottom: 24px; }
     .svc-detail__context p {
-      margin: 0; max-width: 720px; color: var(--color-text-secondary);
+      margin: 0; max-width: 760px; color: var(--color-text-secondary);
       font-size: 15px; line-height: 1.7; text-wrap: pretty;
     }
 
@@ -360,11 +459,12 @@ interface ServiceArea {
     .svc-detail__problem strong { color: var(--color-text-primary); }
 
     .svc-detail__outcome {
-      margin: 0 0 24px;
-      padding: 14px 18px;
-      background: var(--card-bg-subtle);
+      margin: 0 0 28px;
+      padding: 18px 20px;
+      background: linear-gradient(100deg, rgba(37, 99, 235, 0.08), rgba(6, 182, 212, 0.04));
+      border: 1px solid rgba(37, 99, 235, 0.14);
       border-left: 3px solid var(--color-accent);
-      border-radius: 0 8px 8px 0;
+      border-radius: var(--radius-md);
       color: var(--color-text-secondary);
       font-size: 15px; line-height: 1.7;
     }
@@ -372,43 +472,39 @@ interface ServiceArea {
 
     .svc-detail__cta { display: flex; }
     .svc-detail__explore { margin: 0 0 24px; }
-    .svc-detail__explore-link { font-weight: 500; color: var(--color-accent); text-decoration: none; }
+    .svc-detail__explore-link { font-weight: 600; color: var(--color-accent); text-decoration: none; }
     .svc-detail__explore-link:hover { text-decoration: underline; }
 
     .svc-detail__illustration {
-      margin: 0 0 24px;
-      padding: 16px;
-      background: var(--card-bg-subtle);
-      border: 1px solid var(--card-border);
-      border-radius: 10px;
+      margin: 0 0 28px;
+      padding: 18px;
+      background:
+        radial-gradient(rgba(37, 99, 235, 0.08) 1px, transparent 1px) 0 0 / 18px 18px,
+        linear-gradient(160deg, #F8FBFF 0%, #EEF5FF 100%);
+      border: 1px solid rgba(37, 99, 235, 0.12);
+      border-radius: var(--radius-lg);
       overflow: hidden;
     }
     .svc-illustration {
       width: 100%;
       height: auto;
       display: block;
-      max-height: 160px;
+      max-height: 180px;
     }
     @media (max-width: 639px) {
       .svc-illustration { max-height: 140px; }
     }
 
     /* ── CTA ── */
-    .page-cta {
-      text-align: center; display: flex; flex-direction: column;
-      align-items: center; gap: 16px;
-    }
+    .page-cta { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+    .page-cta .eyebrow { margin-bottom: 0; }
     .page-cta h2 { margin: 0; }
-
-    .eyebrow {
-      display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--color-accent); margin-bottom: 16px;
-    }
-    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); margin: 0; }
+    .page-cta p { margin: 0; }
 
     @media (prefers-reduced-motion: reduce) {
-      .svc-tab { transition: none; }
+      .svc-tab, .svc-card { transition: none; }
+      .svc-tab:hover, .svc-card:hover { transform: none; }
+      .svc-detail { animation: none; }
     }
   `]
 })

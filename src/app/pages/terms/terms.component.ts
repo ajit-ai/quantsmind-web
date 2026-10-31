@@ -2,10 +2,11 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 @Component({
     selector: 'app-terms',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <section class="qm-legal-hero surface-subtle">
@@ -24,7 +25,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
       <qm-container size="narrow">
         <div class="qm-legal-body">
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>1. Acceptance of Terms</h2>
             <p>
               By accessing and using the QuantsMind website at
@@ -40,7 +41,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>2. About QuantsMind</h2>
             <p>
               QuantsMind is a technology engineering company operating from:
@@ -53,7 +54,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </address>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>3. Use of the Website</h2>
             <h3>3.1 Permitted Use</h3>
             <p>
@@ -78,7 +79,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </ul>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>4. Intellectual Property</h2>
             <p>
               All content on this Website — including text, graphics, diagrams, logos,
@@ -97,7 +98,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>5. Disclaimer of Warranties</h2>
             <p>
               The Website and its content are provided on an "as is" and "as available"
@@ -113,7 +114,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>6. Limitation of Liability</h2>
             <p>
               To the maximum extent permitted by applicable law, QuantsMind shall not
@@ -128,7 +129,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>7. Third-Party Links</h2>
             <p>
               Our Website may contain links to third-party websites, including LinkedIn
@@ -140,7 +141,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>8. Privacy</h2>
             <p>
               Your use of this Website is also governed by our
@@ -151,7 +152,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>9. Governing Law and Jurisdiction</h2>
             <p>
               These Terms of Use are governed by and construed in accordance with
@@ -161,7 +162,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>10. Contact</h2>
             <p>
               If you have any questions about these Terms of Use, please contact us at:

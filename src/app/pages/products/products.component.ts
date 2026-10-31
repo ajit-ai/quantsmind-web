@@ -6,6 +6,8 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
 import { QmProductPortfolioComponent } from '../../shared/components/qm-product-portfolio/qm-product-portfolio.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { getProductsByPortfolio } from '../../content/products/product.registry';
 
 interface Product {
@@ -29,30 +31,25 @@ interface FlowStep {
 
 @Component({
     selector: 'app-products',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmProductPortfolioComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmProductPortfolioComponent, QmPageHeroComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="page-hero surface-subtle">
-      <qm-container>
-        <span class="eyebrow">PRODUCTS</span>
-        <h1>QuantsMind Products</h1>
-        <p class="lead">
-          Software built from the QuantsMind engineering and technology ecosystem —
-          practical applications developed from the same foundations, disciplines and
-          maturity standards as our engineering work.
-        </p>
-        <p class="lead section-lead">
-          A product appears here only once it can be installed, accessed and used, and
-          once its current release state is accurate. Nothing listed below is described as
-          a generally available release.
-        </p>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="PRODUCTS"
+      title="QuantsMind Products"
+      lead="Software built from the QuantsMind engineering and technology ecosystem — practical applications developed from the same foundations, disciplines and maturity standards as our engineering work."
+      [artLabels]="['DI Mini', 'v0.1.0', 'Portfolio', 'Access']">
+      <p heroLead class="qm-page-hero__lead">
+        A product appears here only once it can be installed, accessed and used, and
+        once its current release state is accurate. Nothing listed below is described as
+        a generally available release.
+      </p>
+    </qm-page-hero>
 
     <qm-section surface="white" ariaLabel="QuantsMind products">
       <qm-container>
         @for (product of products; track product.name) {
-          <article class="product">
+          <article class="product" qmReveal>
             <div class="product__head">
               <div>
                 <h2 class="product__name">{{ product.name }}</h2>
@@ -277,16 +274,24 @@ interface FlowStep {
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 48px 0 32px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
-    .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
-    .page-hero .lead { max-width: 640px; margin: 0; }
     .section-lead { max-width: 680px; margin: 0 0 40px; }
 
     .product {
+      position: relative;
       display: flex; flex-direction: column; gap: 20px;
-      padding: 32px; background: var(--card-bg);
-      border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+      padding: 32px; overflow: hidden;
+      background:
+        radial-gradient(520px 260px at 100% 0%, rgba(37, 99, 235, 0.07), transparent 62%),
+        var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    .product::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--gradient-signal);
     }
     @media (min-width: 768px) { .product { padding: 40px; } }
     .product__head {

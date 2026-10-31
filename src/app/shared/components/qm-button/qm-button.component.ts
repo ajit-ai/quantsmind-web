@@ -63,17 +63,18 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
     .qm-btn {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       font-family: inherit;
-      font-weight: 500;
+      font-weight: 600;
       letter-spacing: -0.01em;
       border: 1px solid transparent;
-      border-radius: 8px;
+      border-radius: 10px;
       cursor: pointer;
       text-decoration: none;
       transition: background-color 200ms ease, color 200ms ease,
-                  border-color 200ms ease, box-shadow 200ms ease,
-                  transform 150ms ease;
+                  border-color 200ms ease, box-shadow 250ms ease,
+                  transform 200ms cubic-bezier(0.16, 1, 0.3, 1);
       white-space: nowrap;
       user-select: none;
       -webkit-user-select: none;
@@ -90,36 +91,45 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
     }
     .qm-btn--lg {
       font-size: 16px;
-      padding: 16px 32px;
-      border-radius: 10px;
+      padding: 16px 30px;
+      border-radius: 12px;
     }
 
     /* Primary */
     .qm-btn--primary {
-      background: var(--color-accent);
+      background: var(--gradient-brand, linear-gradient(135deg, #2563EB, #4F46E5 48%, #06B6D4));
+      background-size: 140% 140%;
+      background-position: 0% 50%;
       color: var(--color-text-inverse);
-      border-color: var(--color-accent);
+      border-color: transparent;
+      box-shadow: 0 10px 26px -12px rgba(37, 99, 235, 0.55);
     }
     .qm-btn--primary:hover {
-      background: var(--color-accent-dark);
-      border-color: var(--color-accent-dark);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+      background-position: 100% 50%;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 18px 38px -14px rgba(37, 99, 235, 0.65);
+      text-decoration: none;
     }
     .qm-btn--primary:active {
       transform: translateY(0);
-      box-shadow: none;
+      box-shadow: 0 6px 16px -10px rgba(37, 99, 235, 0.45);
     }
 
     /* Secondary */
     .qm-btn--secondary {
-      background: var(--color-surface);
-      color: var(--color-accent);
-      border-color: var(--color-accent-muted);
+      background: rgba(255, 255, 255, 0.82);
+      color: var(--color-accent-dark);
+      border-color: rgba(37, 99, 235, 0.22);
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
     }
     .qm-btn--secondary:hover {
-      background: var(--color-accent-subtle);
+      background: #fff;
       border-color: var(--color-accent);
+      color: var(--color-accent-dark);
+      transform: translateY(-1px);
+      box-shadow: 0 12px 26px -16px rgba(37, 99, 235, 0.4);
+      text-decoration: none;
     }
 
     /* Ghost */

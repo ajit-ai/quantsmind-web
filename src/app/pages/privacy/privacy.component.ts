@@ -2,10 +2,11 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 @Component({
     selector: 'app-privacy',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <section class="qm-legal-hero surface-subtle">
@@ -24,7 +25,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
       <qm-container size="narrow">
         <div class="qm-legal-body">
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>1. Who We Are</h2>
             <p>
               QuantsMind ("we", "us", "our") is a technology engineering company registered in India.
@@ -43,7 +44,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>2. What Information We Collect</h2>
             <p>We collect information in the following circumstances:</p>
             <h3>2.1 Information You Provide</h3>
@@ -74,7 +75,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>3. How We Use Your Information</h2>
             <p>We use the information we collect for the following purposes:</p>
             <ul>
@@ -91,7 +92,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>4. Legal Basis for Processing (GDPR)</h2>
             <p>
               Where the General Data Protection Regulation (GDPR) applies to visitors
@@ -108,7 +109,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </ul>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>5. Data Retention</h2>
             <p>
               We retain enquiry data for as long as necessary to fulfil the purpose
@@ -124,7 +125,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>6. Data Sharing and Transfers</h2>
             <p>
               We do not sell or share your personal information with third parties,
@@ -152,7 +153,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>7. Your Rights</h2>
             <p>
               Depending on your location, you may have the following rights regarding
@@ -179,7 +180,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>8. Security</h2>
             <p>
               We implement appropriate technical and organisational measures to protect
@@ -190,7 +191,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>9. Third-Party Links</h2>
             <p>
               Our website may contain links to third-party websites, including
@@ -200,7 +201,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>10. Changes to This Policy</h2>
             <p>
               We may update this Privacy Policy from time to time to reflect changes
@@ -211,7 +212,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>11. Contact</h2>
             <p>
               If you have any questions about this Privacy Policy or how we handle

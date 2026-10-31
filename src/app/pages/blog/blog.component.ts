@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 import { ArticleCategory, BlogArticle, ARTICLE_CATEGORIES } from './blog-article.model';
 import { BLOG_ARTICLES } from './articles';
@@ -19,22 +21,16 @@ interface ArticleGroup {
 
 @Component({
     selector: 'app-blog',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmBadgeComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmBadgeComponent, QmPageHeroComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- HERO -->
-    <section class="page-hero surface-subtle">
-      <qm-container>
-        <span class="eyebrow">BLOG</span>
-        <h1>Articles</h1>
-        <p class="lead">
-          Long-form technical writing about the software QuantsMind builds: the
-          technologies in the ecosystem, the research carried out in Labs, and the
-          products that come out of them. Each article states what a project does
-          today, how it does it, and where it is still incomplete.
-        </p>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="BLOG"
+      title="Articles"
+      lead="Long-form technical writing about the software QuantsMind builds: the technologies in the ecosystem, the research carried out in Labs, and the products that come out of them. Each article states what a project does today, how it does it, and where it is still incomplete."
+      [artLabels]="['Products', 'Technology', 'Labs', 'Research']">
+    </qm-page-hero>
 
     <!-- FILTERS -->
     <qm-section surface="white" size="sm" ariaLabel="Filter articles by category">
@@ -57,14 +53,14 @@ interface ArticleGroup {
       <qm-container>
         @for (group of visibleGroups(); track group.category) {
           <section class="group" [attr.aria-label]="group.category + ' articles'">
-            <div class="group__head">
+            <div class="group__head" qmReveal>
               <h2 class="group__title">{{ group.category }}</h2>
               <p class="group__blurb">{{ group.blurb }}</p>
             </div>
 
             <div class="grid">
-              @for (article of group.articles; track article.slug) {
-                <article class="card">
+              @for (article of group.articles; track article.slug; let ai = $index) {
+                <article class="card" qmReveal [qmRevealDelay]="ai * 70">
                   <div class="card__top">
                     <span class="card__category">{{ article.category }}</span>
                     <qm-badge [variant]="article.maturityVariant">{{ article.maturity }}</qm-badge>
@@ -83,18 +79,6 @@ interface ArticleGroup {
     </qm-section>
     `,
     styles: [`
-    /* ── HERO ──────────────────────────────────────────── */
-    .page-hero { padding: 64px 0 48px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
-    .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
-    .page-hero .lead { max-width: 700px; margin: 0; }
-    .eyebrow {
-      display: inline-block; font-size: 12px; font-weight: 600;
-      letter-spacing: 0.1em; text-transform: uppercase;
-      color: var(--color-accent); margin-bottom: 16px;
-    }
-    .lead { font-size: 18px; line-height: 1.7; color: var(--color-text-secondary); }
-
     /* ── FILTERS ───────────────────────────────────────── */
     .filters { display: flex; flex-wrap: wrap; gap: 10px; }
     .filters__btn {

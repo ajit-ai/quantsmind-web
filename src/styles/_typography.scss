@@ -16,6 +16,17 @@ $font-family-base:
   'Segoe UI',
   sans-serif;
 
+// Display face for headlines. Sora gives the site a more engineered,
+// contemporary silhouette while Inter stays on body copy for legibility.
+$font-family-display:
+  'Sora',
+  'Inter',
+  system-ui,
+  -apple-system,
+  BlinkMacSystemFont,
+  'Segoe UI',
+  sans-serif;
+
 $font-family-mono:
   'JetBrains Mono',
   'Fira Code',
@@ -114,6 +125,7 @@ body {
   background-color: $color-canvas;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
   margin: 0;
   padding: 0;
 }
@@ -121,6 +133,7 @@ body {
 // Headings
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 $space-4;
+  font-family: $font-family-display;
   font-weight: $font-weight-semibold;
   color: $color-text-primary;
   text-wrap: balance;
@@ -302,13 +315,49 @@ hr {
 .text-pretty   { text-wrap: pretty; }
 
 .eyebrow {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: $font-family-base;
   font-size: $font-size-eyebrow;
   font-weight: $font-weight-semibold;
   letter-spacing: $letter-spacing-eyebrow;
   text-transform: uppercase;
   color: $color-accent;
   margin-bottom: $space-4;
+
+  &::before {
+    content: '';
+    width: 22px;
+    height: 1.5px;
+    flex: 0 0 auto;
+    border-radius: 999px;
+    background: var(--gradient-signal, linear-gradient(90deg, #2563EB, #06B6D4));
+  }
+}
+
+// Editorial gradient for one or two emphasised words in a headline.
+.qm-gradient-text {
+  background: var(--gradient-brand, linear-gradient(135deg, #2563EB, #4F46E5 48%, #06B6D4));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.qm-kicker {
+  font-family: $font-family-base;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-semibold;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: $color-text-muted;
+}
+
+// Tabular figures for stats and counters.
+.qm-tabular {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: 'tnum';
 }
 
 .lead {

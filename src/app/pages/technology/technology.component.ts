@@ -6,6 +6,8 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 interface EcosystemTech {
   name: string;
@@ -46,25 +48,20 @@ interface EcosystemMapGroup {
 
 @Component({
     selector: 'app-technology',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe, QmPageHeroComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
-    <section class="page-hero surface-subtle">
-      <qm-container>
-        <span class="eyebrow">TECHNOLOGY</span>
-        <h1>Technology Ecosystem</h1>
-        <p class="lead">
-          Open software technologies built, engineered and maintained by QuantsMind.
-          Each project below shows its own current maturity, the release it corresponds
-          to, and a public source you can check for yourself.
-        </p>
-        <p class="lead section-lead">
-          Maturity is stated per project and is deliberately conservative. A published
-          version number means a release exists — it is not a claim of production
-          readiness, and none of these projects is described as production-ready.
-        </p>
-      </qm-container>
-    </section>
+    <qm-page-hero
+      eyebrow="TECHNOLOGY"
+      title="Technology Ecosystem"
+      lead="Open software technologies built, engineered and maintained by QuantsMind. Each project below shows its own current maturity, the release it corresponds to, and a public source you can check for yourself."
+      [artLabels]="['Karkain', 'MicroQuantum', 'SDK', 'GuardMCP']">
+      <p heroLead class="qm-page-hero__lead">
+        Maturity is stated per project and is deliberately conservative. A published
+        version number means a release exists — it is not a claim of production
+        readiness, and none of these projects is described as production-ready.
+      </p>
+    </qm-page-hero>
 
     <qm-section surface="canvas" size="sm" ariaLabel="Ecosystem map">
       <qm-container>
@@ -76,8 +73,8 @@ interface EcosystemMapGroup {
           integration with the other entries.
         </p>
         <div class="ecosystem-map" role="group" aria-labelledby="ecosystem-map-heading">
-          @for (group of ecosystemGroups; track group.title) {
-            <section class="ecosystem-group">
+          @for (group of ecosystemGroups; track group.title; let i = $index) {
+            <section class="ecosystem-group" qmReveal [qmRevealDelay]="i * 70">
               <h3 class="ecosystem-group__title">{{ group.title }}</h3>
               <p class="ecosystem-group__note">{{ group.note }}</p>
               <ul class="ecosystem-group__list">
@@ -101,8 +98,8 @@ interface EcosystemMapGroup {
     <qm-section surface="white">
       <qm-container>
         <div class="ecosystem-grid">
-          @for (tech of ecosystem; track tech) {
-            <article class="tech-card">
+          @for (tech of ecosystem; track tech; let i = $index) {
+            <article class="tech-card" qmReveal [qmRevealDelay]="i * 80">
               <span class="qm-mark tech-card__mark" aria-hidden="true" [innerHTML]="tech.mark | qmSafeHtml"></span>
               <div class="tech-card__meta">
                 <h2 class="tech-card__title">
@@ -141,33 +138,31 @@ interface EcosystemMapGroup {
 
     <qm-section surface="canvas" size="sm">
       <qm-container size="narrow">
-        <div class="intro-block">
-          <h2>Behind the Ecosystem</h2>
-          <p class="lead">
+        <div class="qm-cta-band intro-block" qmReveal>
+          <span class="eyebrow">BEHIND THE ECOSYSTEM</span>
+          <h2>Built with the same engineering discipline.</h2>
+          <p>
             These technologies are built with the same engineering discipline we apply
             to client work. Each entry states its current maturity and its known
             limitations. Where a project is incomplete, pre-release, or simulation-only,
             the description says so rather than rounding it up.
           </p>
-          <p class="lead section-lead">
+          <p>
             Karkain, MicroQuantum and the QuantsMind SDK have their own pages below. The
             remaining projects do not have a dedicated page yet, so their cards link
             straight to the public repository, where the source and its documentation can
             be read directly.
           </p>
-          <qm-button variant="secondary" [routerLinkValue]="'/contact'">
-            Discuss a Collaboration Idea →
-          </qm-button>
+          <div class="qm-cta-band__actions">
+            <qm-button variant="secondary" [routerLinkValue]="'/contact'">
+              Discuss a Collaboration Idea →
+            </qm-button>
+          </div>
         </div>
       </qm-container>
     </qm-section>
     `,
     styles: [`
-    .page-hero { padding: 48px 0 32px; border-bottom: 1px solid var(--color-border); }
-    @media (min-width: 768px) { .page-hero { padding: 88px 0 64px; } }
-    .page-hero h1 { max-width: 720px; margin: 0 0 20px; }
-    .page-hero .lead { max-width: 640px; margin: 0; }
-
     .ecosystem-grid {
       display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px;
     }
@@ -178,15 +173,25 @@ interface EcosystemMapGroup {
       display: flex; flex-direction: column; gap: 12px;
       padding: 32px;
       min-width: 0; overflow-wrap: anywhere;
-      background: var(--card-bg-subtle);
-      border: 1px solid var(--card-border); border-radius: var(--card-radius);
-      box-shadow: var(--card-shadow);
-      transition: border-color 200ms ease, box-shadow 200ms ease, transform 200ms ease;
+      background:
+        radial-gradient(420px 240px at 100% 0%, rgba(37, 99, 235, 0.07), transparent 62%),
+        var(--card-bg);
+      border: 1px solid var(--card-border); border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-xs);
+      transition: border-color 260ms ease, box-shadow 260ms ease, transform 260ms var(--qm-ease-out);
+    }
+    .tech-card::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 3px;
+      background: var(--gradient-signal);
+      opacity: 0.8;
     }
     .tech-card:hover {
-      border-color: var(--card-border-hi);
-      box-shadow: var(--card-shadow-hi);
-      transform: translateY(-2px);
+      border-color: rgba(37, 99, 235, 0.24);
+      box-shadow: var(--shadow-xl);
+      transform: translateY(-4px);
     }
     .tech-card:focus-visible {
       outline: 2px solid var(--color-accent); outline-offset: 3px;
@@ -235,7 +240,7 @@ interface EcosystemMapGroup {
       align-items: center; gap: 16px;
     }
     .intro-block h2 { margin: 0; }
-    .intro-block .lead { max-width: 640px; margin: 0; }
+    .intro-block p { max-width: 680px; margin: 0; }
 
     .eyebrow {
       display: inline-block; font-size: 12px; font-weight: 600;
@@ -253,11 +258,30 @@ interface EcosystemMapGroup {
     @media (min-width: 1024px) { .ecosystem-map { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 
     .ecosystem-group {
+      position: relative;
       display: flex; flex-direction: column; gap: 8px;
-      padding: 20px;
-      background: var(--card-bg-subtle);
-      border: 1px solid var(--card-border); border-radius: var(--card-radius);
+      padding: 22px;
+      overflow: hidden;
+      background:
+        radial-gradient(320px 180px at 100% 0%, rgba(37, 99, 235, 0.06), transparent 62%),
+        var(--color-surface);
+      border: 1px solid var(--card-border); border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
       min-width: 0;
+      transition: transform 260ms var(--qm-ease-out), border-color 260ms ease, box-shadow 260ms ease;
+    }
+    .ecosystem-group::before {
+      content: '';
+      position: absolute;
+      inset: 0 0 auto;
+      height: 2px;
+      background: var(--gradient-signal);
+      opacity: 0.75;
+    }
+    .ecosystem-group:hover {
+      transform: translateY(-3px);
+      border-color: rgba(37, 99, 235, 0.22);
+      box-shadow: var(--shadow-lg);
     }
     .ecosystem-group__title { font-size: 16px; font-weight: 600; margin: 0; color: var(--color-text-primary); overflow-wrap: anywhere; }
     .ecosystem-group__note { font-size: 13px; line-height: 1.5; color: var(--color-text-secondary); margin: 0; overflow-wrap: anywhere; }

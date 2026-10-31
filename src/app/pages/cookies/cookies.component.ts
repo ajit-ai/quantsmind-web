@@ -2,10 +2,11 @@ import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 
 @Component({
     selector: 'app-cookies',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmRevealDirective],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <section class="qm-legal-hero surface-subtle">
@@ -24,7 +25,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
       <qm-container size="narrow">
         <div class="qm-legal-body">
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>1. What Are Cookies?</h2>
             <p>
               Cookies are small text files that are placed on your device when you visit
@@ -39,7 +40,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>2. How We Use Cookies</h2>
             <p>
               The QuantsMind website is designed to be lightweight and privacy-conscious.
@@ -49,7 +50,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>3. Cookies We Use</h2>
 
             <div class="cookie-table-wrapper">
@@ -91,7 +92,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </div>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>4. Third-Party Services</h2>
             <p>
               Our website loads the Inter typeface from Google Fonts. This involves
@@ -109,7 +110,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>5. Managing Cookies</h2>
             <p>
               You can control and manage cookies through your browser settings.
@@ -138,7 +139,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </ul>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>6. Changes to This Policy</h2>
             <p>
               We may update this Cookie Policy from time to time. Changes will be
@@ -147,7 +148,7 @@ import { QmSectionComponent }   from '../../shared/components/qm-section/qm-sect
             </p>
           </section>
 
-          <section class="qm-legal-section">
+          <section class="qm-legal-section" qmReveal>
             <h2>7. Contact</h2>
             <p>
               If you have any questions about our use of cookies, please contact us:

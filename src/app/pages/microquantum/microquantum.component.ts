@@ -5,6 +5,8 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
+import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 
 interface LinkItem { label: string; href: string; }
@@ -27,49 +29,91 @@ interface FlowStep { title: string; description: string; }
 
 @Component({
     selector: 'app-microquantum',
-    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, SafeHtmlPipe],
+    imports: [RouterModule, QmContainerComponent, QmSectionComponent, QmButtonComponent, QmBadgeComponent, QmPageHeroComponent, QmRevealDirective, SafeHtmlPipe],
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <!-- ═══════════════════════════════════════════════ -->
     <!-- HERO                                             -->
     <!-- ═══════════════════════════════════════════════ -->
-    <section class="mq-hero" aria-label="MicroQuantum overview">
-      <qm-container>
+    <qm-page-hero
+      eyebrow="MICROQUANTUM"
+      title="MicroQuantum"
+      lead="Quantum computing, built for developers."
+      tone="quantum"
+      art="none"
+      [hasProjectedArt]="true">
+      <div heroBadge class="mq-hero__badges">
         <a routerLink="/technology" class="mq-back">&larr; Technology Ecosystem</a>
-
-        <qm-badge variant="experimental" class="mq-hero__badge">Developer Preview · v1.1.0</qm-badge>
-        <h1 class="mq-hero__title">MicroQuantum</h1>
-        <p class="mq-hero__tagline">Quantum computing, built for developers.</p>
-        <p class="mq-hero__lead">
-          An open Python SDK for building, executing and analyzing quantum programs.
-        </p>
-
-        <div class="mq-hero__actions">
-          <qm-button variant="primary" size="lg" [href]="links.docs" target="_blank">
-            Explore Documentation →
-          </qm-button>
-          <qm-button variant="secondary" size="lg" [href]="links.github" target="_blank">
-            GitHub
-          </qm-button>
-          <qm-button variant="outline" size="lg" [href]="links.pypi" target="_blank">
-            PyPI
-          </qm-button>
+        <qm-badge variant="experimental">Developer Preview · v1.1.0</qm-badge>
+      </div>
+      <p heroLead class="mq-hero__note">
+        An open Python SDK for building, executing and analyzing quantum programs.
+      </p>
+      <div heroActions class="mq-hero__actions">
+        <qm-button variant="primary" size="lg" [href]="links.docs" target="_blank">
+          Explore Documentation →
+        </qm-button>
+        <qm-button variant="secondary" size="lg" [href]="links.github" target="_blank">
+          GitHub
+        </qm-button>
+        <qm-button variant="outline" size="lg" [href]="links.pypi" target="_blank">
+          PyPI
+        </qm-button>
+      </div>
+      <ul heroMeta class="mq-hero__meta" role="list">
+        @for (chip of heroChips; track chip) {
+          <li class="mq-hero__chip">{{ chip }}</li>
+        }
+      </ul>
+      <div heroArt class="mq-hero-art" aria-hidden="true">
+        <div class="mq-hero-art__panel">
+          <div class="mq-hero-art__head">
+            <span class="mq-hero-art__signal"><i></i> quantum circuit</span>
+            <span class="mq-hero-art__badge">bell state</span>
+          </div>
+          <svg class="mq-hero-art__svg" viewBox="0 0 420 250" focusable="false">
+            <g class="mq-hero-art__wires">
+              <text x="14" y="85" class="mq-hero-art__qubit">q0</text>
+              <text x="14" y="165" class="mq-hero-art__qubit">q1</text>
+              <line x1="48" y1="80" x2="392" y2="80"/>
+              <line x1="48" y1="160" x2="392" y2="160"/>
+            </g>
+            <g class="mq-hero-art__pulses">
+              <line x1="48" y1="80" x2="392" y2="80"/>
+              <line x1="48" y1="160" x2="392" y2="160"/>
+            </g>
+            <rect x="92" y="60" width="40" height="40" rx="9" class="mq-hero-art__gate"/>
+            <text x="112" y="86" text-anchor="middle" class="mq-hero-art__gate-label">H</text>
+            <circle cx="188" cy="80" r="5" class="mq-hero-art__control"/>
+            <line x1="188" y1="80" x2="188" y2="160" class="mq-hero-art__cnot"/>
+            <circle cx="188" cy="160" r="15" class="mq-hero-art__target"/>
+            <line x1="173" y1="160" x2="203" y2="160" class="mq-hero-art__cnot"/>
+            <line x1="188" y1="145" x2="188" y2="175" class="mq-hero-art__cnot"/>
+            <line x1="248" y1="44" x2="248" y2="196" class="mq-hero-art__barrier"/>
+            <rect x="286" y="60" width="48" height="40" rx="9" class="mq-hero-art__measure"/>
+            <path d="M299 86a11 11 0 0 1 22 0" class="mq-hero-art__meter"/>
+            <line x1="299" y1="86" x2="321" y2="70" class="mq-hero-art__meter"/>
+            <rect x="286" y="140" width="48" height="40" rx="9" class="mq-hero-art__measure"/>
+            <path d="M299 166a11 11 0 0 1 22 0" class="mq-hero-art__meter"/>
+            <line x1="299" y1="166" x2="321" y2="150" class="mq-hero-art__meter"/>
+            <text x="310" y="216" text-anchor="middle" class="mq-hero-art__shots">1024 shots</text>
+          </svg>
+          <div class="mq-hero-art__foot">
+            <span>|00⟩ → (|00⟩ + |11⟩)/√2</span>
+            <span>statevector</span>
+          </div>
         </div>
-
-        <ul class="mq-hero__meta" role="list">
-          @for (chip of heroChips; track chip) {
-            <li class="mq-hero__chip">{{ chip }}</li>
-          }
-        </ul>
-      </qm-container>
-    </section>
+        <span class="mq-hero-art__chip mq-hero-art__chip--a">NumPy-only</span>
+        <span class="mq-hero-art__chip mq-hero-art__chip--b">VQE · QAOA</span>
+      </div>
+    </qm-page-hero>
 
     <!-- ═══════════════════════════════════════════════ -->
     <!-- ECOSYSTEM CONTEXT                                -->
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="subtle" size="sm">
       <qm-container size="narrow">
-        <p class="mq-ecosystem">
+        <p class="mq-ecosystem" qmReveal>
           MicroQuantum is an open-source quantum software project within the QuantsMind
           technology ecosystem.
           <a routerLink="/technology" class="mq-ecosystem__link">Built by QuantsMind →</a>
@@ -82,14 +126,14 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="white">
       <qm-container>
-        <div class="mq-section-head">
+        <div class="mq-section-head" qmReveal>
           <span class="mq-eyebrow">CAPABILITIES</span>
           <h2>What MicroQuantum Provides</h2>
         </div>
 
         <div class="mq-cap-grid">
-          @for (cap of capabilities; track cap) {
-            <article class="mq-cap-card">
+          @for (cap of capabilities; track cap; let i = $index) {
+            <article class="mq-cap-card" qmReveal [qmRevealDelay]="i * 60">
               <div class="mq-cap-card__icon" aria-hidden="true" [innerHTML]="cap.icon | qmSafeHtml"></div>
               <h3 class="mq-cap-card__title">{{ cap.title }}</h3>
               <ul class="mq-cap-card__list" role="list">
@@ -108,12 +152,12 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="canvas">
       <qm-container>
-        <div class="mq-section-head mq-section-head--center">
+        <div class="mq-section-head mq-section-head--center" qmReveal>
           <span class="mq-eyebrow">ARCHITECTURE</span>
           <h2>How MicroQuantum Is Structured</h2>
         </div>
 
-        <div class="mq-arch" role="img" aria-label="MicroQuantum architecture: a quantum layer and algorithms feed an execution runtime, which connects through backend abstraction to the experiment layer and analysis.">
+        <div class="mq-arch" role="img" aria-label="MicroQuantum architecture: a quantum layer and algorithms feed an execution runtime, which connects through backend abstraction to the experiment layer and analysis." qmReveal [qmRevealDelay]="80">
           <div class="mq-arch__node mq-arch__node--root">MicroQuantum</div>
 
           <div class="mq-arch__connector" aria-hidden="true"></div>
@@ -157,14 +201,14 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="white">
       <qm-container>
-        <div class="mq-section-head">
+        <div class="mq-section-head" qmReveal>
           <span class="mq-eyebrow">DEVELOPER EXPERIENCE</span>
           <h2>Designed for Python Developers</h2>
         </div>
 
         <div class="mq-exp-grid">
-          @for (exp of experience; track exp) {
-            <article class="mq-exp-card">
+          @for (exp of experience; track exp; let i = $index) {
+            <article class="mq-exp-card" qmReveal [qmRevealDelay]="i * 55">
               <h3 class="mq-exp-card__title">{{ exp.title }}</h3>
               <p class="mq-exp-card__desc">{{ exp.description }}</p>
             </article>
@@ -178,7 +222,7 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="subtle">
       <qm-container>
-        <div class="mq-section-head">
+        <div class="mq-section-head" qmReveal>
           <span class="mq-eyebrow">WORKFLOW</span>
           <h2>From Program to Result</h2>
           <p class="mq-section-head__lead">
@@ -188,8 +232,8 @@ interface FlowStep { title: string; description: string; }
         </div>
 
         <div class="mq-steps">
-          @for (step of workflow; track step) {
-            <div class="mq-step">
+          @for (step of workflow; track step; let i = $index) {
+            <div class="mq-step" qmReveal [qmRevealDelay]="i * 60">
               <div class="mq-step__rail" aria-hidden="true">
                 <span class="mq-step__dot"></span>
                 <span class="mq-step__line"></span>
@@ -209,7 +253,7 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="white">
       <qm-container>
-        <div class="mq-section-head">
+        <div class="mq-section-head" qmReveal>
           <span class="mq-eyebrow">QUICK START</span>
           <h2>MicroQuantum in Minutes</h2>
           <p class="mq-section-head__lead">
@@ -218,7 +262,7 @@ interface FlowStep { title: string; description: string; }
           </p>
         </div>
 
-        <div class="mq-code">
+        <div class="mq-code" qmReveal>
           <div class="mq-code__head">
             <span class="mq-code__lang">Python</span>
             <button type="button" class="mq-code__copy" (click)="copyText(exampleCode)"
@@ -242,7 +286,7 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="canvas">
       <qm-container>
-        <div class="mq-section-head">
+        <div class="mq-section-head" qmReveal>
           <span class="mq-eyebrow">ALGORITHMS</span>
           <h2>Implemented Algorithm Families</h2>
           <p class="mq-section-head__lead">
@@ -252,8 +296,8 @@ interface FlowStep { title: string; description: string; }
         </div>
 
         <div class="mq-algo-grid">
-          @for (algo of algorithms; track algo) {
-            <article class="mq-algo-card">
+          @for (algo of algorithms; track algo; let i = $index) {
+            <article class="mq-algo-card" qmReveal [qmRevealDelay]="i * 55">
               <span class="mq-algo-card__acronym" aria-hidden="true">{{ algo.name }}</span>
               <h3 class="mq-algo-card__name">{{ algo.fullName }}</h3>
               <p class="mq-algo-card__desc">{{ algo.description }}</p>
@@ -269,7 +313,7 @@ interface FlowStep { title: string; description: string; }
     <qm-section surface="white">
       <qm-container>
         <div class="mq-split">
-          <div class="mq-split__text">
+          <div class="mq-split__text" qmReveal>
             <span class="mq-eyebrow">EXECUTION</span>
             <h2>Execution Architecture</h2>
             <p>
@@ -286,7 +330,7 @@ interface FlowStep { title: string; description: string; }
             </p>
           </div>
 
-          <div class="mq-steps">
+          <div class="mq-steps" qmReveal [qmRevealDelay]="90">
             @for (step of executionFlow; track step) {
               <div class="mq-step">
                 <div class="mq-step__rail" aria-hidden="true">
@@ -309,8 +353,8 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="canvas">
       <qm-container>
-        <div class="mq-section-head">
-          <span class="mq-eyebrow">EXPERIMENTS & ANALYSIS</span>
+        <div class="mq-section-head" qmReveal>
+          <span class="mq-eyebrow">EXPERIMENTS &amp; ANALYSIS</span>
           <h2>From Execution to Insight</h2>
           <p class="mq-section-head__lead">
             Beyond single runs, MicroQuantum structures executions into records and
@@ -318,7 +362,7 @@ interface FlowStep { title: string; description: string; }
           </p>
         </div>
 
-        <div class="mq-steps mq-steps--centered">
+        <div class="mq-steps mq-steps--centered" qmReveal [qmRevealDelay]="80">
           @for (step of insightFlow; track step) {
             <div class="mq-step">
               <div class="mq-step__rail" aria-hidden="true">
@@ -333,7 +377,7 @@ interface FlowStep { title: string; description: string; }
           }
         </div>
 
-        <div class="mq-insight-grid">
+        <div class="mq-insight-grid" qmReveal>
           @for (item of insightHighlights; track item) {
             <div class="mq-insight-chip">{{ item }}</div>
           }
@@ -346,13 +390,13 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="white">
       <qm-container>
-        <div class="mq-section-head">
+        <div class="mq-section-head" qmReveal>
           <span class="mq-eyebrow">RESOURCES</span>
-          <h2>Documentation & Developer Resources</h2>
+          <h2>Documentation &amp; Developer Resources</h2>
         </div>
 
         <div class="mq-res-grid">
-          <article class="mq-res-card">
+          <article class="mq-res-card" qmReveal>
             <div class="mq-res-card__icon" aria-hidden="true" [innerHTML]="resDocs.icon | qmSafeHtml"></div>
             <h3 class="mq-res-card__title">Documentation</h3>
             <p class="mq-res-card__desc">Explore the MicroQuantum API, guides and examples.</p>
@@ -361,7 +405,7 @@ interface FlowStep { title: string; description: string; }
             </qm-button>
           </article>
 
-          <article class="mq-res-card">
+          <article class="mq-res-card" qmReveal [qmRevealDelay]="70">
             <div class="mq-res-card__icon" aria-hidden="true" [innerHTML]="resGit.icon | qmSafeHtml"></div>
             <h3 class="mq-res-card__title">Source Code</h3>
             <p class="mq-res-card__desc">Explore the implementation, tests and examples.</p>
@@ -370,7 +414,7 @@ interface FlowStep { title: string; description: string; }
             </qm-button>
           </article>
 
-          <article class="mq-res-card">
+          <article class="mq-res-card" qmReveal [qmRevealDelay]="140">
             <div class="mq-res-card__icon" aria-hidden="true" [innerHTML]="resPyPi.icon | qmSafeHtml"></div>
             <h3 class="mq-res-card__title">PyPI</h3>
             <p class="mq-res-card__desc">Install the current published release from PyPI.</p>
@@ -387,7 +431,7 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="subtle" size="sm">
       <qm-container size="narrow">
-        <div class="mq-install">
+        <div class="mq-install" qmReveal>
           <div class="mq-install__head">
             <div>
               <span class="mq-eyebrow">INSTALLATION</span>
@@ -417,7 +461,7 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="white" size="sm">
       <qm-container size="narrow">
-        <div class="mq-notice" role="note">
+        <div class="mq-notice" role="note" qmReveal>
           <span class="mq-eyebrow">RELEASE STATUS</span>
           <h2>MicroQuantum 1.1.0 Is a Published Public Release</h2>
           <p class="mq-notice__desc">
@@ -439,14 +483,14 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="canvas">
       <qm-container>
-        <div class="mq-section-head">
+        <div class="mq-section-head" qmReveal>
           <span class="mq-eyebrow">RATIONALE</span>
           <h2>Why MicroQuantum?</h2>
         </div>
 
         <div class="mq-why-grid">
-          @for (principle of principles; track principle) {
-            <article class="mq-why-card">
+          @for (principle of principles; track principle; let i = $index) {
+            <article class="mq-why-card" qmReveal [qmRevealDelay]="i * 55">
               <h3 class="mq-why-card__title">{{ principle.title }}</h3>
               <p class="mq-why-card__desc">{{ principle.description }}</p>
             </article>
@@ -460,14 +504,14 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <qm-section surface="white">
       <qm-container size="narrow">
-        <div class="mq-ecosystem-links">
+        <div class="mq-eco-band" qmReveal>
           <span class="mq-eyebrow">ECOSYSTEM</span>
           <h2>Part of the QuantsMind Technology Ecosystem</h2>
-          <p class="mq-ecosystem-links__desc">
+          <p class="mq-eco-band__desc">
             MicroQuantum is one of the technologies being developed within the
             QuantsMind ecosystem, alongside Karkain and the QuantsMind SDK.
           </p>
-          <ul class="mq-ecosystem-links__list" role="list">
+          <ul class="mq-eco-band__list" role="list">
             @for (link of ecosystemLinks; track link) {
               <li>
                 <a [routerLink]="link.href" class="mq-inline-link">{{ link.label }} →</a>
@@ -481,27 +525,29 @@ interface FlowStep { title: string; description: string; }
     <!-- ═══════════════════════════════════════════════ -->
     <!-- FINAL CTA                                        -->
     <!-- ═══════════════════════════════════════════════ -->
-    <section class="mq-cta" aria-label="Explore MicroQuantum">
+    <qm-section surface="canvas" size="sm" ariaLabel="Explore MicroQuantum">
       <qm-container size="narrow">
-        <span class="mq-eyebrow mq-eyebrow--light">GET STARTED</span>
-        <h2 class="mq-cta__title">Explore MicroQuantum</h2>
-        <p class="mq-cta__sub">
-          Start with the documentation, explore the source code, or install the
-          current published release.
-        </p>
-        <div class="mq-cta__actions">
-          <qm-button variant="primary" size="lg" [href]="links.docs" target="_blank">
-            Documentation →
-          </qm-button>
-          <qm-button variant="secondary" size="lg" [href]="links.github" target="_blank">
-            GitHub
-          </qm-button>
-          <qm-button variant="secondary" size="lg" [href]="links.pypi" target="_blank">
-            PyPI
-          </qm-button>
+        <div class="qm-cta-band" qmReveal>
+          <span class="eyebrow">GET STARTED</span>
+          <h2>Explore MicroQuantum</h2>
+          <p>
+            Start with the documentation, explore the source code, or install the
+            current published release.
+          </p>
+          <div class="qm-cta-band__actions">
+            <qm-button variant="primary" size="lg" [href]="links.docs" target="_blank">
+              Documentation →
+            </qm-button>
+            <qm-button variant="secondary" size="lg" [href]="links.github" target="_blank">
+              GitHub
+            </qm-button>
+            <qm-button variant="secondary" size="lg" [href]="links.pypi" target="_blank">
+              PyPI
+            </qm-button>
+          </div>
         </div>
       </qm-container>
-    </section>
+    </qm-section>
     `,
     styles: [`
     /* ── Shared eyebrow / section head ─────────────────── */
@@ -511,7 +557,6 @@ interface FlowStep { title: string; description: string; }
       letter-spacing: 0.1em; text-transform: uppercase;
       color: #2563EB; margin-bottom: 14px;
     }
-    .mq-eyebrow--light { color: #93C5FD; }
     .mq-section-head { max-width: 720px; margin-bottom: 40px; }
     .mq-section-head--center { margin-left: auto; margin-right: auto; text-align: center; }
     .mq-section-head h2 {
@@ -530,49 +575,113 @@ interface FlowStep { title: string; description: string; }
     .mq-inline-link:focus-visible { outline: 2px solid #2563EB; outline-offset: 2px; border-radius: 2px; }
 
     /* ── Hero ─────────────────────────────────────────── */
-    .mq-hero {
-      position: relative;
-      background:
-        radial-gradient(900px 420px at 85% -10%, #EFF6FF 0%, rgba(239,246,255,0) 60%),
-        #FFFFFF;
-      border-bottom: 1px solid #E2E8F0;
-      padding: 64px 0 56px;
-    }
-    @media (min-width: 768px) { .mq-hero { padding: 88px 0 72px; } }
-
+    .mq-hero__badges { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
     .mq-back {
-      display: inline-block; margin-bottom: 28px;
-      font-size: 13px; font-weight: 500;
-      color: #475569; text-decoration: none;
+      display: inline-block;
+      font-size: 13px; font-weight: 500; color: #64748B; text-decoration: none;
+      transition: color 160ms ease, transform 160ms ease;
     }
-    .mq-back:hover { color: #2563EB; }
-
-    .mq-hero__badge { margin-bottom: 20px; }
-    .mq-hero__title {
-      font-size: clamp(40px, 5.5vw, 60px);
-      font-weight: 700; letter-spacing: -0.03em;
-      line-height: 1.05; color: #111827; margin: 0 0 10px;
+    .mq-back:hover { color: #2563EB; transform: translateX(-2px); }
+    .mq-hero__note {
+      margin: 22px 0 0; max-width: 620px;
+      font-size: 16px; line-height: 1.75; color: #475569;
+      text-wrap: pretty;
     }
-    .mq-hero__tagline {
-      font-size: 19px; font-weight: 600;
-      color: #2563EB; margin: 0 0 16px;
-    }
-    .mq-hero__lead {
-      font-size: 18px; line-height: 1.7;
-      color: #475569; max-width: 600px; margin: 0 0 32px;
-    }
-    .mq-hero__actions {
-      display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 32px;
-    }
+    .mq-hero__actions { display: flex; flex-wrap: wrap; gap: 12px; }
     .mq-hero__meta {
       display: flex; flex-wrap: wrap; gap: 8px;
-      list-style: none; margin: 0; padding: 0;
+      list-style: none; margin: 28px 0 0; padding: 0;
     }
     .mq-hero__chip {
       font-size: 12px; font-weight: 500; color: #475569;
-      background: #F1F5F9; border: 1px solid #E2E8F0;
-      border-radius: 9999px; padding: 4px 12px;
+      background: rgba(255, 255, 255, 0.7); border: 1px solid #E2E8F0;
+      border-radius: 9999px; padding: 6px 13px;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
+
+    /* ── Hero circuit artwork ─────────────────────────── */
+    .mq-hero-art { position: relative; width: 100%; max-width: 460px; margin: 0 auto; padding: 18px 10px; }
+    .mq-hero-art__panel {
+      position: relative; z-index: 2; overflow: hidden;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--color-ink-border);
+      background:
+        radial-gradient(420px 260px at 100% 0%, rgba(6, 182, 212, 0.20), transparent 62%),
+        var(--gradient-ink);
+      box-shadow: var(--shadow-float);
+    }
+    .mq-hero-art__head {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--color-ink-border);
+      background: rgba(11, 27, 51, 0.55);
+    }
+    .mq-hero-art__signal {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 9px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--color-ink-muted);
+    }
+    .mq-hero-art__signal i {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--color-cyan);
+      box-shadow: 0 0 0 4px rgba(6, 182, 212, 0.12);
+      animation: qm-signal-pulse 2.4s ease-in-out infinite;
+    }
+    .mq-hero-art__badge {
+      padding: 3px 8px; border-radius: 999px;
+      border: 1px solid rgba(103, 232, 249, 0.28);
+      background: rgba(6, 182, 212, 0.12);
+      color: var(--color-cyan-soft);
+      font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+    }
+    .mq-hero-art__svg {
+      display: block; width: 100%; height: auto; padding: 6px 0 0;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+    }
+    .mq-hero-art__wires line { stroke: rgba(148, 197, 255, 0.22); stroke-width: 1.5; }
+    .mq-hero-art__qubit { fill: var(--color-ink-muted); font-size: 12px; }
+    .mq-hero-art__pulses line {
+      stroke: var(--color-cyan-soft); stroke-width: 2;
+      stroke-dasharray: 3 26; opacity: 0.9;
+      animation: mq-dash 2.6s linear infinite;
+    }
+    @keyframes mq-dash { to { stroke-dashoffset: -58; } }
+    .mq-hero-art__gate { fill: rgba(37, 99, 235, 0.22); stroke: rgba(103, 232, 249, 0.55); stroke-width: 1.5; }
+    .mq-hero-art__gate-label { fill: #EAF2FF; font-size: 18px; font-weight: 700; }
+    .mq-hero-art__control { fill: var(--color-cyan-soft); }
+    .mq-hero-art__cnot { stroke: rgba(103, 232, 249, 0.55); stroke-width: 1.5; }
+    .mq-hero-art__target { fill: rgba(37, 99, 235, 0.18); stroke: rgba(103, 232, 249, 0.6); stroke-width: 1.5; }
+    .mq-hero-art__barrier { stroke: rgba(148, 197, 255, 0.18); stroke-width: 1; stroke-dasharray: 4 5; }
+    .mq-hero-art__measure { fill: rgba(11, 27, 51, 0.72); stroke: rgba(148, 197, 255, 0.28); stroke-width: 1.5; }
+    .mq-hero-art__meter { fill: none; stroke: var(--color-ink-muted); stroke-width: 1.5; stroke-linecap: round; }
+    .mq-hero-art__shots { fill: var(--color-ink-muted); font-size: 10px; letter-spacing: 0.08em; }
+    .mq-hero-art__foot {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 12px 16px;
+      border-top: 1px solid var(--color-ink-border);
+      background: rgba(255, 255, 255, 0.03);
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 10px; color: var(--color-ink-muted);
+    }
+    .mq-hero-art__foot span:last-child { color: var(--color-cyan-soft); }
+    .mq-hero-art__chip {
+      position: absolute; z-index: 3;
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 7px 11px; border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: var(--shadow-lg);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      font-size: 10px; font-weight: 600; color: #475569; white-space: nowrap;
+      animation: qm-float 8s ease-in-out infinite;
+    }
+    .mq-hero-art__chip::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--color-cyan);
+      box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.10);
+    }
+    .mq-hero-art__chip--a { top: 2px; right: -2px; animation-delay: -2s; }
+    .mq-hero-art__chip--b { bottom: 2px; left: -6px; animation-delay: -5s; }
 
     /* ── Ecosystem band ───────────────────────────────── */
     .mq-ecosystem {
@@ -582,23 +691,25 @@ interface FlowStep { title: string; description: string; }
     .mq-ecosystem__link { margin-left: 8px; }
 
     /* ── Capabilities ─────────────────────────────────── */
-    .mq-cap-grid {
+    .mq-cap-grid, .mq-exp-grid, .mq-algo-grid, .mq-res-grid, .mq-why-grid {
       display: grid; grid-template-columns: 1fr; gap: 16px;
     }
-    @media (min-width: 640px)  { .mq-cap-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 1024px) { .mq-cap-grid { grid-template-columns: repeat(3, 1fr); } }
-
-    .mq-cap-card {
-      padding: 26px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 12px;
-      display: flex; flex-direction: column; gap: 12px;
+    @media (min-width: 640px) {
+      .mq-cap-grid, .mq-exp-grid, .mq-algo-grid, .mq-why-grid { grid-template-columns: repeat(2, 1fr); }
     }
-    .mq-cap-card__icon {
+    @media (min-width: 768px) { .mq-res-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (min-width: 1024px) {
+      .mq-cap-grid { grid-template-columns: repeat(3, 1fr); }
+      .mq-exp-grid, .mq-algo-grid, .mq-why-grid { grid-template-columns: repeat(4, 1fr); }
+    }
+
+    .mq-cap-card { padding: 26px; display: flex; flex-direction: column; gap: 12px; }
+    .mq-cap-card__icon, .mq-res-card__icon {
       width: 42px; height: 42px; border-radius: 10px;
       background: #EFF6FF; color: #2563EB;
       display: flex; align-items: center; justify-content: center;
     }
-    .mq-cap-card__icon svg { width: 20px; height: 20px; }
+    .mq-cap-card__icon svg, .mq-res-card__icon svg { width: 20px; height: 20px; }
     .mq-cap-card__title {
       font-size: 16px; font-weight: 600; color: #111827; margin: 0;
     }
@@ -617,22 +728,41 @@ interface FlowStep { title: string; description: string; }
 
     /* ── Architecture ─────────────────────────────────── */
     .mq-arch {
-      background: #0F172A; border: 1px solid #1E293B;
-      border-radius: 16px; padding: 32px 20px;
+      position: relative; overflow: hidden;
+      background:
+        radial-gradient(620px 320px at 82% 0%, rgba(37, 99, 235, 0.20), transparent 62%),
+        radial-gradient(420px 260px at 4% 110%, rgba(6, 182, 212, 0.12), transparent 62%),
+        var(--gradient-ink);
+      border: 1px solid var(--color-ink-border);
+      border-radius: var(--radius-2xl); padding: 32px 20px;
+      box-shadow: var(--shadow-float);
       display: flex; flex-direction: column; align-items: center;
     }
+    .mq-arch::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background-image:
+        linear-gradient(to right, rgba(148, 197, 255, 0.055) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(148, 197, 255, 0.055) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 70% 80% at 76% 0%, #000, transparent 72%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 80% at 76% 0%, #000, transparent 72%);
+    }
+    .mq-arch > * { position: relative; }
     .mq-arch__node {
-      background: #1E293B; border: 1px solid #334155;
-      border-radius: 10px; color: #E2E8F0;
+      background: rgba(11, 27, 51, 0.72); border: 1px solid var(--color-ink-border);
+      border-radius: 10px; color: var(--color-ink-text);
       font-size: 14px; font-weight: 600;
       padding: 12px 28px; text-align: center; min-width: 200px;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
     .mq-arch__node--root {
-      background: #2563EB; border-color: #2563EB; color: #FFF;
+      background: linear-gradient(135deg, #2563EB, #06B6D4);
+      border-color: transparent; color: #FFF;
       font-size: 16px;
+      box-shadow: 0 14px 32px -16px rgba(6, 182, 212, 0.75);
     }
     .mq-arch__connector {
-      width: 2px; height: 18px; background: #334155;
+      width: 2px; height: 18px; background: rgba(148, 197, 255, 0.28);
     }
     .mq-arch__pair {
       display: flex; flex-direction: column;
@@ -643,13 +773,14 @@ interface FlowStep { title: string; description: string; }
       .mq-arch__hjoin { width: 44px; position: relative; }
       .mq-arch__hjoin::before {
         content: ''; position: absolute; left: 0; right: 0; top: 50%;
-        height: 2px; background: #334155;
+        height: 2px; background: rgba(148, 197, 255, 0.28);
       }
     }
     .mq-arch__col {
-      flex: 1; background: #1E293B;
-      border: 1px solid #334155; border-radius: 12px;
+      flex: 1; background: rgba(11, 27, 51, 0.72);
+      border: 1px solid var(--color-ink-border); border-radius: var(--radius-lg);
       padding: 18px 22px;
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
     }
     @media (max-width: 767px) {
       .mq-arch__hjoin { display: none; }
@@ -657,26 +788,18 @@ interface FlowStep { title: string; description: string; }
     .mq-arch__col-head {
       font-size: 13px; font-weight: 700;
       letter-spacing: 0.08em; text-transform: uppercase;
-      color: #93C5FD; margin-bottom: 12px;
+      color: var(--color-cyan-soft); margin-bottom: 12px;
     }
     .mq-arch__col-list {
       list-style: none; margin: 0; padding: 0;
       display: flex; flex-wrap: wrap; gap: 8px 18px;
     }
     .mq-arch__col-list li {
-      font-size: 13px; color: #CBD5E1; line-height: 1.5;
+      font-size: 13px; color: var(--color-ink-muted); line-height: 1.5;
     }
 
     /* ── Developer experience ─────────────────────────── */
-    .mq-exp-grid {
-      display: grid; grid-template-columns: 1fr; gap: 16px;
-    }
-    @media (min-width: 640px)  { .mq-exp-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 1024px) { .mq-exp-grid { grid-template-columns: repeat(4, 1fr); } }
-    .mq-exp-card {
-      padding: 24px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 12px;
-    }
+    .mq-exp-card { padding: 24px; }
     .mq-exp-card__title {
       font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;
     }
@@ -738,16 +861,8 @@ interface FlowStep { title: string; description: string; }
     .mq-examples-note { font-size: 14px; color: #64748B; margin: 18px 0 0; }
 
     /* ── Algorithms ───────────────────────────────────── */
-    .mq-algo-grid {
-      display: grid; grid-template-columns: 1fr; gap: 16px;
-    }
-    @media (min-width: 640px)  { .mq-algo-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 1024px) { .mq-algo-grid { grid-template-columns: repeat(4, 1fr); } }
-
     .mq-algo-card {
-      padding: 24px; background: #FFFFFF;
-      border: 1px solid #E2E8F0; border-radius: 12px;
-      display: flex; flex-direction: column; gap: 8px;
+      padding: 24px; display: flex; flex-direction: column; gap: 8px;
     }
     .mq-algo-card__acronym {
       display: inline-flex; align-items: center;
@@ -783,21 +898,9 @@ interface FlowStep { title: string; description: string; }
     }
 
     /* ── Resources ────────────────────────────────────── */
-    .mq-res-grid {
-      display: grid; grid-template-columns: 1fr; gap: 16px;
-    }
-    @media (min-width: 768px) { .mq-res-grid { grid-template-columns: repeat(3, 1fr); } }
     .mq-res-card {
-      padding: 28px; background: #F8FAFC;
-      border: 1px solid #E2E8F0; border-radius: 12px;
-      display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
+      padding: 28px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px;
     }
-    .mq-res-card__icon {
-      width: 42px; height: 42px; border-radius: 10px;
-      background: #EFF6FF; color: #2563EB;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .mq-res-card__icon svg { width: 20px; height: 20px; }
     .mq-res-card__title { font-size: 16px; font-weight: 600; color: #111827; margin: 0; }
     .mq-res-card__desc { font-size: 14px; line-height: 1.6; color: #475569; margin: 0; flex: 1; }
 
@@ -826,47 +929,55 @@ interface FlowStep { title: string; description: string; }
     .mq-notice__desc { font-size: 15px; line-height: 1.7; color: #475569; margin: 0; }
 
     /* ── Why ──────────────────────────────────────────── */
-    .mq-why-grid {
-      display: grid; grid-template-columns: 1fr; gap: 16px;
-    }
-    @media (min-width: 640px)  { .mq-why-grid { grid-template-columns: repeat(2, 1fr); } }
-    @media (min-width: 1024px) { .mq-why-grid { grid-template-columns: repeat(4, 1fr); } }
-    .mq-why-card {
-      padding: 24px; background: #FFFFFF;
-      border: 1px solid #E2E8F0; border-radius: 12px;
-    }
+    .mq-why-card { padding: 24px; }
     .mq-why-card__title {
       font-size: 15px; font-weight: 600; color: #111827; margin: 0 0 8px;
     }
     .mq-why-card__desc { font-size: 13.5px; line-height: 1.6; color: #475569; margin: 0; }
 
-    /* ── Ecosystem links ──────────────────────────────── */
-    .mq-ecosystem-links {
-      text-align: center; display: flex; flex-direction: column; align-items: center;
+    /* ── Shared card treatment ────────────────────────── */
+    .mq-cap-card, .mq-exp-card, .mq-algo-card, .mq-res-card, .mq-why-card {
+      position: relative; overflow: hidden;
+      background: #F8FAFC; border: 1px solid #E2E8F0;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+      transition: transform 260ms var(--qm-ease-out), box-shadow 260ms var(--qm-ease-out), border-color 260ms ease;
     }
-    .mq-ecosystem-links h2 { margin: 0 0 12px; }
-    .mq-ecosystem-links__desc { font-size: 16px; line-height: 1.7; color: #475569; max-width: 620px; margin: 0 0 24px; }
-    .mq-ecosystem-links__list {
+    .mq-algo-card, .mq-why-card { background: #FFFFFF; }
+    .mq-cap-card::before, .mq-exp-card::before, .mq-algo-card::before, .mq-res-card::before, .mq-why-card::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+      background: var(--gradient-signal); opacity: 0.65;
+    }
+    .mq-cap-card:hover, .mq-exp-card:hover, .mq-algo-card:hover, .mq-res-card:hover, .mq-why-card:hover {
+      transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: rgba(37, 99, 235, 0.24);
+    }
+
+    /* ── Ecosystem band ───────────────────────────────── */
+    .mq-eco-band {
+      position: relative; overflow: hidden;
+      text-align: center; display: flex; flex-direction: column; align-items: center;
+      padding: 40px 28px;
+      background:
+        radial-gradient(420px 220px at 100% 0%, rgba(37, 99, 235, 0.08), transparent 64%),
+        #FFFFFF;
+      border: 1px solid #E2E8F0; border-radius: var(--radius-2xl);
+      box-shadow: var(--shadow-xs);
+    }
+    .mq-eco-band::before {
+      content: ''; position: absolute; inset: 0 0 auto; height: 3px;
+      background: var(--gradient-signal);
+    }
+    .mq-eco-band h2 { margin: 0 0 12px; }
+    .mq-eco-band__desc { font-size: 16px; line-height: 1.7; color: #475569; max-width: 620px; margin: 0 0 24px; }
+    .mq-eco-band__list {
       list-style: none; display: flex; flex-wrap: wrap; justify-content: center;
       gap: 12px 28px; margin: 0; padding: 0;
     }
 
-    /* ── Final CTA ────────────────────────────────────── */
-    .mq-cta {
-      background: #0F172A; padding: 88px 0;
-      border-top: 1px solid #1E293B;
-    }
-    @media (min-width: 768px) { .mq-cta { padding: 112px 0; } }
-    .mq-cta__title {
-      font-size: clamp(28px, 3.5vw, 42px); font-weight: 700;
-      color: #F1F5F9; margin: 0 0 16px; text-align: center;
-    }
-    .mq-cta__sub {
-      font-size: 17px; line-height: 1.7; color: #94A3B8;
-      max-width: 560px; margin: 0 auto 32px; text-align: center;
-    }
-    .mq-cta__actions {
-      display: flex; flex-wrap: wrap; gap: 12px; justify-content: center;
+    @media (prefers-reduced-motion: reduce) {
+      .mq-hero-art__signal i, .mq-hero-art__pulses line, .mq-hero-art__chip { animation: none; }
+      .mq-cap-card, .mq-exp-card, .mq-algo-card, .mq-res-card, .mq-why-card { transition: none; }
+      .mq-cap-card:hover, .mq-exp-card:hover, .mq-algo-card:hover, .mq-res-card:hover, .mq-why-card:hover { transform: none; }
     }
   `]
 })

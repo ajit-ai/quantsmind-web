@@ -2,7 +2,8 @@ export type ProductPortfolio =
   | 'standalone'
   | 'quantum'
   | 'space'
-  | 'cybersecurity';
+  | 'cybersecurity'
+  | 'developer-tools';
 
 export type ProductMaturity =
   | 'proposed'

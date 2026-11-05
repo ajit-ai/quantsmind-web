@@ -24,9 +24,13 @@ interface ServiceArea {
   short: string;
   /** The customer situation this service is intended to address. */
   problem: string;
+  /** What QuantsMind can design, develop, integrate or deliver. */
   provides: string[];
+  /** Concrete deliverables or engagement outputs. */
   deliverables: string[];
+  /** Context statement — what is and is not claimed. */
   context: string;
+  /** Stated engineering outcome with limits explicitly. */
   outcome: string;
   technologies: TechnologyAssociation[];
   /** Optional product showcase wiring. */
@@ -52,18 +56,23 @@ interface DeliveryStep {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <qm-page-hero
-      eyebrow="SERVICES"
-      title="Engineering Services"
-      lead="Practical software engineering and technology consulting for organizations building, modernizing or scaling software systems."
+      eyebrow="BUSINESS SOLUTIONS"
+      title="Business Solutions"
+      lead="Advanced engineering services for technology companies, product startups, growing SMEs, enterprise engineering teams and research organisations."
       tone="quantum"
       [artLabels]="['Architecture', 'Quantum', 'AI & ML', 'Cloud']">
       <p heroLead class="qm-page-hero__lead">
         Six fixed engineering domains, each with a clear scope, a defined delivery
         approach and an honest statement of what the work can and cannot establish.
       </p>
+      <p class="hero-lead__sub">
+        Engagements typically progress from initial discussion through to delivered
+        engineering work. Scope, timelines and commercial terms are agreed for each
+        engagement individually.
+      </p>
       <div heroActions class="hero-actions">
         <qm-button variant="primary" size="md" [routerLinkValue]="'/contact'">
-          Discuss an Engineering Requirement →
+          Discuss Your Requirement →
         </qm-button>
         <qm-button variant="outline" size="md" [routerLinkValue]="'/products'">
           Explore Products
@@ -71,15 +80,69 @@ interface DeliveryStep {
       </div>
     </qm-page-hero>
 
+    <div class="engagement-model" qmReveal>
+      <qm-container>
+        <h2 class="section-head">Engineering Engagement Model</h2>
+        <p class="lead">
+          Engagements typically progress from initial discussion through to delivered
+          engineering work. Scope, timelines and commercial terms are agreed for each
+          engagement individually.
+        </p>
+        <dl class="engagement-steps">
+          <div class="engagement-step">
+            <dt>Discovery & Feasibility</dt>
+            <dd>
+              <p>
+                Initial technical discussion to assess whether QuantsMind's capabilities
+                align with the problem domain. This may include a feasibility study,
+                architecture probe, or prototype spike.
+              </p>
+            </dd>
+          </div>
+          <div class="engagement-step">
+            <dt>Architecture & Consulting</dt>
+            <dd>
+              <p>
+                Design of system architecture, technology selection, integration
+                planning, or risk assessment for the identified scope.
+              </p>
+            </dd>
+          </div>
+          <div class="engagement-step">
+            <dt>Prototype & Development</dt>
+            <dd>
+              <p>
+                Delivery of a prototype, proof-of-concept, or production-relevant
+                engineering work to validate the approach and produce concrete
+                deliverables.
+              </p>
+            </dd>
+          </div>
+          <div class="engagement-step">
+            <dt>Implementation & Support</dt>
+            <dd>
+              <p>
+                Ongoing engineering integration, validation, and technical support
+                as agreed. Engagement terms including duration, deliverables and
+                commercial conditions are agreed upfront.
+              </p>
+            </dd>
+          </div>
+        </dl>
+      </qm-container>
+    </div>
+
     <qm-section surface="white">
       <qm-container>
         <header class="services-intro" qmReveal>
           <span class="eyebrow">SERVICE AREAS</span>
           <h2>Six engineering domains. One delivery approach.</h2>
           <p>
-            Every engagement starts with the problem rather than a predetermined
+            Every engagement starts with the customer's problem rather than a predetermined
             technology. We assess the requirement, define the approach, engineer the
-            software and state the evidence behind the result.
+            software and state the evidence behind the result. QuantsMind works as an
+            engineering partner - translating research and emerging technology into
+            practical, maintainable software systems.
           </p>
         </header>
 
@@ -210,14 +273,14 @@ interface DeliveryStep {
       <qm-container size="narrow">
         <div class="qm-cta-band page-cta" qmReveal>
           <span class="eyebrow">ENGAGEMENT</span>
-          <h2>Discuss an Engineering Requirement</h2>
+          <h2>Discuss Your Requirement</h2>
           <p>
             Tell us about the system you are building or the problem you are facing.
             We will discuss whether and how we can help.
           </p>
           <div class="qm-cta-band__actions">
             <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-              Discuss an Engineering Requirement →
+              Discuss Your Requirement →
             </qm-button>
           </div>
         </div>
@@ -503,27 +566,30 @@ export class ServicesComponent {
       id: 'ai-intelligent-systems',
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
       title: 'AI Engineering & Autonomous Intelligent Systems',
-      short: 'Engineering intelligent software, AI integrations, controlled agent workflows, and reliable AI-enabled applications.',
-      problem: 'An AI-enabled product idea exists, but its value, reliability, permission boundaries and human oversight requirements are not yet clear.',
+      short: 'Engineering AI-enabled applications, enterprise AI integrations, agentic workflow designs, and reliable intelligent systems.',
+      problem: 'An AI-enabled product idea exists, but its value, reliability, permission boundaries, human oversight requirements, and integration with existing business systems are not yet clear.',
       provides: [
-        'AI application engineering',
-        'LLM application integration',
-        'Intelligent workflow design',
-        'Agent orchestration',
-        'Retrieval and data integration where applicable',
-        'Evaluation and observability',
-        'AI security and permission boundaries',
-        'Human oversight and controlled automation'
+        'AI-enabled application engineering',
+        'Enterprise AI integration and workflow automation',
+        'Agentic AI architecture and workflow design',
+        'Retrieval-Augmented Generation and enterprise knowledge systems',
+        'AI-assisted business process automation',
+        'Integration of AI systems with APIs, enterprise applications and data platforms',
+        'AI evaluation, reliability, governance and security considerations',
+        'Human-in-the-loop workflows and controlled automation'
       ],
       deliverables: [
-        'Production-integrated AI features',
-        'Evaluation reports with measured results',
-        'Model serving and integration pipelines',
-        'Feasibility proofs-of-concept',
-        'Controlled automation workflows with oversight points'
+        'AI application engineering designs and implementation plans',
+        'Enterprise AI integration architectures',
+        'Agentic workflow designs with human oversight points',
+        'RAG and knowledge system prototypes',
+        'AI evaluation and observability reports',
+        'Controlled automation workflows with permission boundaries',
+        'Feasibility proofs-of-concept for AI-enabled features',
+        'AI security and governance assessments'
       ],
-      context: 'Modern LLM APIs, classical ML, Python tooling, cloud AI services, and permission-aware application architecture. No fully autonomous, unsupervised, or production-proven system is claimed.',
-      outcome: 'AI capabilities that are measurable, maintainable, and honestly scoped, with oversight and security boundaries stated.',
+      context: 'Modern LLM APIs, classical ML, Python tooling, cloud AI services, enterprise application APIs, and permission-aware application architecture. AI Engineering is a customer-specific engineering service, not a proprietary agent platform. No fully autonomous, unsupervised, or production-proven AI system is claimed; human oversight remains required. AIGuard is a separate proposed product for AI security assessment, not a general-purpose AI engineering platform or complete agent orchestration system.',
+      outcome: 'AI capabilities that are measurable, maintainable, and honestly scoped, with oversight, security boundaries, and engineering limits stated explicitly.',
       technologies: [
         { name: 'GuardMCP', status: 'Alpha · Under Development', badge: 'prototype', href: '/technology' },
         { name: 'QuantsMind-Agent', status: 'Alpha · Under Development', badge: 'prototype', href: '/technology' },

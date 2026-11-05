@@ -23,7 +23,7 @@ interface Pillar {
     <qm-page-hero
       eyebrow="ABOUT"
       title="About QuantsMind."
-      lead="QuantsMind is a technology engineering company focused on two things: engineering services and technology development."
+      lead="QuantsMind is an independent technology engineering and innovation company delivering advanced engineering services, proprietary software products and research-driven technology solutions for businesses and enterprises."
       [artLabels]="['Engineering', 'Technology', 'Research', 'Delivery']">
     </qm-page-hero>
 

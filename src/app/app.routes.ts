@@ -1,26 +1,23 @@
 import { Routes } from '@angular/router';
 import { blogArticleResolver } from './pages/blog/blog-article.resolver';
 
-export const HOME_TITLE = 'QuantsMind | Engineering Software & Intelligent Technologies';
+export const HOME_TITLE = 'QuantsMind | Technology Engineering & Innovation';
 export const HOME_DESCRIPTION =
-  'QuantsMind engineers software products, intelligent systems and advanced technology solutions across quantum computing, AI, space systems, scientific computing, cybersecurity and industrial intelligence.';
+  'QuantsMind delivers advanced engineering services, proprietary software and research-driven technology solutions for businesses and enterprises.';
 
 export const routes: Routes = [
   {
     path: '',
-    data: {
-      title: HOME_TITLE,
-      description: HOME_DESCRIPTION
-    },
+    data: { title: HOME_TITLE, description: HOME_DESCRIPTION },
     loadComponent: () =>
       import('./pages/home/home.component').then(m => m.HomeComponent)
   },
   {
     path: 'services',
     data: {
-      title: 'Engineering Services — QuantsMind',
+      title: 'Business Solutions — QuantsMind',
       description:
-        'Six engineering service areas: quantum computing and quantum software, space systems and mission software, AI engineering, scientific computing, cybersecurity and digital trust, and industrial intelligence and digital twins.'
+        'Business solutions across six engineering domains: quantum computing and quantum software, space systems and mission software, AI engineering, scientific computing, cybersecurity and digital trust, and industrial intelligence and digital twins.'
     },
     loadComponent: () =>
       import('./pages/services/services.component').then(m => m.ServicesComponent)
@@ -30,10 +27,82 @@ export const routes: Routes = [
     data: {
       title: 'Products & Applications — QuantsMind',
       description:
-        'A registry-driven portfolio of QuantsMind software products and proposed initiatives across standalone software, quantum computing, space systems, and cybersecurity. Maturity and availability are stated per product.'
+        'A registry-driven portfolio of QuantsMind software products and proposed initiatives across standalone software, quantum computing, space systems, cybersecurity, and programming languages and developer tools. Maturity and availability are stated per product.'
     },
     loadComponent: () =>
       import('./pages/products/products.component').then(m => m.ProductsComponent)
+  },
+  {
+    path: 'products/quantum-studio',
+    data: {
+      productId: 'quantum-studio',
+      title: 'QuantumStudio | Products | QuantsMind',
+      description:
+        'QuantumStudio is a proposed quantum circuit development and experimentation environment for quantum software engineering. It is a proposed initiative, not a released or generally available product.'
+    },
+    loadComponent: () =>
+      import('./shared/components/qm-product-detail/qm-product-detail.component')
+        .then(m => m.QmProductDetailComponent)
+  },
+  {
+    path: 'products/ground-link',
+    data: {
+      productId: 'ground-link',
+      title: 'GroundLink | Products | QuantsMind',
+      description:
+        'GroundLink is a space systems software initiative for ground-station frame reception, validation, deduplication, continuity and routing. It is a space systems software initiative, not a released or generally available product.'
+    },
+    loadComponent: () =>
+      import('./shared/components/qm-product-detail/qm-product-detail.component')
+        .then(m => m.QmProductDetailComponent)
+  },
+  {
+    path: 'products/ai-guard',
+    data: {
+      productId: 'ai-guard',
+      title: 'AIGuard | Products | QuantsMind',
+      description:
+        'AIGuard is a proposed security assessment and control tooling for AI, LLM, and agent systems. It is a proposed initiative, not a released or generally available product.'
+    },
+    loadComponent: () =>
+      import('./shared/components/qm-product-detail/qm-product-detail.component')
+        .then(m => m.QmProductDetailComponent)
+  },
+  {
+    path: 'products/qubit-sim',
+    data: {
+      productId: 'qubit-sim',
+      title: 'QubitSim | Products | QuantsMind',
+      description:
+        'QubitSim is a quantum circuit and state simulation software for reproducible experimentation. It is a proposed initiative, not a released or generally available product.'
+    },
+    loadComponent: () =>
+      import('./shared/components/qm-product-detail/qm-product-detail.component')
+        .then(m => m.QmProductDetailComponent)
+  },
+  {
+    path: 'products/threat-intel',
+    data: {
+      productId: 'threat-intel',
+      title: 'ThreatIntel | Products | QuantsMind',
+      description:
+        'ThreatIntel is a proposed threat intelligence and indicator correlation software. It is a proposed initiative, not a released or generally available product.'
+    },
+    loadComponent: () =>
+      import('./shared/components/qm-product-detail/qm-product-detail.component')
+        .then(m => m.QmProductDetailComponent)
+  },
+  {
+    path: 'products/telemetry-hub',
+    data: {
+      productId: 'telemetry-hub',
+      title: 'TelemetryHub | Products | QuantsMind',
+      description:
+        'TelemetryHub is a space telemetry software for telemetry ingestion, distribution, bounded backpressure and journaling. It is a space systems software initiative, not a released or generally available product.'
+    },
+    loadComponent: () =>
+      import('./shared/components/qm-product-detail/qm-product-detail.component')
+        .then(m => m.QmProductDetailComponent)
   },
   {
     path: 'quantum-mission',
@@ -48,7 +117,7 @@ export const routes: Routes = [
   {
     path: 'technology',
     data: {
-      title: 'Technologies We Develop — QuantsMind',
+      title: 'Technology Ecosystem — QuantsMind',
       description:
         'The technologies QuantsMind develops: Karkain, MicroQuantum and the QuantsMind SDK, each with verified capabilities, language details, version, maturity and documentation, plus the wider engineering ecosystem.'
     },
@@ -88,9 +157,9 @@ export const routes: Routes = [
   {
     path: 'labs',
     data: {
-      title: 'QuantsMind Labs | Open Research Projects',
+      title: 'Research & Innovation — QuantsMind',
       description:
-        'Open research code from QuantsMind Labs, including vector search, small language-model training, quantum algorithms and OSINT tooling. Each project states its maturity and its limitations.'
+        'Research and innovation from QuantsMind Labs: open research code including vector search, open-source intelligence tooling and news-text classification experiments. Each project states its maturity and its limitations.'
     },
     loadComponent: () =>
       import('./pages/labs/labs.component').then(m => m.LabsComponent)
@@ -98,18 +167,15 @@ export const routes: Routes = [
   {
     path: 'blog',
     data: {
-      title: 'Articles — QuantsMind',
+      title: 'Insights — QuantsMind',
       description:
-        'Technical articles on the QuantsMind technology ecosystem, Labs research projects and products, covering architecture, release maturity and known limitations.'
+        'Insights from QuantsMind: technical articles on the technology ecosystem, Labs research projects and products, covering architecture, release maturity and known limitations.'
     },
     loadComponent: () =>
       import('./pages/blog/blog.component').then(m => m.BlogComponent)
   },
   {
-    // Must follow 'blog' so the index route is matched first.
     path: 'blog/:slug',
-    // The resolver supplies the article (and redirects unknown slugs to the
-    // index) so the page and its metadata share a single source of truth.
     resolve: { article: blogArticleResolver },
     loadComponent: () =>
       import('./pages/blog/article.component').then(m => m.BlogArticleComponent)
@@ -119,7 +185,7 @@ export const routes: Routes = [
     data: {
       title: 'About — QuantsMind',
       description:
-        'QuantsMind is an engineering and technology initiative focused on building practical software systems and exploring emerging technologies.'
+        'QuantsMind is an independent technology engineering and innovation company delivering advanced engineering services, proprietary software products and research-driven technology solutions for businesses and enterprises.'
     },
     loadComponent: () =>
       import('./pages/about/about.component').then(m => m.AboutComponent)
@@ -144,8 +210,6 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/quantum/quantum.component').then(m => m.QuantumComponent)
   },
-
-  // Legal pages
   {
     path: 'privacy',
     data: {
@@ -160,8 +224,7 @@ export const routes: Routes = [
     path: 'terms',
     data: {
       title: 'Terms of Use — QuantsMind',
-      description:
-        'The terms that govern your use of the QuantsMind website.'
+      description: 'The terms that govern your use of the QuantsMind website.'
     },
     loadComponent: () =>
       import('./pages/terms/terms.component').then(m => m.TermsComponent)
@@ -180,8 +243,7 @@ export const routes: Routes = [
     path: '**',
     data: {
       title: 'Page Not Found — QuantsMind',
-      description:
-        'The page you are looking for does not exist or has moved.'
+      description: 'The page you are looking for does not exist or has moved.'
     },
     loadComponent: () =>
       import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)

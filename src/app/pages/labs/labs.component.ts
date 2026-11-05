@@ -31,8 +31,8 @@ interface ExploreArea { name: string; tag: string; }
     template: `
     <!-- ══════════ HERO ══════════ -->
     <qm-page-hero
-      eyebrow="LABS"
-      title="QuantsMind Labs"
+      eyebrow="RESEARCH & INNOVATION"
+      title="Research & Innovation"
       tone="labs"
       [artLabels]="['Vsector', 'OSINT', 'Fake News AI', 'Prototypes']">
       <div heroBadge class="labs-hero__badges">
@@ -50,8 +50,8 @@ interface ExploreArea { name: string; tag: string; }
       <qm-button heroActions variant="primary" size="lg" [routerLinkValue]="'/technology'" [ariaLabel]="'Explore the QuantsMind technology ecosystem'">
         Explore the Ecosystem →
       </qm-button>
-      <qm-button heroActions variant="outline" size="lg" [routerLinkValue]="'/contact'" [ariaLabel]="'Get in touch with QuantsMind'">
-        Get in Touch
+      <qm-button heroActions variant="outline" size="lg" [routerLinkValue]="'/contact'" [ariaLabel]="'Discuss a project with QuantsMind'">
+        Discuss Your Project
       </qm-button>
       <ul heroMeta class="qm-page-hero__meta labs-hero__meta" aria-label="What you will find in Labs">
         <li>Experiments</li>

@@ -46,17 +46,42 @@ describe('QmHeaderComponent search', () => {
     });
   }
 
-  it('keeps seven top-level destinations and a separate Contact CTA', () => {
+  it('keeps six top-level destinations and a separate Contact CTA', () => {
     expect(component.navItems.map(item => item.label)).toEqual([
-      'Home', 'Services', 'Products', 'Technology', 'Labs', 'Blog', 'About'
+      'Home', 'Business Solutions', 'Products & Technologies', 'Research & Innovation', 'About QuantsMind', 'Insights'
     ]);
   });
 
-  it('adds Quantum Mission to the existing Products menu', () => {
-    const products = component.navItems.find(item => item.label === 'Products');
+  it('keeps Quantum Mission and the technology ecosystem in the products menu', () => {
+    const products = component.navItems.find(item => item.label === 'Products & Technologies');
     expect(products?.children?.some(child => child.label === 'Quantum Mission'
       && child.href === '/quantum-mission')).toBe(true);
-    expect(products?.children?.length).toBe(3);
+    expect(products?.children?.some(child => child.label === 'Technology Ecosystem'
+      && child.href === '/technology')).toBe(true);
+    expect(products?.children?.length).toBe(6);
+  });
+
+  it('keeps the six business solution domains under Business Solutions', () => {
+    const solutions = component.navItems.find(item => item.label === 'Business Solutions');
+    expect(solutions?.href).toBe('/services');
+    expect(solutions?.children?.map(child => child.href)).toEqual([
+      '/quantum',
+      '/services#space-systems',
+      '/services#ai-intelligent-systems',
+      '/services#scientific-computing',
+      '/services#cybersecurity-digital-trust',
+      '/services#industrial-intelligence-digital-twin'
+    ]);
+  });
+
+  it('indexes the approved business page names', () => {
+    const titlesByHref = new Map(component.searchIndex.map(entry => [entry.href, entry.title]));
+    expect(titlesByHref.get('/services')).toBe('Business Solutions');
+    expect(titlesByHref.get('/products')).toBe('Products & Technologies');
+    expect(titlesByHref.get('/technology')).toBe('Technology Ecosystem');
+    expect(titlesByHref.get('/labs')).toBe('Research & Innovation');
+    expect(titlesByHref.get('/blog')).toBe('Insights');
+    expect(titlesByHref.get('/about')).toBe('About QuantsMind');
   });
 
   it('finds Quantum Mission at its dedicated route', () => {

@@ -20,12 +20,12 @@ import { BLOG_ARTICLES } from './articles';
     @if (article(); as article) {
     <!-- HERO -->
     <qm-page-hero
-      eyebrow="BLOG ARTICLE"
+      eyebrow="INSIGHTS"
       [title]="article.title"
       [lead]="article.summary"
       [artLabels]="['Insight', 'Research', 'Engineering', 'Practice']">
       <div heroBadge class="article-hero__meta">
-        <a routerLink="/blog" class="back">&larr; Back to articles</a>
+        <a routerLink="/blog" class="back">&larr; Back to Insights</a>
         <div class="badges">
           <qm-badge variant="default">{{ article.category }}</qm-badge>
           <qm-badge [variant]="article.maturityVariant">{{ article.maturity }}</qm-badge>
@@ -102,7 +102,7 @@ import { BLOG_ARTICLES } from './articles';
           </section>
 
           <nav class="prose__nav" aria-label="Article navigation">
-            <a routerLink="/blog" class="prose__nav-link">&larr; Back to all articles</a>
+            <a routerLink="/blog" class="prose__nav-link">&larr; Back to Insights</a>
           </nav>
 
           @if (article.verification?.length) {
@@ -137,11 +137,11 @@ import { BLOG_ARTICLES } from './articles';
     } @else {
     <!-- Unknown slug: no article renders, and the index is shown instead. -->
     <qm-page-hero
-      eyebrow="BLOG"
+      eyebrow="INSIGHTS"
       title="Article not found"
       lead="That article does not exist. Browse the index to find the articles that are published."
       art="none">
-      <a heroActions routerLink="/blog" class="back">&larr; Back to all articles</a>
+      <a heroActions routerLink="/blog" class="back">&larr; Back to Insights</a>
     </qm-page-hero>
     }
     `,

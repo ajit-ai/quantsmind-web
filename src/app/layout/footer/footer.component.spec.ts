@@ -45,10 +45,15 @@ describe('QmFooterComponent', () => {
     expect(text).toContain('Explore');
     expect(text).toContain('Products & Technology');
     expect(text).toContain('Connect');
+    expect(text).toContain('About');
+    expect(text).toContain('Business Solutions');
+    expect(text).toContain('Research & Innovation');
+    expect(text).toContain('Insights');
     expect(text).toContain('Quantum Mission');
     expect(text).toContain('Karkain');
     expect(text).toContain('MicroQuantum');
-    expect(text).toContain('QuantsMind Quantum SDK');
+    expect(text).toContain('QuantsMind SDK');
+    expect(text).not.toContain('QuantsMind Quantum SDK');
     expect(text).toContain('ajitkumar@quantsmind.com');
     expect(text).toContain('Jodhpur, Rajasthan, India');
     expect(text).not.toContain('Shikargarh');

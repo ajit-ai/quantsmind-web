@@ -4,42 +4,12 @@ import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
-import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { QmBadgeComponent } from '../../shared/components/qm-badge/qm-badge.component';
 import { QmServiceProductShowcaseComponent } from '../../shared/components/qm-service-product-showcase/qm-service-product-showcase.component';
 import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
 import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
-
-interface TechnologyAssociation {
-  name: string;
-  status: string;
-  badge: BadgeVariant;
-  href: string;
-}
-
-interface ServiceArea {
-  id: string;
-  icon: string;
-  title: string;
-  short: string;
-  /** The customer situation this service is intended to address. */
-  problem: string;
-  provides: string[];
-  deliverables: string[];
-  context: string;
-  outcome: string;
-  technologies: TechnologyAssociation[];
-  /** Optional product showcase wiring. */
-  showcaseIds?: readonly string[];
-  showcaseHeading?: string;
-  showcaseDescription?: string;
-  productsAnchor?: string;
-  productsLinkLabel?: string;
-  /** Extra destination shown beneath the product showcase. */
-  extraLink?: { label: string; route: string };
-  /** Optional link to a dedicated service detail page. */
-  detailLink?: { label: string; route: string };
-}
+import { SERVICE_AREAS, ServiceArea } from '../../content/services/service.registry';
 
 interface DeliveryStep {
   title: string;
@@ -52,18 +22,23 @@ interface DeliveryStep {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <qm-page-hero
-      eyebrow="SERVICES"
-      title="Engineering Services"
-      lead="Practical software engineering and technology consulting for organizations building, modernizing or scaling software systems."
+      eyebrow="BUSINESS SOLUTIONS"
+      title="Business Solutions"
+      lead="Advanced engineering services for technology companies, product startups, growing SMEs, enterprise engineering teams and research organisations."
       tone="quantum"
       [artLabels]="['Architecture', 'Quantum', 'AI & ML', 'Cloud']">
       <p heroLead class="qm-page-hero__lead">
         Six fixed engineering domains, each with a clear scope, a defined delivery
         approach and an honest statement of what the work can and cannot establish.
       </p>
+      <p class="hero-lead__sub">
+        Engagements typically progress from initial discussion through to delivered
+        engineering work. Scope, timelines and commercial terms are agreed for each
+        engagement individually.
+      </p>
       <div heroActions class="hero-actions">
         <qm-button variant="primary" size="md" [routerLinkValue]="'/contact'">
-          Discuss an Engineering Requirement →
+          Discuss Your Requirement →
         </qm-button>
         <qm-button variant="outline" size="md" [routerLinkValue]="'/products'">
           Explore Products
@@ -71,15 +46,66 @@ interface DeliveryStep {
       </div>
     </qm-page-hero>
 
+    <div class="engagement-model" qmReveal>
+      <qm-container>
+        <span id="engagement-models" class="anchor-alias" aria-hidden="true"></span>
+        <h2 class="engagement-model__heading">Engineering Engagement Model</h2>
+        <p class="engagement-model__intro">
+          Engagements typically progress from initial discussion through to delivered
+          engineering work. Scope, timelines and commercial terms are agreed for each
+          engagement individually.
+        </p>
+        <div class="engagement-model__grid">
+          <article class="engagement-model__card">
+            <span class="engagement-model__number">01</span>
+            <h3 class="engagement-model__title">Discovery &amp; Feasibility</h3>
+            <p class="engagement-model__body">
+              Initial technical discussion to assess whether QuantsMind's capabilities
+              align with the problem domain. This may include a feasibility study,
+              architecture probe, or prototype spike.
+            </p>
+          </article>
+          <article class="engagement-model__card">
+            <span class="engagement-model__number">02</span>
+            <h3 class="engagement-model__title">Architecture &amp; Consulting</h3>
+            <p class="engagement-model__body">
+              Design of system architecture, technology selection, integration
+              planning, or risk assessment for the identified scope.
+            </p>
+          </article>
+          <article class="engagement-model__card">
+            <span class="engagement-model__number">03</span>
+            <h3 class="engagement-model__title">Prototype &amp; Development</h3>
+            <p class="engagement-model__body">
+              Delivery of a prototype, proof-of-concept, or production-relevant
+              engineering work to validate the approach and produce concrete
+              deliverables.
+            </p>
+          </article>
+          <article class="engagement-model__card">
+            <span class="engagement-model__number">04</span>
+            <h3 class="engagement-model__title">Implementation &amp; Support</h3>
+            <p class="engagement-model__body">
+              Ongoing engineering integration, validation, and technical support
+              as agreed. Engagement terms including duration, deliverables and
+              commercial conditions are agreed upfront.
+            </p>
+          </article>
+        </div>
+      </qm-container>
+    </div>
+
     <qm-section surface="white">
       <qm-container>
         <header class="services-intro" qmReveal>
           <span class="eyebrow">SERVICE AREAS</span>
           <h2>Six engineering domains. One delivery approach.</h2>
           <p>
-            Every engagement starts with the problem rather than a predetermined
+            Every engagement starts with the customer's problem rather than a predetermined
             technology. We assess the requirement, define the approach, engineer the
-            software and state the evidence behind the result.
+            software and state the evidence behind the result. QuantsMind works as an
+            engineering partner - translating research and emerging technology into
+            practical, maintainable software systems.
           </p>
         </header>
 
@@ -210,14 +236,14 @@ interface DeliveryStep {
       <qm-container size="narrow">
         <div class="qm-cta-band page-cta" qmReveal>
           <span class="eyebrow">ENGAGEMENT</span>
-          <h2>Discuss an Engineering Requirement</h2>
+          <h2>Discuss Your Requirement</h2>
           <p>
             Tell us about the system you are building or the problem you are facing.
             We will discuss whether and how we can help.
           </p>
           <div class="qm-cta-band__actions">
             <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-              Discuss an Engineering Requirement →
+              Discuss Your Requirement →
             </qm-button>
           </div>
         </div>
@@ -226,6 +252,70 @@ interface DeliveryStep {
     `,
     styles: [`
     .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* ── ENGAGEMENT MODEL ─────────────────────────────── */
+    .engagement-model {
+      padding: 48px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .engagement-model__heading {
+      margin: 0 0 12px;
+      font-size: clamp(26px, 3.4vw, 38px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      color: var(--color-text-primary);
+    }
+    .engagement-model__intro {
+      margin: 0 0 32px;
+      max-width: 720px;
+      font-size: 17px;
+      line-height: 1.7;
+      color: var(--color-text-secondary);
+      text-wrap: pretty;
+    }
+    .engagement-model__grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+    @media (min-width: 768px) {
+      .engagement-model__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .engagement-model__card {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 24px;
+      background: var(--color-surface);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+      min-height: 0;
+    }
+    .engagement-model__number {
+      display: block;
+      font-family: 'JetBrains Mono', ui-monospace, monospace;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      margin-bottom: 4px;
+    }
+    .engagement-model__title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 650;
+      line-height: 1.3;
+      color: var(--color-text-primary);
+    }
+    .engagement-model__body {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--color-text-secondary);
+    }
 
     .services-intro { max-width: 820px; margin: 0 0 28px; }
     .services-intro h2 {
@@ -431,197 +521,5 @@ export class ServicesComponent {
     }
   ];
 
-  services: ServiceArea[] = [
-    {
-      id: 'quantum-computing',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`,
-      title: 'Quantum Computing & Quantum Software Engineering',
-      short: 'Quantum circuit software engineering, simulation, algorithm experimentation, and quantum-classical workflows.',
-      problem: 'A quantum algorithm or workflow needs to be implemented, simulated, tested or integrated with classical software — without access to quantum hardware or an established quantum software team.',
-      provides: [
-        'Quantum circuit software engineering',
-        'Circuit representation and simulation',
-        'Quantum algorithm experimentation',
-        'Quantum-classical workflow integration',
-        'Quantum software testing and verification',
-        'Performance and resource analysis',
-        'Reproducible research tooling'
-      ],
-      deliverables: [
-        'Implemented and tested quantum programs and algorithms',
-        'Simulation results backed by reproducible experiment records',
-        'Parameter sweeps and analysis of sampled results',
-        'Technical assessments that separate demonstrated behaviour from roadmap intent'
-      ],
-      context: 'Open, NumPy-based quantum tooling with local simulation backends. No quantum hardware access or validated quantum advantage is claimed.',
-      outcome: 'Quantum software that is implemented, testable, and honestly characterised, with simulation limits stated explicitly.',
-      technologies: [
-        { name: 'MicroQuantum', status: 'Developer Preview', badge: 'experimental', href: '/microquantum' },
-        { name: 'QuantsMind SDK', status: 'Developer Preview', badge: 'experimental', href: '/quantsmind-sdk' }
-      ],
-      showcaseIds: ['microquantum', 'quantum-studio', 'quantum-bench', 'quantum-verify'],
-      showcaseHeading: 'Related QuantsMind quantum software',
-      showcaseDescription: 'Representative software initiatives from the Quantum Computing Software portfolio associated with this engineering service.',
-      productsAnchor: 'quantum-software',
-      productsLinkLabel: 'View quantum software initiatives on the Products page',
-      detailLink: { label: 'Explore Quantum Computing Services', route: '/quantum' },
-      extraLink: { label: 'Explore the ten Quantum Mission applications', route: '/quantum-mission' }
-    },
-    {
-      id: 'space-systems',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><path d="M2 12h4M18 12h4"/></svg>`,
-      title: 'Space Systems & Mission Software Engineering',
-      short: 'Software for ground-segment operations, telemetry processing, mission-support workflows, and satellite engineering data.',
-      problem: 'Telemetry, mission data or simulation software must be reliable and maintainable, but its qualification, deployment and operational status need to be described accurately.',
-      provides: [
-        'Ground-station software integration',
-        'Telemetry frame processing',
-        'Flight-data decoding',
-        'Telemetry ingestion and distribution',
-        'Satellite subsystem health monitoring',
-        'Mission operations workflows',
-        'Satellite contact scheduling',
-        'Mission-data archival and integrity verification'
-      ],
-      deliverables: [
-        'Ground software and data pipelines',
-        'Telemetry processing and decoding components',
-        'Health monitoring and mission-support workflows',
-        'Archival and integrity verification procedures',
-        'Feasibility and integration assessments'
-      ],
-      context: 'Telemetry formats, mission-data pipelines, simulation environments, and ground-system integration. Software and feasibility engineering only; no flight qualification, operational spacecraft deployment, autonomous spacecraft commanding, or mission heritage is claimed.',
-      outcome: 'Clear feasibility evidence and maintainable ground software, with limitations and validation gaps stated explicitly.',
-      technologies: [],
-      showcaseIds: ['ground-link', 'telemetry-hub', 'sat-health', 'mission-ops'],
-      showcaseHeading: 'Related QuantsMind space software',
-      showcaseDescription: 'Representative software initiatives from the Space Systems Software portfolio associated with this engineering service.',
-      productsAnchor: 'space-software',
-      productsLinkLabel: 'View space software initiatives on the Products page'
-    },
-    {
-      id: 'ai-intelligent-systems',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
-      title: 'AI Engineering & Autonomous Intelligent Systems',
-      short: 'Engineering intelligent software, AI integrations, controlled agent workflows, and reliable AI-enabled applications.',
-      problem: 'An AI-enabled product idea exists, but its value, reliability, permission boundaries and human oversight requirements are not yet clear.',
-      provides: [
-        'AI application engineering',
-        'LLM application integration',
-        'Intelligent workflow design',
-        'Agent orchestration',
-        'Retrieval and data integration where applicable',
-        'Evaluation and observability',
-        'AI security and permission boundaries',
-        'Human oversight and controlled automation'
-      ],
-      deliverables: [
-        'Production-integrated AI features',
-        'Evaluation reports with measured results',
-        'Model serving and integration pipelines',
-        'Feasibility proofs-of-concept',
-        'Controlled automation workflows with oversight points'
-      ],
-      context: 'Modern LLM APIs, classical ML, Python tooling, cloud AI services, and permission-aware application architecture. No fully autonomous, unsupervised, or production-proven system is claimed.',
-      outcome: 'AI capabilities that are measurable, maintainable, and honestly scoped, with oversight and security boundaries stated.',
-      technologies: [
-        { name: 'GuardMCP', status: 'Alpha · Under Development', badge: 'prototype', href: '/technology' },
-        { name: 'QuantsMind-Agent', status: 'Alpha · Under Development', badge: 'prototype', href: '/technology' },
-        { name: 'QuantsMind-LLM', status: 'Research Prototype', badge: 'research', href: '/technology' }
-      ]
-    },
-    {
-      id: 'scientific-computing',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>`,
-      title: 'Scientific Computing & Digital Simulation',
-      short: 'Numerical software, scientific workflows, modelling systems, and computational simulations.',
-      problem: 'A scientific or engineering computation needs rigorous methods, validation and reproducible results that another team can inspect.',
-      provides: [
-        'Numerical software development',
-        'Computational modeling',
-        'Scientific data processing',
-        'Simulation workflow engineering',
-        'Algorithm evaluation',
-        'Reproducible experimentation',
-        'Scientific software verification',
-        'Data visualization where supported'
-      ],
-      deliverables: [
-        'Validated numerical implementations',
-        'Simulation code and experiment records',
-        'Performance and accuracy reports',
-        'Documentation of methods and assumptions'
-      ],
-      context: 'Python, NumPy/SciPy-style numerical stacks, simulation environments, and HPC-friendly workflows. No validated scientific performance result is claimed.',
-      outcome: 'Computations that are correct, reproducible, and defensible, with assumptions and limits stated.',
-      technologies: [
-        { name: 'QuantsMind SDK', status: 'Developer Preview', badge: 'experimental', href: '/quantsmind-sdk' },
-        { name: 'MicroQuantum', status: 'Developer Preview', badge: 'experimental', href: '/microquantum' }
-      ]
-    },
-    {
-      id: 'cybersecurity-digital-trust',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
-      title: 'Cybersecurity Engineering & Digital Trust',
-      short: 'Security-focused software, security analysis workflows, integrity verification, and trustworthy digital systems.',
-      problem: 'A system has unclear security, privacy or trust boundaries, and the team needs a systematic review rather than an unverified assurance claim.',
-      provides: [
-        'Application security engineering',
-        'Secure development practices',
-        'AI application security',
-        'Digital evidence integrity',
-        'Identity and access-security analysis',
-        'Incident workflow engineering',
-        'Software supply-chain security',
-        'Cloud security assessment',
-        'Privacy engineering',
-        'Information integrity research'
-      ],
-      deliverables: [
-        'Threat models and risk registers',
-        'Security review reports',
-        'Hardening and remediation plans',
-        'Security test scenarios',
-        'Evidence integrity and workflow designs'
-      ],
-      context: 'Web, backend, cloud, AI, and data systems. No certifications, penetration-testing accreditations, security guarantees, or deployed security products are claimed.',
-      outcome: 'Systems with clear trust boundaries and actionable security improvements.',
-      technologies: [
-        { name: 'GuardMCP', status: 'Alpha · Under Development', badge: 'prototype', href: '/technology' }
-      ],
-      showcaseIds: ['threat-intel', 'ai-guard', 'code-sentinel', 'forensic-vault'],
-      showcaseHeading: 'Related QuantsMind cybersecurity software',
-      showcaseDescription: 'Representative proposed software initiatives from the Cybersecurity & Digital Trust Software portfolio associated with this engineering service.',
-      productsAnchor: 'cybersecurity-software',
-      productsLinkLabel: 'View cybersecurity software initiatives on the Products page'
-    },
-    {
-      id: 'industrial-intelligence-digital-twin',
-      icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>`,
-      title: 'Industrial Intelligence & Digital Twin Engineering',
-      short: 'Industrial data systems, operational intelligence software, digital simulation models, and digital twin integration workflows.',
-      problem: 'Industrial equipment, assets or workflows hold operational data that is not yet connected to the simulation, monitoring and software systems the business needs.',
-      provides: [
-        'Industrial data integration',
-        'Sensor and telemetry data processing',
-        'Operational monitoring software',
-        'Digital twin architecture',
-        'Simulation-data integration',
-        'Asset-state modeling',
-        'Industrial analytics',
-        'Engineering visualization',
-        'Reliability-oriented software design'
-      ],
-      deliverables: [
-        'Industrial data integration designs',
-        'Operational monitoring and analytics components',
-        'Digital twin architecture and simulation-data integration plans',
-        'Asset-state models and visualization prototypes',
-        'Reliability and integration documentation'
-      ],
-      context: 'Manufacturing, industrial automation, energy systems, engineering R&D, and industrial IoT. No industrial deployments, validated digital twins, hardware partnerships, or production integrations are claimed. Cross-domain software architecture, integration design, API design, cloud and deployment architecture, reliability engineering, verification, secure system design, and engineering consulting capabilities are preserved here.',
-      outcome: 'Capability-oriented industrial intelligence engineering, with deployment and validation limits stated explicitly.',
-      technologies: []
-    }
-  ];
+  services: ServiceArea[] = SERVICE_AREAS;
 }

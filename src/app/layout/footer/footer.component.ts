@@ -45,8 +45,9 @@ interface FooterLink {
               </span>
             </a>
             <p class="qm-footer__about">
-              Engineering software products, intelligent systems and advanced
-              technology for businesses and emerging domains.
+              An independent technology engineering and innovation company delivering
+              engineering services, proprietary software and research-driven solutions
+              for businesses and enterprises.
             </p>
             <div class="qm-footer__social">
               @for (s of socials; track s.label) {
@@ -72,8 +73,8 @@ interface FooterLink {
           </nav>
 
           <!-- Products & Technology -->
-          <nav class="qm-footer__col" aria-label="Products and technology">
-            <h3 class="qm-footer__heading">Products &amp; Technology</h3>
+          <nav class="qm-footer__col" aria-label="Products and technologies">
+            <h3 class="qm-footer__heading">Products &amp; Technologies</h3>
             <ul class="qm-footer__list" role="list">
               @for (link of productsTechnology; track link.label) {
                 @let target = link.href | hrefParts;
@@ -445,19 +446,19 @@ export class QmFooterComponent {
 
   explore: FooterLink[] = [
     { label: 'About', href: '/about' },
-    { label: 'Services', href: '/services' },
-    { label: 'Labs', href: '/labs' },
-    { label: 'Blog', href: '/blog' }
+    { label: 'Business Solutions', href: '/services' },
+    { label: 'Research & Innovation', href: '/labs' },
+    { label: 'Insights', href: '/blog' }
   ];
 
   productsTechnology: FooterLink[] = [
-    { label: 'Products', href: '/products' },
+    { label: 'Products & Technology', href: '/products' },
     { label: 'Quantum Mission', href: '/quantum-mission' },
     { label: 'Space Systems', href: '/products#space-software' },
     { label: 'Cybersecurity', href: '/products#cybersecurity-software' },
     { label: 'Karkain', href: '/karkain' },
     { label: 'MicroQuantum', href: '/microquantum' },
-    { label: 'QuantsMind Quantum SDK', href: '/quantsmind-sdk' }
+    { label: 'QuantsMind SDK', href: '/quantsmind-sdk' }
   ];
 
   legal: FooterLink[] = [

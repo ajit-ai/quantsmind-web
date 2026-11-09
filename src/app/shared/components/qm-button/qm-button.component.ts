@@ -31,7 +31,8 @@ export type ButtonSize    = 'sm' | 'md' | 'lg';
         <a
           [routerLink]="routerLinkValue"
           [fragment]="fragment"
-          [class]="buttonClass"
+        [queryParams]="queryParams"
+        [class]="buttonClass"
           [attr.aria-label]="ariaLabel || null"
           >
           <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
@@ -189,6 +190,7 @@ export class QmButtonComponent {
   @Input() href?: string;
   @Input() routerLinkValue?: string | string[];
   @Input() fragment?: string;
+  @Input() queryParams?: Record<string, string>;
   @Input() target: string         = '_self';
   @Input() type: 'button' | 'submit' | 'reset' = 'button';
   @Input() disabled               = false;

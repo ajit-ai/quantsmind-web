@@ -4,11 +4,17 @@ import { RouterModule } from '@angular/router';
 import { QmContainerComponent } from '../../shared/components/qm-container/qm-container.component';
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
-import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
+import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
 import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
 import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { getProductById, getProductsByPortfolio } from '../../content/products/product.registry';
-import { Product } from '../../content/products/product.model';
+import {
+  Product,
+  maturityLabel as maturityLabelFor,
+  availabilityLabel as availabilityLabelFor,
+  maturityBadgeVariant as maturityBadgeVariantFor,
+  availabilityBadgeVariant as availabilityBadgeVariantFor
+} from '../../content/products/product.model';
 
 @Component({
     selector: 'app-quantum-mission',
@@ -22,9 +28,9 @@ import { Product } from '../../content/products/product.model';
       tone="quantum"
       [artLabels]="['Proposed', 'Simulation', 'Verification', 'Hybrid']">
       <p heroLead class="qm-page-hero__lead">
-        Quantum Mission brings together ten independent quantum software engineering applications,
-        now available through their official QuantsMind GitHub v1.0.0 releases. MicroQuantum is a
-        separate published technology and is not one of the ten.
+        Quantum Mission brings together ten independent quantum software engineering applications.
+        Each is a proposed initiative; no public repository, release or documentation is currently
+        available. MicroQuantum is a separate published technology and is not one of the ten.
       </p>
       <div heroActions class="hero-actions">
         <qm-button variant="primary" size="md" [routerLinkValue]="'/contact'">
@@ -35,9 +41,9 @@ import { Product } from '../../content/products/product.model';
         </qm-button>
       </div>
       <div heroMeta class="mission-meta" aria-label="Quantum Mission status">
-        <qm-badge variant="product">10 applications · v1.0.0 GA</qm-badge>
-        <qm-badge variant="product">General Availability</qm-badge>
-        <qm-badge variant="default">GitHub releases</qm-badge>
+        <qm-badge variant="product">{{ applications.length }} applications · {{ portfolioMaturityLabel }}</qm-badge>
+        <qm-badge [variant]="portfolioAvailabilityBadgeVariant">{{ portfolioAvailabilityLabel }}</qm-badge>
+        <qm-badge variant="default">No public releases</qm-badge>
       </div>
     </qm-page-hero>
 
@@ -74,8 +80,8 @@ import { Product } from '../../content/products/product.model';
                 <header class="application-card__head">
                   <span class="application-card__index" aria-hidden="true">{{ formatIndex(i + 1) }}</span>
                   <div class="application-card__badges">
-                    <qm-badge variant="product">Released</qm-badge>
-                    <qm-badge variant="product">General Availability</qm-badge>
+                    <qm-badge [variant]="maturityBadgeVariant(app)">{{ maturityLabel(app) }}</qm-badge>
+                    <qm-badge [variant]="availabilityBadgeVariant(app)">{{ availabilityLabel(app) }}</qm-badge>
                   </div>
                 </header>
 
@@ -91,10 +97,7 @@ import { Product } from '../../content/products/product.model';
                   </ul>
                 }
 
-                <p class="application-card__docs">
-                  Released as v1.0.0 through the QuantsMind GitHub organization.
-                  Per-application links are provided where verified.
-                </p>
+                <p class="application-card__docs">{{ statusNote(app) }}</p>
 
                 <div class="application-card__cta">
                   <qm-button variant="outline" size="sm" [routerLinkValue]="'/contact'"
@@ -366,8 +369,8 @@ export class QuantumMissionComponent {
       body: 'Each application is scoped separately. A direction in one does not commit the others to the same roadmap or release.'
     },
     {
-      title: 'Released v1.0.0',
-      body: 'Every application is released as v1.0.0 through the QuantsMind GitHub organization. Capabilities describe the implemented scope; Windows qualification is reported complete for all ten.'
+      title: 'Proposed status',
+      body: 'Every application is a proposed initiative. No public repository, release or documentation is currently available, and no implemented scope, qualification or customer availability is claimed.'
     },
     {
       title: 'Evidence before claims',
@@ -375,7 +378,46 @@ export class QuantumMissionComponent {
     }
   ];
 
+  get portfolioMaturityLabel(): string {
+    return this.commonLabel(this.applications.map(app => maturityLabelFor(app.maturity)));
+  }
+
+  get portfolioAvailabilityLabel(): string {
+    return this.commonLabel(this.applications.map(app => availabilityLabelFor(app.availability)));
+  }
+
+  get portfolioAvailabilityBadgeVariant(): BadgeVariant {
+    const first = this.applications[0];
+    return first ? availabilityBadgeVariantFor(first.availability) as BadgeVariant : 'default';
+  }
+
+  maturityLabel(product: Product): string {
+    return maturityLabelFor(product.maturity);
+  }
+
+  availabilityLabel(product: Product): string {
+    return availabilityLabelFor(product.availability);
+  }
+
+  maturityBadgeVariant(product: Product): BadgeVariant {
+    return maturityBadgeVariantFor(product.maturity) as BadgeVariant;
+  }
+
+  availabilityBadgeVariant(product: Product): BadgeVariant {
+    return availabilityBadgeVariantFor(product.availability) as BadgeVariant;
+  }
+
+  statusNote(product: Product): string {
+    return product.limitations?.[0]
+      ?? 'Proposed initiative; no public repository, release or documentation is currently available.';
+  }
+
   formatIndex(index: number): string {
     return index.toString().padStart(2, '0');
+  }
+
+  private commonLabel(labels: readonly string[]): string {
+    const unique = [...new Set(labels)];
+    return unique.length === 1 ? unique[0] ?? 'Unknown' : 'Mixed';
   }
 }

@@ -56,6 +56,12 @@ describe('ServicesComponent', () => {
     expect(legacy).toBeTruthy();
   });
 
+  it('anchors the engagement model for the homepage framework link', () => {
+    const anchor = fixture.nativeElement.querySelector('#engagement-models');
+    expect(anchor).toBeTruthy();
+    expect(fixture.nativeElement.querySelector('.engagement-model')).toContain(anchor);
+  });
+
   it('renders the capability, deliverable, context and outcome content', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('What we provide');
@@ -102,5 +108,81 @@ describe('ServicesComponent', () => {
   it('does not use the retired tab UI', () => {
     expect(fixture.nativeElement.querySelector('.svc-tab')).toBeNull();
     expect(fixture.nativeElement.querySelector('.svc-detail')).toBeNull();
+  });
+
+  it('keeps every service domain complete and actionable', () => {
+    for (const service of component.services) {
+      expect(service.title.trim()).not.toBe('');
+      expect(service.short.trim()).not.toBe('');
+      expect(service.problem.trim()).not.toBe('');
+      expect(service.provides.length).toBeGreaterThan(0);
+      expect(service.deliverables.length).toBeGreaterThan(0);
+      expect(service.context.trim()).not.toBe('');
+      expect(service.outcome.trim()).not.toBe('');
+    }
+  });
+
+  it('positions agentic AI within AI Engineering service, not as a seventh domain', () => {
+    const aiService = component.services.find(s => s.id === 'ai-intelligent-systems');
+    expect(aiService).toBeTruthy();
+
+    if (aiService) {
+      const providesText = aiService.provides.join(' ');
+      expect(providesText).toContain('Agentic AI architecture and workflow design');
+      expect(providesText).toContain('Human-in-the-loop workflows and controlled automation');
+
+      const contextText = aiService.context;
+      expect(contextText).toContain('engineering service, not a proprietary agent platform');
+      expect(contextText).toContain('No fully autonomous, unsupervised');
+      expect(contextText).toContain('human oversight');
+
+      const deliverablesText = aiService.deliverables.join(' ');
+      expect(deliverablesText).toContain('Agentic workflow designs with human oversight points');
+      expect(deliverablesText).toContain('Controlled automation workflows with permission boundaries');
+    }
+  });
+
+  it('includes RAG and enterprise knowledge systems in AI service', () => {
+    const aiService = component.services.find(s => s.id === 'ai-intelligent-systems');
+    expect(aiService).toBeTruthy();
+
+    if (aiService) {
+      const providesText = aiService.provides.join(' ');
+      expect(providesText).toContain('Retrieval-Augmented Generation');
+      expect(providesText).toContain('enterprise knowledge systems');
+
+      const deliverablesText = aiService.deliverables.join(' ');
+      expect(deliverablesText).toContain('RAG and knowledge system prototypes');
+    }
+  });
+
+  it('includes enterprise AI integration in AI service', () => {
+    const aiService = component.services.find(s => s.id === 'ai-intelligent-systems');
+    expect(aiService).toBeTruthy();
+
+    if (aiService) {
+      const providesText = aiService.provides.join(' ');
+      expect(providesText).toContain('Enterprise AI integration and workflow automation');
+      expect(providesText).toContain('Integration of AI systems with APIs, enterprise applications and data platforms');
+    }
+  });
+
+  it('distinguishes AI Engineering service from AIGuard product', () => {
+    const aiService = component.services.find(s => s.id === 'ai-intelligent-systems');
+    expect(aiService).toBeTruthy();
+
+    if (aiService) {
+      const contextText = aiService.context;
+      expect(contextText).toContain('AIGuard is a separate proposed product for AI security assessment');
+      expect(contextText).toContain('not a general-purpose AI engineering platform');
+      expect(contextText).toContain('complete agent orchestration system');
+    }
+  });
+
+  it('does not promote developer tools to a seventh service domain', () => {
+    expect(component.services).toHaveLength(6);
+    expect(component.services.some(service =>
+      /Programming Languages|Developer Tools/.test(service.title)
+    )).toBe(false);
   });
 });

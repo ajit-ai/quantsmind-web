@@ -59,9 +59,9 @@ interface EcosystemMapGroup {
     changeDetection: ChangeDetectionStrategy.OnPush,
     template: `
     <qm-page-hero
-      eyebrow="TECHNOLOGY"
-      title="Technologies We Develop"
-      lead="Open software technologies built, engineered and maintained by QuantsMind. Each project states its own purpose, verified capabilities, language, release, maturity and public documentation."
+      eyebrow="TECHNOLOGY ECOSYSTEM"
+      title="Technology Ecosystem"
+      lead="The proprietary software technologies QuantsMind builds and maintains, and the research-driven solutions they underpin. Each project states its own purpose, verified capabilities, language, release, maturity and public documentation."
       [artLabels]="['Karkain', 'MicroQuantum', 'SDK', 'GuardMCP']">
       <p heroLead class="qm-page-hero__lead">
         Maturity is stated per project and is deliberately conservative. A published
@@ -71,7 +71,7 @@ interface EcosystemMapGroup {
       <div heroMeta class="tech-meta" aria-label="Primary technology status">
         <qm-badge variant="experimental">3 developer-preview technologies</qm-badge>
         <qm-badge variant="default">v1.1.0 verified releases</qm-badge>
-        <qm-badge variant="prototype">Wider ecosystem in alpha</qm-badge>
+        <qm-badge variant="prototype">Wider ecosystem · alpha &amp; research</qm-badge>
       </div>
     </qm-page-hero>
 

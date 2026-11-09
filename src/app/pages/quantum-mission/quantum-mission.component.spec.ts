@@ -2,6 +2,7 @@ import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
 import { QuantumMissionComponent } from './quantum-mission.component';
+import { maturityLabel, availabilityLabel } from '../../content/products/product.model';
 
 const EXPECTED_APPLICATIONS = [
   'QuantumStudio',
@@ -49,23 +50,43 @@ describe('QuantumMissionComponent', () => {
     }
   });
 
-  it('keeps every application at released and general-availability maturity', () => {
+  it('keeps every application at released maturity and general availability', () => {
     for (const app of component.applications) {
       expect(app.maturity).toBe('released');
       expect(app.availability).toBe('general-availability');
     }
+  });
+
+  it('renders card status from the product registry', () => {
+    const cards = [...fixture.nativeElement.querySelectorAll('.application-card')];
+    expect(cards.length).toBe(component.applications.length);
+    component.applications.forEach((app, index) => {
+      expect(cards[index].textContent).toContain(maturityLabel(app.maturity));
+      expect(cards[index].textContent).toContain(availabilityLabel(app.availability));
+    });
+  });
+
+  it('does not claim public releases or published documentation', () => {
+    const text = fixture.nativeElement.textContent as string;
+
+    expect(text).not.toContain('v1.0.0');
+    expect(text).not.toContain('GitHub releases');
+    expect(text).not.toContain('official QuantsMind GitHub');
+    expect(text).toContain('No public repository, release or documentation is currently available');
+    expect(text).toContain('10 applications');
+
     const cards = [...fixture.nativeElement.querySelectorAll('.application-card')];
     for (const card of cards) {
-      expect(card.textContent).toContain('Released');
-      expect(card.textContent).toContain('General Availability');
+      expect(card.textContent).not.toContain('v1.0.0');
+      expect(card.textContent).not.toContain('Public download');
     }
   });
 
   it('does not invent documentation or download links for proposed applications', () => {
     const cardLinks = [...fixture.nativeElement.querySelectorAll('.application-card a')]
       .map((link: any) => link.getAttribute('href'));
+    expect(cardLinks.length).toBeGreaterThan(0);
     expect(cardLinks.every(href => href === '/contact')).toBe(true);
-    expect(fixture.nativeElement.textContent).toContain('GitHub releases');
   });
 
   it('presents MicroQuantum as a separate published technology', () => {
@@ -78,9 +99,10 @@ describe('QuantumMissionComponent', () => {
     expect(hrefs).toContain('/microquantum');
   });
 
-  it('presents general availability without production or customer claims', () => {
+  it('states the evidence boundary without production or customer claims', () => {
     const text = fixture.nativeElement.textContent as string;
-    expect(text).toContain('General Availability');
+    expect(text).toContain('All ten applications are proposed initiatives at proposed maturity.');
+    expect(text).toContain('None is generally available');
     expect(text).not.toContain('production-ready application');
     expect(text).not.toContain('customer deployment');
   });

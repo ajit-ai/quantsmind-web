@@ -25,7 +25,7 @@ export const routes: Routes = [
   {
     path: 'products',
     data: {
-      title: 'Products & Applications — QuantsMind',
+      title: 'Products & Technology — QuantsMind',
       description:
         'A registry-driven portfolio of QuantsMind software products and proposed initiatives across standalone software, quantum computing, space systems, cybersecurity, and programming languages and developer tools. Maturity and availability are stated per product.'
     },
@@ -99,6 +99,18 @@ export const routes: Routes = [
       title: 'TelemetryHub | Products | QuantsMind',
       description:
         'TelemetryHub is a space telemetry software for telemetry ingestion, distribution, bounded backpressure and journaling. It is a space systems software initiative, not a released or generally available product.'
+    },
+    loadComponent: () =>
+      import('./shared/components/qm-product-detail/qm-product-detail.component')
+        .then(m => m.QmProductDetailComponent)
+  },
+  {
+    path: 'products/quantsmind-vscode-ai-coder',
+    data: {
+      productId: 'quantsmind-vscode-ai-coder',
+      title: 'QuantsMind VSCode AI Coder | Products | QuantsMind',
+      description:
+        'QuantsMind VSCode AI Coder is an AI-powered coding assistance for Visual Studio Code, currently at Alpha maturity and listed in the Microsoft Visual Studio Marketplace. It is not a validated or released product.'
     },
     loadComponent: () =>
       import('./shared/components/qm-product-detail/qm-product-detail.component')

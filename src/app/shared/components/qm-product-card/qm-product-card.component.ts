@@ -152,6 +152,7 @@ export class QmProductCardComponent {
   }
 
   get ctaRoute(): string | null {
+    if (this.product.detailRoute) { return this.product.detailRoute; }
     return this.product.cta?.route ?? this.product.route ?? null;
   }
 

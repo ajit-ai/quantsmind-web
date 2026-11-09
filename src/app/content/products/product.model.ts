@@ -57,6 +57,12 @@ export interface Product {
   readonly portfolio: ProductPortfolio;
   readonly relatedServiceId?: ServiceId;
   readonly route?: string;
+  /**
+   * Explicit product detail route for curated selections that expose a detail
+   * page (for example a Marketplace pick rendered as a catalogue card). Takes
+   * precedence over the generic CTA when present.
+   */
+  readonly detailRoute?: string;
   readonly anchor?: string;
   readonly version?: string;
   readonly releaseChannel?: string;

@@ -114,3 +114,18 @@ html[data-theme='dark'] {
 .qm-search-overlay__panel {
   transition: background-color 300ms ease, color 300ms ease, border-color 300ms ease;
 }
+
+/* -- TECHNOLOGY ECOSYSTEM MARQUEE --------------------- */
+.ecosystem-marquee-section { border-bottom: 1px solid var(--color-border); background: var(--color-canvas); padding: 14px 0; overflow: hidden; }
+.ecosystem-marquee-section__inner { display: flex; align-items: center; gap: 24px; max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.ecosystem-marquee__heading { flex-shrink: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted); white-space: nowrap; }
+.ecosystem-marquee { flex: 1; overflow: hidden; }
+.ecosystem-marquee__track { display: flex; width: max-content; animation: s 28s linear infinite; }
+.ecosystem-marquee__track--paused { animation-play-state: paused; }
+@keyframes s { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+.ecosystem-marquee__group { display: inline-flex; align-items: center; gap: 48px; padding-right: 48px; }
+.ecosystem-marquee__item { color: var(--color-text-secondary); font: 500 13px/1 Inter, system-ui; letter-spacing: 0.01em; white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+.ecosystem-marquee__link { color: var(--color-text-muted); text-decoration: none; font-size: 11px; transition: color 0.2s; }
+.ecosystem-marquee__link:hover, .ecosystem-marquee__link:focus { color: var(--color-accent); text-decoration: underline; text-underline-offset: 2px; }
+.ecosystem-marquee__link:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 2px; }
+@media (prefers-reduced-motion: reduce) { .ecosystem-marquee__track { animation: none; transform: none; } .ecosystem-marquee { overflow-x: auto; -webkit-overflow-scrolling: touch; } }

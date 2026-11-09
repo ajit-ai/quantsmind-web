@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, inject, signal } from '@angular/core';
-
+import { Component, ChangeDetectionStrategy, inject, signal, computed } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { ActivatedRoute } from '@angular/router';
 import {
   ContactService,
   ContactSubmitError,
@@ -13,6 +14,8 @@ import { QmButtonComponent }    from '../../shared/components/qm-button/qm-butto
 import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.component';
 import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
 import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
+import { getProductById } from '../../content/products/product.registry';
+import { VERIFIED_DIRECTORY_ENTRIES } from '../../content/products/directory-entries';
 
 type SubmitErrorReason = ContactErrorReason | 'rate-limited';
 
@@ -39,6 +42,16 @@ type SubmitErrorReason = ContactErrorReason | 'rate-limited';
             <p class="contact-form-intro">
               Tell us what you are working on. We will read it carefully and respond thoughtfully.
             </p>
+            @if (productContext()) {
+              <div class="form-context" role="status">
+                <span class="form-context__label">Enquiring about</span>
+                <span class="form-context__value">{{ productContext() }}</span>
+                <p class="form-context__note">
+                  This product context is included with your enquiry. You can still
+                  submit a general enquiry by clearing the product from the URL.
+                </p>
+              </div>
+            }
     
             <!-- Success -->
             @if (submitted()) {
@@ -293,6 +306,23 @@ type SubmitErrorReason = ContactErrorReason | 'rate-limited';
       font-size: 15px; color: var(--color-text-secondary); line-height: 1.6; margin: 0 0 32px;
     }
 
+    .form-context {
+      display: flex; flex-direction: column; gap: 6px;
+      padding: 14px 16px; margin: 0 0 24px;
+      background: var(--color-accent-subtle); border: 1px solid var(--color-accent-muted);
+      border-radius: 10px;
+    }
+    .form-context__label {
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--color-accent-dark);
+    }
+    .form-context__value {
+      font-size: 15px; font-weight: 600; color: var(--color-text-primary);
+    }
+    .form-context__note {
+      font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; margin: 4px 0 0;
+    }
+
     .contact-form { display: flex; flex-direction: column; gap: 20px; }
     .form-row { display: grid; grid-template-columns: 1fr; gap: 20px; }
     @media (min-width: 640px) { .form-row { grid-template-columns: repeat(2, 1fr); } }
@@ -450,10 +480,21 @@ type SubmitErrorReason = ContactErrorReason | 'rate-limited';
 })
 export class ContactComponent {
   private readonly contact = inject(ContactService);
+  private readonly route = inject(ActivatedRoute);
 
   readonly submitted = signal(false);
   readonly submitting = signal(false);
   readonly submitError = signal<SubmitErrorReason | ''>('');
+
+  /** Product context supplied via ?product=<id> on the enquiry link. */
+  readonly productContext = computed(() => {
+    const id = this.route.snapshot.queryParamMap.get('product');
+    if (!id) return null;
+    const product = getProductById(id);
+    if (product) return product.name;
+    const entry = VERIFIED_DIRECTORY_ENTRIES.find(e => e.id === id);
+    return entry ? entry.name : null;
+  });
 
   /** Whether a real endpoint is configured; drives the fallback UI. */
   readonly configured = this.contact.isConfigured();

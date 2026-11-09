@@ -30,7 +30,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
       <div heroBadge class="sdk-badges">
         <a routerLink="/technology" class="sdk-back">&larr; Technology Ecosystem</a>
         <div class="sdk-badge-row">
-          <qm-badge variant="stable">v1.1.0</qm-badge>
+          <qm-badge variant="default">v1.1.0</qm-badge>
           <qm-badge variant="experimental">Developer Preview</qm-badge>
           <qm-badge variant="software">Python</qm-badge>
         </div>
@@ -45,6 +45,9 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
       <div heroActions class="sdk-cta sdk-cta--hero">
         <qm-button variant="primary" size="lg" [href]="'https://github.com/ajit-ai/quantsmind-quantum-sdk'" [target]="'_blank'" [ariaLabel]="'View QuantsMind SDK on GitHub (opens in a new tab)'">
           View on GitHub →
+        </qm-button>
+        <qm-button variant="outline" size="lg" [href]="'https://pypi.org/project/quantsmind/'" [target]="'_blank'" [ariaLabel]="'View the QuantsMind SDK package on PyPI (opens in a new tab)'">
+          PyPI
         </qm-button>
         <qm-button variant="outline" size="lg" [routerLinkValue]="'/contact'" [ariaLabel]="'Get in touch about the QuantsMind SDK'">
           Get in Touch
@@ -245,7 +248,7 @@ interface RoadItem { phase: string; variant: BadgeVariant; stage: string; items:
           <article class="sdk-card sdk-card--highlight" qmReveal>
             <div class="sdk-card-head">
               <h3 class="sdk-card-title">QuantsMind SDK</h3>
-              <qm-badge variant="stable">Stable</qm-badge>
+              <qm-badge variant="experimental">Developer Preview</qm-badge>
             </div>
             <p class="sdk-card-text">Universal, vendor-independent scientific computing SDK with implemented capability across mathematics, the sciences, finance, AI and knowledge graphs. A technology-neutral base layer.</p>
           </article>

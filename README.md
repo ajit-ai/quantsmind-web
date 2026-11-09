@@ -8,7 +8,7 @@ Corporate and technology ecosystem website for QuantsMind, built with [Angular](
 
 - `/` — Home
 - `/services` — Engineering services across six practice areas: Quantum Computing & Quantum Software Engineering, Space Systems & Mission Software Engineering, AI Engineering & Autonomous Intelligent Systems, Scientific Computing & Digital Simulation, Cybersecurity Engineering & Digital Trust, and Industrial Intelligence & Digital Twin Engineering
-- `/products` — Product portfolio across applications, quantum, space and cyber domains
+- `/products` — Product and initiative portfolio across applications, quantum, space, cybersecurity, and programming languages and developer tools
 - `/technology` — Published technologies (MicroQuantum, Karkain, QuantsMind SDK) and Developer Tools
 - `/microquantum` — Open quantum computing SDK (Developer Preview · v1.1.0)
 - `/karkain` — General-purpose programming language (Developer Preview · v1.1.0)
@@ -24,7 +24,7 @@ Corporate and technology ecosystem website for QuantsMind, built with [Angular](
 
 The public site separates four layers:
 
-1. **Products** — commercial, customer-facing products (`/products`)
+1. **Products and initiatives** — customer-facing applications and proposed initiatives (`/products`)
 2. **Developer Tools** — developer-facing tooling supporting the technologies (`/technology`)
 3. **Technologies** — active, independently developed technologies
 4. **Labs / R&D** — exploration, experiments and future directions (`/labs`)
@@ -92,8 +92,8 @@ client-side SPA fallback:
 - `sitemap.xml` lists only indexable routes. The 404 document is deliberately excluded.
 
 Because the HTML is prerendered, crawlers and link-unfurlers see the correct metadata even
-when they do not execute JavaScript. The Angular router still takes over after hydration
-for in-app navigation.
+when they do not execute JavaScript. Client hydration is not enabled: Angular bootstraps a
+fresh client render over the prerendered HTML, and the router then handles in-app navigation.
 
 ## Verification
 

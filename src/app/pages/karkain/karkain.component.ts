@@ -171,7 +171,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         </div>
 
         <p class="k-dark-note" qmReveal>
-          The CPU path is the production pipeline behind Karkain 1.1. GPU shaders (WGSL, SPIR-V,
+          The CPU path is the implemented pipeline behind Karkain 1.1. GPU shaders (WGSL, SPIR-V,
           OpenCL) and quantum circuits (OpenQASM, QIR) are part of the documented architecture and
           represent the project's heterogeneous direction.
         </p>

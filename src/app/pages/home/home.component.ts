@@ -210,6 +210,41 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     <qm-marquee [items]="focusAreas" label="Areas of engineering focus"></qm-marquee>
 
     <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 01b · TECHNOLOGY ECOSYSTEM & INDUSTRY PRESENCE MARQUEE   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="ecosystem-marquee-section" aria-labelledby="ecosystem-marquee-title">
+      <div class="ecosystem-marquee-section__inner">
+        <span class="ecosystem-marquee__heading" id="ecosystem-marquee-title">Technology Ecosystem &amp; Industry Presence</span>
+        <div class="ecosystem-marquee" role="region" aria-label="Technology distribution channels and industry presence">
+          <div class="ecosystem-marquee__track" [class.ecosystem-marquee__track--paused]="isPaused">
+            <div class="ecosystem-marquee__group">
+              @for (platform of ecosystemPlatforms; track platform.name) {
+                <span class="ecosystem-marquee__item">
+                  {{ platform.name }}
+                  <a class="ecosystem-marquee__link" [href]="platform.url" target="_blank" rel="noopener noreferrer" [attr.aria-label]="platform.name + ' — ' + platform.url" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false" (focus)="isPaused = true" (blur)="isPaused = false">↗</a>
+                  @if (platform.url2) {
+                    <a class="ecosystem-marquee__link" [href]="platform.url2" target="_blank" rel="noopener noreferrer" [attr.aria-label]="platform.name + ' — ' + platform.url2" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false" (focus)="isPaused = true" (blur)="isPaused = false">↗</a>
+                  }
+                </span>
+              }
+            </div>
+            <div class="ecosystem-marquee__group" aria-hidden="true">
+              @for (platform of ecosystemPlatforms; track platform.name) {
+                <span class="ecosystem-marquee__item">
+                  {{ platform.name }}
+                  <a class="ecosystem-marquee__link" [href]="platform.url" target="_blank" rel="noopener noreferrer" tabindex="-1" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false">↗</a>
+                  @if (platform.url2) {
+                    <a class="ecosystem-marquee__link" [href]="platform.url2" target="_blank" rel="noopener noreferrer" tabindex="-1" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false">↗</a>
+                  }
+                </span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
     <!-- 02 · TRUST AND CAPABILITIES                              -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <qm-section surface="white" size="sm" ariaLabel="Trust and capabilities">
@@ -333,10 +368,21 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
         <div class="engagement-grid">
           @for (model of engagementModels; track model.id; let i = $index) {
             <article class="home-card engagement-card" qmReveal [qmRevealDelay]="i * 55">
-              <span class="engagement-card__index">0{{ i + 1 }}</span>
-              <h3>{{ model.title }}</h3>
-              <p>{{ model.summary }}</p>
-              <span class="engagement-card__best">{{ model.bestFor }}</span>
+              <div class="engagement-card__header">
+                <span class="engagement-card__index">{{ formatCount(i + 1) }}</span>
+                <h3 class="engagement-card__title">{{ model.title }}</h3>
+              </div>
+              <p class="engagement-card__summary">{{ model.summary }}</p>
+              <p class="engagement-card__situation">{{ model.customerSituation }}</p>
+              <div class="engagement-card__outputs">
+                <span class="card-label">Typical outputs</span>
+                <ul class="card-list card-list--tight">
+                  @for (output of model.outputs; track output) {
+                    <li>{{ output }}</li>
+                  }
+                </ul>
+              </div>
+              <p class="engagement-card__best"><strong>Best for.</strong> {{ model.bestFor }}</p>
             </article>
           }
         </div>
@@ -755,7 +801,6 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
     }
     .home-hero__visual { display: none; position: relative; min-width: 0; }
-
     /* ── TRUST ──────────────────────────────────────────── */
     .trust-panel { display: grid; gap: 26px; }
     .trust-head {
@@ -838,6 +883,42 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       grid-template-columns: minmax(0, 1fr);
       gap: 16px;
     }
+
+    /* -- ENGAGEMENT MODELS GRID ------------------------------ */
+    .engagement-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .engagement-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .engagement-card:last-child { grid-column: 1 / -1; }
+    }
+    @media (min-width: 1024px) {
+      .engagement-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .engagement-card { grid-column: span 2; }
+      .engagement-card:nth-child(4) { grid-column: 2 / span 2; }
+      .engagement-card:nth-child(5) { grid-column: 4 / span 2; }
+    }
+    .engagement-card {
+      display: flex; flex-direction: column; gap: 12px;
+      min-height: 250px; padding: 22px;
+      border: 1px solid rgba(148, 197, 255, 0.16); border-radius: var(--radius-lg);
+      background: var(--gradient-ink); box-shadow: var(--shadow-xs);
+      color: var(--color-ink-text);
+      transition: transform 260ms var(--qm-ease-out), border-color 260ms var(--qm-ease-out), box-shadow 260ms var(--qm-ease-out);
+    }
+    .engagement-card:hover { transform: translateY(-3px); border-color: rgba(34, 211, 238, 0.40); box-shadow: var(--shadow-lg); }
+    .engagement-card:focus-visible { outline: 2px solid var(--color-cyan-soft); outline-offset: 3px; }
+    .engagement-card__header { display: flex; align-items: baseline; gap: 12px; }
+    .engagement-card__index { font: 700 11px "JetBrains Mono", ui-monospace, monospace; color: var(--color-cyan-soft); flex-shrink: 0; }
+    .engagement-card__title { margin: 0; font-size: 16px; line-height: 1.3; letter-spacing: -0.015em; color: var(--color-ink-text); }
+    .engagement-card__summary { margin: 0; color: var(--color-ink-muted); font-size: 14px; line-height: 1.6; }
+    .engagement-card__situation { margin: 0; color: var(--color-ink-muted); font-size: 13px; line-height: 1.6; font-style: italic; }
+    .engagement-card__outputs { display: grid; gap: 6px; }
+    .engagement-card__outputs .card-label { color: var(--color-cyan-soft); }
+    .engagement-card__best { margin: 0; color: var(--color-ink-muted); font-size: 13px; line-height: 1.6; }
+    .engagement-card__best strong { color: var(--color-ink-text); }
     .service-card {
       position: relative;
       min-height: 224px;
@@ -1450,6 +1531,22 @@ export class HomeComponent {
     'Scientific Computing & Digital Simulation',
     'Cybersecurity Engineering & Digital Trust',
     'Industrial Intelligence & Digital Twin Engineering'
+  ];
+
+
+
+  isPaused = false;
+
+  /**
+   * Technology Ecosystem & Industry Presence — verified distribution channels.
+   * These are technology distribution channels and industry presence, not endorsements.
+   */
+  ecosystemPlatforms = [
+    { name: 'Microsoft Visual Studio Marketplace', url: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain', url2: 'https://marketplace.visualstudio.com/items?itemName=quantsmind.quantsmind-vscode-ai-coder' },
+    { name: 'Clutch', url: 'https://clutch.co/profile/quantsmind' },
+    { name: 'The Manifest', url: 'https://themanifest.com/in/it-services/companies?page=202' },
+    { name: 'PyPI', url: 'https://pypi.org/project/quantsmind/', url2: 'https://pypi.org/project/microquantum/' },
+    { name: 'piwheels', url: 'https://www.piwheels.org/project/quantsmind/' }
   ];
 
   capabilities: Capability[] = [

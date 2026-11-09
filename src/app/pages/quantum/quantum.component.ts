@@ -25,7 +25,7 @@ interface TechLink { title: string; description: string; href: string; badge: st
       art="none"
       [hasProjectedArt]="true">
       <div heroBadge class="q-hero__badges">
-        <a routerLink="/services" class="q-back">&larr; Services</a>
+        <a routerLink="/services" class="q-back">&larr; Business Solutions</a>
         <qm-badge variant="quantum">Engineering Capability</qm-badge>
       </div>
       <p heroLead class="q-hero__note">QuantsMind provides quantum engineering services built on classical simulation. We do not claim access to quantum hardware, demonstrated quantum advantage, or production-ready quantum infrastructure.</p>

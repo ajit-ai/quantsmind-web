@@ -89,8 +89,8 @@ describeArtifacts('prerendered article HTML', () => {
     const html = read(articleFile(slug));
     const homepageTitle = attribute(html, /<title>([^<]*)<\/title>/)!;
 
-    expect(homepageTitle.startsWith('QuantsMind | Engineering Software')).toBe(false);
-    expect(homepageTitle).not.toBe('Articles — QuantsMind');
+    expect(homepageTitle.startsWith('QuantsMind | Technology Engineering')).toBe(false);
+    expect(homepageTitle).not.toBe('Insights — QuantsMind');
   });
 
   it.each(BLOG_ARTICLES.map(a => a.slug))('"%s" includes article content before scripts run', slug => {
@@ -111,7 +111,7 @@ describeArtifacts('prerendered article HTML', () => {
 
   it('keeps the home page metadata on the home page', () => {
     const html = read('index.html');
-    expect(html).toContain('<title>QuantsMind | Engineering Software');
+    expect(html).toContain('<title>QuantsMind | Technology Engineering');
     expect(attribute(html, /<link rel="canonical" href="([^"]*)"/)).toBe(`${SITE_URL}/`);
   });
 
@@ -135,7 +135,7 @@ describeArtifacts('prerendered article HTML', () => {
     expect(html).toContain(
       '<meta name="description" content="The page you are looking for does not exist or has moved.">'
     );
-    expect(html).not.toContain('<title>QuantsMind | Engineering Software');
+    expect(html).not.toContain('<title>QuantsMind | Technology Engineering');
   });
 
   it('does not advertise the 404 document in the sitemap', () => {

@@ -23,7 +23,7 @@ describe('QmServiceProductShowcaseComponent', () => {
     expect(text).toContain('MicroQuantum');
     expect(text).toContain('QuantumStudio');
     expect(text).toContain('ThreatIntel');
-    expect(text).toContain('Developer Preview');
+    expect(text).toContain('Released');
     expect(text).toContain('Proposed');
   });
 

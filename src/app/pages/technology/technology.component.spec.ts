@@ -15,9 +15,9 @@ describe('TechnologyComponent', () => {
     fixture.detectChanges();
   });
 
-  it('uses the exact "Technologies We Develop" page heading', () => {
+  it('uses the exact "Technology Ecosystem" page heading', () => {
     const heading = fixture.nativeElement.querySelector('h1');
-    expect(heading.textContent.trim()).toBe('Technologies We Develop');
+    expect(heading.textContent.trim()).toBe('Technology Ecosystem');
   });
 
   it('renders the three primary technologies distinctly', () => {
@@ -95,5 +95,24 @@ describe('TechnologyComponent', () => {
   it('states that grouping is not integration', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('category membership, not technical integration');
+  });
+
+  it('describes the wider ecosystem as mixed alpha and research work', () => {
+    const text = fixture.nativeElement.textContent as string;
+    expect(text).toContain('Wider ecosystem · alpha & research');
+    expect(text).not.toContain('Wider ecosystem in alpha');
+  });
+
+  it('keeps research work distinct from released developer technologies', () => {
+    const cards = [...fixture.nativeElement.querySelectorAll('.tech-card')] as HTMLElement[];
+    const llm = cards.find(card => card.textContent?.includes('QuantsMind-LLM'));
+
+    expect(llm).toBeTruthy();
+    expect(llm!.textContent).toContain('Research Prototype');
+    expect(llm!.textContent).toContain('No validated release');
+    expect(llm!.querySelector('a[href]')).toBeNull();
+
+    const text = fixture.nativeElement.textContent as string;
+    expect(text).toContain('Exploratory research code and prototypes; not production-ready.');
   });
 });

@@ -74,9 +74,9 @@ interface SearchEntry {
               <li class="qm-header__nav-item"
                 [class.qm-header__nav-item--has-menu]="item.children?.length"
                 (mouseenter)="item.children ? openMega(item.label) : null"
-                (mouseleave)="item.children ? closeMega() : null"
+                (mouseleave)="item.children ? scheduleCloseMega() : null"
                 (focusin)="item.children ? openMega(item.label) : null"
-                (focusout)="item.children ? closeMega() : null">
+                (focusout)="item.children ? scheduleCloseMega() : null">
                 <a [routerLink]="item.href"
                   routerLinkActive="qm-header__nav-link--active"
                   [routerLinkActiveOptions]="{exact: item.href === '/'}"
@@ -99,7 +99,9 @@ interface SearchEntry {
                   <div
                     class="qm-mega"
                     role="region"
-                    [attr.aria-label]="item.label + ' submenu'">
+                    [attr.aria-label]="item.label + ' submenu'"
+                    (mouseenter)="cancelCloseMega()"
+                    (mouseleave)="scheduleCloseMega()">
                     <div class="qm-mega__inner">
                       <div class="qm-mega__grid" [class.qm-mega__grid--wide]="item.children.length > 5">
                         @for (child of item.children; track child) {
@@ -163,7 +165,7 @@ interface SearchEntry {
     
           <div class="qm-header__cta">
             <qm-button variant="primary" size="sm" [routerLinkValue]="'/contact'">
-              Get in Touch
+              Contact QuantsMind
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -295,7 +297,7 @@ interface SearchEntry {
           <div class="qm-mobile-nav__cta">
             <qm-button variant="primary" [routerLinkValue]="'/contact'" [fullWidth]="true"
               (clicked)="closeMobile()">
-              Get in Touch →
+              Contact QuantsMind →
             </qm-button>
           </div>
         </div>
@@ -319,7 +321,7 @@ interface SearchEntry {
               [ngModel]="searchQuery()"
               (ngModelChange)="onQueryChange($event)"
               (keydown.enter)="goToTopResult()"
-              placeholder="Search pages, capabilities, technologies…"
+              placeholder="Search business solutions, products, technologies…"
               autocomplete="off" spellcheck="false" aria-label="Search"/>
             <button type="button" class="qm-search-overlay__close" (click)="closeSearch()"
               aria-label="Close search">
@@ -392,10 +394,10 @@ interface SearchEntry {
     .qm-header__inner {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       max-width: 1280px;
       margin: 0 auto;
-      padding: 0 28px;
+      padding: 0 24px;
       height: 68px;
     }
 
@@ -463,7 +465,7 @@ interface SearchEntry {
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 8px 12px;
+      padding: 8px;
       font-size: 13.5px;
       font-weight: 500;
       color: var(--qm-header-text);
@@ -520,6 +522,11 @@ interface SearchEntry {
     .qm-header__nav-item--has-menu:focus-within .qm-header__nav-chevron {
       transform: rotate(180deg);
       opacity: 1;
+    }
+
+    @media (min-width: 1200px) and (max-width: 1399px) {
+      .qm-header__logo-tag { display: none; }
+      .qm-header__nav-link { padding: 8px 7px; font-size: 13px; }
     }
 
     /* ── Actions ─────────────────────────────────────── */
@@ -1011,7 +1018,7 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
       href: '/'
     },
     {
-      label: 'Services',
+      label: 'Business Solutions',
       href: '/services',
       children: [
         { label: 'Quantum Computing & Quantum Software Engineering', href: '/quantum', description: 'Quantum computing and quantum software engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>` },
@@ -1023,66 +1030,70 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
       ]
     },
     {
-      label: 'Products',
+      label: 'Products & Technology',
       href: '/products',
       children: [
+        {
+          label: 'All Products', href: '/products',
+          description: 'Every product and initiative in the registry',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>`
+        },
         {
           label: 'Quantum Mission', href: '/quantum-mission',
           description: 'Ten proposed quantum software applications',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/></svg>`
         },
         {
-          label: 'Quantum Software', href: '/products#quantum-software',
-          description: 'MicroQuantum and the Quantum Mission portfolio',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M5 19 19 5M7 5h12v12"/></svg>`
-        },
-        {
           label: 'Space Systems', href: '/products#space-software',
           description: 'Ground-segment and telemetry software initiatives',
           icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/></svg>`
+        },
+        {
+          label: 'Cybersecurity', href: '/products#cybersecurity-software',
+          description: 'Security, privacy and digital-trust initiatives',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>`
+        },
+        {
+          label: 'Technology Ecosystem', href: '/technology',
+          description: 'Karkain, MicroQuantum and the QuantsMind SDK',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 7.5l3 3M17 7.5l-3 3M7 16.5l3-3M17 16.5l-3-3"/></svg>`
         }
       ]
     },
     {
-      label: 'Technology',
-      href: '/technology',
+      label: 'Research & Innovation',
+      href: '/labs',
       children: [
         {
-          label: 'MicroQuantum', href: '/microquantum',
-          description: 'Open quantum computing SDK',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>`
+          label: 'QuantsMind Labs', href: '/labs',
+          description: 'Exploration, experiments and research directions',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5l-5 8a3 3 0 0 0 2.6 4.5h6.8A3 3 0 0 0 17 16l-5-8V3z"/></svg>`
         },
         {
-          label: 'Karkain', href: '/karkain',
-          description: 'General-purpose programming language',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>`
-        },
-        {
-          label: 'QuantsMind SDK', href: '/quantsmind-sdk',
-          description: 'Universal scientific computing SDK',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>`
+          label: 'Technology Ecosystem', href: '/technology',
+          description: 'Karkain, MicroQuantum and the QuantsMind SDK',
+          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 7.5l3 3M17 7.5l-3 3M7 16.5l3-3M17 16.5l-3-3"/></svg>`
         }
       ]
     },
-    { label: 'Labs', href: '/labs' },
-    { label: 'Blog', href: '/blog' },
-    { label: 'About', href: '/about' }
+    { label: 'About', href: '/about' },
+    { label: 'Insights', href: '/blog' }
   ];
 
   searchIndex: SearchEntry[] = [
-    { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering intelligent software' },
-    { type: 'Page', title: 'Services', href: '/services', keywords: 'services capabilities software architecture ai cloud devops consulting' },
-    { type: 'Page', title: 'Products', href: '/products', keywords: 'products product di mini document intelligence quantsmind document intelligence mini software' },
+    { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering innovation business solutions proprietary software research' },
+    { type: 'Page', title: 'Business Solutions', href: '/services', keywords: 'business solutions engineering services capabilities software architecture ai cloud devops consulting enterprise' },
+    { type: 'Page', title: 'Products & Technology', href: '/products', keywords: 'products technologies portfolio product di mini document intelligence quantsmind document intelligence mini software' },
     { type: 'Portfolio', title: 'Quantum Mission', href: '/quantum-mission', keywords: 'quantum mission quantumstudio qubitsim quantumforge qoptima quantumshield hybridq quantumbench quantumchem qresource quantumverify proposed applications' },
-    { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem microquantum karkain sdk quantum relational database guardmcp security mcp' },
+    { type: 'Page', title: 'Technology Ecosystem', href: '/technology', keywords: 'technology ecosystem proprietary software microquantum karkain sdk quantum relational database guardmcp security mcp' },
     { type: 'Page', title: 'Quantum Computing', href: '/quantum', keywords: 'quantum computing engineering services algorithms simulation hybrid' },
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },
     { type: 'Page', title: 'QuantsMind SDK', href: '/quantsmind-sdk', keywords: 'quantsmind sdk software foundation intelligent computing' },
-    { type: 'Page', title: 'QuantsMind Labs', href: '/labs', keywords: 'labs exploration experimentation emerging technologies quantum ai ml vector database research projects vsector' },
-    { type: 'Page', title: 'Blog', href: '/blog', keywords: 'blog educational articles writing research publication architecture distributed systems databases transformers quantum computing' },
-    { type: 'Page', title: 'About', href: '/about', keywords: 'about company engineering services technology development' },
-    { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact enquiry email form build' },
+    { type: 'Page', title: 'Research & Innovation', href: '/labs', keywords: 'research innovation labs exploration experimentation emerging technologies quantum ai ml vector database research projects vsector' },
+    { type: 'Page', title: 'Insights', href: '/blog', keywords: 'insights blog educational articles writing research publication architecture distributed systems databases transformers quantum computing' },
+    { type: 'Page', title: 'About', href: '/about', keywords: 'about quantsmind company engineering services technology innovation' },
+    { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact business enquiry email form build' },
     { type: 'Capability', title: 'Quantum Computing & Quantum Software Engineering', href: '/services#quantum-computing', keywords: 'quantum computing quantum software engineering algorithms simulation circuits qasm optimization' },
     { type: 'Capability', title: 'Space Systems & Mission Software Engineering', href: '/services#space-systems', keywords: 'space systems mission software engineering telemetry mission data ground system simulation feasibility' },
     { type: 'Capability', title: 'AI Engineering & Autonomous Intelligent Systems', href: '/services#ai-intelligent-systems', keywords: 'ai engineering autonomous intelligent systems artificial intelligence machine learning llm' },
@@ -1111,6 +1122,14 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
 
   constructor(private router: Router, private cdr: ChangeDetectorRef) {}
 
+  private outsideClickHandler = (event: MouseEvent) => {
+    const target = event.target as HTMLElement;
+    const nav = document.querySelector('.qm-header__nav');
+    if (nav && !nav.contains(target)) {
+      this.closeMega();
+    }
+  };
+
   ngOnInit(): void {
     this.initTheme();
     this.routerSub = this.router.events
@@ -1121,10 +1140,15 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
         this.closeSearch();
         this.cdr.markForCheck();
       });
+    document.addEventListener('click', this.outsideClickHandler);
   }
 
   ngOnDestroy(): void {
     this.routerSub?.unsubscribe();
+    document.removeEventListener('click', this.outsideClickHandler);
+    if (this.closeMegaTimer) {
+      clearTimeout(this.closeMegaTimer);
+    }
   }
 
   @HostListener('window:scroll')
@@ -1150,7 +1174,13 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
   }
 
   /* ── Navigation ─────────────────────────────────────────── */
+  private closeMegaTimer?: ReturnType<typeof setTimeout>;
+
   openMega(label: string): void {
+    if (this.closeMegaTimer) {
+      clearTimeout(this.closeMegaTimer);
+      this.closeMegaTimer = undefined;
+    }
     if (this.activeMega !== label) {
       this.activeMega = label;
       this.cdr.markForCheck();
@@ -1161,6 +1191,23 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     if (this.activeMega !== null) {
       this.activeMega = null;
       this.cdr.markForCheck();
+    }
+  }
+
+  scheduleCloseMega(): void {
+    if (this.closeMegaTimer) {
+      clearTimeout(this.closeMegaTimer);
+    }
+    this.closeMegaTimer = setTimeout(() => {
+      this.closeMega();
+      this.closeMegaTimer = undefined;
+    }, 150);
+  }
+
+  cancelCloseMega(): void {
+    if (this.closeMegaTimer) {
+      clearTimeout(this.closeMegaTimer);
+      this.closeMegaTimer = undefined;
     }
   }
 

@@ -26,8 +26,8 @@ interface ArticleGroup {
     template: `
     <!-- HERO -->
     <qm-page-hero
-      eyebrow="BLOG"
-      title="Articles"
+      eyebrow="INSIGHTS"
+      title="Insights"
       lead="Long-form technical writing about the software QuantsMind builds: the technologies in the ecosystem, the research carried out in Labs, and the products that come out of them. Each article states what a project does today, how it does it, and where it is still incomplete."
       [artLabels]="['Products', 'Technology', 'Labs', 'Research']">
     </qm-page-hero>
@@ -51,7 +51,10 @@ interface ArticleGroup {
     <!-- INDEX -->
     <qm-section surface="canvas" ariaLabel="Article index">
       <qm-container>
-        @for (group of visibleGroups(); track group.category) {
+      @if (visibleGroups().length === 0) {
+        <p class="group__empty">No articles match the selected category.</p>
+      }
+      @for (group of visibleGroups(); track group.category) {
           <section class="group" [attr.aria-label]="group.category + ' articles'">
             <div class="group__head" qmReveal>
               <h2 class="group__title">{{ group.category }}</h2>
@@ -121,6 +124,7 @@ interface ArticleGroup {
       margin: 0; font-size: 15px; line-height: 1.7;
       color: var(--color-text-secondary);
     }
+    .group__empty { font-size: 14.5px; color: var(--color-text-secondary); padding: 24px; text-align: center; }
 
     /* ── CARD GRID ─────────────────────────────────────── */
     .grid {

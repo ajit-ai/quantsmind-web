@@ -8,8 +8,8 @@ import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge
 import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
 import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
+import { RESEARCH_AREAS, RESEARCH_STAGES, ResearchArea, ResearchStage } from '../../content/research/research.registry';
 
-interface PhilosophyCard { index: string; title: string; text: string; }
 interface ProjectCard {
   name: string;
   variant: BadgeVariant;
@@ -22,7 +22,6 @@ interface ProjectCard {
 }
 interface StatusLegend { label: string; variant: BadgeVariant; }
 interface ConnectionCard { name: string; variant: BadgeVariant; status: string; icon: string; description: string; cta: string; route: string; }
-interface ExploreArea { name: string; tag: string; }
 
 @Component({
     selector: 'app-labs',
@@ -31,8 +30,8 @@ interface ExploreArea { name: string; tag: string; }
     template: `
     <!-- ══════════ HERO ══════════ -->
     <qm-page-hero
-      eyebrow="LABS"
-      title="QuantsMind Labs"
+      eyebrow="RESEARCH & INNOVATION"
+      title="Research & Innovation"
       tone="labs"
       [artLabels]="['Vsector', 'OSINT', 'Fake News AI', 'Prototypes']">
       <div heroBadge class="labs-hero__badges">
@@ -50,8 +49,8 @@ interface ExploreArea { name: string; tag: string; }
       <qm-button heroActions variant="primary" size="lg" [routerLinkValue]="'/technology'" [ariaLabel]="'Explore the QuantsMind technology ecosystem'">
         Explore the Ecosystem →
       </qm-button>
-      <qm-button heroActions variant="outline" size="lg" [routerLinkValue]="'/contact'" [ariaLabel]="'Get in touch with QuantsMind'">
-        Get in Touch
+      <qm-button heroActions variant="outline" size="lg" [routerLinkValue]="'/contact'" [ariaLabel]="'Discuss a project with QuantsMind'">
+        Contact QuantsMind
       </qm-button>
       <ul heroMeta class="qm-page-hero__meta labs-hero__meta" aria-label="What you will find in Labs">
         <li>Experiments</li>
@@ -528,13 +527,7 @@ interface ExploreArea { name: string; tag: string; }
   `]
 })
 export class LabsComponent {
-  philosophy: PhilosophyCard[] = [
-    { index: '01', title: 'Explore', text: 'Follow interesting ideas and technical questions before deciding whether they are worth pursuing.' },
-    { index: '02', title: 'Experiment', text: 'Build small, honest prototypes to test whether an idea works in practice — not just on paper.' },
-    { index: '03', title: 'Validate', text: 'Check assumptions against reality, keeping scope clear and claims measured.' },
-    { index: '04', title: 'Learn', text: 'Capture what works and what does not — even abandoned directions teach the next one.' },
-    { index: '05', title: 'Evolve', text: 'Let mature experiments find a home: a technology, a product, or the wider engineering work of QuantsMind.' }
-  ];
+  philosophy: ResearchStage[] = RESEARCH_STAGES;
 
   philosophyStages: string[] = ['Concept', 'Experiment', 'Prototype', 'Technology', 'Product / Service'];
 
@@ -628,16 +621,7 @@ export class LabsComponent {
     }
   ];
 
-  areas: ExploreArea[] = [
-    { name: 'Intelligent Systems', tag: 'Exploring' },
-    { name: 'AI / Machine Learning', tag: 'Emerging' },
-    { name: 'Quantum Computing', tag: 'Exploring' },
-    { name: 'Programming Languages', tag: 'Developing' },
-    { name: 'Developer Infrastructure', tag: 'Exploring' },
-    { name: 'Data Intelligence', tag: 'Emerging' },
-    { name: 'Scientific Computing', tag: 'Emerging' },
-    { name: 'Future Computing Architectures', tag: 'Future Direction' }
-  ];
+  areas: ResearchArea[] = RESEARCH_AREAS;
 
   pipelineStages: string[] = [
     'IDEA', 'EXPLORE', 'EXPERIMENT', 'PROTOTYPE', 'VALIDATE', 'TECHNOLOGY', 'PRODUCT / SERVICE'

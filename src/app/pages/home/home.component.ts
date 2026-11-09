@@ -13,19 +13,34 @@ import { HrefPartsPipe }        from '../../shared/pipes/href-parts.pipe';
 
 import { BLOG_ARTICLES } from '../blog/articles';
 import { BlogArticle } from '../blog/blog-article.model';
-import { getProductById, getProductsByPortfolio } from '../../content/products/product.registry';
+import { getAllProducts, getProductById, getProductsByPortfolio } from '../../content/products/product.registry';
 import {
   Product,
   maturityLabel,
   availabilityLabel,
   maturityBadgeVariant
 } from '../../content/products/product.model';
+import {
+  ENGAGEMENT_MODELS,
+  ENGAGEMENT_MODELS_NOTE,
+  EngagementModel
+} from '../../content/services/engagement.models';
 
 interface Capability {
   icon: string;
   title: string;
   description: string;
+  problem: string;
+  startingPoint: string;
   href: string;
+}
+
+interface PortfolioCard {
+  id: Product['portfolio'];
+  name: string;
+  description: string;
+  href: string;
+  count: number;
 }
 
 interface TrustMetric {
@@ -85,7 +100,8 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
   standalone: 'Product',
   quantum: 'Quantum',
   space: 'Space Systems',
-  cybersecurity: 'Cybersecurity'
+  cybersecurity: 'Cybersecurity',
+  'developer-tools': 'Developer Tools'
 };
 
 @Component({
@@ -111,31 +127,33 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       <qm-container>
         <div class="home-hero__grid">
           <div class="home-hero__copy">
-            <span class="eyebrow">QUANTSMIND · TECHNOLOGY ENGINEERING</span>
+            <span class="eyebrow">QUANTSMIND · TECHNOLOGY ENGINEERING &amp; INNOVATION</span>
             <h1>
-              Engineering Intelligent Software for a
-              <span class="qm-gradient-text">Changing World.</span>
+              Technology engineering for
+              <span class="qm-gradient-text">business-critical systems.</span>
             </h1>
             <p class="home-hero__lead">
-              We build software products, intelligent systems and advanced engineering
-              solutions for businesses and emerging technology domains.
+              QuantsMind is an independent technology engineering and innovation company.
+              We deliver advanced engineering services, proprietary software and
+              research-driven technology solutions for businesses and enterprises.
             </p>
             <div class="home-hero__actions">
-              <qm-button variant="primary" size="lg" [routerLinkValue]="'/products'">
-                Explore Our Products
+              <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
+                Discuss Your Requirement
                 <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </qm-button>
-              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/contact'">
-                Discuss Your Project
+              <qm-button variant="secondary" size="lg" [routerLinkValue]="'/services'">
+                Explore Business Solutions
               </qm-button>
             </div>
             <div class="home-hero__values">
-              <span>Products</span>
-              <span>Intelligent systems</span>
-              <span>Advanced engineering</span>
+              <span>Engineering services</span>
+              <span>Proprietary software</span>
+              <span>Research &amp; innovation</span>
+              <span>Enterprise engagement</span>
             </div>
           </div>
 
@@ -177,7 +195,7 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
 
               <div class="home-hero__panel-foot">
                 <div><strong>06</strong><span>engineering domains</span></div>
-                <div><strong>40</strong><span>portfolio products</span></div>
+                <div><strong>05</strong><span>technology portfolios</span></div>
                 <div><strong>03</strong><span>published technologies</span></div>
               </div>
             </div>
@@ -192,6 +210,41 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     <qm-marquee [items]="focusAreas" label="Areas of engineering focus"></qm-marquee>
 
     <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 01b · TECHNOLOGY ECOSYSTEM & INDUSTRY PRESENCE MARQUEE   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <section class="ecosystem-marquee-section" aria-labelledby="ecosystem-marquee-title">
+      <div class="ecosystem-marquee-section__inner">
+        <span class="ecosystem-marquee__heading" id="ecosystem-marquee-title">Technology Ecosystem &amp; Industry Presence</span>
+        <div class="ecosystem-marquee" role="region" aria-label="Technology distribution channels and industry presence">
+          <div class="ecosystem-marquee__track" [class.ecosystem-marquee__track--paused]="isPaused">
+            <div class="ecosystem-marquee__group">
+              @for (platform of ecosystemPlatforms; track platform.name) {
+                <span class="ecosystem-marquee__item">
+                  {{ platform.name }}
+                  <a class="ecosystem-marquee__link" [href]="platform.url" target="_blank" rel="noopener noreferrer" [attr.aria-label]="platform.name + ' — ' + platform.url" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false" (focus)="isPaused = true" (blur)="isPaused = false">↗</a>
+                  @if (platform.url2) {
+                    <a class="ecosystem-marquee__link" [href]="platform.url2" target="_blank" rel="noopener noreferrer" [attr.aria-label]="platform.name + ' — ' + platform.url2" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false" (focus)="isPaused = true" (blur)="isPaused = false">↗</a>
+                  }
+                </span>
+              }
+            </div>
+            <div class="ecosystem-marquee__group" aria-hidden="true">
+              @for (platform of ecosystemPlatforms; track platform.name) {
+                <span class="ecosystem-marquee__item">
+                  {{ platform.name }}
+                  <a class="ecosystem-marquee__link" [href]="platform.url" target="_blank" rel="noopener noreferrer" tabindex="-1" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false">↗</a>
+                  @if (platform.url2) {
+                    <a class="ecosystem-marquee__link" [href]="platform.url2" target="_blank" rel="noopener noreferrer" tabindex="-1" (mouseenter)="isPaused = true" (mouseleave)="isPaused = false">↗</a>
+                  }
+                </span>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
     <!-- 02 · TRUST AND CAPABILITIES                              -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <qm-section surface="white" size="sm" ariaLabel="Trust and capabilities">
@@ -199,13 +252,15 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
         <div class="trust-panel">
           <div class="trust-head" qmReveal>
             <div>
-              <span class="eyebrow">TRUST &amp; CAPABILITIES</span>
-              <h2>Engineering depth, across connected domains.</h2>
+              <span class="eyebrow">THE PROBLEMS WE ADDRESS</span>
+              <h2>Engineering capability for problems that matter to the business.</h2>
             </div>
             <p>
-              QuantsMind combines product engineering with advanced technology
-              development. Our portfolio spans software applications, quantum
-              software, space systems, AI, scientific computing and cybersecurity.
+              Organisations engage QuantsMind to modernise critical software, adopt AI with
+              clear controls, process large-scale data and telemetry, strengthen security
+              boundaries, model complex systems, and explore advanced computing with honest
+              evidence. Engagements are scoped around a concrete outcome, with architecture,
+              evidence and limitations stated openly.
             </p>
           </div>
 
@@ -218,11 +273,16 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
             }
           </div>
 
+          <p class="trust-audience" qmReveal>
+            Built for technology companies, product startups, growing SMEs, enterprise
+            engineering teams and research organisations.
+          </p>
+
           <div class="trust-values" qmReveal>
             <span class="trust-value">Architecture-led</span>
             <span class="trust-value">Simulation-first</span>
             <span class="trust-value">Production-minded</span>
-            <span class="trust-value">Open technology where appropriate</span>
+            <span class="trust-value">Evidence-backed</span>
           </div>
         </div>
       </qm-container>
@@ -235,16 +295,18 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       <qm-container>
         <div class="qm-section-head">
           <div class="qm-section-head__copy">
-            <span class="eyebrow">ENGINEERING SERVICES</span>
-            <h2>Six domains. One engineering discipline.</h2>
+            <span class="eyebrow">BUSINESS SOLUTIONS</span>
+            <h2>Six engineering domains. One accountable partner.</h2>
             <p>
-              Focused capabilities for organisations building software in demanding
-              or emerging technology domains.
+              Each domain is scoped around a defined business problem, concrete deliverables
+              and a stated outcome. We agree the smallest useful starting point — an
+              assessment, an architecture decision, a bounded prototype or a defined
+              implementation — and state what the work can and cannot establish.
             </p>
           </div>
           <div class="qm-section-head__aside">
             <qm-button variant="outline" [routerLinkValue]="'/services'">
-              All Services
+              All Business Solutions
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -267,6 +329,8 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
               </div>
               <h3>{{ cap.title }}</h3>
               <p>{{ cap.description }}</p>
+              <p><strong>Business situation:</strong> {{ cap.problem }}</p>
+              <span class="service-card__start">Typical start: {{ cap.startingPoint }}</span>
               <span class="service-card__link">Explore service <span aria-hidden="true">→</span></span>
             </a>
           }
@@ -275,22 +339,128 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 04 · FEATURED PRODUCTS                                   -->
+    <!-- 04 · ENGAGEMENT MODELS                                   -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <qm-section surface="white" size="md" ariaLabel="Engagement models">
+      <qm-container>
+        <div class="qm-section-head">
+          <div class="qm-section-head__copy">
+            <span class="eyebrow">HOW ORGANISATIONS ENGAGE</span>
+            <h2>Start with the problem. Scale to delivery.</h2>
+            <p>
+              Engagements can begin with a focused assessment, an architecture decision,
+              a bounded prototype or a defined implementation. We recommend the smallest
+              useful starting point for the business outcome, and state what it will and
+              will not establish.
+            </p>
+          </div>
+          <div class="qm-section-head__aside">
+            <qm-button variant="outline" [routerLinkValue]="'/services'" [fragment]="'engagement-models'">
+              See the full engagement framework
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </qm-button>
+          </div>
+        </div>
+
+        <div class="engagement-grid">
+          @for (model of engagementModels; track model.id; let i = $index) {
+            <article class="home-card engagement-card" qmReveal [qmRevealDelay]="i * 55">
+              <div class="engagement-card__header">
+                <span class="engagement-card__index">{{ formatCount(i + 1) }}</span>
+                <h3 class="engagement-card__title">{{ model.title }}</h3>
+              </div>
+              <p class="engagement-card__summary">{{ model.summary }}</p>
+              <p class="engagement-card__situation">{{ model.customerSituation }}</p>
+              <div class="engagement-card__outputs">
+                <span class="card-label">Typical outputs</span>
+                <ul class="card-list card-list--tight">
+                  @for (output of model.outputs; track output) {
+                    <li>{{ output }}</li>
+                  }
+                </ul>
+              </div>
+              <p class="engagement-card__best"><strong>Best for.</strong> {{ model.bestFor }}</p>
+            </article>
+          }
+        </div>
+
+        <p class="engagement-note" qmReveal>{{ engagementModelsNote }}</p>
+      </qm-container>
+    </qm-section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 05 · TECHNOLOGY PORTFOLIOS                               -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <qm-section surface="canvas" size="md" ariaLabel="Technology portfolios">
+      <qm-container>
+        <div class="qm-section-head">
+          <div class="qm-section-head__copy">
+            <span class="eyebrow">TECHNOLOGY PORTFOLIOS</span>
+            <h2>Five portfolios. Maturity stated openly.</h2>
+            <p>
+              Our product registry groups initiatives into five technology portfolios.
+              Each entry records its own maturity and availability; inclusion in a portfolio
+              is not a claim that it is released, purchasable or commercially deployed.
+            </p>
+          </div>
+          <div class="qm-section-head__aside">
+            <qm-button variant="outline" [routerLinkValue]="'/products'">
+              Explore the Registry
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </qm-button>
+          </div>
+        </div>
+
+        <div class="portfolio-grid">
+          @for (card of portfolioCards; track card.id; let i = $index) {
+            @let portfolioLink = card.href | hrefParts;
+            <a class="home-card featured-card portfolio-card"
+              [routerLink]="portfolioLink.path"
+              [fragment]="portfolioLink.fragment"
+              qmReveal
+              [qmRevealDelay]="i * 55">
+              <div class="featured-card__top">
+                <span class="service-card__index">{{ formatCount(i + 1) }}</span>
+                <span>{{ card.count }} {{ card.count === 1 ? 'initiative' : 'initiatives' }}</span>
+              </div>
+              <h3>{{ card.name }}</h3>
+              <p>{{ card.description }}</p>
+              <span class="featured-card__link">View portfolio <span aria-hidden="true">→</span></span>
+            </a>
+          }
+        </div>
+
+        <p class="portfolio-note" qmReveal>
+          Most registry entries are proposed, in development or research prototypes.
+          Published technologies are presented separately below.
+        </p>
+      </qm-container>
+    </qm-section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 06 · FEATURED PRODUCTS                                   -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <qm-section surface="subtle" size="md" ariaLabel="Featured products">
       <qm-container>
         <div class="qm-section-head">
           <div class="qm-section-head__copy">
-            <span class="eyebrow">FEATURED PRODUCTS</span>
-            <h2>A balanced view of the product portfolio.</h2>
+            <span class="eyebrow">SELECTED PRODUCTS</span>
+            <h2>Selected products and initiatives, with their real status.</h2>
             <p>
-              Selected applications and initiatives from the central QuantsMind
-              product registry, shown with their current maturity and availability.
+              The product registry is separate from service delivery. These selected
+              products and proposed initiatives show what we are building; maturity and
+              availability are stated per product.
             </p>
           </div>
           <div class="qm-section-head__aside">
             <qm-button variant="outline" [routerLinkValue]="'/products'">
-              Explore All Products
+              View All Products
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -332,14 +502,15 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
         </div>
 
         <p class="featured-note" qmReveal>
-          Maturity and availability reflect the current product registry. Proposed and
-          in-development initiatives are not generally available.
+          Products are not a prerequisite for an engagement. Maturity and availability
+          reflect the current product registry; proposed and in-development initiatives
+          are not generally available.
         </p>
       </qm-container>
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 05 · QUANTUM MISSION SPOTLIGHT                           -->
+    <!-- 07 · QUANTUM MISSION SPOTLIGHT                           -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <section class="mission-band" aria-labelledby="home-mission-title">
       <div class="mission-band__glow" aria-hidden="true"></div>
@@ -349,12 +520,12 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
             <span class="eyebrow">QUANTUM MISSION</span>
             <h2 id="home-mission-title">Ten independent applications for quantum software engineering.</h2>
             <p>
-              Quantum Mission brings together ten independent quantum software applications,
-              now available through their official QuantsMind GitHub v1.0.0 releases. Explore
-              the portfolio, release evidence and engineering context.
+              Quantum Mission brings together ten independent quantum software applications.
+              Each is a proposed initiative; no public repository, release or documentation is
+              currently available. Explore the portfolio, status evidence and engineering context.
             </p>
             <div class="mission-band__meta">
-              <qm-badge variant="product">10 applications · v1.0.0 GA</qm-badge>
+              <qm-badge variant="product">{{ quantumMission.length }} applications · {{ quantumMissionMaturityLabel }} · {{ quantumMissionAvailabilityLabel }}</qm-badge>
               <span>MicroQuantum is a separate published technology.</span>
             </div>
             <qm-button variant="secondary" size="md" [routerLinkValue]="'/quantum-mission'">
@@ -382,22 +553,23 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     </section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 06 · TECHNOLOGIES WE DEVELOP                             -->
+    <!-- 08 · TECHNOLOGIES WE DEVELOP                             -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <qm-section surface="white" size="md" ariaLabel="Technologies we develop">
       <qm-container>
         <div class="qm-section-head">
           <div class="qm-section-head__copy">
-            <span class="eyebrow">TECHNOLOGIES WE DEVELOP</span>
-            <h2>Published technologies, built from first principles.</h2>
+            <span class="eyebrow">PROPRIETARY TECHNOLOGY</span>
+            <h2>Software we build, publish and maintain.</h2>
             <p>
-              Alongside engineering services, QuantsMind develops and maintains its own
-              software technologies. Each has a published, versioned developer preview.
+              Alongside client engineering work, QuantsMind develops its own software
+              technologies. Each published technology below has a versioned developer
+              preview, with scope and limitations stated on its page.
             </p>
           </div>
           <div class="qm-section-head__aside">
             <qm-button variant="outline" [routerLinkValue]="'/technology'">
-              View the Ecosystem
+              Explore the Technology Ecosystem
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -428,17 +600,17 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 07 · WHY QUANTSMIND                                      -->
+    <!-- 09 · WHY QUANTSMIND                                      -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <qm-section surface="subtle" size="md" ariaLabel="Why QuantsMind">
       <qm-container>
         <div class="why-layout">
           <div class="why-intro" qmReveal>
             <span class="eyebrow">WHY QUANTSMIND</span>
-            <h2>Built for difficult engineering.</h2>
+            <h2>An engineering partner for consequential work.</h2>
             <p>
-              A practical engineering posture: sound architecture, real software and
-              careful exploration of what comes next.
+              Business-facing delivery with sound architecture, real software and careful
+              exploration of what comes next.
             </p>
           </div>
           <div class="why-grid">
@@ -455,22 +627,22 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 08 · LABS AND INNOVATION                                 -->
+    <!-- 10 · LABS AND INNOVATION                                 -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <section class="labs-band" aria-labelledby="home-labs-title">
       <div class="labs-band__glow" aria-hidden="true"></div>
       <qm-container>
         <div class="labs-band__grid">
           <div class="labs-band__copy" qmReveal>
-            <span class="eyebrow">LABS &amp; INNOVATION</span>
-            <h2 id="home-labs-title">Where we explore emerging technologies.</h2>
+            <span class="eyebrow">RESEARCH &amp; INNOVATION</span>
+            <h2 id="home-labs-title">Research that informs what we build.</h2>
             <p>
-              QuantsMind Labs is where we explore emerging technologies, experimental
-              architectures and new computing approaches. Research projects are kept
-              distinct from commercial products.
+              QuantsMind Labs explores emerging technologies, experimental architectures
+              and new computing approaches. Research projects are kept distinct from
+              commercial products and from client delivery.
             </p>
             <qm-button variant="secondary" size="md" [routerLinkValue]="'/labs'">
-              Explore Labs
+              Explore Research &amp; Innovation
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -505,17 +677,17 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     </section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 09 · INSIGHTS AND BLOG                                   -->
+    <!-- 11 · INSIGHTS AND BLOG                                   -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <qm-section surface="white" size="md" ariaLabel="Insights and blog">
       <qm-container>
         <div class="qm-section-head">
           <div class="qm-section-head__copy">
-            <span class="eyebrow">INSIGHTS &amp; BLOG</span>
-            <h2>Notes from the work.</h2>
+            <span class="eyebrow">INSIGHTS</span>
+            <h2>Perspectives from our engineering work.</h2>
             <p>
-              Technical articles on the QuantsMind product and technology ecosystem,
-              written with their real scope, maturity and limitations.
+              Articles on the products, technologies and engineering questions behind
+              QuantsMind, written with their real scope, maturity and limitations.
             </p>
           </div>
           <div class="qm-section-head__aside">
@@ -547,19 +719,20 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
-    <!-- 10 · BUSINESS CONTACT CTA                                -->
+    <!-- 12 · BUSINESS CONTACT CTA                                -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <qm-section surface="canvas" size="md" ariaLabel="Business contact">
       <qm-container>
         <div class="qm-cta-band" qmReveal>
-          <span class="eyebrow">BUSINESS CONTACT</span>
-          <h2>Have an Engineering Challenge?</h2>
+          <span class="eyebrow">BUSINESS ENQUIRY</span>
+          <h2>Have a technology or engineering challenge?</h2>
           <p>
-            Let's discuss your software, AI, data or advanced technology requirements.
+            Tell us the business problem, the constraints and the outcome you need.
+            We will respond with a clear next step.
           </p>
           <div class="qm-cta-band__actions">
             <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-              Discuss Your Project
+              Discuss Your Requirement
               <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -628,7 +801,6 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.08);
     }
     .home-hero__visual { display: none; position: relative; min-width: 0; }
-
     /* ── TRUST ──────────────────────────────────────────── */
     .trust-panel { display: grid; gap: 26px; }
     .trust-head {
@@ -668,6 +840,13 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       font-size: 11.5px;
       font-weight: 500;
     }
+    .trust-audience {
+      margin: 0;
+      max-width: 760px;
+      color: var(--color-text-muted);
+      font-size: 13px;
+      line-height: 1.7;
+    }
 
     /* ── SHARED CARD + GRID ─────────────────────────────── */
     .home-card {
@@ -698,11 +877,48 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     .service-grid,
     .featured-grid,
     .tech-grid,
+    .portfolio-grid,
     .insights-grid {
       display: grid;
       grid-template-columns: minmax(0, 1fr);
       gap: 16px;
     }
+
+    /* -- ENGAGEMENT MODELS GRID ------------------------------ */
+    .engagement-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 16px;
+    }
+    @media (min-width: 640px) {
+      .engagement-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .engagement-card:last-child { grid-column: 1 / -1; }
+    }
+    @media (min-width: 1024px) {
+      .engagement-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .engagement-card { grid-column: span 2; }
+      .engagement-card:nth-child(4) { grid-column: 2 / span 2; }
+      .engagement-card:nth-child(5) { grid-column: 4 / span 2; }
+    }
+    .engagement-card {
+      display: flex; flex-direction: column; gap: 12px;
+      min-height: 250px; padding: 22px;
+      border: 1px solid rgba(148, 197, 255, 0.16); border-radius: var(--radius-lg);
+      background: var(--gradient-ink); box-shadow: var(--shadow-xs);
+      color: var(--color-ink-text);
+      transition: transform 260ms var(--qm-ease-out), border-color 260ms var(--qm-ease-out), box-shadow 260ms var(--qm-ease-out);
+    }
+    .engagement-card:hover { transform: translateY(-3px); border-color: rgba(34, 211, 238, 0.40); box-shadow: var(--shadow-lg); }
+    .engagement-card:focus-visible { outline: 2px solid var(--color-cyan-soft); outline-offset: 3px; }
+    .engagement-card__header { display: flex; align-items: baseline; gap: 12px; }
+    .engagement-card__index { font: 700 11px "JetBrains Mono", ui-monospace, monospace; color: var(--color-cyan-soft); flex-shrink: 0; }
+    .engagement-card__title { margin: 0; font-size: 16px; line-height: 1.3; letter-spacing: -0.015em; color: var(--color-ink-text); }
+    .engagement-card__summary { margin: 0; color: var(--color-ink-muted); font-size: 14px; line-height: 1.6; }
+    .engagement-card__situation { margin: 0; color: var(--color-ink-muted); font-size: 13px; line-height: 1.6; font-style: italic; }
+    .engagement-card__outputs { display: grid; gap: 6px; }
+    .engagement-card__outputs .card-label { color: var(--color-cyan-soft); }
+    .engagement-card__best { margin: 0; color: var(--color-ink-muted); font-size: 13px; line-height: 1.6; }
+    .engagement-card__best strong { color: var(--color-ink-text); }
     .service-card {
       position: relative;
       min-height: 224px;
@@ -762,6 +978,16 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       font-size: 13px;
       font-weight: 600;
       color: var(--color-accent);
+    }
+
+    /* ── TECHNOLOGY PORTFOLIOS ─────────────────────────── */
+    .portfolio-card { text-decoration: none; }
+    .portfolio-note {
+      margin: 18px 0 0;
+      max-width: 760px;
+      color: var(--color-text-muted);
+      font-size: 12.5px;
+      line-height: 1.7;
     }
 
     /* ── FEATURED PRODUCTS ─────────────────────────────── */
@@ -1236,6 +1462,7 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     @media (min-width: 640px) {
       .service-grid,
       .featured-grid,
+      .portfolio-grid,
       .insights-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .why-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
       .mission-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -1245,7 +1472,8 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     @media (min-width: 768px) {
       .home-hero { padding: 68px 0 58px; }
       .home-hero__visual { display: block; max-width: 520px; margin: 0 auto; }
-      .tech-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .tech-grid,
+      .portfolio-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .trust-head { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 40px; }
       .trust-head p { justify-self: end; }
       .insights-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -1277,6 +1505,10 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       }
     }
 
+    @media (min-width: 1200px) {
+      .portfolio-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+    }
+
     @media (prefers-reduced-motion: reduce) {
       .home-hero__ring,
       .home-hero__node,
@@ -1289,6 +1521,9 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
   `]
 })
 export class HomeComponent {
+  readonly engagementModels = ENGAGEMENT_MODELS;
+  readonly engagementModelsNote = ENGAGEMENT_MODELS_NOTE;
+
   focusAreas = [
     'Quantum Computing & Quantum Software Engineering',
     'Space Systems & Mission Software Engineering',
@@ -1298,51 +1533,127 @@ export class HomeComponent {
     'Industrial Intelligence & Digital Twin Engineering'
   ];
 
+
+
+  isPaused = false;
+
+  /**
+   * Technology Ecosystem & Industry Presence — verified distribution channels.
+   * These are technology distribution channels and industry presence, not endorsements.
+   */
+  ecosystemPlatforms = [
+    { name: 'Microsoft Visual Studio Marketplace', url: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain', url2: 'https://marketplace.visualstudio.com/items?itemName=quantsmind.quantsmind-vscode-ai-coder' },
+    { name: 'Clutch', url: 'https://clutch.co/profile/quantsmind' },
+    { name: 'The Manifest', url: 'https://themanifest.com/in/it-services/companies?page=202' },
+    { name: 'PyPI', url: 'https://pypi.org/project/quantsmind/', url2: 'https://pypi.org/project/microquantum/' },
+    { name: 'piwheels', url: 'https://www.piwheels.org/project/quantsmind/' }
+  ];
+
   capabilities: Capability[] = [
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>`,
       title: 'Quantum Computing & Quantum Software Engineering',
       description: 'Quantum circuit software engineering, simulation, algorithm experimentation, and quantum-classical workflows.',
+      problem: 'A quantum algorithm or workflow needs to be implemented, simulated, tested or integrated with classical software, without access to quantum hardware or an established quantum team.',
+      startingPoint: 'Contact QuantsMind to discuss a quantum computing feasibility assessment.',
       href: '/services#quantum-computing'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><path d="M2 12h4M18 12h4"/></svg>`,
       title: 'Space Systems & Mission Software Engineering',
       description: 'Ground-segment operations, telemetry processing, mission-support workflows, and satellite engineering data.',
+      problem: 'Telemetry, mission data or simulation software must be reliable and maintainable, with qualification, deployment and operational status described accurately.',
+      startingPoint: 'Contact QuantsMind to discuss space systems software requirements.',
       href: '/services#space-systems'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
       title: 'AI Engineering & Autonomous Intelligent Systems',
-      description: 'Intelligent software, AI integrations, controlled agent workflows, and reliable AI-enabled applications.',
+      description: 'Engineering AI-enabled applications, enterprise AI integrations, agentic workflow designs, and reliable intelligent systems.',
+      problem: 'An AI-enabled product idea exists, but its value, reliability, permission boundaries, human oversight and integration with business systems are not yet clear.',
+      startingPoint: 'Contact QuantsMind to discuss AI engineering requirements.',
       href: '/services#ai-intelligent-systems'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>`,
       title: 'Scientific Computing & Digital Simulation',
       description: 'Numerical software, scientific workflows, modelling systems, and computational simulations.',
+      problem: 'A scientific or engineering computation needs rigorous methods, validation and reproducible results that another team can inspect.',
+      startingPoint: 'Contact QuantsMind to discuss scientific computing software needs.',
       href: '/services#scientific-computing'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
       title: 'Cybersecurity Engineering & Digital Trust',
       description: 'Security-focused software, security analysis workflows, integrity verification, and trustworthy digital systems.',
+      problem: 'A system has unclear security, privacy or trust boundaries, and the team needs a systematic review rather than an unverified assurance claim.',
+      startingPoint: 'Contact QuantsMind to discuss security engineering requirements.',
       href: '/services#cybersecurity-digital-trust'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>`,
       title: 'Industrial Intelligence & Digital Twin Engineering',
       description: 'Industrial data systems, operational intelligence software, digital simulation models, and digital twin integration workflows.',
+      problem: 'Industrial equipment, assets or workflows hold operational data that is not yet connected to the simulation, monitoring and software systems the business needs.',
+      startingPoint: 'Contact QuantsMind to discuss industrial intelligence software needs.',
       href: '/services#industrial-intelligence-digital-twin'
     }
   ];
 
+  portfolioCards: PortfolioCard[] = [
+    {
+      id: 'standalone',
+      name: 'Standalone Software',
+      description: 'Business and productivity software initiatives, including document intelligence.',
+      href: '/products#standalone-software',
+      count: getProductsByPortfolio('standalone').length
+    },
+    {
+      id: 'quantum',
+      name: 'Quantum',
+      description: 'Quantum software applications alongside the published MicroQuantum SDK.',
+      href: '/products#quantum-software',
+      count: getProductsByPortfolio('quantum').length
+    },
+    {
+      id: 'space',
+      name: 'Space Systems',
+      description: 'Ground-segment, telemetry and mission-support software initiatives.',
+      href: '/products#space-software',
+      count: getProductsByPortfolio('space').length
+    },
+    {
+      id: 'cybersecurity',
+      name: 'Cybersecurity',
+      description: 'Security, privacy and digital-trust engineering initiatives.',
+      href: '/products#cybersecurity-software',
+      count: getProductsByPortfolio('cybersecurity').length
+    },
+    {
+      id: 'developer-tools',
+      name: 'Developer Tools',
+      description: 'Programming languages and developer technologies, including Karkain.',
+      href: '/products#developer-tools',
+      count: getProductsByPortfolio('developer-tools').length
+    }
+  ];
+
+  readonly portfolioProductCount = getAllProducts().length;
+
   quantumMission: Product[] = getProductsByPortfolio('quantum')
     .filter(product => product.id !== 'microquantum');
 
+  get quantumMissionMaturityLabel(): string {
+    return maturityLabel(this.quantumMission[0]?.maturity ?? 'proposed');
+  }
+
+  get quantumMissionAvailabilityLabel(): string {
+    return availabilityLabel(this.quantumMission[0]?.availability ?? 'not-available');
+  }
+
   trustMetrics: TrustMetric[] = [
     { value: 6, label: 'engineering domains' },
-    { value: 40, label: 'portfolio products' },
+    { value: this.portfolioProductCount, label: 'portfolio initiatives' },
     { value: 3, label: 'published technologies' },
     { value: this.quantumMission.length, label: 'quantum applications · proposed' }
   ];
@@ -1377,7 +1688,7 @@ export class HomeComponent {
       href: '/microquantum'
     },
     {
-      name: 'QuantsMind Quantum SDK',
+      name: 'QuantsMind SDK',
       tagline: 'Scientific Computing SDK',
       description: 'An open, vendor-independent Python SDK for scientific computing, published on PyPI at version 1.1.0. Module coverage and numerical accuracy vary by domain.',
       status: 'Developer Preview',

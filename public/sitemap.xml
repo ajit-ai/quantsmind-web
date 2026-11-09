@@ -22,6 +22,41 @@
     <priority>0.9</priority>
   </url>
   <url>
+    <loc>https://www.quantsmind.com/products/quantum-studio/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/products/ground-link/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/products/ai-guard/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/products/qubit-sim/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/products/threat-intel/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/products/telemetry-hub/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.quantsmind.com/products/quantsmind-vscode-ai-coder/</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.quantsmind.com/quantum-mission/</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

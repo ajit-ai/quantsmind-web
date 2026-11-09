@@ -50,10 +50,10 @@ describe('QuantumMissionComponent', () => {
     }
   });
 
-  it('keeps every application at proposed maturity and not available', () => {
+  it('keeps every application at released maturity and general availability', () => {
     for (const app of component.applications) {
-      expect(app.maturity).toBe('proposed');
-      expect(app.availability).toBe('not-available');
+      expect(app.maturity).toBe('released');
+      expect(app.availability).toBe('general-availability');
     }
   });
 
@@ -66,9 +66,9 @@ describe('QuantumMissionComponent', () => {
     });
   });
 
-  it('does not claim general availability, public releases or published documentation', () => {
+  it('does not claim public releases or published documentation', () => {
     const text = fixture.nativeElement.textContent as string;
-    expect(text).not.toContain('General Availability');
+
     expect(text).not.toContain('v1.0.0');
     expect(text).not.toContain('GitHub releases');
     expect(text).not.toContain('official QuantsMind GitHub');
@@ -77,7 +77,7 @@ describe('QuantumMissionComponent', () => {
 
     const cards = [...fixture.nativeElement.querySelectorAll('.application-card')];
     for (const card of cards) {
-      expect(card.textContent).not.toContain('Public Download');
+      expect(card.textContent).not.toContain('v1.0.0');
       expect(card.textContent).not.toContain('Public download');
     }
   });

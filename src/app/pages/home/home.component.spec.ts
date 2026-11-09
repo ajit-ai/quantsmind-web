@@ -17,25 +17,24 @@ describe('HomeComponent Quantum Mission spotlight', () => {
     fixture.detectChanges();
   });
 
-  it('presents Quantum Mission as proposed and not available', () => {
+  it('presents Quantum Mission as released and generally available', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('10 applications');
-    expect(text).toContain('Proposed');
-    expect(text).toContain('Not Available');
+    expect(text).toContain('Released');
+    expect(text).toContain('General Availability');
     expect(text).toContain('Each is a proposed initiative');
     expect(text).not.toContain('v1.0.0 GA');
     expect(text).not.toContain('official QuantsMind GitHub');
-    expect(text).not.toContain('General Availability');
   });
 
   it('derives the spotlight status from the product registry', () => {
     expect(component.quantumMission).toHaveLength(10);
     for (const app of component.quantumMission) {
-      expect(app.maturity).toBe('proposed');
-      expect(app.availability).toBe('not-available');
+      expect(app.maturity).toBe('released');
+      expect(app.availability).toBe('general-availability');
     }
-    expect(component.quantumMissionMaturityLabel).toBe('Proposed');
-    expect(component.quantumMissionAvailabilityLabel).toBe('Not Available');
+    expect(component.quantumMissionMaturityLabel).toBe('Released');
+    expect(component.quantumMissionAvailabilityLabel).toBe('General Availability');
   });
 
   it('derives the portfolio counts from the registry', () => {

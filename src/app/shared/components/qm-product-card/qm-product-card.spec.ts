@@ -69,6 +69,38 @@ describe('QmProductCardComponent', () => {
     expect(link.getAttribute('href')).toBe('/contact');
   });
 
+  it('routes curated product selections to their product detail page', () => {
+    const curated: Product = {
+      ...product,
+      id: 'quantum-studio',
+      name: 'QuantumStudio',
+      detailRoute: '/products/quantum-studio'
+    };
+    fixture.componentRef.setInput('product', curated);
+    fixture.detectChanges();
+
+    const link = fixture.nativeElement.querySelector('a');
+    expect(link).toBeTruthy();
+    expect(link.textContent).toContain('Open product');
+    expect(link.getAttribute('href')).toBe('/products/quantum-studio');
+  });
+
+  it('routes catalogue products with a detail destination to that destination', () => {
+    const withDetailDestination: Product = {
+      ...product,
+      id: 'microquantum',
+      name: 'MicroQuantum',
+      cta: { label: 'View MicroQuantum', route: '/microquantum' }
+    };
+    fixture.componentRef.setInput('product', withDetailDestination);
+    fixture.detectChanges();
+
+    const link = fixture.nativeElement.querySelector('a');
+    expect(link).toBeTruthy();
+    expect(link.textContent).toContain('View MicroQuantum');
+    expect(link.getAttribute('href')).toBe('/microquantum');
+  });
+
   it('renders a related-service link without encoding the hash', () => {
     const productWithService: Product = {
       ...product,

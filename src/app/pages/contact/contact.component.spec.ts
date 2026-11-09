@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import { ContactPayload, ContactService, ContactSubmitError } from '../../core/contact.service';
+import { CONTACT_FORMSPREE_ENDPOINT } from '../../core/contact.config';
 import { ContactComponent } from './contact.component';
 
 class ContactServiceStub {
@@ -218,5 +220,84 @@ describe('ContactComponent without a configured endpoint', () => {
 
     expect(stub.calls.length).toBe(0);
     expect(component.submitError()).toBe('not-configured');
+  });
+});
+
+
+describe('ContactComponent product context', () => {
+  let stub: ContactServiceStub;
+  let fixture: ComponentFixture<ContactComponent>;
+  let component: ContactComponent;
+
+  async function setup(productId: string | null): Promise<void> {
+    stub = new ContactServiceStub();
+    stub.configured = true;
+
+    await TestBed.configureTestingModule({
+      imports: [ContactComponent],
+      providers: [
+        provideRouter([]),
+        { provide: ContactService, useValue: stub },
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: { queryParamMap: { get: (key: string) => (key === 'product' ? productId : null) } } }
+        }
+      ]
+    }).compileComponents();
+
+    fixture = TestBed.createComponent(ContactComponent);
+    component = fixture.componentInstance;
+    component.formOpenedAt = Date.now() - 10_000;
+    fixture.detectChanges();
+  }
+
+  it('displays the registry product name for a valid registry id', async () => {
+    await setup('microquantum');
+
+    expect(component.productContext()).toBe('MicroQuantum');
+    expect(fixture.nativeElement.querySelector('.form-context__value')?.textContent?.trim()).toBe('MicroQuantum');
+  });
+
+  it('displays the directory entry name for a valid verified-directory id', async () => {
+    await setup('karkain-compiler-toolchain');
+
+    expect(component.productContext()).toBe('Karkain Compiler & Toolchain');
+    expect(fixture.nativeElement.querySelector('.form-context__value')?.textContent?.trim()).toBe('Karkain Compiler & Toolchain');
+  });
+
+  it('displays no product context for an invalid id', async () => {
+    await setup('not-a-real-product');
+
+    expect(component.productContext()).toBeNull();
+    expect(fixture.nativeElement.querySelector('.form-context')).toBeNull();
+  });
+
+  it('displays no product context when the product parameter is missing', async () => {
+    await setup(null);
+
+    expect(component.productContext()).toBeNull();
+    expect(fixture.nativeElement.querySelector('.form-context')).toBeNull();
+  });
+
+  it('does not change form fields, validation or submitted payload due to product context', async () => {
+    await setup('microquantum');
+
+    fillValid(component);
+    component.handleSubmit();
+    await flush();
+    fixture.detectChanges();
+
+    expect(stub.calls.length).toBe(1);
+    expect(stub.calls[0].name).toBe('Ada Lovelace');
+    expect(stub.calls[0].company).toBe('Analytical Engines');
+    expect(stub.calls[0].email).toBe('ada@example.com');
+    expect((stub.calls[0] as any).product).toBeUndefined();
+    expect(component.submitted()).toBe(true);
+  });
+});
+
+describe('ContactComponent Formspree endpoint', () => {
+  it('uses the configured Formspree endpoint', () => {
+    expect(CONTACT_FORMSPREE_ENDPOINT).toBe('https://formspree.io/f/xaqgpbqg');
   });
 });

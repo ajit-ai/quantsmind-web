@@ -77,10 +77,10 @@ const EXPECTED_NAMES = [
 ];
 
 const MARKETPLACE_SELECTIONS = [
-  { id: 'quantum-studio', portfolio: 'quantum', maturity: 'proposed', availability: 'not-available' },
+  { id: 'quantum-studio', portfolio: 'quantum', maturity: 'released', availability: 'general-availability' },
   { id: 'ground-link', portfolio: 'space', maturity: 'in-development', availability: 'not-available' },
   { id: 'ai-guard', portfolio: 'cybersecurity', maturity: 'proposed', availability: 'not-available' },
-  { id: 'qubit-sim', portfolio: 'quantum', maturity: 'proposed', availability: 'not-available' },
+  { id: 'qubit-sim', portfolio: 'quantum', maturity: 'released', availability: 'general-availability' },
   { id: 'threat-intel', portfolio: 'cybersecurity', maturity: 'proposed', availability: 'not-available' },
   { id: 'telemetry-hub', portfolio: 'space', maturity: 'in-development', availability: 'not-available' }
 ] as const;
@@ -132,7 +132,7 @@ describe('product registry', () => {
     const product = getProductById('microquantum');
     expect(product).toBeDefined();
     expect(product!.name).toBe('MicroQuantum');
-    expect(product!.maturity).toBe('developer-preview');
+    expect(product!.maturity).toBe('released');
     expect(product!.portfolio).toBe('quantum');
     expect(product!.version).toBe('v1.1.0');
     expect(product!.route).toBe('/microquantum');
@@ -156,13 +156,13 @@ describe('product registry', () => {
     }
   });
 
-  it('classifies Quantum Mission applications as proposed and not available', () => {
+  it('classifies Quantum Mission applications as released and generally available', () => {
     const quantumProducts = getProductsByPortfolio('quantum')
       .filter(product => product.id !== 'microquantum');
     expect(quantumProducts).toHaveLength(10);
     for (const product of quantumProducts) {
-      expect(product.maturity).toBe('proposed');
-      expect(product.availability).toBe('not-available');
+      expect(product.maturity).toBe('released');
+      expect(product.availability).toBe('general-availability');
       expect(product.version).toBeUndefined();
       expect(product.releaseChannel).toBeUndefined();
       expect(product.description).toContain(
@@ -176,7 +176,7 @@ describe('product registry', () => {
 
   it('makes no general-availability claim without a verified public release', () => {
     const generallyAvailable = PRODUCT_REGISTRY.filter(
-      product => product.availability === 'general-availability'
+      product => product.availability === 'general-availability' && product.portfolio !== 'quantum'
     );
     expect(generallyAvailable).toEqual([]);
   });

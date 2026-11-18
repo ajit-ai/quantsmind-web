@@ -100,8 +100,20 @@
 
 ## 4. Release status
 
-- Work on branch `release/v2.0.1`; PR to `main` created after push.
-- No direct pushes to `main`/`develop`. Release published only after CI qualification and merge.
+- Work on branch `release/v2.0.1`; PR [#14](https://github.com/ajit-ai/quantsmind-web/pull/14) merged into `main` on 2026-11-18T09:29:22Z (merge commit `205beae`); release published only after successful CI qualification (Unit Tests 34s; Build, Prerender & Smoke 1m55s) and owner merge authorization.
+- Deploy workflow "Deploy QuantsMind to GitHub Pages" completed successfully 2026-11-18T09:31Z; www.quantsmind.com served the v2.0.1 content (Karkain page verified: v1.2.0 Stable, native-target honesty block).
+- No direct pushes to `main`/`develop`.
+
+## 4.1 Post-release correction (2026-11-18) — v2.0.2
+
+During live verification of the published Technology page, two primary-technology cards were found to misstate release state:
+
+- **MicroQuantum** and **QuantsMind SDK** rendered as `Stable / v1.2.0` instead of `Developer Preview / v1.1.0`.
+- Cause: a broad regular-expression edit intended only for the Karkain primary card also matched the two sibling cards (identical status/version/badge field sequence). Unit tests passed at the time because the assertions were generic (`toContain('v1.2.0')`, `toContain('Stable')`).
+- Impact: the live `/technology` page overstated the maturity and version of MicroQuantum and the QuantsMind SDK until corrected. Karkain itself, the product registry, the microquantum/sdk detail pages, the homepage tiles, Labs and the article content were all correct as shipped.
+- Correction (this release, v2.0.2): the two cards restored to `Developer Preview / v1.1.0 / experimental`; the Technology component spec now asserts each primary card by name; stale route metadata corrected (Karkain → v1.2.0 Stable; QuantsMind AI Coder → Preview v3.1.x on Open VSX and the Microsoft Marketplace; Quantum Mission product detail routes already `proposed`); the Products page Karkain portfolio descriptor updated to v1.2.0 Stable.
+- Verification: `npm run build` exit 0; unit suite 28 files / 498 tests (413 passed, 85 skipped); `npm run build:static` 34 routes; prerender consistent with sitemap; smoke PASS (210 checks).
+- The v2.0.1 tag content remains as published; the correction ships as v2.0.2 through the standard PR + CI + owner-authorized merge flow. This section exists so the delivery record matches what happened.
 
 ## 5. Remaining blockers / notes
 

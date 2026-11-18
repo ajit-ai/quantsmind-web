@@ -455,7 +455,7 @@ function requireProduct(id: string): Product {
       <qm-container>
         <qm-product-portfolio
           title="Programming Languages &amp; Developer Tools"
-          description="Karkain is QuantsMind's statically typed systems programming language with a self-hosted compiler. It is a developer preview with a verified public release and documentation."
+          description="Karkain is QuantsMind's statically typed systems programming language with a self-hosted compiler. It is published at v1.2.0 (Stable) with a verified public release and documentation."
           [products]="catalogueDeveloperToolsProducts"
           serviceLinkLabel="Explore Karkain technology"
           serviceRoute="/karkain" />

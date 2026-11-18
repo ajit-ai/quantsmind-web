@@ -40,6 +40,19 @@ describe('TechnologyComponent', () => {
     expect(docs).toContain('https://ajit-ai.github.io/microquantum/');
     expect(docs).toContain('https://github.com/ajit-ai/quantsmind-quantum-sdk#readme');
 
+    const primaryCards = [...fixture.nativeElement.querySelectorAll('.tech-card--primary')] as HTMLElement[];
+    expect(primaryCards.length).toBe(3);
+    const byName = (needle: string) =>
+      primaryCards.find(card => card.textContent?.includes(needle)) as HTMLElement;
+    expect(byName('Karkain').textContent).toContain('Stable');
+    expect(byName('Karkain').textContent).toContain('v1.2.0');
+    expect(byName('MicroQuantum').textContent).toContain('Developer Preview');
+    expect(byName('MicroQuantum').textContent).toContain('v1.1.0');
+    expect(byName('MicroQuantum').textContent).not.toContain('v1.2.0');
+    expect(byName('QuantsMind SDK').textContent).toContain('Developer Preview');
+    expect(byName('QuantsMind SDK').textContent).toContain('v1.1.0');
+    expect(byName('QuantsMind SDK').textContent).not.toContain('v1.2.0');
+
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('Developer Preview');
     expect(text).toContain('Stable');

@@ -8,10 +8,10 @@ export const QUANTSMIND_LLM: BlogArticle = {
     'An open research project implementing a Transformer from scratch — RMSNorm, rotary embeddings, grouped-query attention and SwiGLU — ' +
     'with its own byte-pair-encoding tokenizer, training and fine-tuning loops, and local inference plus an HTTP serving path. ' +
     'This article describes what is implemented and why its published figures are not comparable to benchmark results.',
-  maturity: 'Research prototype · no validated release',
+  maturity: 'Research Release · v1.0.0 published',
   maturityVariant: 'research',
   intro:
-    'Language models are usually encountered as finished artefacts, which hides the parts that are genuinely interesting: how a corpus ' +
+    'Update (2026-11-18): Taksh v1.0.0 (the M7 sovereign-capability source release, formerly QuantsMind-LLM) was published 2026-10-21 under Apache-2.0 as an honest negative result (0/40 locked syntax-valid generations, 0/8 functional tasks, evidence level 0); it is not a model-weights release. The remainder of this article describes the project as it was observed at v0.1-era — read it alongside the v1.0.0 release notes. Language models are usually encountered as finished artefacts, which hides the parts that are genuinely interesting: how a corpus ' +
     'becomes tokens, how those tokens become a training objective, and what the model is actually able to do once trained. ' +
     'QuantsMind-LLM is a research prototype that implements that whole path explicitly, in code you can read. Its value is as a working ' +
     'illustration of the machinery; its figures, as this article will be equally explicit about, are not a benchmark result and should ' +
@@ -122,8 +122,8 @@ export const QUANTSMIND_LLM: BlogArticle = {
             'and the evaluation is a small hand-written set rather than the named public suites, the reported numbers cannot be compared ' +
             'to published benchmark results, and no independent assessment of model quality has been carried out.',
           points: [
-            'Release: none published; no version validated',
-            'Stage: described by the project as a local prototype',
+            'Release: Taksh v1.0.0 source release published (2026-10-21); honest negative result, evidence level 0',
+            'Stage: the project describes itself as an M7 sovereign-capability experiment, not a capable model',
             'Code corpus committed: smaller than the training configuration requests',
             'Tokenizer vocabulary committed: does not match the declared size',
             'Code evaluation: a small hand-written problem set, not HumanEval or MBPP',

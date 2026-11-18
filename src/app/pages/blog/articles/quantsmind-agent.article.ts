@@ -8,10 +8,10 @@ export const QUANTSMIND_AGENT: BlogArticle = {
     'QuantsMind-Agent connects an OpenAI-compatible language model to a local project through a PySide6 desktop interface and a ' +
     'headless command-line interface. It reads, writes, edits and deletes files, runs approved commands and inspects Git state, with a ' +
     'deny-by-default permission layer and a human approval prompt gating every call.',
-  maturity: 'Alpha · in-repository, unreleased',
+  maturity: 'Alpha · v0.9.0 released',
   maturityVariant: 'prototype',
   intro:
-    'An agent that can edit files and run commands on your machine is a qualitatively different tool from one that only suggests code. ' +
+    'Update (2026-11-18): QuantsMind-Agent v0.9.0 ("Workspace Intelligence") is the current public release (2026-10-20); it adds bounded, versioned workspace snapshots and multi-language project detection. The remainder of this article describes the v0.2.0-era design. An agent that can edit files and run commands on your machine is a qualitatively different tool from one that only suggests code. ' +
     'The interesting engineering in such a project is therefore not the model integration, which is unremarkable, but the permission ' +
     'model: what the agent is allowed to do, how a request for it is surfaced, and what happens when the model gets it wrong. ' +
     'QuantsMind-Agent is a compact example of that model, and its documentation is unusually direct about where its guarantees stop.',
@@ -129,21 +129,20 @@ export const QUANTSMIND_AGENT: BlogArticle = {
         {
           kind: 'p',
           text:
-            'The declared version is 0.2.0, but it exists only inside the repository: no release has been published and no package is ' +
-            'distributed, so the version number describes intent rather than something installable. Platform support is asymmetric as well. ' +
-            'Windows is the only platform the graphical interface has been run on; macOS is listed as planned and BSD is unsupported. ' +
-            'There is also a documented unresolved issue in which the GUI intermittently aborts on one CPython version.'
+            'Update (2026-11-18): QuantsMind-Agent v0.9.0 ("Workspace Intelligence") is the current public release, published 2026-10-20. ' +
+            'Windows and Linux are supported; macOS remains planned and BSD is unsupported. The version number now describes a published ' +
+            'release, not intent. The platform and dependency notes below describe the v0.2.0-era state.'
         },
         {
           kind: 'card',
           card: 'maturity',
-          title: 'Alpha, unpublished, Windows-verified',
+          title: 'Alpha, public, Windows/Linux verified',
           body:
-            'The project is best read as source you inspect and run rather than as a released tool. Its permission model is a genuine ' +
-            'design strength, but its guarantees are application-level and its platform coverage is narrow.',
+            'The project is a public source release in the 0.x line. Its permission model is a genuine design strength, but its guarantees are application-level and its platform coverage is narrow.',
           points: [
-            'Version: 0.2.0 declared in the repository; no release or package published',
-            'Platforms: Windows GUI verified; macOS planned; BSD unsupported',
+            'Version: v0.9.0 public release (2026-10-20); 0.x, not a 1.0 release',
+            'Platforms: Windows GUI verified; Linux headless (CI); macOS planned; BSD unsupported',
+            'Added in v0.9.0: bounded workspace snapshots and multi-language project detection',
             'Known issue: intermittent GUI abort on one CPython version, documented as unresolved',
             'Not provided: operating-system sandboxing of agent actions'
           ]

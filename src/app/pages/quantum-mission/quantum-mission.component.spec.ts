@@ -50,10 +50,10 @@ describe('QuantumMissionComponent', () => {
     }
   });
 
-  it('keeps every application at released maturity and general availability', () => {
+  it('keeps every application at proposed maturity and not-available availability', () => {
     for (const app of component.applications) {
-      expect(app.maturity).toBe('released');
-      expect(app.availability).toBe('general-availability');
+      expect(app.maturity).toBe('proposed');
+      expect(app.availability).toBe('not-available');
     }
   });
 

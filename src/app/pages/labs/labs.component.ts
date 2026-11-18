@@ -603,10 +603,10 @@ export class LabsComponent {
     },
     {
       name: 'Karkain',
-      variant: 'experimental',
-      status: 'Developer Preview · v1.1.0',
+      variant: 'stable',
+      status: 'Stable · v1.2.0',
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
-      description: 'A concrete QuantsMind technology: a statically typed systems programming language and computing ecosystem with a self-hosted compiler, published at version 1.1.0. The language and compiler are early and the API surface may still change.',
+      description: 'A concrete QuantsMind technology: a statically typed systems programming language and computing ecosystem with a self-hosted compiler, published at version 1.2.0 (Stable). It emits native ELF / PE / Mach-O directly and also targets C23 for a host toolchain.',
       cta: 'Read the Karkain article',
       route: '/blog/karkain'
     },

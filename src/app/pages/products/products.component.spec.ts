@@ -95,7 +95,7 @@ describe('ProductsComponent', () => {
     expect(tags).toEqual([
       'PDF', 'DOCX', 'TXT', 'JSON', 'CSV',
       'Quantum circuits', 'Classical simulation', 'Python',
-      'Systems language', 'Self-hosted compiler', 'C23', 'SSA IR', 'Cross-compilation'
+      'Systems language', 'Self-hosted compiler', 'Native targets', 'C23', 'SSA IR'
     ]);
   });
 
@@ -108,26 +108,26 @@ describe('ProductsComponent', () => {
   it('lists the verified language model technologies under A3', () => {
     const a3Names = component.a3Entries.map(entry => entry.name);
     expect(a3Names).toEqual(
-      expect.arrayContaining(['QuantsMind-LLM', 'QuantsMind VSCode AI Coder', 'QuantsMind-Agent'])
+      expect.arrayContaining(['Taksh (QuantsMind-LLM)', 'QuantsMind AI Coder (VS Code Extension)', 'QuantsMind-Agent'])
     );
   });
 
   it('keeps the agent and VS Code AI Coder discoverable under A2 and A3', () => {
     const a2Names = component.a2Entries.map(entry => entry.name);
     const a3Names = component.a3Entries.map(entry => entry.name);
-    expect(a2Names).toContain('QuantsMind VSCode AI Coder');
+    expect(a2Names).toContain('QuantsMind AI Coder (VS Code Extension)');
     expect(a2Names).toContain('QuantsMind-Agent');
-    expect(a3Names).toContain('QuantsMind VSCode AI Coder');
+    expect(a3Names).toContain('QuantsMind AI Coder (VS Code Extension)');
     expect(a3Names).toContain('QuantsMind-Agent');
-    expect(a3Names).toContain('QuantsMind-LLM');
+    expect(a3Names).toContain('Taksh (QuantsMind-LLM)');
   });
 
   it('renders the A3 language models and AI systems group with verified entries', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('A3 — Language Models & AI Systems');
-    expect(text).toContain('QuantsMind-LLM');
+    expect(text).toContain('Taksh (QuantsMind-LLM)');
     expect(text).toContain('QuantsMind-Agent');
-    expect(text).toContain('QuantsMind VSCode AI Coder');
+    expect(text).toContain('QuantsMind AI Coder');
     expect(text).not.toContain('No verified entries are currently classified under A3.');
   });
 
@@ -149,7 +149,7 @@ describe('ProductsComponent', () => {
   it('applies domain and status filters together with the search query', () => {
     component.searchQuery.set('Karkain');
     component.selectedDomain.set('developer-tools');
-    component.selectedStatus.set('developer-preview');
+    component.selectedStatus.set('released');
     fixture.detectChanges();
     const results = component.filteredProducts();
     expect(results.length).toBe(1);
@@ -263,7 +263,7 @@ describe('ProductsComponent', () => {
     developerTools.click();
     fixture.detectChanges();
     component.searchQuery.set('Karkain');
-    component.selectedStatus.set('developer-preview');
+    component.selectedStatus.set('released');
     fixture.detectChanges();
     const results = component.filteredProducts();
     expect(results.length).toBe(1);

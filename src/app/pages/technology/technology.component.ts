@@ -70,7 +70,7 @@ interface EcosystemMapGroup {
       </p>
       <div heroMeta class="tech-meta" aria-label="Primary technology status">
         <qm-badge variant="experimental">3 developer-preview technologies</qm-badge>
-        <qm-badge variant="default">v1.1.0 verified releases</qm-badge>
+        <qm-badge variant="default">verified releases</qm-badge>
         <qm-badge variant="prototype">Wider ecosystem · alpha &amp; research</qm-badge>
       </div>
     </qm-page-hero>
@@ -474,12 +474,12 @@ export class TechnologyComponent {
       note: 'Open developer technologies and tools; maturity is stated per project.',
       items: [
         { name: 'MicroQuantum', maturity: 'Developer Preview · v1.1.0', badge: 'experimental' },
-        { name: 'Karkain', maturity: 'Developer Preview · v1.1.0', badge: 'experimental' },
+        { name: 'Karkain', maturity: 'Stable · v1.2.0', badge: 'stable' },
         { name: 'QuantsMind SDK', maturity: 'Developer Preview · v1.1.0', badge: 'experimental' },
         { name: 'QuantsMind Relational DB', maturity: 'Alpha · Under Development · v0.1.0 (pre-release)', badge: 'prototype' },
         { name: 'GuardMCP', maturity: 'Alpha · Under Development · v0.1.0', badge: 'prototype' },
-        { name: 'QuantsMind-Agent', maturity: 'Alpha · Under Development · v0.2.0 (in-repo, unreleased)', badge: 'prototype' },
-        { name: 'QuantsMind-LLM', maturity: 'Research Prototype · No validated release', badge: 'research' }
+        { name: 'QuantsMind-Agent', maturity: 'Alpha · v0.9.0', badge: 'prototype' },
+        { name: 'Taksh (QuantsMind-LLM)', maturity: 'Research Release · v1.0.0', badge: 'research' }
       ]
     },
     {
@@ -497,36 +497,38 @@ export class TechnologyComponent {
     {
       name: 'Karkain',
       tagline: 'General-Purpose Programming Language',
-      status: 'Developer Preview',
-      version: 'v1.1.0',
-      badge: 'experimental',
+      status: 'Stable',
+      version: 'v1.2.0',
+      badge: 'stable',
       primary: true,
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 5 4 12 9 19"/><polyline points="15 5 20 12 15 19"/></svg>',
       purpose:
         'An independently developed, statically typed systems programming language with a ' +
-        'self-hosted compiler. The compiler emits C23 and delegates machine-code generation ' +
-        'to a host C toolchain, so a working C compiler is required.',
+        'self-hosted compiler written in Karkain itself. As of v1.2.0 (Stable), the self-hosted ' +
+        'engine emits native Linux ELF, Windows PE and macOS Mach-O PIE images with no C compiler ' +
+        'and no Go toolchain on PATH, alongside the C23 back end via GCC/Clang.',
       capabilities: [
         'Statically typed systems programming language',
-        'Self-hosted compiler',
-        'Emits C23',
-        'Delegates machine-code generation to a host C toolchain'
+        'Self-hosted compiler (kcc)',
+        'Native ELF / PE / Mach-O targets (no C toolchain on PATH)',
+        'C23 backend via GCC/Clang',
+        'CLI: build, run, test, format, debug, profile, package, cross-compile'
       ],
-      language: 'Karkain · self-hosted compiler · emits C23',
+      language: 'Karkain · self-hosted compiler · native ELF / PE / Mach-O, C23 via GCC/Clang',
       description: '',
       href: '/karkain',
       repoUrl: 'https://github.com/ajit-ai/Karkain',
       docsUrl: 'https://github.com/ajit-ai/Karkain#readme',
       docsLabel: 'Repository documentation',
-      releaseUrl: 'https://github.com/ajit-ai/Karkain/releases/tag/v1.1.0',
-      releaseLabel: 'Release v1.1.0'
+      releaseUrl: 'https://github.com/ajit-ai/Karkain/releases/tag/v1.2.0',
+      releaseLabel: 'Release v1.2.0'
     },
     {
       name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
-      status: 'Developer Preview',
-      version: 'v1.1.0',
-      badge: 'experimental',
+      status: 'Stable',
+      version: 'v1.2.0',
+      badge: 'stable',
       primary: true,
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
       purpose:
@@ -551,9 +553,9 @@ export class TechnologyComponent {
     {
       name: 'QuantsMind SDK',
       tagline: 'Scientific Computing SDK',
-      status: 'Developer Preview',
-      version: 'v1.1.0',
-      badge: 'experimental',
+      status: 'Stable',
+      version: 'v1.2.0',
+      badge: 'stable',
       primary: true,
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
       purpose:
@@ -623,46 +625,56 @@ export class TechnologyComponent {
     {
       name: 'QuantsMind-Agent',
       tagline: 'Desktop AI Coding Agent',
-      status: 'Alpha · Under Development',
-      version: 'v0.2.0 (in-repo, unreleased)',
+      status: 'Alpha · v0.9.0',
+      version: 'v0.9.0',
       badge: 'prototype',
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="14" rx="2"/><path d="M6 9l3 3-3 3M12 15h6"/></svg>',
       description:
-        'A desktop coding agent that connects a compatible OpenAI-compatible language ' +
-        'model to a local project. It ships a PySide6/Qt interface and a headless CLI, ' +
-        'and can read, write, edit and delete files, run approved commands and inspect ' +
-        'Git state. Tools declare their own permissions, and a deny-by-default permission ' +
-        'layer with a human approval prompt gates every call. Licensed MIT. ' +
-        'Limitations: the command policy is an application-level deny list, not an ' +
-        'operating-system sandbox, and Git mutations (commit, push, checkout, reset) are ' +
-        'deliberately blocked. Version 0.2.0 is declared in the repository but no ' +
-        'release or package has been published. Windows is the only platform the GUI has ' +
-        'been run on; macOS is listed as planned and BSD is unsupported. An intermittent ' +
-        'GUI abort on one CPython version is documented as unresolved.',
-      // No verified public repository URL is currently available for this project.
+        'A cross-platform desktop application (Windows, Linux, macOS) that connects a ' +
+        'compatible OpenAI-compatible language model to a local project folder. The agent ' +
+        'inspects files through controlled tools and shows every tool call it makes. ' +
+        'Windows and Linux are supported; macOS is planned (not claimed as supported until ' +
+        'verified) and BSD is blocked at the dependency level. Licensed MIT. Version 0.9.0 ' +
+        '("Workspace Intelligence") adds bounded, versioned workspace snapshots with explicit ' +
+        'entry, file, size and prompt budgets, multi-language project detection (including ' +
+        'polyglot projects) and a Task-panel view of the workspace evidence. It is not a ' +
+        '1.0 release and no model weights ship in this project.',
+      href: 'https://github.com/ajit-ai/QuantsMind-Agent',
+      external: true,
+      ctaText: 'View repository on GitHub →',
+      repoUrl: 'https://github.com/ajit-ai/QuantsMind-Agent',
+      releaseUrl: 'https://github.com/ajit-ai/QuantsMind-Agent/releases/tag/v0.9.0',
+      releaseLabel: 'Release v0.9.0'
     },
     {
-      name: 'QuantsMind-LLM',
-      tagline: 'From-Scratch Coding Language Model Research',
-      status: 'Research Prototype',
-      version: 'No validated release',
+      name: 'Taksh (QuantsMind-LLM)',
+      tagline: 'From-Scratch Code Language Model Research',
+      status: 'Research Release',
+      version: 'v1.0.0',
       badge: 'research',
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="4" r="1.5"/><circle cx="19" cy="16" r="1.5"/><circle cx="5" cy="16" r="1.5"/><path d="M12 5.5v4M13.8 13.4l3.6 1.8M10.2 13.4 6.6 15.2"/></svg>',
       description:
-        'Open research into training a code-oriented language model from scratch, with ' +
-        'its own Transformer implementation (RMSNorm, rotary embeddings, grouped-query ' +
-        'attention, SwiGLU), its own BPE tokenizer, training and fine-tuning loops, and ' +
-        'local inference plus FastAPI serving for completion and review. Licensed ' +
-        'Apache-2.0. The project describes itself as a local prototype. ' +
-        'Limitations: no release has been published and no version has been validated. ' +
-        'The code corpus committed to the repository is far smaller than the shipped ' +
-        'training configuration requests, the committed tokenizer vocabulary does not ' +
-        'match the size that configuration declares, and the code-generation evaluation ' +
-        'uses a small set of hand-written problems rather than the full HumanEval and ' +
-        'MBPP suites it names. Its figures are therefore not comparable to published ' +
-        'benchmark results, and no independent model-quality assessment has been carried ' +
-        'out.',
-      // No verified public repository URL is currently available for this project.
+        'Taksh (formerly QuantsMind-LLM) is a research project into training a ' +
+        'code-oriented language model from scratch, with its own Transformer ' +
+        'implementation (RMSNorm, rotary embeddings, grouped-query attention, SwiGLU), ' +
+        'its own BPE tokenizer, training and fine-tuning loops, and local inference ' +
+        'plus FastAPI serving for completion and review. Licensed Apache-2.0. ' +
+        'Taksh v1.0.0 (2026-10-21) publishes the source tree and experiment records as ' +
+        'an honest negative result (0/40 locked syntax-valid generations, 0/8 functional ' +
+        'tasks, evidence level 0). It is not a model-weights release and does not ' +
+        'distribute training or evaluation data. ' +
+        'Limitations: the committed code corpus is far smaller than the shipped ' +
+        'training configuration requests; the committed tokenizer vocabulary does not ' +
+        'match the declared size; code-generation evaluation uses a small hand-written ' +
+        'suite rather than the full HumanEval/MBPP it names, so figures are not ' +
+        'comparable to published benchmark results; no independent model-quality ' +
+        'assessment has been carried out.',
+      href: 'https://github.com/ajit-ai/QuantsMind-LLM',
+      external: true,
+      ctaText: 'View repository on GitHub →',
+      repoUrl: 'https://github.com/ajit-ai/QuantsMind-LLM',
+      releaseUrl: 'https://github.com/ajit-ai/QuantsMind-LLM/releases/tag/v1.0.0',
+      releaseLabel: 'Release v1.0.0'
     }
   ];
 }

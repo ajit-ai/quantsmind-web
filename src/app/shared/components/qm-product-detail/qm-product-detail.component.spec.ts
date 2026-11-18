@@ -27,8 +27,8 @@ describe('QmProductDetailComponent', () => {
     expect(text()).toContain('Quantum circuit development and experimentation environment');
     expect(text()).toContain('Quantum Software');
     expect(text()).toContain('Quantum circuit design workflows');
-    expect(text()).toContain('Released');
-    expect(text()).toContain('General Availability');
+    expect(text()).toContain('Proposed');
+    expect(text()).toContain('Not Available');
     expect(text()).toContain('No public repository, release or documentation is currently available');
   });
 
@@ -54,8 +54,9 @@ describe('QmProductDetailComponent', () => {
     createComponent('quantsmind-vscode-ai-coder');
     fixture.detectChanges();
 
-    expect(text()).toContain('QuantsMind VSCode AI Coder');
-    expect(text()).toContain('Alpha');
+    expect(text()).toContain('QuantsMind AI Coder (VS Code Extension)');
+    expect(text()).toContain('Preview');
+    expect(text()).toContain('Open VSX');
     expect(text()).toContain('Microsoft Visual Studio Marketplace');
     expect(text()).toContain('Evidence');
     expect(text()).not.toContain('Capabilities');
@@ -65,13 +66,14 @@ describe('QmProductDetailComponent', () => {
     createComponent('quantsmind-llm-directory');
     fixture.detectChanges();
 
-    expect(text()).toContain('QuantsMind-LLM');
-    expect(text()).toContain('Research Prototype · No validated release');
+    expect(text()).toContain('Taksh');
+    expect(text()).toContain('Research Release');
+    expect(text()).toContain('v1.0.0');
     const explore = fixture.nativeElement.querySelector('a.qm-product-detail__explore');
     expect(explore).toBeTruthy();
     expect(explore.getAttribute('href')).toBe('/technology');
-    expect(text()).toContain('Explore QuantsMind-LLM →');
-    expect(text()).not.toContain('Request QuantsMind-LLM Access');
+    expect(text()).toContain('Explore Taksh (QuantsMind-LLM) →');
+    expect(text()).not.toContain('Request Taksh Access');
   });
 
   it('rejects an unknown product identifier', () => {

@@ -42,7 +42,8 @@ describe('TechnologyComponent', () => {
 
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('Developer Preview');
-    expect(text).toContain('v1.1.0');
+    expect(text).toContain('Stable');
+    expect(text).toContain('v1.2.0');
     expect(text).toContain('Python 3.13+');
   });
 
@@ -73,7 +74,7 @@ describe('TechnologyComponent', () => {
     expect(text).toContain('Developer Preview');
     expect(text).toContain('Early Access');
     expect(text).toContain('Alpha · Under Development');
-    expect(text).toContain('Research Prototype');
+    expect(text).toContain('Research Release');
     expect(text).toContain('Experimental');
     expect(text).toContain('Feasibility Study');
   });
@@ -82,13 +83,12 @@ describe('TechnologyComponent', () => {
     const cards = fixture.nativeElement.querySelectorAll('.tech-card');
     expect(cards.length).toBe(7);
     const links = fixture.nativeElement.querySelectorAll('a.tech-card__title-link');
-    // Two projects no longer expose an unverified public repository URL.
-    expect(links.length).toBe(5);
+    expect(links.length).toBe(7);
     const hrefs = [...links].map((link: any) => link.getAttribute('href'));
-    expect(hrefs).not.toContain('https://github.com/ajit-ai/QuantsMind-Agent');
-    expect(hrefs).not.toContain('https://github.com/ajit-ai/Quantsmind-LLM');
+    expect(hrefs).toContain('https://github.com/ajit-ai/QuantsMind-Agent');
+    expect(hrefs).toContain('https://github.com/ajit-ai/QuantsMind-LLM');
     expect(fixture.nativeElement.textContent).toContain('QuantsMind-Agent');
-    expect(fixture.nativeElement.textContent).toContain('QuantsMind-LLM');
+    expect(fixture.nativeElement.textContent).toContain('Taksh');
     expect(fixture.nativeElement.querySelector('.ecosystem-grid')).toBeTruthy();
   });
 
@@ -105,12 +105,14 @@ describe('TechnologyComponent', () => {
 
   it('keeps research work distinct from released developer technologies', () => {
     const cards = [...fixture.nativeElement.querySelectorAll('.tech-card')] as HTMLElement[];
-    const llm = cards.find(card => card.textContent?.includes('QuantsMind-LLM'));
+    const llm = cards.find(card => card.textContent?.includes('Taksh'));
 
     expect(llm).toBeTruthy();
-    expect(llm!.textContent).toContain('Research Prototype');
-    expect(llm!.textContent).toContain('No validated release');
-    expect(llm!.querySelector('a[href]')).toBeNull();
+    expect(llm!.textContent).toContain('Research Release');
+    expect(llm!.textContent).toContain('v1.0.0');
+    expect(llm!.querySelector('a[href]')?.getAttribute('href')).toBe(
+      'https://github.com/ajit-ai/QuantsMind-LLM'
+    );
 
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('Exploratory research code and prototypes; not production-ready.');

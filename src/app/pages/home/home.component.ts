@@ -1542,7 +1542,7 @@ export class HomeComponent {
    * These are technology distribution channels and industry presence, not endorsements.
    */
   ecosystemPlatforms = [
-    { name: 'Microsoft Visual Studio Marketplace', url: 'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain', url2: 'https://marketplace.visualstudio.com/items?itemName=quantsmind.quantsmind-vscode-ai-coder' },
+    { name: 'Open VSX', url: 'https://open-vsx.org/extension/karkain/karkain', url2: 'https://open-vsx.org/extension/quantsmind/quantsmind-vscode-ai-coder' },
     { name: 'Clutch', url: 'https://clutch.co/profile/quantsmind' },
     { name: 'The Manifest', url: 'https://themanifest.com/in/it-services/companies?page=202' },
     { name: 'PyPI', url: 'https://pypi.org/project/quantsmind/', url2: 'https://pypi.org/project/microquantum/' },
@@ -1666,10 +1666,10 @@ export class HomeComponent {
     {
       name: 'Karkain',
       tagline: 'General-Purpose Programming Language',
-      description: 'An independently developed, statically typed systems programming language with a self-hosted compiler, published at version 1.1.0. A developer preview: the language and API surface may still change.',
-      status: 'Developer Preview',
-      version: 'v1.1.0',
-      badge: 'experimental',
+      description: 'An independently developed, statically typed systems programming language with a self-hosted compiler, published at version 1.2.0 (Stable). It emits native ELF / PE / Mach-O executables with no C toolchain on PATH, alongside the C23 backend for host toolchains.',
+      status: 'Stable',
+      version: 'v1.2.0',
+      badge: 'stable',
       accent: 'violet',
       mark: 'K',
       cta: 'Explore Karkain',

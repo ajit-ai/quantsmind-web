@@ -26,21 +26,22 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
       eyebrow="KARKAIN"
       title="Karkain"
       lead="A programming language for the next generation of computing."
-      [artLabels]="['.kark', 'C23', 'SSA IR', 'Binary']">
+      [artLabels]="['.kark', 'native', 'SSA IR', 'Binary']">
       <div heroBadge class="k-badges">
         <a routerLink="/technology" class="k-back">&larr; Technology Ecosystem</a>
         <div class="k-badge-row">
-          <qm-badge variant="experimental">Developer Preview</qm-badge>
+          <qm-badge variant="stable">Stable</qm-badge>
           <qm-badge variant="software">Programming Language</qm-badge>
-          <qm-badge variant="default">v1.1.0</qm-badge>
+          <qm-badge variant="default">v1.2.0</qm-badge>
         </div>
       </div>
       <p heroLead class="k-hero__note">
         Karkain is an independently developed, statically typed systems programming
-        language. It compiles <span class="k-mono">.kark</span> source to C23 and delegates to
-        GCC, Clang or MSVC for final machine code — built around ownership-based memory safety,
-        native concurrency, and a heterogeneous computing vision spanning CPU, GPU and quantum
-        hardware.
+        language. As of v1.2.0 (Stable), the self-hosted compiler emits native Linux ELF,
+        Windows PE and macOS Mach-O PIE images with no C compiler and no Go toolchain on
+        PATH, alongside the C23 back end used with GCC, Clang or MSVC — built around
+        ownership-based memory safety, native concurrency, and a heterogeneous computing
+        vision spanning CPU, GPU and quantum hardware.
       </p>
       <div heroActions class="k-cta k-cta--hero">
         <qm-button variant="primary" size="lg" [href]="'#karkain-pipeline'">
@@ -52,10 +53,10 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
       </div>
       <ul heroMeta class="qm-page-hero__meta k-meta" aria-label="Karkain at a glance">
         <li><span class="k-mono k-mono--accent">.kark</span> source extension</li>
-        <li><span class="k-mono">C23</span> native backend</li>
+        <li><span class="k-mono">native</span> ELF / PE / Mach-O targets</li>
         <li><span class="k-mono">Self-hosting</span> compiler</li>
         <li><span class="k-mono">Borrow checking</span> memory safety</li>
-        <li><span class="k-mono">v1.1.0</span> released</li>
+        <li><span class="k-mono">v1.2.0</span> released</li>
       </ul>
       <div heroArt class="k-hero-art" aria-hidden="true">
         <span class="k-hero-art__ring k-hero-art__ring--1"></span>
@@ -70,12 +71,12 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
           <div class="k-hero-art__pipeline">
             <span class="k-mono">.kark</span>
             <i aria-hidden="true">→</i>
-            <span class="k-mono">C23</span>
+            <span class="k-mono">native</span>
             <i aria-hidden="true">→</i>
             <span class="k-mono k-hero-art__pipeline-end">binary</span>
           </div>
         </div>
-        <span class="k-hero-art__chip k-hero-art__chip--a">v1.1.0 released</span>
+        <span class="k-hero-art__chip k-hero-art__chip--a">v1.2.0 released</span>
         <span class="k-hero-art__chip k-hero-art__chip--b">SSA IR</span>
         <span class="k-hero-art__chip k-hero-art__chip--c">Self-hosting</span>
       </div>
@@ -96,7 +97,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
             <ul class="k-whatnot">
               <li>Not a managed language — no garbage collector, no VM.</li>
               <li>Not an interpreted language — source compiles to a native binary.</li>
-              <li>Not LLVM-based — delegates to GCC, Clang or MSVC for machine code.</li>
+              <li>Not LLVM-based — emits native ELF / PE / Mach-O directly, or C23 for a host C toolchain.</li>
               <li>Not the last compiler — Karkain's own front-end is written in Karkain.</li>
             </ul>
           </div>
@@ -171,7 +172,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         </div>
 
         <p class="k-dark-note" qmReveal>
-          The CPU path is the implemented pipeline behind Karkain 1.1. GPU shaders (WGSL, SPIR-V,
+          The CPU path is the implemented pipeline behind Karkain 1.2. GPU shaders (WGSL, SPIR-V,
           OpenCL) and quantum circuits (OpenQASM, QIR) are part of the documented architecture and
           represent the project's heterogeneous direction.
         </p>
@@ -220,7 +221,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
             <p>
               Programs can also be emitted as Karkain module bytecode (<span class="k-mono">.kbc</span>) and
               executed by Karkain's own stack-based VM and JIT engine — a separate execution path
-              from native C23 compilation.
+              from the native compiler.
             </p>
           </div>
           <div class="k-stack" qmReveal [qmRevealDelay]="90">
@@ -234,7 +235,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
             </article>
             <article class="k-card k-card--compact">
               <h4 class="k-code-subhead">Two execution paths</h4>
-              <p>Emit C23 and link with GCC/Clang/MSVC, or emit <span class="k-mono">.kbc</span> bytecode and run on the Karkain VM (<span class="k-mono">pkg/jit</span>).</p>
+              <p>Emit native ELF / PE / Mach-O directly (v1.2.0), or C23 for a host C toolchain — or emit <span class="k-mono">.kbc</span> bytecode and run on the Karkain VM (<span class="k-mono">pkg/jit</span>).</p>
             </article>
           </div>
         </div>
@@ -260,7 +261,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
               </div>
               <pre><code>{{ compilerCode }}</code></pre>
             </div>
-            <p class="k-note">Boostrapped through C, the self-hosted front-end then builds Karkain programs by emitting C23 and linking with a system C compiler.</p>
+            <p class="k-note">Bootstrapped in Karkain itself, the self-hosted front-end emits native ELF / PE / Mach-O images (v1.2.0) with no C toolchain, or C23 for a host C compiler.</p>
           </div>
           <div class="k-stack" qmReveal [qmRevealDelay]="90">
             @for (c of compilerComponents; track c.title) {
@@ -359,7 +360,7 @@ interface PipelineZone { zone: string; title: string; note: string; package: str
         <span class="eyebrow">WHERE KARKAIN IS TODAY</span>
         <h2 class="k-h2">An honest status report</h2>
         <p class="k-section-lead">
-          Karkain 1.1.0 is a published release. The compiler, language, standard
+          Karkain 1.2.0 is a published release. The compiler, language, standard
           library and toolchain below ship today; further engineering continues after
           the release, and planned areas are labelled as such rather than presented as
           available.
@@ -860,7 +861,7 @@ export class KarkainComponent {
     'codegen.kark   \u2192 main.kark';
 
   principles: KernelFact[] = [
-    { index: '01', title: 'Fast', text: 'Zero-cost abstractions, value semantics and no garbage collector. Source compiles to C23 and is optimized by mature C compilers.' },
+    { index: '01', title: 'Fast', text: 'Zero-cost abstractions, value semantics and no garbage collector. Native targets compile directly; the C23 backend is optimized by mature C compilers.' },
     { index: '02', title: 'Safe', text: 'Compile-time ownership and borrow checking. No null pointers, no use-after-free, no data races. Option and Result replace exceptions.' },
     { index: '03', title: 'Heterogeneous', text: 'CPU code and GPU compute kernels written in the same .kark file, with quantum circuits targeting OpenQASM and QIR. One language, a spectrum of hardware.' },
     { index: '04', title: 'Independent', text: 'The ultimate goal: karkain compiles itself. No dependency on Go, Rust or any other toolchain for day-to-day development.' }
@@ -868,18 +869,18 @@ export class KarkainComponent {
 
   flow: Array<[string]> = [
     ['.kark source'], ['Lexer'], ['Parser'], ['Macro expand'], ['Semantic analysis'],
-    ['SSA IR'], ['Optimizer'], ['Verifier'], ['C23']
+    ['SSA IR'], ['Optimizer'], ['Verifier'], ['native']
   ];
 
   zones: PipelineZone[] = [
     { zone: 'Frontend', title: 'Lexer & Parser', note: 'Tokenizes .kark source into a token stream and builds an AST with arena allocation and line tracking.', package: 'pkg/lexer · pkg/parser' },
     { zone: 'Analysis', title: 'Semantic analysis', note: 'Borrow checking, type checking and macro expansion validate the program before code generation.', package: 'pkg/sema' },
     { zone: 'IR', title: 'SSA IR pipeline', note: 'Source lowers to SSA form; constant folding and dead-code elimination run before a verifier checks the result.', package: 'pkg/ir · pkg/codegen' },
-    { zone: 'Backend', title: 'C23 → native', note: 'The C emitter produces C23, linked with GCC, Clang or MSVC into a native binary.', package: 'pkg/codegen' }
+    { zone: 'Backend', title: 'Emit native', note: 'The native backend emits ELF / PE / Mach-O directly, or the C emitter produces C23, linked with GCC, Clang or MSVC.', package: 'pkg/codegen' }
   ];
 
   models: ComputingModel[] = [
-    { name: 'CPU', status: 'Current', variant: 'development', detail: 'Compiles to C23 and links with GCC, Clang or MSVC. Full native support with Karkain’s own target-triple model (x86_64, aarch64).' },
+    { name: 'CPU', status: 'Current', variant: 'stable', detail: 'Emits native ELF / PE / Mach-O directly (v1.2.0) or C23 linked with GCC, Clang or MSVC. Target model covers x86_64, aarch64 and wasm32.' },
     { name: 'SIMD', status: 'Evolving', variant: 'experimental', detail: 'AVX2-aware intrinsics and optimized matrix operations for performance-critical kernels.' },
     { name: 'WASM', status: 'Active', variant: 'development', detail: 'A wasm32-wasi target whose module is emitted directly, without an external linker.' },
     { name: 'GPU', status: 'Evolving', variant: 'experimental', detail: 'Kernel-driven design aiming to emit WGSL, OpenCL and SPIR-V shaders from the same source file.' },
@@ -892,15 +893,15 @@ export class KarkainComponent {
     { index: 'parser.kark', title: 'Parser', text: 'Builds the AST from the token stream.' },
     { index: 'ast.kark · atypes.kark', title: 'AST & types', text: 'Syntax tree and attribute type definitions.' },
     { index: 'sema.kark · checker.kark', title: 'Semantic analysis', text: 'Type checking and analysis in Karkain.' },
-    { index: 'codegen.kark', title: 'Code generation', text: 'Emits C23 from the analyzed program.' }
+    { index: 'codegen.kark', title: 'Code generation', text: 'Emits native ELF / PE / Mach-O from the analyzed program.' }
   ];
 
   ecosystem: EcosystemCard[] = [
-    { name: 'Language', status: 'Published · 1.1.0', variant: 'experimental', detail: 'Static typing, ownership and borrow checking, algebraic data types, pattern matching, and a spec tracked in SPEC.md.' },
-    { name: 'Compiler', status: 'Published · 1.1.0', variant: 'experimental', detail: 'The self-hosted engine lexes, parses, analyzes, optimizes and emits C23.' },
-    { name: 'Runtime', status: 'Published · 1.1.0', variant: 'experimental', detail: 'A concurrency runtime with tasks and channels. No garbage collector. A JIT tier remains planned.' },
-    { name: 'Standard Library', status: 'Published · 1.1.0', variant: 'experimental', detail: '.kark modules for core semantics, strings, collections, I/O, encoding, crypto, math and more.' },
-    { name: 'Toolchain', status: 'Published · 1.1.0', variant: 'experimental', detail: 'run, build, check, test, fmt, lint, bench, prof, plus package manager and workspaces.' },
+    { name: 'Language', status: 'Stable · 1.2.0', variant: 'stable', detail: 'Static typing, ownership and borrow checking, algebraic data types, pattern matching, and a spec tracked in SPEC.md.' },
+    { name: 'Compiler', status: 'Stable · 1.2.0', variant: 'stable', detail: 'The self-hosted engine lexes, parses, analyzes, optimizes and emits native ELF / PE / Mach-O (or C23 for a host C toolchain).' },
+    { name: 'Runtime', status: 'Stable · 1.2.0', variant: 'stable', detail: 'A concurrency runtime with tasks and channels. No garbage collector. A JIT tier remains planned.' },
+    { name: 'Standard Library', status: 'Stable · 1.2.0', variant: 'stable', detail: '.kark modules for core semantics, strings, collections, I/O, encoding, crypto, math and more.' },
+    { name: 'Toolchain', status: 'Stable · 1.2.0', variant: 'stable', detail: 'run, build, check, test, fmt, lint, bench, prof, plus package manager and workspaces.' },
     { name: 'Developer Tools', status: 'Partial', variant: 'development', detail: 'A language server providing hover and go-to-definition. Some semantic features are not yet provided by the server, and the editor extension is not part of this public repository.' }
   ];
 
@@ -923,12 +924,13 @@ export class KarkainComponent {
   ];
 
   statusRows: StatusRow[] = [
-    { area: 'Compiler core · Karkain 1.1', status: 'Published · 1.1.0', variant: 'experimental', note: 'The project’s own release gate passed and version 1.1.0 was published as its release line. Further engineering continues after the release. No independent performance or reliability assessment has been carried out.' },
-    { area: 'Self-hosting', status: 'Published · 1.1.0', variant: 'experimental', note: 'The compiler’s Karkain-written front-end is the default engine and builds Karkain programs today.' },
-    { area: 'Language & core pipeline', status: 'Published · 1.1.0', variant: 'experimental', note: 'The core language and pipeline ship in 1.1.0. Additional type-system features, autodiff and quantum safety remain in development for later phases.' },
-    { area: 'Concurrency runtime', status: 'Published · 1.1.0', variant: 'experimental', note: 'Task model, channels and synchronization primitives ship in 1.1.0. A JIT tier remains planned.' },
-    { area: 'Standard library', status: 'Published · 1.1.0', variant: 'experimental', note: 'Core, string, collections, I/O, encoding, crypto, math and system modules ship in 1.1.0 as .kark.' },
-    { area: 'Cross-compilation', status: 'Published · 1.1.0', variant: 'experimental', note: 'An owned target-triple model covering x86_64, aarch64 and wasm32 over windows, linux and wasi. Running foreign targets is refused for honesty.' },
+    { area: 'Compiler core · Karkain 1.2', status: 'Stable · 1.2.0', variant: 'stable', note: 'Karkain 1.2.0 Stable was published 2026-11-14 as a locally built release (the CI release matrix could not run). Native ELF/PE/Mach-O targets are a qualified subset refused by name outside it, and register allocation is opt-in. No independent performance or reliability assessment has been carried out.' },
+    { area: 'Self-hosting', status: 'Stable · 1.2.0', variant: 'stable', note: 'The compiler’s Karkain-written front-end is the default engine and builds Karkain programs today. The no-C closure and stdlib_v2/std.net no-C are carried to v1.3.0 as unmet conditions.' },
+    { area: 'Language & core pipeline', status: 'Stable · 1.2.0', variant: 'stable', note: 'The core language and pipeline ship in 1.2.0. Additional type-system features, autodiff and quantum safety remain in development for later phases.' },
+    { area: 'Concurrency runtime', status: 'Stable · 1.2.0', variant: 'stable', note: 'Task model, channels and synchronization primitives ship in 1.2.0. A JIT tier remains planned.' },
+    { area: 'Standard library', status: 'Stable · 1.2.0', variant: 'stable', note: 'Core, string, collections, I/O, encoding, crypto, math and system modules ship in 1.2.0 as .kark.' },
+    { area: 'Native targets (ELF/PE/Mach-O) · Karkain 1.2', status: 'Stable · 1.2.0', variant: 'stable', note: 'The self-hosted engine emits native Linux ELF, Windows PE and macOS Mach-O PIE images with no C compiler or Go toolchain on PATH. The native target refuses by name: floats, for..in, map literals, string equality/slicing, a string literal in a branch or loop body, a string in a callee, non-integer array elements.' },
+    { area: 'Cross-compilation', status: 'Stable · 1.2.0', variant: 'stable', note: 'An owned target-triple model covering x86_64, aarch64 and wasm32 over windows, linux and wasi. Running foreign targets is refused for honesty.' },
     { area: 'Heterogeneous backends', status: 'Direction', variant: 'research', note: 'GPU and quantum backends are documented in the compiler architecture and on the roadmap.' }
   ];
 }

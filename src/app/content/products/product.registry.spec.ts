@@ -77,10 +77,10 @@ const EXPECTED_NAMES = [
 ];
 
 const MARKETPLACE_SELECTIONS = [
-  { id: 'quantum-studio', portfolio: 'quantum', maturity: 'released', availability: 'general-availability' },
+  { id: 'quantum-studio', portfolio: 'quantum', maturity: 'proposed', availability: 'not-available' },
   { id: 'ground-link', portfolio: 'space', maturity: 'in-development', availability: 'not-available' },
   { id: 'ai-guard', portfolio: 'cybersecurity', maturity: 'proposed', availability: 'not-available' },
-  { id: 'qubit-sim', portfolio: 'quantum', maturity: 'released', availability: 'general-availability' },
+  { id: 'qubit-sim', portfolio: 'quantum', maturity: 'proposed', availability: 'not-available' },
   { id: 'threat-intel', portfolio: 'cybersecurity', maturity: 'proposed', availability: 'not-available' },
   { id: 'telemetry-hub', portfolio: 'space', maturity: 'in-development', availability: 'not-available' }
 ] as const;
@@ -156,13 +156,13 @@ describe('product registry', () => {
     }
   });
 
-  it('classifies Quantum Mission applications as released and generally available', () => {
+  it('classifies Quantum Mission applications as proposed and not available', () => {
     const quantumProducts = getProductsByPortfolio('quantum')
       .filter(product => product.id !== 'microquantum');
     expect(quantumProducts).toHaveLength(10);
     for (const product of quantumProducts) {
-      expect(product.maturity).toBe('released');
-      expect(product.availability).toBe('general-availability');
+      expect(product.maturity).toBe('proposed');
+      expect(product.availability).toBe('not-available');
       expect(product.version).toBeUndefined();
       expect(product.releaseChannel).toBeUndefined();
       expect(product.description).toContain(

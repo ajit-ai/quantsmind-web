@@ -8,10 +8,10 @@ export const KARKAIN: BlogArticle = {
     'Karkain is an independently developed systems programming language that lowers .kark source through its own lexer, parser, ' +
     'semantic analysis and SSA intermediate representation before emitting C23 and delegating machine-code generation to a host C toolchain. ' +
     'This article traces that pipeline stage by stage and separates what ships in 1.1.0 from what remains a roadmap direction.',
-  maturity: 'Developer preview · v1.1.0 published',
-  maturityVariant: 'experimental',
+  maturity: 'Stable · v1.2.0 published',
+  maturityVariant: 'stable',
   intro:
-    'Compiling a language is a good way to learn what a language actually is, because every abstract design decision becomes a concrete ' +
+    'Update (2026-11-18): Karkain 1.2.0 (Stable) is the current release; this article traces the v1.1.0 pipeline and remains useful for the architecture. The v1.2.0 notes add the native ELF / PE / Mach-O backend plus qualified language-surface refusals — see the Karkain page and release notes for the current state. Compiling a language is a good way to learn what a language actually is, because every abstract design decision becomes a concrete ' +
     'question about tokens, types and machine code. Karkain is a case worth tracing because its pipeline is unusually legible: it owns ' +
     'lexing, parsing, type and borrow checking, and an SSA-form intermediate representation, and it stops only at the point where a ' +
     'native C toolchain takes over. That boundary makes it possible to describe precisely which compiler stages belong to the project and ' +

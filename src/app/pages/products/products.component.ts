@@ -962,11 +962,11 @@ export class ProductsComponent {
   ];
 
   readonly intelligencePortfolios = [
-    { id: 'financial-intelligence', name: 'Financial Intelligence', description: 'Financial intelligence products and applications.' },
-    { id: 'enterprise-ai', name: 'Enterprise AI', description: 'Enterprise AI products and applications.' },
-    { id: 'data-intelligence', name: 'Data Intelligence', description: 'Data intelligence products and applications.' },
-    { id: 'bio-intelligence', name: 'Bio Intelligence', description: 'Bio intelligence products and applications.' },
-    { id: 'aerospace-intelligence', name: 'Aerospace Intelligence', description: 'Aerospace intelligence products and applications.' }
+    { id: 'financial-intelligence', name: 'Financial Intelligence', description: 'Delivered as engineering engagements today (QuantsMind SDK finance domain, portfolio analytics modules). No standalone products are currently classified.' },
+    { id: 'enterprise-ai', name: 'Enterprise AI', description: 'Evidenced by QuantsMind-Agent and the VS Code AI Coder extension (both publicly released on GitHub/Open VSX). No products are currently classified in this portfolio.' },
+    { id: 'data-intelligence', name: 'Data Intelligence', description: 'Evidenced by telemetry and archival ingestion work (registry: SatHealth, MissionOps, MissionArchive, in development). No products are currently classified in this portfolio.' },
+    { id: 'bio-intelligence', name: 'Bio Intelligence', description: 'Evidenced by the QuantsMind SDK biology and chemistry modules. No products are currently classified in this portfolio.' },
+    { id: 'aerospace-intelligence', name: 'Aerospace Intelligence', description: 'Evidenced by bounded space-systems feasibility engineering. No products are currently classified in this portfolio.' }
   ];
 
   readonly directoryEntries = VERIFIED_DIRECTORY_ENTRIES;

@@ -110,7 +110,7 @@ export const routes: Routes = [
       productId: 'quantsmind-vscode-ai-coder',
       title: 'QuantsMind VSCode AI Coder | Products | QuantsMind',
       description:
-        'QuantsMind VSCode AI Coder is an AI-powered coding assistance for Visual Studio Code, currently at Alpha maturity and listed in the Microsoft Visual Studio Marketplace. It is not a validated or released product.'
+        'QuantsMind AI Coder is an agentic, project-aware AI coding assistant for Visual Studio Code, published as a Preview (v3.1.x) on Open VSX and the Microsoft Visual Studio Marketplace. It is not a validated or production-grade product.'
     },
     loadComponent: () =>
       import('./shared/components/qm-product-detail/qm-product-detail.component')
@@ -151,7 +151,7 @@ export const routes: Routes = [
     data: {
       title: 'Karkain | Programming Language & Computing Ecosystem | QuantsMind',
       description:
-        'Karkain is an independently developed, statically typed systems programming language with a self-hosted compiler, published at version 1.1.0. A developer preview: the language and API surface may still change.'
+        'Karkain is an independently developed, statically typed systems programming language with a self-hosted compiler, published at version 1.2.0 (Stable). It emits native ELF / PE / Mach-O executables with no C toolchain on PATH, alongside the C23 backend.'
     },
     loadComponent: () =>
       import('./pages/karkain/karkain.component').then(m => m.KarkainComponent)

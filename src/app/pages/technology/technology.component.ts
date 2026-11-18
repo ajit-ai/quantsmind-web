@@ -526,9 +526,9 @@ export class TechnologyComponent {
     {
       name: 'MicroQuantum',
       tagline: 'Open Quantum Computing SDK',
-      status: 'Stable',
-      version: 'v1.2.0',
-      badge: 'stable',
+      status: 'Developer Preview',
+      version: 'v1.1.0',
+      badge: 'experimental',
       primary: true,
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.6"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
       purpose:
@@ -553,9 +553,9 @@ export class TechnologyComponent {
     {
       name: 'QuantsMind SDK',
       tagline: 'Scientific Computing SDK',
-      status: 'Stable',
-      version: 'v1.2.0',
-      badge: 'stable',
+      status: 'Developer Preview',
+      version: 'v1.1.0',
+      badge: 'experimental',
       primary: true,
       mark: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
       purpose:

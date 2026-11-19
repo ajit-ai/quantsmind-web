@@ -58,6 +58,7 @@ export const routes: Routes = [
   {
     path: 'services/quantum-computing',
     data: {
+      service: 'quantum-computing',
       title: 'Quantum Computing & Quantum Software Engineering | Services | QuantsMind',
       description:
         'Quantum circuit software engineering, simulation, algorithm experimentation and hybrid quantum-classical workflows — with simulation limits and honesty statements included.'
@@ -68,6 +69,7 @@ export const routes: Routes = [
   {
     path: 'services/space-systems',
     data: {
+      service: 'space-systems',
       title: 'Space Systems & Mission Software Engineering | Services | QuantsMind',
       description:
         'Ground-segment software, telemetry processing, mission-support workflows and satellite engineering data — feasibility and software engineering, not flight qualification.'
@@ -78,6 +80,7 @@ export const routes: Routes = [
   {
     path: 'services/ai-engineering',
     data: {
+      service: 'ai-engineering',
       title: 'AI Engineering & Autonomous Intelligent Systems | Services | QuantsMind',
       description:
         'AI-enabled applications, agent integration, permission-aware tool use and enterprise AI — engineering with explicit human oversight and scoped claims.'
@@ -88,6 +91,7 @@ export const routes: Routes = [
   {
     path: 'services/scientific-computing',
     data: {
+      service: 'scientific-computing',
       title: 'Scientific Computing & Digital Simulation | Services | QuantsMind',
       description:
         'Numerical software, computational modelling, simulation workflow engineering and reproducible experimentation.'
@@ -98,6 +102,7 @@ export const routes: Routes = [
   {
     path: 'services/cybersecurity',
     data: {
+      service: 'cybersecurity',
       title: 'Cybersecurity Engineering & Digital Trust | Services | QuantsMind',
       description:
         'Security engineering, secure architecture, application security, identity and digital trust — no certifications claimed; concrete engineering work.'
@@ -108,6 +113,7 @@ export const routes: Routes = [
   {
     path: 'services/industrial-intelligence',
     data: {
+      service: 'industrial-intelligence',
       title: 'Industrial Intelligence & Digital Twin Engineering | Services | QuantsMind',
       description:
         'Industrial data systems, operational intelligence, digital-twin architecture and simulation-data integration — capability engineering, deployment limits stated.'
@@ -128,6 +134,7 @@ export const routes: Routes = [
   {
     path: 'technology/financial-intelligence',
     data: {
+      portfolio: 'financial-intelligence',
       title: 'Financial Intelligence | Technology | QuantsMind',
       description:
         'Finance domain modules in the QuantsMind SDK and the engineering behind them. No packaged financial products are claimed.'
@@ -138,6 +145,7 @@ export const routes: Routes = [
   {
     path: 'technology/enterprise-ai',
     data: {
+      portfolio: 'enterprise-ai',
       title: 'Enterprise AI | Technology | QuantsMind',
       description:
         'Approval-first AI systems: QuantsMind AI Coder (Preview), QuantsMind-Agent (Alpha) and GuardMCP (Alpha). Human oversight by design.'
@@ -148,6 +156,7 @@ export const routes: Routes = [
   {
     path: 'technology/data-intelligence',
     data: {
+      portfolio: 'data-intelligence',
       title: 'Data Intelligence | Technology | QuantsMind',
       description:
         'Telemetry ingestion, archival integrity and search — in development and experimental, honestly labelled. Nothing is presented as a deployed platform.'
@@ -158,6 +167,7 @@ export const routes: Routes = [
   {
     path: 'technology/bio-intelligence',
     data: {
+      portfolio: 'bio-intelligence',
       title: 'Bio Intelligence | Technology | QuantsMind',
       description:
         'Biology and chemistry domain modules in the QuantsMind SDK (Developer Preview). No wet-lab or clinical claims.'
@@ -168,6 +178,7 @@ export const routes: Routes = [
   {
     path: 'technology/aerospace-intelligence',
     data: {
+      portfolio: 'aerospace-intelligence',
       title: 'Aerospace Intelligence | Technology | QuantsMind',
       description:
         'Ground-segment and mission-data engineering at the feasibility stage. Nothing is flight-qualified, deployed or commanded.'
@@ -178,6 +189,7 @@ export const routes: Routes = [
   {
     path: 'technology/developer-tools',
     data: {
+      portfolio: 'developer-tools',
       title: 'Developer Tools & Programming Technology | Technology | QuantsMind',
       description:
         'The Karkain platform: language v1.2.0 (Stable), Karkain Language Tools (Released), and the tools around them. Honest native-target subset.'

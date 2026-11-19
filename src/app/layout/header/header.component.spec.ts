@@ -52,10 +52,18 @@ describe('QmHeaderComponent search', () => {
     ]);
   });
 
-  it('makes Products a featured, visually distinct destination', () => {
-    const products = component.navItems.find(item => item.label === 'Products');
-    expect(products?.featured).toBe(true);
-    expect(component.navItems.filter(item => item.featured).length).toBe(1);
+  it('renders Products with the same styling as the other top-level destinations', () => {
+    const products = component.navItems.find(item => item.label === 'Products') as (typeof component.navItems)[number] & { featured?: boolean };
+    expect(products.featured).toBeUndefined();
+    expect(component.navItems.every(item => !('featured' in item))).toBe(true);
+
+    const fixture = TestBed.createComponent(QmHeaderComponent);
+    fixture.detectChanges();
+    const links = [...fixture.nativeElement.querySelectorAll('.qm-header__nav-link')];
+    expect(links.some(link => link.classList.contains('qm-header__nav-link--featured'))).toBe(false);
+    for (const link of links) {
+      expect(link.classList.contains('qm-header__nav-link--featured')).toBe(false);
+    }
   });
 
   it('exposes Contact as a persistent header action', () => {

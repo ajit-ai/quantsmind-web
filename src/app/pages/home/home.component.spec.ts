@@ -41,12 +41,12 @@ describe('HomeComponent Quantum Mission spotlight', () => {
 
   it('derives the portfolio counts from the registry', () => {
     const metric = component.trustMetrics.find(item => item.label === 'portfolio initiatives');
-    expect(metric?.value).toBe(41);
-    expect(component.portfolioProductCount).toBe(41);
+    expect(metric?.value).toBe(49);
+    expect(component.portfolioProductCount).toBe(49);
 
     const heroCounts = [...fixture.nativeElement.querySelectorAll('.home-hero__panel-foot strong')]
       .map((element: HTMLElement) => element.textContent?.trim());
-    expect(heroCounts).toEqual(['06', '05', '03']);
+    expect(heroCounts).toEqual(['06', '05', String(component.availableCount)]);
   });
 
   it('communicates the approved business positioning', () => {
@@ -62,17 +62,16 @@ describe('HomeComponent Quantum Mission spotlight', () => {
     expect(component.portfolioCards.map(card => card.id)).toEqual([
       'standalone', 'quantum', 'space', 'cybersecurity', 'developer-tools'
     ]);
-    expect(component.portfolioCards.map(card => card.count)).toEqual([11, 11, 8, 10, 1]);
+    expect(component.portfolioCards.map(card => card.count)).toEqual([11, 11, 8, 10, 9]);
 
     const cards = [...fixture.nativeElement.querySelectorAll('.portfolio-card')] as HTMLElement[];
     expect(cards.length).toBe(5);
 
     const hrefs = cards.map(card => card.getAttribute('href') ?? '');
-    expect(hrefs).toContain('/products#standalone-software');
-    expect(hrefs).toContain('/products#quantum-software');
-    expect(hrefs).toContain('/products#space-software');
-    expect(hrefs).toContain('/products#cybersecurity-software');
-    expect(hrefs).toContain('/products#developer-tools');
+    expect(hrefs).toContain('/products/category/business-applications');
+    expect(hrefs).toContain('/products/category/scientific-quantum');
+    expect(hrefs).toContain('/products/category/enterprise-software');
+    expect(hrefs).toContain('/products/category/programming-languages');
   });
 
   it('does not present the registry as commercially available', () => {

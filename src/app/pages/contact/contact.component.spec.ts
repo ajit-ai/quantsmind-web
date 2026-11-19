@@ -258,11 +258,11 @@ describe('ContactComponent product context', () => {
     expect(fixture.nativeElement.querySelector('.form-context__value')?.textContent?.trim()).toBe('MicroQuantum');
   });
 
-  it('displays the directory entry name for a valid verified-directory id', async () => {
-    await setup('karkain-compiler-toolchain');
+  it('displays the registry name for a valid registry technology id', async () => {
+    await setup('karkain');
 
-    expect(component.productContext()).toBe('Karkain Compiler & Toolchain');
-    expect(fixture.nativeElement.querySelector('.form-context__value')?.textContent?.trim()).toBe('Karkain Compiler & Toolchain');
+    expect(component.productContext()).toBe('Karkain');
+    expect(fixture.nativeElement.querySelector('.form-context__value')?.textContent?.trim()).toBe('Karkain');
   });
 
   it('displays no product context for an invalid id', async () => {

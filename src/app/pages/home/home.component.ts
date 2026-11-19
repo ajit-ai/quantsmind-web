@@ -13,7 +13,7 @@ import { HrefPartsPipe }        from '../../shared/pipes/href-parts.pipe';
 
 import { BLOG_ARTICLES } from '../blog/articles';
 import { BlogArticle } from '../blog/blog-article.model';
-import { getAllProducts, getProductById, getProductsByPortfolio } from '../../content/products/product.registry';
+import { getAllProducts, getProductById, getProductsByPortfolio, getAvailableProducts, getReleaseHistory } from '../../content/products/product.registry';
 import {
   Product,
   maturityLabel,
@@ -85,9 +85,9 @@ const FEATURED_SELECTION: readonly FeaturedSelection[] = [
   { id: 'quantsmind-document-intelligence-mini', href: '/products' },
   { id: 'microquantum', href: '/microquantum' },
   { id: 'quantum-studio', href: '/quantum-mission' },
-  { id: 'ground-link', href: '/products#space-software' },
-  { id: 'threat-intel', href: '/products#cybersecurity-software' },
-  { id: 'ai-guard', href: '/products#cybersecurity-software' }
+  { id: 'ground-link', href: '/products/ground-link' },
+  { id: 'threat-intel', href: '/products/threat-intel' },
+  { id: 'ai-guard', href: '/products/ai-guard' }
 ];
 
 const INSIGHT_SLUGS: readonly string[] = [
@@ -138,15 +138,15 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
               research-driven technology solutions for businesses and enterprises.
             </p>
             <div class="home-hero__actions">
-              <qm-button variant="primary" size="lg" [routerLinkValue]="'/contact'">
-                Discuss Your Requirement
+              <qm-button variant="primary" size="lg" [routerLinkValue]="'/products'">
+                Explore Products
                 <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                     stroke-linecap="round" stroke-linejoin="round"/>
                 </svg>
               </qm-button>
               <qm-button variant="secondary" size="lg" [routerLinkValue]="'/services'">
-                Explore Business Solutions
+                Explore Services
               </qm-button>
             </div>
             <div class="home-hero__values">
@@ -196,7 +196,7 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
               <div class="home-hero__panel-foot">
                 <div><strong>06</strong><span>engineering domains</span></div>
                 <div><strong>05</strong><span>technology portfolios</span></div>
-                <div><strong>03</strong><span>published technologies</span></div>
+                <div><strong>{{ availableCount }}</strong><span>available products</span></div>
               </div>
             </div>
 
@@ -306,7 +306,7 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
           </div>
           <div class="qm-section-head__aside">
             <qm-button variant="outline" [routerLinkValue]="'/services'">
-              All Business Solutions
+              All Services
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
                   stroke-linecap="round" stroke-linejoin="round"/>
@@ -510,6 +510,42 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
     </qm-section>
 
     <!-- ═══════════════════════════════════════════════════════ -->
+    <!-- 06b · LATEST RELEASES                                     -->
+    <!-- ═══════════════════════════════════════════════════════ -->
+    <qm-section surface="white" size="sm" ariaLabel="Latest verified releases">
+      <qm-container>
+        <div class="qm-section-head">
+          <div class="qm-section-head__copy">
+            <span class="eyebrow">LATEST RELEASES</span>
+            <h2>Verified release history.</h2>
+          </div>
+          <div class="qm-section-head__aside">
+            <qm-button variant="outline" [routerLinkValue]="'/releases'">
+              All Releases
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </qm-button>
+          </div>
+        </div>
+
+        <ul class="home-releases">
+          @for (record of latestReleases; track record.product.id + record.version) {
+            <li class="home-releases__item">
+              <a class="home-releases__name" [routerLink]="['/products', record.product.id]">{{ record.product.name }}</a>
+              <span class="home-releases__version">{{ record.version }}</span>
+              @if (record.date) {
+                <time class="home-releases__date">{{ record.date }}</time>
+              }
+              <span class="home-releases__notes">{{ record.notes }}</span>
+            </li>
+          }
+        </ul>
+      </qm-container>
+    </qm-section>
+
+    <!-- ═══════════════════════════════════════════════════════ -->
     <!-- 07 · QUANTUM MISSION SPOTLIGHT                           -->
     <!-- ═══════════════════════════════════════════════════════ -->
     <section class="mission-band" aria-labelledby="home-mission-title">
@@ -691,7 +727,7 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
             </p>
           </div>
           <div class="qm-section-head__aside">
-            <qm-button variant="outline" [routerLinkValue]="'/blog'">
+            <qm-button variant="outline" [routerLinkValue]="'/insights'">
               Read All Articles
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                 <path d="M1 7h12M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.6"
@@ -703,7 +739,7 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
 
         <div class="insights-grid">
           @for (article of insights; track article.slug; let i = $index) {
-            <a class="home-card insight-card" [routerLink]="['/blog', article.slug]"
+            <a class="home-card insight-card" [routerLink]="['/insights', article.slug]"
               qmReveal [qmRevealDelay]="i * 65">
               <div class="insight-card__top">
                 <span class="insight-card__category">{{ article.category }}</span>
@@ -989,6 +1025,12 @@ const PORTFOLIO_LABELS: Readonly<Record<Product['portfolio'], string>> = {
       font-size: 12.5px;
       line-height: 1.7;
     }
+
+    .home-releases{display:flex;flex-flow:column;gap:8px;list-style:none;margin:0;padding:0}
+    .home-releases__item{display:flex;flex-wrap:wrap;gap:4px 16px;padding:10px 14px;border:1px solid var(--color-border);border-radius:10px}
+    .home-releases__name{color:var(--color-accent);font-weight:700;text-decoration:none}
+    .home-releases__version{font-weight:700}
+    .home-releases__date,.home-releases__notes{font-size:13px;color:var(--color-text-muted)}
 
     /* ── FEATURED PRODUCTS ─────────────────────────────── */
     .featured-card {
@@ -1556,7 +1598,7 @@ export class HomeComponent {
       description: 'Quantum circuit software engineering, simulation, algorithm experimentation, and quantum-classical workflows.',
       problem: 'A quantum algorithm or workflow needs to be implemented, simulated, tested or integrated with classical software, without access to quantum hardware or an established quantum team.',
       startingPoint: 'Contact QuantsMind to discuss a quantum computing feasibility assessment.',
-      href: '/services#quantum-computing'
+      href: '/services/quantum-computing'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><path d="M2 12h4M18 12h4"/></svg>`,
@@ -1564,7 +1606,7 @@ export class HomeComponent {
       description: 'Ground-segment operations, telemetry processing, mission-support workflows, and satellite engineering data.',
       problem: 'Telemetry, mission data or simulation software must be reliable and maintainable, with qualification, deployment and operational status described accurately.',
       startingPoint: 'Contact QuantsMind to discuss space systems software requirements.',
-      href: '/services#space-systems'
+      href: '/services/space-systems'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
@@ -1572,7 +1614,7 @@ export class HomeComponent {
       description: 'Engineering AI-enabled applications, enterprise AI integrations, agentic workflow designs, and reliable intelligent systems.',
       problem: 'An AI-enabled product idea exists, but its value, reliability, permission boundaries, human oversight and integration with business systems are not yet clear.',
       startingPoint: 'Contact QuantsMind to discuss AI engineering requirements.',
-      href: '/services#ai-intelligent-systems'
+      href: '/services/ai-engineering'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>`,
@@ -1580,7 +1622,7 @@ export class HomeComponent {
       description: 'Numerical software, scientific workflows, modelling systems, and computational simulations.',
       problem: 'A scientific or engineering computation needs rigorous methods, validation and reproducible results that another team can inspect.',
       startingPoint: 'Contact QuantsMind to discuss scientific computing software needs.',
-      href: '/services#scientific-computing'
+      href: '/services/scientific-computing'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
@@ -1588,7 +1630,7 @@ export class HomeComponent {
       description: 'Security-focused software, security analysis workflows, integrity verification, and trustworthy digital systems.',
       problem: 'A system has unclear security, privacy or trust boundaries, and the team needs a systematic review rather than an unverified assurance claim.',
       startingPoint: 'Contact QuantsMind to discuss security engineering requirements.',
-      href: '/services#cybersecurity-digital-trust'
+      href: '/services/cybersecurity'
     },
     {
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>`,
@@ -1596,7 +1638,7 @@ export class HomeComponent {
       description: 'Industrial data systems, operational intelligence software, digital simulation models, and digital twin integration workflows.',
       problem: 'Industrial equipment, assets or workflows hold operational data that is not yet connected to the simulation, monitoring and software systems the business needs.',
       startingPoint: 'Contact QuantsMind to discuss industrial intelligence software needs.',
-      href: '/services#industrial-intelligence-digital-twin'
+      href: '/services/industrial-intelligence'
     }
   ];
 
@@ -1605,40 +1647,45 @@ export class HomeComponent {
       id: 'standalone',
       name: 'Standalone Software',
       description: 'Business and productivity software initiatives, including document intelligence.',
-      href: '/products#standalone-software',
+      href: '/products/category/business-applications',
       count: getProductsByPortfolio('standalone').length
     },
     {
       id: 'quantum',
       name: 'Quantum',
       description: 'Quantum software applications alongside the published MicroQuantum SDK.',
-      href: '/products#quantum-software',
+      href: '/products/category/scientific-quantum',
       count: getProductsByPortfolio('quantum').length
     },
     {
       id: 'space',
       name: 'Space Systems',
       description: 'Ground-segment, telemetry and mission-support software initiatives.',
-      href: '/products#space-software',
+      href: '/products/category/enterprise-software',
       count: getProductsByPortfolio('space').length
     },
     {
       id: 'cybersecurity',
       name: 'Cybersecurity',
       description: 'Security, privacy and digital-trust engineering initiatives.',
-      href: '/products#cybersecurity-software',
+      href: '/products/category/enterprise-software',
       count: getProductsByPortfolio('cybersecurity').length
     },
     {
       id: 'developer-tools',
       name: 'Developer Tools',
       description: 'Programming languages and developer technologies, including Karkain.',
-      href: '/products#developer-tools',
+      href: '/products/category/programming-languages',
       count: getProductsByPortfolio('developer-tools').length
     }
   ];
 
   readonly portfolioProductCount = getAllProducts().length;
+  readonly availableCount = getAvailableProducts().length;
+
+  readonly latestReleases = getReleaseHistory()
+    .filter(record => Boolean(record.date))
+    .slice(0, 5);
 
   quantumMission: Product[] = getProductsByPortfolio('quantum')
     .filter(product => product.id !== 'microquantum');
@@ -1654,7 +1701,7 @@ export class HomeComponent {
   trustMetrics: TrustMetric[] = [
     { value: 6, label: 'engineering domains' },
     { value: this.portfolioProductCount, label: 'portfolio initiatives' },
-    { value: 3, label: 'published technologies' },
+    { value: getAvailableProducts().length, label: 'available products' },
     { value: this.quantumMission.length, label: 'quantum applications · proposed' }
   ];
 

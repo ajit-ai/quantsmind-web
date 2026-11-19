@@ -53,8 +53,6 @@ export class QmCountUpComponent implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.display.set(this.format(0));
-
     this.zone.runOutsideAngular(() => {
       this.observer = new IntersectionObserver(
         (entries) => {
@@ -63,6 +61,7 @@ export class QmCountUpComponent implements AfterViewInit, OnDestroy {
           }
 
           this.observer?.disconnect();
+          this.display.set(this.format(0));
           this.animate();
         },
         { threshold: 0.4 }

@@ -92,8 +92,37 @@ interface Principle {
           described across the site.
         </p>
         <qm-button variant="primary" size="md" [routerLinkValue]="'/products'">
-          Explore Products &amp; Technology →
+          Explore the Products Store →
         </qm-button>
+      </qm-container>
+    </qm-section>
+
+    <qm-section surface="white" ariaLabel="How the site is organised">
+      <qm-container>
+        <span class="eyebrow">FOUR THINGS, FOUR DESTINATIONS</span>
+        <h2>Products, services, technology and research are not the same thing.</h2>
+        <div class="areas-grid">
+          <article class="area-card" qmReveal>
+            <h3>Products</h3>
+            <p>Software you can actually obtain and use today — verified versions, maturity and installation links.</p>
+            <a routerLink="/products">Browse the Products Store →</a>
+          </article>
+          <article class="area-card" qmReveal [qmRevealDelay]="60">
+            <h3>Services</h3>
+            <p>Engineering and consulting work you hire QuantsMind to perform — scoped per customer problem, delivered per engagement.</p>
+            <a routerLink="/services">Explore Services →</a>
+          </article>
+          <article class="area-card" qmReveal [qmRevealDelay]="120">
+            <h3>Technology</h3>
+            <p>The engineering foundations, architecture and portfolios behind the products — including what does not exist yet.</p>
+            <a routerLink="/technology">Explore Technology →</a>
+          </article>
+          <article class="area-card" qmReveal [qmRevealDelay]="180">
+            <h3>Labs &amp; Research</h3>
+            <p>Experiments and feasibility work that is not customer-ready software — stated with evidence and limits.</p>
+            <a routerLink="/labs">Explore Labs &amp; Research →</a>
+          </article>
+        </div>
       </qm-container>
     </qm-section>
 
@@ -118,6 +147,12 @@ interface Principle {
     .pillars-grid {
       display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 24px;
     }
+    .areas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin-top: 24px; }
+    .area-card { display: flex; flex-direction: column; gap: 10px; padding: 24px; border: 1px solid var(--card-border); border-radius: var(--card-radius); background: var(--card-bg); }
+    .area-card h3 { margin: 0; }
+    .area-card p { margin: 0; color: var(--color-text-secondary); line-height: 1.6; }
+    .area-card a { margin-top: auto; color: var(--color-accent); font-weight: 700; text-decoration: none; }
+    .area-card a:hover { text-decoration: underline; }
     @media (min-width: 768px) { .pillars-grid { grid-template-columns: repeat(2, 1fr); } }
 
     .pillar-card {

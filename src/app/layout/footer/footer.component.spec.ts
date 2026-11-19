@@ -43,13 +43,17 @@ describe('QmFooterComponent', () => {
     const text = host.textContent ?? '';
 
     expect(text).toContain('Explore');
-    expect(text).toContain('Products & Technology');
+    expect(text).toContain('Products & Resources');
     expect(text).toContain('Connect');
     expect(text).toContain('About');
-    expect(text).toContain('Business Solutions');
-    expect(text).toContain('Research & Innovation');
+    expect(text).toContain('Services');
+    expect(text).toContain('Technology');
+    expect(text).toContain('Labs & Research');
     expect(text).toContain('Insights');
-    expect(text).toContain('Quantum Mission');
+    expect(text).toContain('Products Store');
+    expect(text).toContain('Release Information');
+    expect(text).toContain('Documentation');
+    expect(text).toContain('Licensing');
     expect(text).toContain('Karkain');
     expect(text).toContain('MicroQuantum');
     expect(text).toContain('QuantsMind SDK');
@@ -59,10 +63,15 @@ describe('QmFooterComponent', () => {
     expect(text).not.toContain('Shikargarh');
   });
 
-  it('links Quantum Mission to its dedicated route', () => {
+  it('links the Products Store and Release Information to their routes', () => {
     const host = render();
-    const link = [...host.querySelectorAll('a')]
-      .find(anchor => anchor.textContent?.trim() === 'Quantum Mission');
-    expect(link?.getAttribute('href')).toBe('/quantum-mission');
+    const link = (label: string) =>
+      [...host.querySelectorAll('a')].find(anchor => anchor.textContent?.trim() === label);
+
+    expect(link('Products Store')?.getAttribute('href')).toBe('/products');
+    expect(link('Release Information')?.getAttribute('href')).toBe('/releases');
+    expect(link('Documentation')?.getAttribute('href')).toBe('/docs');
+    expect(link('Licensing')?.getAttribute('href')).toBe('/licensing');
+    expect(link('Product Support')?.getAttribute('href')).toBe('/support');
   });
 });

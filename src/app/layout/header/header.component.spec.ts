@@ -17,12 +17,12 @@ describe('QmHeaderComponent search', () => {
   });
 
   const serviceCases: Array<[string, string]> = [
-    ['Cybersecurity', '/services#cybersecurity-digital-trust'],
-    ['Space Systems', '/services#space-systems'],
-    ['Quantum Computing', '/services#quantum-computing'],
-    ['AI Engineering', '/services#ai-intelligent-systems'],
-    ['Scientific Computing', '/services#scientific-computing'],
-    ['Industrial Intelligence', '/services#industrial-intelligence-digital-twin']
+    ['Cybersecurity', '/services/cybersecurity'],
+    ['Space Systems', '/services/space-systems'],
+    ['Quantum Computing', '/services/quantum-computing'],
+    ['AI Engineering', '/services/ai-engineering'],
+    ['Scientific Computing', '/services/scientific-computing'],
+    ['Industrial Intelligence', '/services/industrial-intelligence']
   ];
 
   for (const [query, expectedHref] of serviceCases) {
@@ -46,10 +46,16 @@ describe('QmHeaderComponent search', () => {
     });
   }
 
-  it('keeps six top-level destinations and a separate Contact CTA', () => {
+  it('keeps the eight top-level destinations in the required order', () => {
     expect(component.navItems.map(item => item.label)).toEqual([
-      'Home', 'Business Solutions', 'Products & Technology', 'Research & Innovation', 'About', 'Insights'
+      'Home', 'Products', 'Services', 'Technology', 'Labs & Research', 'Insights', 'About', 'Contact'
     ]);
+  });
+
+  it('makes Products a featured, visually distinct destination', () => {
+    const products = component.navItems.find(item => item.label === 'Products');
+    expect(products?.featured).toBe(true);
+    expect(component.navItems.filter(item => item.featured).length).toBe(1);
   });
 
   it('exposes Contact as a persistent header action', () => {
@@ -60,51 +66,73 @@ describe('QmHeaderComponent search', () => {
     expect(component.searchIndex.some(entry => entry.href === '/contact')).toBe(true);
   });
 
-  it('keeps Quantum Mission and the technology ecosystem in the products menu', () => {
-    const products = component.navItems.find(item => item.label === 'Products & Technology');
-    expect(products?.children?.some(child => child.label === 'Quantum Mission'
-      && child.href === '/quantum-mission')).toBe(true);
-    expect(products?.children?.some(child => child.label === 'Quantum Software'
-      && child.href === '/products#quantum-software')).toBe(false);
-    expect(products?.children?.some(child => child.label === 'Technology Ecosystem'
-      && child.href === '/technology')).toBe(true);
-    expect(products?.children?.length).toBe(5);
+  it('keeps the Products menu focused on the store, releases, docs and support', () => {
+    const products = component.navItems.find(item => item.label === 'Products');
+    expect(products?.children?.map(child => child.href)).toEqual([
+      '/products', '/products#available', '/products#in-development', '/releases', '/docs', '/support'
+    ]);
+    expect(products?.children?.length).toBe(6);
+    expect(products?.children?.[0]?.label).toBe('Products Store');
   });
 
-  it('groups Labs and the technology ecosystem under Research & Innovation', () => {
-    const research = component.navItems.find(item => item.label === 'Research & Innovation');
-    expect(research?.href).toBe('/labs');
-    expect(research?.children?.map(child => child.href)).toEqual(['/labs', '/technology']);
+  it('groups Labs and Research as a top-level destination', () => {
+    const labs = component.navItems.find(item => item.label === 'Labs & Research');
+    expect(labs?.href).toBe('/labs');
+    expect(labs?.children).toBeUndefined();
   });
 
-  it('renders the desktop navigation without a seventh top-level item', () => {
+  it('renders the desktop navigation with exactly the eight approved items', () => {
     const fixture = TestBed.createComponent(QmHeaderComponent);
     fixture.detectChanges();
     const labels = [...fixture.nativeElement.querySelectorAll('.qm-header__nav-link')]
       .map((element: HTMLElement) => element.textContent?.replace(/\s+/g, ' ').trim() ?? '');
     expect(labels).toEqual([
-      'Home', 'Business Solutions', 'Products & Technology', 'Research & Innovation',
-      'About', 'Insights'
+      'Home', 'Products', 'Services', 'Technology', 'Labs & Research', 'Insights', 'About', 'Contact'
     ]);
     const cta = fixture.nativeElement.querySelector('.qm-header__cta a') as HTMLAnchorElement;
     expect(cta.textContent).toContain('Contact QuantsMind');
     expect(cta.getAttribute('href')).toBe('/contact');
   });
 
-  it('opens the Research & Innovation mega menu with both destinations', () => {
+  it('opens the Technology mega menu with all six portfolios', () => {
     const fixture = TestBed.createComponent(QmHeaderComponent);
     fixture.detectChanges();
-    fixture.componentInstance.openMega('Research & Innovation');
+    fixture.componentInstance.openMega('Technology');
     fixture.detectChanges();
 
     const links = [...fixture.nativeElement.querySelectorAll('.qm-mega__grid a')]
       .map((element: HTMLAnchorElement) => element.getAttribute('href'));
-    expect(links).toEqual(['/labs', '/technology']);
+    expect(links).toEqual([
+      '/technology/financial-intelligence',
+      '/technology/enterprise-ai',
+      '/technology/data-intelligence',
+      '/technology/bio-intelligence',
+      '/technology/aerospace-intelligence',
+      '/technology/developer-tools'
+    ]);
     expect(fixture.nativeElement.querySelector('.qm-mega__grid')?.textContent)
-      .toContain('QuantsMind Labs');
+      .toContain('Financial Intelligence');
   });
 
-  it('shows the submenu and Contact action in the open mobile drawer', () => {
+  it('opens the Services mega menu with the six service destinations', () => {
+    const fixture = TestBed.createComponent(QmHeaderComponent);
+    fixture.detectChanges();
+    fixture.componentInstance.openMega('Services');
+    fixture.detectChanges();
+
+    const links = [...fixture.nativeElement.querySelectorAll('.qm-mega__grid a')]
+      .map((element: HTMLAnchorElement) => element.getAttribute('href'));
+    expect(links).toEqual([
+      '/services/quantum-computing',
+      '/services/space-systems',
+      '/services/ai-engineering',
+      '/services/scientific-computing',
+      '/services/cybersecurity',
+      '/services/industrial-intelligence'
+    ]);
+  });
+
+  it('shows the eight items and submenus in the mobile drawer', () => {
     const fixture = TestBed.createComponent(QmHeaderComponent);
     fixture.detectChanges();
 
@@ -113,18 +141,25 @@ describe('QmHeaderComponent search', () => {
     const items = [...fixture.nativeElement.querySelectorAll('.qm-mobile-nav__link')]
       .map((element: HTMLElement) => element.textContent?.trim());
     expect(items).toEqual([
-      'Home', 'Business Solutions', 'Products & Technology', 'Research & Innovation',
-      'About', 'Insights'
+      'Home', 'Products', 'Services', 'Technology', 'Labs & Research', 'Insights', 'About', 'Contact'
     ]);
 
-    fixture.componentInstance.toggleSub(new Event('click'), 'Research & Innovation');
+    fixture.componentInstance.toggleSub(new Event('click'), 'Technology');
     fixture.detectChanges();
     const openSub = fixture.nativeElement.querySelector('.qm-mobile-nav__sub--open') as HTMLElement;
     expect(openSub).toBeTruthy();
     const subLinks = [...openSub.querySelectorAll('a')].map((element: HTMLAnchorElement) => [
       element.textContent?.trim(), element.getAttribute('href')
     ]);
-    expect(subLinks).toEqual([['QuantsMind Labs', '/labs'], ['Technology Ecosystem', '/technology']]);
+    expect(subLinks.length).toBe(6);
+    expect(subLinks.map(pair => pair[1])).toEqual([
+      '/technology/financial-intelligence',
+      '/technology/enterprise-ai',
+      '/technology/data-intelligence',
+      '/technology/bio-intelligence',
+      '/technology/aerospace-intelligence',
+      '/technology/developer-tools'
+    ]);
 
     const drawerCta = fixture.nativeElement.querySelector('.qm-mobile-nav__cta a') as HTMLAnchorElement;
     expect(drawerCta.textContent).toContain('Contact QuantsMind');
@@ -145,27 +180,31 @@ describe('QmHeaderComponent search', () => {
     expect(component.searchIndex.every(entry => !entry.href.startsWith('http'))).toBe(true);
   });
 
-  it('keeps the six business solution domains under Business Solutions', () => {
-    const solutions = component.navItems.find(item => item.label === 'Business Solutions');
-    expect(solutions?.href).toBe('/services');
-    expect(solutions?.children?.map(child => child.href)).toEqual([
-      '/quantum',
-      '/services#space-systems',
-      '/services#ai-intelligent-systems',
-      '/services#scientific-computing',
-      '/services#cybersecurity-digital-trust',
-      '/services#industrial-intelligence-digital-twin'
+  it('keeps the six service domains under Services with dedicated routes', () => {
+    const services = component.navItems.find(item => item.label === 'Services');
+    expect(services?.href).toBe('/services');
+    expect(services?.children?.map(child => child.href)).toEqual([
+      '/services/quantum-computing',
+      '/services/space-systems',
+      '/services/ai-engineering',
+      '/services/scientific-computing',
+      '/services/cybersecurity',
+      '/services/industrial-intelligence'
     ]);
   });
 
-  it('indexes the approved business page names', () => {
+  it('indexes the approved page names', () => {
     const titlesByHref = new Map(component.searchIndex.map(entry => [entry.href, entry.title]));
-    expect(titlesByHref.get('/services')).toBe('Business Solutions');
-    expect(titlesByHref.get('/products')).toBe('Products & Technology');
-    expect(titlesByHref.get('/technology')).toBe('Technology Ecosystem');
-    expect(titlesByHref.get('/labs')).toBe('Research & Innovation');
-    expect(titlesByHref.get('/blog')).toBe('Insights');
+    expect(titlesByHref.get('/services')).toBe('Services');
+    expect(titlesByHref.get('/products')).toBe('Products Store');
+    expect(titlesByHref.get('/technology')).toBe('Technology');
+    expect(titlesByHref.get('/labs')).toBe('Labs & Research');
+    expect(titlesByHref.get('/insights')).toBe('Insights');
     expect(titlesByHref.get('/about')).toBe('About');
+    expect(titlesByHref.get('/releases')).toBe('Release Information');
+    expect(titlesByHref.get('/docs')).toBe('Documentation');
+    expect(titlesByHref.get('/support')).toBe('Product Support');
+    expect(titlesByHref.get('/licensing')).toBe('Licensing');
   });
 
   it('finds Quantum Mission at its dedicated route', () => {

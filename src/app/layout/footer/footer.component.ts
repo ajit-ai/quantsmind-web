@@ -72,9 +72,9 @@ interface FooterLink {
             </ul>
           </nav>
 
-          <!-- Products & Technology -->
-          <nav class="qm-footer__col" aria-label="Products and technologies">
-            <h3 class="qm-footer__heading">Products &amp; Technologies</h3>
+          <!-- Products & Resources -->
+          <nav class="qm-footer__col" aria-label="Products and resources">
+            <h3 class="qm-footer__heading">Products &amp; Resources</h3>
             <ul class="qm-footer__list" role="list">
               @for (link of productsTechnology; track link.label) {
                 @let target = link.href | hrefParts;
@@ -446,16 +446,18 @@ export class QmFooterComponent {
 
   explore: FooterLink[] = [
     { label: 'About', href: '/about' },
-    { label: 'Business Solutions', href: '/services' },
-    { label: 'Research & Innovation', href: '/labs' },
-    { label: 'Insights', href: '/blog' }
+    { label: 'Services', href: '/services' },
+    { label: 'Technology', href: '/technology' },
+    { label: 'Labs & Research', href: '/labs' },
+    { label: 'Insights', href: '/insights' }
   ];
 
   productsTechnology: FooterLink[] = [
-    { label: 'Products & Technology', href: '/products' },
-    { label: 'Quantum Mission', href: '/quantum-mission' },
-    { label: 'Space Systems', href: '/products#space-software' },
-    { label: 'Cybersecurity', href: '/products#cybersecurity-software' },
+    { label: 'Products Store', href: '/products' },
+    { label: 'Release Information', href: '/releases' },
+    { label: 'Documentation', href: '/docs' },
+    { label: 'Licensing', href: '/licensing' },
+    { label: 'Product Support', href: '/support' },
     { label: 'Karkain', href: '/karkain' },
     { label: 'MicroQuantum', href: '/microquantum' },
     { label: 'QuantsMind SDK', href: '/quantsmind-sdk' }

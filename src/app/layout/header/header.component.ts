@@ -23,7 +23,6 @@ interface NavItem {
   label: string;
   href: string;
   children?: MegaChild[];
-  featured?: boolean;
 }
 
 interface SearchEntry {
@@ -82,7 +81,6 @@ interface SearchEntry {
                   routerLinkActive="qm-header__nav-link--active"
                   [routerLinkActiveOptions]="{exact: item.href === '/'}"
                   class="qm-header__nav-link"
-                  [class.qm-header__nav-link--featured]="item.featured"
                   [attr.aria-expanded]="item.children ? (activeMega === item.label) : null"
                   [attr.aria-haspopup]="item.children ? 'true' : null"
                   (click)="onNavClick($event, item)"
@@ -262,7 +260,6 @@ interface SearchEntry {
                 <div class="qm-mobile-nav__row">
                   <a [routerLink]="item.href"
                     class="qm-mobile-nav__link"
-                    [class.qm-mobile-nav__link--featured]="item.featured"
                     routerLinkActive="qm-mobile-nav__link--active"
                     [routerLinkActiveOptions]="{exact: item.href === '/'}"
                     (click)="closeMobile()">
@@ -492,17 +489,6 @@ interface SearchEntry {
     .qm-header__nav-link--active {
       color: var(--qm-header-accent);
       background: var(--qm-panel-icon);
-    }
-    .qm-header__nav-link--featured {
-      color: var(--qm-header-text-strong);
-      background: var(--gradient-signal);
-      border-radius: var(--radius-pill, 999px);
-      font-weight: 700;
-    }
-    .qm-header__nav-link--featured:hover {
-      color: var(--qm-header-text-strong);
-      background: var(--gradient-signal);
-      filter: brightness(1.05);
     }
     .qm-header__nav-link::after {
       content: '';
@@ -815,7 +801,6 @@ interface SearchEntry {
       transition: color 150ms ease;
     }
     .qm-mobile-nav__link--active { color: var(--qm-header-accent); }
-    .qm-mobile-nav__link--featured { color: #fff; background: var(--gradient-signal); }
     .qm-mobile-nav__row {
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
       padding-right: 8px;
@@ -1035,7 +1020,6 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
     {
       label: 'Products',
       href: '/products',
-      featured: true,
       children: [
         { label: 'Products Store', href: '/products', description: 'Available software and development initiatives', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.5 12a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8L4 7z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>` },
         { label: 'Available Products', href: '/products#available', description: 'Verified releases and previews you can install', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>` },

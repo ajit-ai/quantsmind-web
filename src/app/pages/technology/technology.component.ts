@@ -5,6 +5,7 @@ import { QmContainerComponent } from '../../shared/components/qm-container/qm-co
 import { QmSectionComponent }   from '../../shared/components/qm-section/qm-section.component';
 import { QmButtonComponent }    from '../../shared/components/qm-button/qm-button.component';
 import { QmBadgeComponent, BadgeVariant } from '../../shared/components/qm-badge/qm-badge.component';
+import { TECHNOLOGY_PORTFOLIOS } from '../../content/technology/portfolios';
 import { SafeHtmlPipe }         from '../../shared/pipes/safe-html.pipe';
 import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
 import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
@@ -69,7 +70,7 @@ interface EcosystemMapGroup {
         readiness, and none of these projects is described as production-ready.
       </p>
       <div heroMeta class="tech-meta" aria-label="Primary technology status">
-        <qm-badge variant="experimental">3 developer-preview technologies</qm-badge>
+        <qm-badge variant="stable">Stable release · Karkain v1.2.0</qm-badge>
         <qm-badge variant="default">verified releases</qm-badge>
         <qm-badge variant="prototype">Wider ecosystem · alpha &amp; research</qm-badge>
       </div>
@@ -208,6 +209,28 @@ interface EcosystemMapGroup {
             </article>
           }
         </div>
+      </qm-container>
+    </qm-section>
+
+    <qm-section surface="white" size="sm" ariaLabel="Technology portfolios">
+      <qm-container>
+        <span class="eyebrow">PORTFOLIOS</span>
+        <h2 class="section-head__title">Six engineering portfolios.</h2>
+        <p class="lead section-lead">
+          Each portfolio states its purpose, technical foundations, current maturity and research
+          boundaries. Where a portfolio has no qualifying customer-facing product, it says so.
+        </p>
+        <ul class="portfolio-links">
+          @for (portfolio of portfolios; track portfolio.slug) {
+            <li>
+              <a class="portfolio-links__item" [routerLink]="['/technology', portfolio.slug]">
+                <span class="portfolio-links__name">{{ portfolio.title }}</span>
+                <span class="portfolio-links__short">{{ portfolio.short }}</span>
+                <span class="portfolio-links__cta">Open portfolio →</span>
+              </a>
+            </li>
+          }
+        </ul>
       </qm-container>
     </qm-section>
 
@@ -362,13 +385,16 @@ interface EcosystemMapGroup {
       display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
       margin-top: auto; padding-top: 8px;
     }
-    .tech-card__doc-link {
-      font-size: 12.5px; font-weight: 600; color: var(--color-accent);
-      text-decoration: underline; text-underline-offset: 2px;
-    }
+    .tech-card__doc-link { color: var(--color-accent); font-weight: 600; font-size: 14px; text-decoration: none; }
     .tech-card__doc-link:hover { color: var(--color-accent-dark); }
     .tech-card__doc-link:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-
+    .portfolio-links { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    .portfolio-links__item { display: flex; flex-direction: column; gap: 4px; padding: 16px; border: 1px solid var(--color-border); border-radius: var(--radius-lg, 14px); background: var(--color-surface-subtle, #f8fafc); text-decoration: none; height: 100%; box-sizing: border-box; }
+    .portfolio-links__item:hover { border-color: var(--color-accent); }
+    .portfolio-links__item:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+    .portfolio-links__name { font-weight: 700; color: var(--color-text-primary); }
+    .portfolio-links__short { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+    .portfolio-links__cta { margin-top: auto; font-size: 13px; font-weight: 700; color: var(--color-accent); }
     .tech-card__link { font-size: 13px; font-weight: 500; color: var(--color-accent); margin-top: auto; overflow-wrap: anywhere; }
     .tech-card__refs {
       display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px;
@@ -448,6 +474,8 @@ interface EcosystemMapGroup {
   `]
 })
 export class TechnologyComponent {
+  readonly portfolios = TECHNOLOGY_PORTFOLIOS;
+
   ecosystemGroups: EcosystemMapGroup[] = [
     {
       title: 'Engineering Services',

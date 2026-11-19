@@ -32,7 +32,7 @@ describe('BlogComponent index', () => {
 
     expect(links.length).toBe(BLOG_ARTICLES.length);
     for (const article of BLOG_ARTICLES) {
-      expect(links.some(link => link.getAttribute('href') === `/blog/${article.slug}`)).toBe(true);
+      expect(links.some(link => link.getAttribute('href') === `/insights/${article.slug}`)).toBe(true);
     }
   });
 });

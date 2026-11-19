@@ -112,7 +112,7 @@ describe('BlogArticleComponent rendering', () => {
     const { host } = renderArticle('karkain');
     const hrefs = [...host.querySelectorAll('a')].map(a => a.getAttribute('href'));
 
-    expect(hrefs).toContain('/blog');
+    expect(hrefs).toContain('/insights');
   });
 
   it('renders every related link to a registered article', () => {
@@ -135,7 +135,7 @@ describe('BlogArticleComponent rendering', () => {
 
     expect(hrefs.length).toBe(component.related().length);
     for (const href of hrefs) {
-      expect(slugs).toContain(href.replace('/blog/', ''));
+      expect(slugs).toContain(href.replace('/insights/', ''));
     }
   });
 

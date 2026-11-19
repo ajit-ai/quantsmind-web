@@ -31,7 +31,7 @@ describe('quantum route configuration', () => {
 
   it('carries SEO title and description', () => {
     const route = quantumRoute();
-    expect(route.data?.['title']).toBe('Quantum Computing Engineering — QuantsMind');
+    expect(route.data?.['title']).toBe('Quantum Computing & Quantum Software Engineering | Services | QuantsMind');
     expect(String(route.data?.['description'])).toContain('quantum');
   });
 });
@@ -172,7 +172,7 @@ describe('quantum navigation integration', () => {
     await router.navigateByUrl('/services#quantum-computing');
     fixture.detectChanges();
     const link = (Array.from(fixture.nativeElement.querySelectorAll('a')) as any[]).find(a =>
-      a.textContent.includes('Explore Quantum Computing Services')
+      a.textContent.includes('Explore Quantum Services')
     );
     expect(link).toBeTruthy();
   });
@@ -197,10 +197,10 @@ describe('quantum navigation integration', () => {
     }).compileComponents();
     const fixture = TestBed.createComponent(QmHeaderComponent);
     const header = fixture.componentInstance;
-    const services = ((header as any).navItems as any[]).find(n => n.label === 'Business Solutions');
+    const services = ((header as any).navItems as any[]).find(n => n.label === 'Services');
     const quantum = services.children.find((c: any) => c.label === 'Quantum Computing & Quantum Software Engineering');
     expect(quantum).toBeTruthy();
-    expect(quantum.href).toBe('/quantum');
+    expect(quantum.href).toBe('/services/quantum-computing');
   });
 });
 

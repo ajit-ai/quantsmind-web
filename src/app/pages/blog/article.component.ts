@@ -25,7 +25,7 @@ import { BLOG_ARTICLES } from './articles';
       [lead]="article.summary"
       [artLabels]="['Insight', 'Research', 'Engineering', 'Practice']">
       <div heroBadge class="article-hero__meta">
-        <a routerLink="/blog" class="back">&larr; Back to Insights</a>
+        <a routerLink="/insights" class="back">&larr; Back to Insights</a>
         <div class="badges">
           <qm-badge variant="default">{{ article.category }}</qm-badge>
           <qm-badge [variant]="article.maturityVariant">{{ article.maturity }}</qm-badge>
@@ -102,7 +102,7 @@ import { BLOG_ARTICLES } from './articles';
           </section>
 
           <nav class="prose__nav" aria-label="Article navigation">
-            <a routerLink="/blog" class="prose__nav-link">&larr; Back to Insights</a>
+            <a routerLink="/insights" class="prose__nav-link">&larr; Back to Insights</a>
           </nav>
 
           @if (article.verification?.length) {
@@ -124,7 +124,7 @@ import { BLOG_ARTICLES } from './articles';
               <ul class="related__list">
                 @for (other of related(); track other.slug) {
                   <li class="related__item">
-                    <a [routerLink]="['/blog', other.slug]" class="related__link">{{ other.title }}</a>
+                    <a [routerLink]="['/insights', other.slug]" class="related__link">{{ other.title }}</a>
                     <span class="related__maturity">{{ other.maturity }}</span>
                   </li>
                 }
@@ -141,7 +141,7 @@ import { BLOG_ARTICLES } from './articles';
       title="Article not found"
       lead="That article does not exist. Browse the index to find the articles that are published."
       art="none">
-      <a heroActions routerLink="/blog" class="back">&larr; Back to Insights</a>
+      <a heroActions routerLink="/insights" class="back">&larr; Back to Insights</a>
     </qm-page-hero>
     }
     `,

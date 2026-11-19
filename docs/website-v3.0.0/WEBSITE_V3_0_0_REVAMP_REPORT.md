@@ -212,6 +212,17 @@ Review executed by the same agent session that implemented the revamp, running t
 | `npm run build:static` | 0 | 100 route files + 404.html; sitemap verified — 100 URLs consistent |
 | `npm run smoke` | 0 | **PASS — 101 routes × 6 viewports; 606 checks; no overflow, no console errors** |
 
-**Local commits** are grouped: (1) registry + Products Store; (2) services, technology, labs & research, insights; (3) homepage, navigation, about, shared; (4) SEO/prerender/sitemap; (5) support, releases, docs, licensing; (6) documentation. Exact hashes and per-group file lists follow in §9.1.
+**Local commits** (all six exist on `release/v3.0.0`, nothing pushed):
+
+| Commit | Message | Files |
+|---|---|---|
+| `148b67d` | feat(products): make the registry the single source and add the Products Store | 9 — `product.model.ts`, `product.registry.ts`, `product.registry.spec.ts`, `directory-entries.ts` (deleted), `products.component.ts(+spec)`, `qm-product-detail.component.ts(+spec)`, `qm-product-card.spec.ts` |
+| `eac4289` | feat: add service and portfolio detail routes, labs research pages, rename insights | 23 — `service.registry.ts`, `services.component.ts`, `service-detail.component.ts`, `technology/portfolios.ts`, `technology.component.ts`, `technology-portfolio.component.ts`, `research-items.ts`, `research-detail.component.ts`, `labs.component.ts`, `article.component.ts`, `blog/articles/index.ts`, `blog-article.model.ts`, `blog-article.resolver.ts`, `blog-prerender.spec.ts`, `blog-sitemap.spec.ts`, `blog-links.spec.ts`, `blog-article.spec.ts`, `blog-article-render.spec.ts`, `blog.component.ts`, `blog.component.spec.ts`, `quantum.component.ts(+spec)`, `not-found.component.ts` |
+| `60b1fe5` | feat: rework information architecture of home, navigation, about and shared shell | 10 — `home.component.ts(+spec)`, `about.component.ts`, `header.component.ts(+spec)`, `footer.component.ts(+spec)`, `qm-count-up.component.ts`, `contact.component.ts(+spec)` |
+| `654c22c` | feat(seo): dynamic per-route metadata, JSON-LD, registry-driven prerender and sitemap | 6 — `app.routes.ts`, `route-meta.service.ts(+spec)`, `prerender.mjs`, `generate-sitemap.mjs` (new), `sitemap.xml` |
+| `ffa63b8` | feat: add support, releases, documentation and licensing destinations | 4 — `support`, `releases`, `docs`, `licensing` components |
+| `2172055` | docs: add v3.0.0 revamp completion and pre-release audit report | 1 — `WEBSITE_V3_0_0_REVAMP_REPORT.md` |
+
+**Final Git state** (after committing): branch `release/v3.0.0`, HEAD = `2172055`; `git diff --stat origin/main HEAD` covers 53 files (including the `directory-entries.ts` deletion); excluded/preserved files remain outside the release; 47 preserved untracked files intact; `package-lock.json` and `scripts/measure-header.mjs` untouched by every commit; branch is clean with respect to committed v3.0.0 work and ready for PR creation once authorized.
 
 *The `500 passed` figure reflects artifacts present locally (the prerendered tree). A clean checkout will report `415 passed / 85 skipped` — the 85 `blog-prerender` artifact tests are documented and execute in CI.*

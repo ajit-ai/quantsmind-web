@@ -27,5 +27,5 @@ export const blogArticleResolver: ResolveFn<BlogArticle | RedirectCommand> = rou
     return article;
   }
 
-  return new RedirectCommand(inject(Router).createUrlTree(['/blog']), { replaceUrl: true });
+  return new RedirectCommand(inject(Router).createUrlTree(['/insights']), { replaceUrl: true });
 };

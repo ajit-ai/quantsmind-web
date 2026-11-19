@@ -222,7 +222,7 @@ export class NotFoundComponent {
   readonly destinations: Destination[] = [
     { label: 'Services', route: '/services', description: 'Software engineering, quantum computing, AI/ML, cloud and DevOps.' },
     { label: 'Technology', route: '/technology', description: 'The QuantsMind technology ecosystem and current maturity.' },
-    { label: 'Articles', route: '/blog', description: 'Technical articles from the QuantsMind team and Labs.' },
+    { label: 'Articles', route: '/insights', description: 'Technical articles from the QuantsMind team and Labs.' },
     { label: 'About', route: '/about', description: 'Who we are and how we approach engineering work.' }
   ];
 }

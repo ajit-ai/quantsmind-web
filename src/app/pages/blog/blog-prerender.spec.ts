@@ -30,7 +30,7 @@ const artifactsPresent =
 const describeArtifacts = artifactsPresent ? describe : describe.skip;
 
 const read = (relativePath: string) => readFileSync(join(OUT, relativePath), 'utf8');
-const articleFile = (slug: string) => join('blog', slug, 'index.html');
+const articleFile = (slug: string) => join('insights', slug, 'index.html');
 
 function attribute(html: string, pattern: RegExp): string | null {
   return html.match(pattern)?.[1] ?? null;
@@ -73,12 +73,12 @@ describeArtifacts('prerendered article HTML', () => {
 
     expect(html).toContain(`<meta property="og:title" content="${expectedTitle.replace(/&/g, '&amp;')}"`);
     expect(html).toContain(`<meta name="twitter:title" content="${expectedTitle.replace(/&/g, '&amp;')}"`);
-    expect(html).toContain(`<meta property="og:url" content="${SITE_URL}/blog/${slug}/"`);
+    expect(html).toContain(`<meta property="og:url" content="${SITE_URL}/insights/${slug}/"`);
   });
 
   it.each(BLOG_ARTICLES.map(a => a.slug))('"%s" carries exactly one correct canonical', slug => {
     const html = read(articleFile(slug));
-    const expected = `${SITE_URL}/blog/${slug}/`;
+    const expected = `${SITE_URL}/insights/${slug}/`;
     const canonicals = [...html.matchAll(/<link rel="canonical" href="([^"]*)"/g)].map(m => m[1]);
 
     expect(canonicals).toHaveLength(1);
@@ -133,7 +133,7 @@ describeArtifacts('prerendered article HTML', () => {
     expect(html).toContain('name="robots" content="noindex"');
     expect(html.toLowerCase()).toContain('page not found');
     expect(html).toContain(
-      '<meta name="description" content="The page you are looking for does not exist or has moved.">'
+      '<meta name="description" content="The page you requested does not exist.">'
     );
     expect(html).not.toContain('<title>QuantsMind | Technology Engineering');
   });
@@ -143,13 +143,14 @@ describeArtifacts('prerendered article HTML', () => {
   });
 
   it('emits a file for every non-parameterised route in the route table', () => {
+    const redirectPaths = new Set(['blog', 'blog/:slug']);
     const staticPaths = routes
       .map(route => route.path)
       .filter((path): path is string => typeof path === 'string')
-      .filter(path => path !== '**' && !path.includes(':'))
+      .filter(path => path !== '**' && !path.includes(':') && !redirectPaths.has(path))
       .map(path => canonicalPath(path));
 
-    const slugs = BLOG_ARTICLES.map(a => canonicalPath(`blog/${a.slug}`));
+    const slugs = BLOG_ARTICLES.map(a => canonicalPath(`insights/${a.slug}`));
     const all = [...new Set([...staticPaths, ...slugs])];
 
     for (const route of all) {
@@ -159,7 +160,7 @@ describeArtifacts('prerendered article HTML', () => {
   });
 
   it('does not emit a page for an unknown route', () => {
-    expect(existsSync(join(OUT, 'blog/no-such-article/index.html'))).toBe(false);
+    expect(existsSync(join(OUT, 'insights/no-such-article/index.html'))).toBe(false);
     expect(existsSync(join(OUT, 'totally-unknown-route/index.html'))).toBe(false);
   });
 
@@ -168,7 +169,7 @@ describeArtifacts('prerendered article HTML', () => {
     const declared = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]));
 
     for (const article of BLOG_ARTICLES) {
-      expect(declared, `sitemap.xml is missing ${article.slug}`).toContain(`${SITE_URL}/blog/${article.slug}/`);
+      expect(declared, `sitemap.xml is missing ${article.slug}`).toContain(`${SITE_URL}/insights/${article.slug}/`);
     }
   });
 });
@@ -177,7 +178,7 @@ describeArtifacts('sitemap and canonical policy', () => {
   it('keeps every canonical URL identical to its sitemap entry', () => {
     const sitemap = read('sitemap.xml');
     const declared = new Set([...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]));
-    const routesToCheck = [...BLOG_ARTICLES.map(a => `blog/${a.slug}/`), 'blog/', ''];
+    const routesToCheck = [...BLOG_ARTICLES.map(a => `insights/${a.slug}/`), 'insights/', ''];
 
     for (const route of routesToCheck) {
       const file = route === '' ? 'index.html' : route.endsWith('/') ? `${route}index.html` : `${route}/index.html`;

@@ -23,7 +23,7 @@ interface DeliveryStep {
     template: `
     <qm-page-hero
       eyebrow="BUSINESS SOLUTIONS"
-      title="Business Solutions"
+      title="Services"
       lead="Advanced engineering services for technology companies, product startups, growing SMEs, enterprise engineering teams and research organisations."
       tone="quantum"
       [artLabels]="['Architecture', 'Quantum', 'AI & ML', 'Cloud']">

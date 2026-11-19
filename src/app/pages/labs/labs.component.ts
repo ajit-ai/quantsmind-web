@@ -19,6 +19,7 @@ interface ProjectCard {
   /** Explicit limitations. Rendered so the card cannot be read as a capability claim. */
   limitation?: string;
   repoUrl: string;
+  slug: string;
 }
 interface StatusLegend { label: string; variant: BadgeVariant; }
 interface ConnectionCard { name: string; variant: BadgeVariant; status: string; icon: string; description: string; cta: string; route: string; }
@@ -137,6 +138,7 @@ interface ConnectionCard { name: string; variant: BadgeVariant; status: string; 
                   View repository on GitHub ↗
                 </a>
               </p>
+              <a class="labs-card-details" [routerLink]="['/labs', p.slug]">Research details →</a>
             </article>
           }
         </div>
@@ -354,6 +356,9 @@ interface ConnectionCard { name: string; variant: BadgeVariant; status: string; 
     }
     .labs-card-limit strong { color: var(--color-text-primary); }
     .labs-card-repo { margin: auto 0 0; padding-top: 18px; }
+    .labs-card-details { display: inline-block; margin-top: 10px; color: var(--color-accent); text-decoration: none; font-weight: 600; font-size: 14px; }
+    .labs-card-details:hover { text-decoration: underline; }
+    .labs-card-details:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 3px; }
     .labs-card-repo a {
       font-size: 13px; font-weight: 500; color: var(--color-accent);
       text-decoration: underline; text-underline-offset: 2px;
@@ -554,7 +559,8 @@ export class LabsComponent {
         'figures were measured on a 2,000-vector, 32-dimensional toy dataset. Tagged ' +
         'versions run ahead of the version declared in the package manifest, and no ' +
         'release has been published.',
-      repoUrl: 'https://github.com/ajit-ai/Vsector'
+      repoUrl: 'https://github.com/ajit-ai/Vsector',
+      slug: 'vsector'
     },
     {
       name: 'QuantsMind OSINT Intelligence Platform',
@@ -567,7 +573,8 @@ export class LabsComponent {
         'redacts sensitive payload keys. Ships container and Kubernetes manifests.',
       limitation:
         'Experimental. An exploratory initiative investigating open-source intelligence collection, analysis and information workflows. The project remains under feasibility evaluation and is not offered as a production-ready product. The backend test suite has not passed, and there is no licence file or release.',
-      repoUrl: 'https://github.com/ajit-ai/Quantsmind-OSINT-Intelligence-Platform'
+      repoUrl: 'https://github.com/ajit-ai/Quantsmind-OSINT-Intelligence-Platform',
+      slug: 'osint-intelligence-platform'
     },
     {
       name: 'QuantsMind AI Fake News Detection System',
@@ -587,7 +594,8 @@ export class LabsComponent {
         'none is present the service loads an untuned base model with an untrained ' +
         'classification head, so its current prediction behaviour is not reliable evidence ' +
         'of model performance. There is no licence file and no release.',
-      repoUrl: 'https://github.com/ajit-ai/Quantsmind-AI-Fake-News-Detection-System'
+      repoUrl: 'https://github.com/ajit-ai/Quantsmind-AI-Fake-News-Detection-System',
+      slug: 'fake-news-detection'
     }
   ];
 
@@ -599,7 +607,7 @@ export class LabsComponent {
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.5"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>',
       description: 'A concrete QuantsMind technology: an open Python SDK for building, executing and analyzing quantum programs, published on PyPI at version 1.1.0. Execution is by simulation; no quantum hardware backend is included.',
       cta: 'Read the MicroQuantum article',
-      route: '/blog/microquantum'
+      route: '/insights/microquantum'
     },
     {
       name: 'Karkain',
@@ -608,7 +616,7 @@ export class LabsComponent {
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>',
       description: 'A concrete QuantsMind technology: a statically typed systems programming language and computing ecosystem with a self-hosted compiler, published at version 1.2.0 (Stable). It emits native ELF / PE / Mach-O directly and also targets C23 for a host toolchain.',
       cta: 'Read the Karkain article',
-      route: '/blog/karkain'
+      route: '/insights/karkain'
     },
     {
       name: 'QuantsMind SDK',
@@ -617,7 +625,7 @@ export class LabsComponent {
       icon: '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>',
       description: 'An open, vendor-independent scientific computing SDK, published at version 1.1.0, with functionality across mathematics, the sciences, finance, AI agents and knowledge graphs. It is a young project with a rapidly growing surface; coverage and numerical accuracy vary by domain.',
       cta: 'Read the SDK article',
-      route: '/blog/quantsmind-sdk'
+      route: '/insights/quantsmind-sdk'
     }
   ];
 

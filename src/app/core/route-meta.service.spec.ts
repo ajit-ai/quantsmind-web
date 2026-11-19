@@ -24,19 +24,19 @@ describe('RouteMetaService.canonicalUrl', () => {
   });
 
   it('canonicalises a nested article path', () => {
-    expect(service.canonicalUrl('/blog/karkain')).toBe(`${SITE_URL}/blog/karkain/`);
+    expect(service.canonicalUrl('/insights/karkain')).toBe(`${SITE_URL}/insights/karkain/`);
   });
 
   it('drops the query string', () => {
-    expect(service.canonicalUrl('/blog/karkain?utm_source=x')).toBe(`${SITE_URL}/blog/karkain/`);
+    expect(service.canonicalUrl('/insights/karkain?utm_source=x')).toBe(`${SITE_URL}/insights/karkain/`);
   });
 
   it('drops the fragment', () => {
-    expect(service.canonicalUrl('/blog/karkain#conclusion')).toBe(`${SITE_URL}/blog/karkain/`);
+    expect(service.canonicalUrl('/insights/karkain#conclusion')).toBe(`${SITE_URL}/insights/karkain/`);
   });
 
   it('drops both query and fragment', () => {
-    expect(service.canonicalUrl('/blog/karkain?a=1#b')).toBe(`${SITE_URL}/blog/karkain/`);
+    expect(service.canonicalUrl('/insights/karkain?a=1#b')).toBe(`${SITE_URL}/insights/karkain/`);
   });
 
   it('produces an absolute URL on the configured site host', () => {
@@ -47,7 +47,7 @@ describe('RouteMetaService.canonicalUrl', () => {
     // Guards the policy against future articles: none may produce a bare or
     // duplicated-slash URL.
     for (const slug of ['karkain', 'microquantum', 'guardmcp', 'vsector']) {
-      expect(service.canonicalUrl(`/blog/${slug}`)).toBe(`${SITE_URL}/blog/${slug}/`);
+      expect(service.canonicalUrl(`/insights/${slug}`)).toBe(`${SITE_URL}/insights/${slug}/`);
     }
   });
 });

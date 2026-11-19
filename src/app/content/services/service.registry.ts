@@ -75,11 +75,12 @@ export const SERVICE_AREAS: ServiceArea[] = [
       showcaseDescription: 'Representative software initiatives from the Quantum Computing Software portfolio associated with this engineering service.',
       productsAnchor: 'quantum-software',
       productsLinkLabel: 'View quantum software initiatives on the Products page',
-      detailLink: { label: 'Explore Quantum Computing Services', route: '/quantum' },
+      detailLink: { label: 'Explore Quantum Services', route: '/services/quantum-computing' },
       extraLink: { label: 'Explore the ten Quantum Mission applications', route: '/quantum-mission' }
     },
     {
       id: 'space-systems',
+      detailLink: { label: 'Explore Space Systems Services', route: '/services/space-systems' },
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4"/><path d="M2 12h4M18 12h4"/></svg>`,
       title: 'Space Systems & Mission Software Engineering',
       short: 'Software for ground-segment operations, telemetry processing, mission-support workflows, and satellite engineering data.',
@@ -112,6 +113,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
     },
     {
       id: 'ai-intelligent-systems',
+      detailLink: { label: 'Explore AI Engineering Services', route: '/services/ai-engineering' },
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>`,
       title: 'AI Engineering & Autonomous Intelligent Systems',
       short: 'Engineering AI-enabled applications, enterprise AI integrations, agentic workflow designs, and reliable intelligent systems.',
@@ -146,6 +148,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
     },
     {
       id: 'scientific-computing',
+      detailLink: { label: 'Explore Scientific Computing Services', route: '/services/scientific-computing' },
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>`,
       title: 'Scientific Computing & Digital Simulation',
       short: 'Numerical software, scientific workflows, modelling systems, and computational simulations.',
@@ -175,6 +178,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
     },
     {
       id: 'cybersecurity-digital-trust',
+      detailLink: { label: 'Explore Cybersecurity & Digital Trust Services', route: '/services/cybersecurity' },
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`,
       title: 'Cybersecurity Engineering & Digital Trust',
       short: 'Security-focused software, security analysis workflows, integrity verification, and trustworthy digital systems.',
@@ -211,6 +215,7 @@ export const SERVICE_AREAS: ServiceArea[] = [
     },
     {
       id: 'industrial-intelligence-digital-twin',
+      detailLink: { label: 'Explore Industrial Intelligence & Digital Twin Services', route: '/services/industrial-intelligence' },
       icon: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>`,
       title: 'Industrial Intelligence & Digital Twin Engineering',
       short: 'Industrial data systems, operational intelligence software, digital simulation models, and digital twin integration workflows.',

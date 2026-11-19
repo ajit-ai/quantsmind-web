@@ -5,6 +5,8 @@ export const HOME_TITLE = 'QuantsMind | Technology Engineering & Innovation';
 export const HOME_DESCRIPTION =
   'QuantsMind delivers advanced engineering services, proprietary software and research-driven technology solutions for businesses and enterprises.';
 
+const PRODUCT_COUNTS_NOTE = 'Maturity and availability are stated per product.';
+
 export const routes: Routes = [
   {
     path: '',
@@ -13,135 +15,245 @@ export const routes: Routes = [
       import('./pages/home/home.component').then(m => m.HomeComponent)
   },
   {
-    path: 'services',
-    data: {
-      title: 'Business Solutions — QuantsMind',
-      description:
-        'Business solutions across six engineering domains: quantum computing and quantum software, space systems and mission software, AI engineering, scientific computing, cybersecurity and digital trust, and industrial intelligence and digital twins.'
-    },
-    loadComponent: () =>
-      import('./pages/services/services.component').then(m => m.ServicesComponent)
-  },
-  {
     path: 'products',
     data: {
-      title: 'Products & Technology — QuantsMind',
+      title: 'Products Store — QuantsMind',
       description:
-        'A registry-driven portfolio of QuantsMind software products and proposed initiatives across standalone software, quantum computing, space systems, cybersecurity, and programming languages and developer tools. Maturity and availability are stated per product.'
+        'The QuantsMind Products Store: verified, installable QuantsMind software. Available products first, development initiatives clearly separated, with versions, maturity and distribution links verified against public package indices and marketplaces.'
     },
     loadComponent: () =>
       import('./pages/products/products.component').then(m => m.ProductsComponent)
   },
   {
-    path: 'products/quantum-studio',
+    path: 'products/category/:category',
     data: {
-      productId: 'quantum-studio',
-      title: 'QuantumStudio | Products | QuantsMind',
+      title: 'Product Categories — QuantsMind Products Store',
       description:
-        'QuantumStudio is a proposed quantum circuit development and experimentation environment for quantum software engineering. It is a proposed initiative, not a released or generally available product.'
+        `Products grouped by category, with availability stated per entry. ${PRODUCT_COUNTS_NOTE}`
+    },
+    loadComponent: () =>
+      import('./pages/products/products.component').then(m => m.ProductsComponent)
+  },
+  {
+    path: 'products/:slug',
+    data: {
+      title: 'Product — QuantsMind Products Store',
+      description:
+        'Product detail: version, maturity, availability, installation or distribution, documentation, licence and limitations. Information is registry-driven.'
     },
     loadComponent: () =>
       import('./shared/components/qm-product-detail/qm-product-detail.component')
         .then(m => m.QmProductDetailComponent)
   },
   {
-    path: 'products/ground-link',
+    path: 'services',
     data: {
-      productId: 'ground-link',
-      title: 'GroundLink | Products | QuantsMind',
+      title: 'Services — QuantsMind',
       description:
-        'GroundLink is a space systems software initiative for ground-station frame reception, validation, deduplication, continuity and routing. It is a space systems software initiative, not a released or generally available product.'
+        'Six engineering service domains: quantum computing, space systems, AI engineering, scientific computing, cybersecurity and digital trust, and industrial intelligence and digital twins. Scoped per customer problem.'
     },
     loadComponent: () =>
-      import('./shared/components/qm-product-detail/qm-product-detail.component')
-        .then(m => m.QmProductDetailComponent)
+      import('./pages/services/services.component').then(m => m.ServicesComponent)
   },
   {
-    path: 'products/ai-guard',
+    path: 'services/quantum-computing',
     data: {
-      productId: 'ai-guard',
-      title: 'AIGuard | Products | QuantsMind',
+      title: 'Quantum Computing & Quantum Software Engineering | Services | QuantsMind',
       description:
-        'AIGuard is a proposed security assessment and control tooling for AI, LLM, and agent systems. It is a proposed initiative, not a released or generally available product.'
+        'Quantum circuit software engineering, simulation, algorithm experimentation and hybrid quantum-classical workflows — with simulation limits and honesty statements included.'
     },
     loadComponent: () =>
-      import('./shared/components/qm-product-detail/qm-product-detail.component')
-        .then(m => m.QmProductDetailComponent)
+      import('./pages/services/service-detail.component').then(m => m.ServiceDetailComponent)
   },
   {
-    path: 'products/qubit-sim',
+    path: 'services/space-systems',
     data: {
-      productId: 'qubit-sim',
-      title: 'QubitSim | Products | QuantsMind',
+      title: 'Space Systems & Mission Software Engineering | Services | QuantsMind',
       description:
-        'QubitSim is a quantum circuit and state simulation software for reproducible experimentation. It is a proposed initiative, not a released or generally available product.'
+        'Ground-segment software, telemetry processing, mission-support workflows and satellite engineering data — feasibility and software engineering, not flight qualification.'
     },
     loadComponent: () =>
-      import('./shared/components/qm-product-detail/qm-product-detail.component')
-        .then(m => m.QmProductDetailComponent)
+      import('./pages/services/service-detail.component').then(m => m.ServiceDetailComponent)
   },
   {
-    path: 'products/threat-intel',
+    path: 'services/ai-engineering',
     data: {
-      productId: 'threat-intel',
-      title: 'ThreatIntel | Products | QuantsMind',
+      title: 'AI Engineering & Autonomous Intelligent Systems | Services | QuantsMind',
       description:
-        'ThreatIntel is a proposed threat intelligence and indicator correlation software. It is a proposed initiative, not a released or generally available product.'
+        'AI-enabled applications, agent integration, permission-aware tool use and enterprise AI — engineering with explicit human oversight and scoped claims.'
     },
     loadComponent: () =>
-      import('./shared/components/qm-product-detail/qm-product-detail.component')
-        .then(m => m.QmProductDetailComponent)
+      import('./pages/services/service-detail.component').then(m => m.ServiceDetailComponent)
   },
   {
-    path: 'products/telemetry-hub',
+    path: 'services/scientific-computing',
     data: {
-      productId: 'telemetry-hub',
-      title: 'TelemetryHub | Products | QuantsMind',
+      title: 'Scientific Computing & Digital Simulation | Services | QuantsMind',
       description:
-        'TelemetryHub is a space telemetry software for telemetry ingestion, distribution, bounded backpressure and journaling. It is a space systems software initiative, not a released or generally available product.'
+        'Numerical software, computational modelling, simulation workflow engineering and reproducible experimentation.'
     },
     loadComponent: () =>
-      import('./shared/components/qm-product-detail/qm-product-detail.component')
-        .then(m => m.QmProductDetailComponent)
+      import('./pages/services/service-detail.component').then(m => m.ServiceDetailComponent)
   },
   {
-    path: 'products/quantsmind-vscode-ai-coder',
+    path: 'services/cybersecurity',
     data: {
-      productId: 'quantsmind-vscode-ai-coder',
-      title: 'QuantsMind VSCode AI Coder | Products | QuantsMind',
+      title: 'Cybersecurity Engineering & Digital Trust | Services | QuantsMind',
       description:
-        'QuantsMind AI Coder is an agentic, project-aware AI coding assistant for Visual Studio Code, published as a Preview (v3.1.x) on Open VSX and the Microsoft Visual Studio Marketplace. It is not a validated or production-grade product.'
+        'Security engineering, secure architecture, application security, identity and digital trust — no certifications claimed; concrete engineering work.'
     },
     loadComponent: () =>
-      import('./shared/components/qm-product-detail/qm-product-detail.component')
-        .then(m => m.QmProductDetailComponent)
+      import('./pages/services/service-detail.component').then(m => m.ServiceDetailComponent)
+  },
+  {
+    path: 'services/industrial-intelligence',
+    data: {
+      title: 'Industrial Intelligence & Digital Twin Engineering | Services | QuantsMind',
+      description:
+        'Industrial data systems, operational intelligence, digital-twin architecture and simulation-data integration — capability engineering, deployment limits stated.'
+    },
+    loadComponent: () =>
+      import('./pages/services/service-detail.component').then(m => m.ServiceDetailComponent)
+  },
+  {
+    path: 'technology',
+    data: {
+      title: 'Technology — QuantsMind',
+      description:
+        'The engineering foundations of QuantsMind: portfolios for Financial Intelligence, Enterprise AI, Data Intelligence, Bio Intelligence, Aerospace Intelligence and Developer Tools & Programming Technology.'
+    },
+    loadComponent: () =>
+      import('./pages/technology/technology.component').then(m => m.TechnologyComponent)
+  },
+  {
+    path: 'technology/financial-intelligence',
+    data: {
+      title: 'Financial Intelligence | Technology | QuantsMind',
+      description:
+        'Finance domain modules in the QuantsMind SDK and the engineering behind them. No packaged financial products are claimed.'
+    },
+    loadComponent: () =>
+      import('./pages/technology/technology-portfolio.component').then(m => m.TechnologyPortfolioComponent)
+  },
+  {
+    path: 'technology/enterprise-ai',
+    data: {
+      title: 'Enterprise AI | Technology | QuantsMind',
+      description:
+        'Approval-first AI systems: QuantsMind AI Coder (Preview), QuantsMind-Agent (Alpha) and GuardMCP (Alpha). Human oversight by design.'
+    },
+    loadComponent: () =>
+      import('./pages/technology/technology-portfolio.component').then(m => m.TechnologyPortfolioComponent)
+  },
+  {
+    path: 'technology/data-intelligence',
+    data: {
+      title: 'Data Intelligence | Technology | QuantsMind',
+      description:
+        'Telemetry ingestion, archival integrity and search — in development and experimental, honestly labelled. Nothing is presented as a deployed platform.'
+    },
+    loadComponent: () =>
+      import('./pages/technology/technology-portfolio.component').then(m => m.TechnologyPortfolioComponent)
+  },
+  {
+    path: 'technology/bio-intelligence',
+    data: {
+      title: 'Bio Intelligence | Technology | QuantsMind',
+      description:
+        'Biology and chemistry domain modules in the QuantsMind SDK (Developer Preview). No wet-lab or clinical claims.'
+    },
+    loadComponent: () =>
+      import('./pages/technology/technology-portfolio.component').then(m => m.TechnologyPortfolioComponent)
+  },
+  {
+    path: 'technology/aerospace-intelligence',
+    data: {
+      title: 'Aerospace Intelligence | Technology | QuantsMind',
+      description:
+        'Ground-segment and mission-data engineering at the feasibility stage. Nothing is flight-qualified, deployed or commanded.'
+    },
+    loadComponent: () =>
+      import('./pages/technology/technology-portfolio.component').then(m => m.TechnologyPortfolioComponent)
+  },
+  {
+    path: 'technology/developer-tools',
+    data: {
+      title: 'Developer Tools & Programming Technology | Technology | QuantsMind',
+      description:
+        'The Karkain platform: language v1.2.0 (Stable), Karkain Language Tools (Released), and the tools around them. Honest native-target subset.'
+    },
+    loadComponent: () =>
+      import('./pages/technology/technology-portfolio.component').then(m => m.TechnologyPortfolioComponent)
+  },
+  {
+    path: 'labs',
+    data: {
+      title: 'Labs & Research — QuantsMind',
+      description:
+        'Experiments, investigations and prototypes that are not customer-facing products. Stated with status, evidence and limitations.'
+    },
+    loadComponent: () =>
+      import('./pages/labs/labs.component').then(m => m.LabsComponent)
+  },
+  {
+    path: 'labs/:slug',
+    data: {
+      title: 'Research — QuantsMind Labs & Research',
+      description:
+        'Research detail: objective, problem, methodology, evidence, limitations and next milestone. Inclusion here is not a claim of a product or a validated outcome.'
+    },
+    loadComponent: () =>
+      import('./pages/labs/research-detail.component').then(m => m.ResearchDetailComponent)
+  },
+  {
+    path: 'insights',
+    data: {
+      title: 'Insights — QuantsMind',
+      description:
+        'Engineering and research publications: architecture, release maturity and known limitations, plus product updates and company announcements.'
+    },
+    loadComponent: () =>
+      import('./pages/blog/blog.component').then(m => m.BlogComponent)
+  },
+  {
+    path: 'insights/:slug',
+    data: {
+      title: 'Article — QuantsMind Insights',
+      description:
+        'A QuantsMind publication: what the project is, what its evidence shows, and what it does not claim.'
+    },
+    resolve: { article: blogArticleResolver },
+    loadComponent: () =>
+      import('./pages/blog/article.component').then(m => m.BlogArticleComponent)
+  },
+  { path: 'blog', redirectTo: '/insights', pathMatch: 'full' },
+  { path: 'blog/:slug', redirectTo: '/insights/:slug', pathMatch: 'full' },
+  {
+    path: 'quantum',
+    data: {
+      title: 'Quantum Computing & Quantum Software Engineering | Services | QuantsMind',
+      description:
+        'Quantum circuit software engineering, simulation, algorithm experimentation and hybrid quantum-classical workflows — with simulation limits and honesty statements included.'
+    },
+    loadComponent: () =>
+      import('./pages/quantum/quantum.component').then(m => m.QuantumComponent)
   },
   {
     path: 'quantum-mission',
     data: {
       title: 'Quantum Mission | Proposed Quantum Software Applications | QuantsMind',
       description:
-        'Quantum Mission is a portfolio of ten independent proposed quantum software applications exploring circuit development, simulation, optimisation, verification and hybrid workflows. All are proposed and not available.'
+        'Ten proposed quantum software applications — each is a proposed initiative, not a released product. MicroQuantum is a separate published technology.'
     },
     loadComponent: () =>
       import('./pages/quantum-mission/quantum-mission.component').then(m => m.QuantumMissionComponent)
   },
   {
-    path: 'technology',
-    data: {
-      title: 'Technology Ecosystem — QuantsMind',
-      description:
-        'The technologies QuantsMind develops: Karkain, MicroQuantum and the QuantsMind SDK, each with verified capabilities, language details, version, maturity and documentation, plus the wider engineering ecosystem.'
-    },
-    loadComponent: () =>
-      import('./pages/technology/technology.component').then(m => m.TechnologyComponent)
-  },
-  {
     path: 'microquantum',
     data: {
-      title: 'MicroQuantum | Quantum Computing SDK | QuantsMind',
+      title: 'MicroQuantum | Quantum Simulation SDK | QuantsMind',
       description:
-        'MicroQuantum is an open, NumPy-only Python SDK for building, executing and analyzing quantum programs, published on PyPI at version 1.1.0. A developer preview: execution is by simulation.'
+        'MicroQuantum is an open, NumPy-only Python SDK for building, executing and analyzing quantum programs, published on PyPI at version 1.1.0. Execution is by simulation.'
     },
     loadComponent: () =>
       import('./pages/microquantum/microquantum.component').then(m => m.MicroQuantumComponent)
@@ -159,7 +271,7 @@ export const routes: Routes = [
   {
     path: 'quantsmind-sdk',
     data: {
-      title: 'QuantsMind SDK | QuantsMind',
+      title: 'QuantsMind SDK | Scientific Computing SDK | QuantsMind',
       description:
         'QuantsMind SDK is an open, vendor-independent Python SDK for scientific computing, published on PyPI at version 1.1.0. A developer preview: module coverage and numerical accuracy vary by domain.'
     },
@@ -167,37 +279,51 @@ export const routes: Routes = [
       import('./pages/quantsmind-sdk/quantsmind-sdk.component').then(m => m.QuantsMindSdkComponent)
   },
   {
-    path: 'labs',
+    path: 'support',
     data: {
-      title: 'Research & Innovation — QuantsMind',
+      title: 'Support | QuantsMind',
       description:
-        'Research and innovation from QuantsMind Labs: open research code including vector search, open-source intelligence tooling and news-text classification experiments. Each project states its maturity and its limitations.'
+        'How to get help with QuantsMind products: installation, open-source repositories, licensed products, and contact expectations.'
     },
     loadComponent: () =>
-      import('./pages/labs/labs.component').then(m => m.LabsComponent)
+      import('./pages/support/support.component').then(m => m.SupportComponent)
   },
   {
-    path: 'blog',
+    path: 'releases',
     data: {
-      title: 'Insights — QuantsMind',
+      title: 'Releases | QuantsMind',
       description:
-        'Insights from QuantsMind: technical articles on the technology ecosystem, Labs research projects and products, covering architecture, release maturity and known limitations.'
+        'Verified release history for QuantsMind software, newest first, including Karkain 1.2.0, MicroQuantum 1.1.0, QuantsMind SDK 1.1.0 and the Agent 0.9.0.'
     },
     loadComponent: () =>
-      import('./pages/blog/blog.component').then(m => m.BlogComponent)
+      import('./pages/releases/releases.component').then(m => m.ReleasesComponent)
   },
   {
-    path: 'blog/:slug',
-    resolve: { article: blogArticleResolver },
+    path: 'docs',
+    data: {
+      title: 'Documentation | QuantsMind',
+      description:
+        'Documentation index: public sources of truth for Karkain, MicroQuantum, the QuantsMind SDK, the Agent and the AI Coder.'
+    },
     loadComponent: () =>
-      import('./pages/blog/article.component').then(m => m.BlogArticleComponent)
+      import('./pages/docs/docs.component').then(m => m.DocsComponent)
+  },
+  {
+    path: 'licensing',
+    data: {
+      title: 'Licensing | QuantsMind',
+      description:
+        'Licences for QuantsMind software at a glance: open-source MIT and Apache-2.0 components, direct licensing for DI Mini, and what “no licence file” means.'
+    },
+    loadComponent: () =>
+      import('./pages/licensing/licensing.component').then(m => m.LicensingComponent)
   },
   {
     path: 'about',
     data: {
       title: 'About — QuantsMind',
       description:
-        'QuantsMind is an independent technology engineering and innovation company delivering advanced engineering services, proprietary software products and research-driven technology solutions for businesses and enterprises.'
+        'QuantsMind is an independent technology engineering and innovation company delivering engineering services, proprietary software and research-driven solutions. Products, services, technology and research are distinct.'
     },
     loadComponent: () =>
       import('./pages/about/about.component').then(m => m.AboutComponent)
@@ -207,56 +333,32 @@ export const routes: Routes = [
     data: {
       title: 'Contact — QuantsMind',
       description:
-        'Have an engineering requirement, technology challenge or collaboration idea? Get in touch with QuantsMind.'
+        'Start a business enquiry with QuantsMind. Static-compatible contact workflow; no invented contact details.'
     },
     loadComponent: () =>
       import('./pages/contact/contact.component').then(m => m.ContactComponent)
   },
   {
-    path: 'quantum',
-    data: {
-      title: 'Quantum Computing Engineering — QuantsMind',
-      description:
-        'Quantum computing engineering services from QuantsMind: quantum software, algorithms, simulation, and hybrid classical–quantum workflows. Built on classical simulation; no quantum hardware access or quantum advantage is claimed.'
-    },
-    loadComponent: () =>
-      import('./pages/quantum/quantum.component').then(m => m.QuantumComponent)
-  },
-  {
     path: 'privacy',
-    data: {
-      title: 'Privacy Policy — QuantsMind',
-      description:
-        'How QuantsMind collects, uses, and protects your information when you use our website.'
-    },
+    data: { title: 'Privacy Policy | QuantsMind', description: 'Privacy policy for quantsmind.com.' },
     loadComponent: () =>
       import('./pages/privacy/privacy.component').then(m => m.PrivacyComponent)
   },
   {
     path: 'terms',
-    data: {
-      title: 'Terms of Use — QuantsMind',
-      description: 'The terms that govern your use of the QuantsMind website.'
-    },
+    data: { title: 'Terms of Use | QuantsMind', description: 'Terms of use for quantsmind.com.' },
     loadComponent: () =>
       import('./pages/terms/terms.component').then(m => m.TermsComponent)
   },
   {
     path: 'cookies',
-    data: {
-      title: 'Cookie Policy — QuantsMind',
-      description:
-        'How the QuantsMind website uses cookies and similar technologies.'
-    },
+    data: { title: 'Cookie Policy | QuantsMind', description: 'Cookie policy for quantsmind.com.' },
     loadComponent: () =>
       import('./pages/cookies/cookies.component').then(m => m.CookiesComponent)
   },
   {
     path: '**',
-    data: {
-      title: 'Page Not Found — QuantsMind',
-      description: 'The page you are looking for does not exist or has moved.'
-    },
+    data: { title: 'Page Not Found — QuantsMind', description: 'The page you requested does not exist.' },
     loadComponent: () =>
       import('./pages/not-found/not-found.component').then(m => m.NotFoundComponent)
   }

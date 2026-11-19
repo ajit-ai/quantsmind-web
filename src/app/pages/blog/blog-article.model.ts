@@ -58,7 +58,7 @@ export interface ArticleSection {
  * easy to review, reorder or withhold.
  */
 export interface BlogArticle {
-  /** URL segment under /blog/. Unique across all categories. */
+  /** URL segment under /insights/. Unique across all categories. */
   slug: string;
   category: ArticleCategory;
   title: string;

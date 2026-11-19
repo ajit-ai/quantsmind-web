@@ -20,7 +20,7 @@ const STATIC_ROUTES = new Set(
  * Routes a verification entry is allowed to point at.
  *
  * A verification destination exists so a reader can check a claim about a
- * specific project, so the blog index ('/blog') is excluded: pointing an
+ * specific project, so the blog index ('/insights') is excluded: pointing an
  * article back at the index would send the reader to a list rather than to
  * anything describing the project. The catch-all ('**') and the parameterised
  * article pattern ('blog/:slug') are excluded for the same reason — neither
@@ -104,11 +104,11 @@ describe('article verification destinations', () => {
 describe('Labs connection cards', () => {
   const connections = new LabsComponent().connections;
 
-  it.each(LABS_ARTICLE_CARDS)('the $name card targets /blog/$slug', card => {
+  it.each(LABS_ARTICLE_CARDS)('the $name card targets /insights/$slug', card => {
     const connection = connections.find(entry => entry.name === card.name);
 
     expect(connection).toBeDefined();
-    expect(connection!.route).toBe(`/blog/${card.slug}`);
+    expect(connection!.route).toBe(`/insights/${card.slug}`);
   });
 
   it.each(LABS_ARTICLE_CARDS)('the $name card keeps its CTA label', card => {
@@ -124,7 +124,7 @@ describe('Labs connection cards', () => {
   it('does not duplicate an article across the Labs cards', () => {
     const targets = connections
       .map(connection => connection.route)
-      .filter(route => route.startsWith('/blog/'));
+      .filter(route => route.startsWith('/insights/'));
 
     expect(new Set(targets).size).toBe(targets.length);
   });

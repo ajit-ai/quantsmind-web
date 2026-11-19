@@ -15,7 +15,6 @@ import { QmBadgeComponent }     from '../../shared/components/qm-badge/qm-badge.
 import { QmPageHeroComponent }  from '../../shared/components/qm-page-hero/qm-page-hero.component';
 import { QmRevealDirective }    from '../../shared/directives/qm-reveal.directive';
 import { getProductById } from '../../content/products/product.registry';
-import { VERIFIED_DIRECTORY_ENTRIES } from '../../content/products/directory-entries';
 
 type SubmitErrorReason = ContactErrorReason | 'rate-limited';
 
@@ -491,9 +490,7 @@ export class ContactComponent {
     const id = this.route.snapshot.queryParamMap.get('product');
     if (!id) return null;
     const product = getProductById(id);
-    if (product) return product.name;
-    const entry = VERIFIED_DIRECTORY_ENTRIES.find(e => e.id === id);
-    return entry ? entry.name : null;
+    return product ? product.name : null;
   });
 
   /** Whether a real endpoint is configured; drives the fallback UI. */

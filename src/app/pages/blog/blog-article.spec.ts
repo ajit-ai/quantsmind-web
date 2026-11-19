@@ -24,9 +24,9 @@ async function configureApp(): Promise<{ router: Router; host: ComponentFixture<
     imports: [TestHostComponent],
     providers: [
       provideRouter([
-        { path: 'blog', component: TestHostComponent },
+        { path: 'insights', component: TestHostComponent },
         {
-          path: 'blog/:slug',
+          path: 'insights/:slug',
           resolve: { article: blogArticleResolver },
           component: BlogArticleComponent
         }
@@ -66,14 +66,14 @@ describe('blogArticleResolver', () => {
     );
 
     expect(result).toHaveProperty('redirectTo');
-    expect(String((result as { redirectTo: unknown }).redirectTo)).toContain('/blog');
+    expect(String((result as { redirectTo: unknown }).redirectTo)).toContain('/insights');
   });
 });
 
 describe('article navigation and metadata', () => {
   it('renders a known article and publishes its metadata', async () => {
     const { router, host } = await configureApp();
-    await router.navigate(['/blog', 'karkain']);
+    await router.navigate(['/insights', 'karkain']);
     host.detectChanges();
 
     const article = BLOG_ARTICLES.find(a => a.slug === 'karkain')!;
@@ -86,7 +86,7 @@ describe('article navigation and metadata', () => {
 
   it('derives Open Graph and Twitter tags from the same article', async () => {
     const { router, host } = await configureApp();
-    await router.navigate(['/blog', 'guardmcp']);
+    await router.navigate(['/insights', 'guardmcp']);
     host.detectChanges();
 
     const article = BLOG_ARTICLES.find(a => a.slug === 'guardmcp')!;
@@ -94,7 +94,7 @@ describe('article navigation and metadata', () => {
 
     expect(metaContent('meta[property="og:title"]')).toBe(expected);
     expect(metaContent('meta[property="og:description"]')).toBe(article.summary);
-    expect(metaContent('meta[property="og:url"]')).toBe(`${SITE_URL}/blog/guardmcp/`);
+    expect(metaContent('meta[property="og:url"]')).toBe(`${SITE_URL}/insights/guardmcp/`);
     expect(metaContent('meta[name="twitter:title"]')).toBe(expected);
     expect(metaContent('meta[name="twitter:description"]')).toBe(article.summary);
   });
@@ -102,24 +102,24 @@ describe('article navigation and metadata', () => {
   it('updates metadata when navigating between two articles', async () => {
     const { router, host } = await configureApp();
 
-    await router.navigate(['/blog', 'karkain']);
+    await router.navigate(['/insights', 'karkain']);
     host.detectChanges();
     const first = BLOG_ARTICLES.find(a => a.slug === 'karkain')!;
     expect(document.title).toBe(`${first.title} — QuantsMind`);
 
-    await router.navigate(['/blog', 'vsector']);
+    await router.navigate(['/insights', 'vsector']);
     host.detectChanges();
     const second = BLOG_ARTICLES.find(a => a.slug === 'vsector')!;
     expect(document.title).toBe(`${second.title} — QuantsMind`);
-    expect(metaContent('meta[property="og:url"]')).toBe(`${SITE_URL}/blog/vsector/`);
+    expect(metaContent('meta[property="og:url"]')).toBe(`${SITE_URL}/insights/vsector/`);
   });
 
   it('redirects an unknown slug to the index without rendering an article', async () => {
     const { router, host } = await configureApp();
-    await router.navigate(['/blog', 'no-such-article']);
+    await router.navigate(['/insights', 'no-such-article']);
     host.detectChanges();
 
-    expect(router.url).toBe('/blog');
+    expect(router.url).toBe('/insights');
     const text = (host.nativeElement as HTMLElement).textContent ?? '';
     expect(text).not.toContain('Article not found');
   });

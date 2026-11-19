@@ -69,7 +69,7 @@ interface ArticleGroup {
                     <qm-badge [variant]="article.maturityVariant">{{ article.maturity }}</qm-badge>
                   </div>
                   <h3 class="card__title">
-                    <a [routerLink]="['/blog', article.slug]" class="card__link">{{ article.title }}</a>
+                    <a [routerLink]="['/insights', article.slug]" class="card__link">{{ article.title }}</a>
                   </h3>
                   <p class="card__summary">{{ article.summary }}</p>
                   <span class="card__cta" aria-hidden="true">Read article</span>

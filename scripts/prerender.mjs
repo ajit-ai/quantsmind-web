@@ -62,7 +62,9 @@ const MIME = {
 async function staticRoutes() {
   const source = await readFile(join(ROOT, 'src/app/app.routes.ts'), 'utf8');
   const paths = [...source.matchAll(/path:\s*'([^']*)'/g)].map(m => m[1]);
-  return paths.filter(p => p !== '**' && !p.includes(':'));
+  // Redirect-only routes are not prerendered (their targets are).
+  const redirects = new Set(['blog', 'blog/:slug']);
+  return paths.filter(p => p !== '**' && !p.includes(':') && !redirects.has(p));
 }
 
 /** Article slugs straight from the authoritative registry. */
@@ -79,6 +81,39 @@ async function articleSlugs() {
   return slugs;
 }
 
+/**
+ * Product detail routes derived from the authoritative registry. Products with
+ * a dedicated rich page (/karkain, /microquantum, /quantsmind-sdk) have their
+ * own top-level routes and are not duplicated here.
+ */
+async function productSlugs() {
+  const source = await readFile(join(ROOT, 'src/app/content/products/product.registry.ts'), 'utf8');
+  const blocks = source.split(/\r?\n  \{\r?\n/).slice(1);
+  const slugs = [];
+  for (const block of blocks) {
+    const idMatch = block.match(/^\s*id:\s*'([^']+)'/m);
+    if (!idMatch) continue;
+    if (/dedicatedRoute:\s*'/.test(block)) continue;
+    slugs.push(idMatch[1]);
+  }
+  return slugs;
+}
+
+/** Research detail routes derived from the research-items registry. */
+async function researchSlugs() {
+  const source = await readFile(join(ROOT, 'src/app/content/research/research-items.ts'), 'utf8');
+  const slugs = [...source.matchAll(/^\s*slug:\s*'([^']+)'/gm)].map(m => m[1]);
+  return [...new Set(slugs)];
+}
+
+/** Store category routes derived from the product model's category vocabulary. */
+async function categorySlugs() {
+  const source = await readFile(join(ROOT, 'src/app/content/products/product.model.ts'), 'utf8');
+  const block = source.match(/PRODUCT_CATEGORY_LABELS[^=]*=\s*\{([\s\S]*?)\}/);
+  if (!block) throw new Error('PRODUCT_CATEGORY_LABELS not found in product.model.ts');
+  return [...block[1].matchAll(/'([a-z-]+)':/g)].map(m => m[1]).filter(slug => slug !== 'research');
+}
+
 /** Canonical path form: a leading and exactly one trailing slash. */
 function canonicalPath(path) {
   const trimmed = (path || '').replace(/^\/+/, '').replace(/\/+$/, '');
@@ -88,9 +123,15 @@ function canonicalPath(path) {
 async function buildRouteList() {
   const staticList = await staticRoutes();
   const slugs = await articleSlugs();
+  const products = await productSlugs();
+  const research = await researchSlugs();
+  const categories = await categorySlugs();
   const routes = new Set();
   for (const p of staticList) routes.add(canonicalPath(p));
-  for (const slug of slugs) routes.add(canonicalPath(`blog/${slug}`));
+  for (const slug of slugs) routes.add(canonicalPath(`insights/${slug}`));
+  for (const slug of products) routes.add(canonicalPath(`products/${slug}`));
+  for (const slug of research) routes.add(canonicalPath(`labs/${slug}`));
+  for (const slug of categories) routes.add(canonicalPath(`products/category/${slug}`));
   return [...routes].sort();
 }
 

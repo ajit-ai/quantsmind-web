@@ -14,7 +14,7 @@ import { FAKE_NEWS_DETECTION } from './fake-news-detection.article';
 
 /**
  * Every article, in index order: Products first, then Technology, then Labs.
- * Slugs are unique and each one resolves to a route under /blog/.
+ * Slugs are unique and each one resolves to a route under /insights/.
  */
 export const BLOG_ARTICLES: BlogArticle[] = [
   DI_MINI,

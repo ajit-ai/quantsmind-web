@@ -23,6 +23,7 @@ interface NavItem {
   label: string;
   href: string;
   children?: MegaChild[];
+  featured?: boolean;
 }
 
 interface SearchEntry {
@@ -81,6 +82,7 @@ interface SearchEntry {
                   routerLinkActive="qm-header__nav-link--active"
                   [routerLinkActiveOptions]="{exact: item.href === '/'}"
                   class="qm-header__nav-link"
+                  [class.qm-header__nav-link--featured]="item.featured"
                   [attr.aria-expanded]="item.children ? (activeMega === item.label) : null"
                   [attr.aria-haspopup]="item.children ? 'true' : null"
                   (click)="onNavClick($event, item)"
@@ -260,6 +262,7 @@ interface SearchEntry {
                 <div class="qm-mobile-nav__row">
                   <a [routerLink]="item.href"
                     class="qm-mobile-nav__link"
+                    [class.qm-mobile-nav__link--featured]="item.featured"
                     routerLinkActive="qm-mobile-nav__link--active"
                     [routerLinkActiveOptions]="{exact: item.href === '/'}"
                     (click)="closeMobile()">
@@ -321,7 +324,7 @@ interface SearchEntry {
               [ngModel]="searchQuery()"
               (ngModelChange)="onQueryChange($event)"
               (keydown.enter)="goToTopResult()"
-              placeholder="Search business solutions, products, technologies…"
+              placeholder="Search products, services, technology…"
               autocomplete="off" spellcheck="false" aria-label="Search"/>
             <button type="button" class="qm-search-overlay__close" (click)="closeSearch()"
               aria-label="Close search">
@@ -489,6 +492,17 @@ interface SearchEntry {
     .qm-header__nav-link--active {
       color: var(--qm-header-accent);
       background: var(--qm-panel-icon);
+    }
+    .qm-header__nav-link--featured {
+      color: var(--qm-header-text-strong);
+      background: var(--gradient-signal);
+      border-radius: var(--radius-pill, 999px);
+      font-weight: 700;
+    }
+    .qm-header__nav-link--featured:hover {
+      color: var(--qm-header-text-strong);
+      background: var(--gradient-signal);
+      filter: brightness(1.05);
     }
     .qm-header__nav-link::after {
       content: '';
@@ -801,6 +815,7 @@ interface SearchEntry {
       transition: color 150ms ease;
     }
     .qm-mobile-nav__link--active { color: var(--qm-header-accent); }
+    .qm-mobile-nav__link--featured { color: #fff; background: var(--gradient-signal); }
     .qm-mobile-nav__row {
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
       padding-right: 8px;
@@ -1018,88 +1033,85 @@ export class QmHeaderComponent implements OnInit, OnDestroy {
       href: '/'
     },
     {
-      label: 'Business Solutions',
+      label: 'Products',
+      href: '/products',
+      featured: true,
+      children: [
+        { label: 'Products Store', href: '/products', description: 'Available software and development initiatives', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.5 12a2 2 0 0 1-2 1.8H7.5a2 2 0 0 1-2-1.8L4 7z"/><path d="M9 7V6a3 3 0 0 1 6 0v1"/></svg>` },
+        { label: 'Available Products', href: '/products#available', description: 'Verified releases and previews you can install', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>` },
+        { label: 'In Development', href: '/products#in-development', description: 'Initiatives that are not yet available', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>` },
+        { label: 'Release Information', href: '/releases', description: 'Verified release history', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.7 5.4 6 .9-4.3 4.2 1 6L12 17.8 6.6 19.5l1-6L3.3 9.3l6-.9L12 3z"/></svg>` },
+        { label: 'Documentation', href: '/docs', description: 'Public documentation index', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h9l4 4v14a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M9 8h6M9 12h8M9 16h8"/></svg>` },
+        { label: 'Product Support', href: '/support', description: 'How to get help and report issues', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 5 .3c0 1.5-2.5 2-2.5 3.5"/><circle cx="12" cy="16.5" r="0.5" fill="currentColor"/></svg>` }
+      ]
+    },
+    {
+      label: 'Services',
       href: '/services',
       children: [
-        { label: 'Quantum Computing & Quantum Software Engineering', href: '/quantum', description: 'Quantum computing and quantum software engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>` },
-        { label: 'Space Systems & Mission Software Engineering', href: '/services#space-systems', description: 'Space systems and mission software engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>` },
-        { label: 'AI Engineering & Autonomous Intelligent Systems', href: '/services#ai-intelligent-systems', description: 'AI engineering and autonomous intelligent systems', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>` },
-        { label: 'Scientific Computing & Digital Simulation', href: '/services#scientific-computing', description: 'Scientific computing and digital simulation', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>` },
-        { label: 'Cybersecurity Engineering & Digital Trust', href: '/services#cybersecurity-digital-trust', description: 'Cybersecurity engineering and digital trust', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>` },
-        { label: 'Industrial Intelligence & Digital Twin Engineering', href: '/services#industrial-intelligence-digital-twin', description: 'Industrial intelligence and digital twin engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>` }
+        { label: 'Quantum Computing & Quantum Software Engineering', href: '/services/quantum-computing', description: 'Quantum circuits, simulation and hybrid workflows', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><ellipse cx="12" cy="12" rx="10" ry="4.5"/><ellipse cx="12" cy="12" rx="10" ry="4.5" transform="rotate(60 12 12)"/></svg>` },
+        { label: 'Space Systems & Mission Software Engineering', href: '/services/space-systems', description: 'Ground segment, telemetry and mission support', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>` },
+        { label: 'AI Engineering & Autonomous Intelligent Systems', href: '/services/ai-engineering', description: 'AI applications, agents and integration', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>` },
+        { label: 'Scientific Computing & Digital Simulation', href: '/services/scientific-computing', description: 'Numerical software and simulation workflows', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M8 16l4-8 4 8"/><path d="M9 14h6"/></svg>` },
+        { label: 'Cybersecurity Engineering & Digital Trust', href: '/services/cybersecurity', description: 'Security engineering and digital trust', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>` },
+        { label: 'Industrial Intelligence & Digital Twin Engineering', href: '/services/industrial-intelligence', description: 'Industrial data and digital twins', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M8 8V5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="14" r="2"/></svg>` }
       ]
     },
     {
-      label: 'Products & Technology',
-      href: '/products',
+      label: 'Technology',
+      href: '/technology',
       children: [
-        {
-          label: 'All Products', href: '/products',
-          description: 'Every product and initiative in the registry',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>`
-        },
-        {
-          label: 'Quantum Mission', href: '/quantum-mission',
-          description: 'Ten proposed quantum software applications',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3.5"/><ellipse cx="12" cy="12" rx="10" ry="4"/></svg>`
-        },
-        {
-          label: 'Space Systems', href: '/products#space-software',
-          description: 'Ground-segment and telemetry software initiatives',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><path d="M4 12h16"/></svg>`
-        },
-        {
-          label: 'Cybersecurity', href: '/products#cybersecurity-software',
-          description: 'Security, privacy and digital-trust initiatives',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M12 3l7 3v5c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>`
-        },
-        {
-          label: 'Technology Ecosystem', href: '/technology',
-          description: 'Karkain, MicroQuantum and the QuantsMind SDK',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 7.5l3 3M17 7.5l-3 3M7 16.5l3-3M17 16.5l-3-3"/></svg>`
-        }
+        { label: 'Financial Intelligence', href: '/technology/financial-intelligence', description: 'Finance domain modules and engagements', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v5"/></svg>` },
+        { label: 'Enterprise AI', href: '/technology/enterprise-ai', description: 'Approval-first agentic AI systems', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg>` },
+        { label: 'Data Intelligence', href: '/technology/data-intelligence', description: 'Telemetry, archival and search', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>` },
+        { label: 'Bio Intelligence', href: '/technology/bio-intelligence', description: 'Biology and chemistry modules in the SDK', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M9 4v5"/></svg>` },
+        { label: 'Aerospace Intelligence', href: '/technology/aerospace-intelligence', description: 'Ground-segment feasibility engineering', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/><circle cx="17" cy="7" r="1.5" fill="currentColor"/></svg>` },
+        { label: 'Developer Tools & Programming Technology', href: '/technology/developer-tools', description: 'Karkain, extensions and tooling', icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>` }
       ]
     },
     {
-      label: 'Research & Innovation',
-      href: '/labs',
-      children: [
-        {
-          label: 'QuantsMind Labs', href: '/labs',
-          description: 'Exploration, experiments and research directions',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3h6M10 3v5l-5 8a3 3 0 0 0 2.6 4.5h6.8A3 3 0 0 0 17 16l-5-8V3z"/></svg>`
-        },
-        {
-          label: 'Technology Ecosystem', href: '/technology',
-          description: 'Karkain, MicroQuantum and the QuantsMind SDK',
-          icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="2.5"/><circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="5" cy="18" r="2"/><circle cx="19" cy="18" r="2"/><path d="M7 7.5l3 3M17 7.5l-3 3M7 16.5l3-3M17 16.5l-3-3"/></svg>`
-        }
-      ]
+      label: 'Labs & Research',
+      href: '/labs'
     },
-    { label: 'About', href: '/about' },
-    { label: 'Insights', href: '/blog' }
+    {
+      label: 'Insights',
+      href: '/insights'
+    },
+    {
+      label: 'About',
+      href: '/about'
+    },
+    {
+      label: 'Contact',
+      href: '/contact'
+    }
   ];
 
   searchIndex: SearchEntry[] = [
     { type: 'Page', title: 'Home', href: '/', keywords: 'home quantsmind technology engineering innovation business solutions proprietary software research' },
-    { type: 'Page', title: 'Business Solutions', href: '/services', keywords: 'business solutions engineering services capabilities software architecture ai cloud devops consulting enterprise' },
-    { type: 'Page', title: 'Products & Technology', href: '/products', keywords: 'products technologies portfolio product di mini document intelligence quantsmind document intelligence mini software' },
+    { type: 'Page', title: 'Services', href: '/services', keywords: 'services engineering quantum space ai scientific computing cybersecurity digital trust industrial intelligence digital twin' },
+    { type: 'Page', title: 'Products Store', href: '/products', keywords: 'products store software install download karkain microquantum sdk ai coder agent karkain language tools document intelligence mini' },
+    { type: 'Page', title: 'Product Categories', href: '/products/category/programming-languages', keywords: 'programming languages developer tools ai intelligent systems scientific quantum data database business applications categories store' },
+    { type: 'Page', title: 'Release Information', href: '/releases', keywords: 'releases release notes history versions changelog karkain microquantum sdk agent' },
+    { type: 'Page', title: 'Documentation', href: '/docs', keywords: 'documentation docs guides specification reference' },
+    { type: 'Page', title: 'Product Support', href: '/support', keywords: 'support help issues installation' },
+    { type: 'Page', title: 'Licensing', href: '/licensing', keywords: 'licensing licence mit apache license' },
     { type: 'Portfolio', title: 'Quantum Mission', href: '/quantum-mission', keywords: 'quantum mission quantumstudio qubitsim quantumforge qoptima quantumshield hybridq quantumbench quantumchem qresource quantumverify proposed applications' },
-    { type: 'Page', title: 'Technology Ecosystem', href: '/technology', keywords: 'technology ecosystem proprietary software microquantum karkain sdk quantum relational database guardmcp security mcp' },
+    { type: 'Page', title: 'Technology', href: '/technology', keywords: 'technology ecosystem proprietary software microquantum karkain sdk relational database guardmcp portfolios financial intelligence enterprise ai data intelligence bio intelligence aerospace intelligence developer tools' },
     { type: 'Page', title: 'Quantum Computing', href: '/quantum', keywords: 'quantum computing engineering services algorithms simulation hybrid' },
     { type: 'Page', title: 'MicroQuantum', href: '/microquantum', keywords: 'microquantum quantum computing sdk python open' },
     { type: 'Page', title: 'Karkain', href: '/karkain', keywords: 'karkain programming language compiler computing' },
     { type: 'Page', title: 'QuantsMind SDK', href: '/quantsmind-sdk', keywords: 'quantsmind sdk software foundation intelligent computing' },
-    { type: 'Page', title: 'Research & Innovation', href: '/labs', keywords: 'research innovation labs exploration experimentation emerging technologies quantum ai ml vector database research projects vsector' },
-    { type: 'Page', title: 'Insights', href: '/blog', keywords: 'insights blog educational articles writing research publication architecture distributed systems databases transformers quantum computing' },
+    { type: 'Page', title: 'Labs & Research', href: '/labs', keywords: 'labs research exploration experimentation emerging technologies quantum ai ml vector database research projects vsector taksh osint fake news' },
+    { type: 'Page', title: 'Insights', href: '/insights', keywords: 'insights blog educational articles writing research publication architecture distributed systems databases transformers quantum computing' },
     { type: 'Page', title: 'About', href: '/about', keywords: 'about quantsmind company engineering services technology innovation' },
     { type: 'Page', title: 'Contact', href: '/contact', keywords: 'contact business enquiry email form build' },
-    { type: 'Capability', title: 'Quantum Computing & Quantum Software Engineering', href: '/services#quantum-computing', keywords: 'quantum computing quantum software engineering algorithms simulation circuits qasm optimization' },
-    { type: 'Capability', title: 'Space Systems & Mission Software Engineering', href: '/services#space-systems', keywords: 'space systems mission software engineering telemetry mission data ground system simulation feasibility' },
-    { type: 'Capability', title: 'AI Engineering & Autonomous Intelligent Systems', href: '/services#ai-intelligent-systems', keywords: 'ai engineering autonomous intelligent systems artificial intelligence machine learning llm' },
-    { type: 'Capability', title: 'Scientific Computing & Digital Simulation', href: '/services#scientific-computing', keywords: 'scientific computing digital simulation data engineering analytics modeling' },
-    { type: 'Capability', title: 'Cybersecurity Engineering & Digital Trust', href: '/services#cybersecurity-digital-trust', keywords: 'cybersecurity digital trust security privacy application security' },
-    { type: 'Capability', title: 'Industrial Intelligence & Digital Twin Engineering', href: '/services#industrial-intelligence-digital-twin', keywords: 'industrial intelligence digital twin engineering software architecture system design technical foundations cloud devops data' },
+    { type: 'Capability', title: 'Quantum Computing & Quantum Software Engineering', href: '/services/quantum-computing', keywords: 'quantum computing quantum software engineering algorithms simulation circuits qasm optimization' },
+    { type: 'Capability', title: 'Space Systems & Mission Software Engineering', href: '/services/space-systems', keywords: 'space systems mission software engineering telemetry mission data ground system simulation feasibility' },
+    { type: 'Capability', title: 'AI Engineering & Autonomous Intelligent Systems', href: '/services/ai-engineering', keywords: 'ai engineering autonomous intelligent systems artificial intelligence machine learning llm' },
+    { type: 'Capability', title: 'Scientific Computing & Digital Simulation', href: '/services/scientific-computing', keywords: 'scientific computing digital simulation data engineering analytics modeling' },
+    { type: 'Capability', title: 'Cybersecurity Engineering & Digital Trust', href: '/services/cybersecurity', keywords: 'cybersecurity digital trust security privacy application security' },
+    { type: 'Capability', title: 'Industrial Intelligence & Digital Twin Engineering', href: '/services/industrial-intelligence', keywords: 'industrial intelligence digital twin engineering software architecture system design technical foundations cloud devops data' },
     { type: 'Legal', title: 'Privacy Policy', href: '/privacy', keywords: 'privacy policy data gdpr' },
     { type: 'Legal', title: 'Terms of Use', href: '/terms', keywords: 'terms use conditions legal' },
     { type: 'Legal', title: 'Cookie Policy', href: '/cookies', keywords: 'cookies cookie policy tracking' }

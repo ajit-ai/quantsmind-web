@@ -226,3 +226,39 @@ Review executed by the same agent session that implemented the revamp, running t
 **Final Git state** (after committing): branch `release/v3.0.0`, HEAD = `2172055`; `git diff --stat origin/main HEAD` covers 53 files (including the `directory-entries.ts` deletion); excluded/preserved files remain outside the release; 47 preserved untracked files intact; `package-lock.json` and `scripts/measure-header.mjs` untouched by every commit; branch is clean with respect to committed v3.0.0 work and ready for PR creation once authorized.
 
 *The `500 passed` figure reflects artifacts present locally (the prerendered tree). A clean checkout will report `415 passed / 85 skipped` — the 85 `blog-prerender` artifact tests are documented and execute in CI.*
+
+## 10. Detail-pages correction (2026-11-19) — after the pre-release audit was recorded
+
+**Defect reported and confirmed.** All twelve literal detail routes — six service pages and six technology portfolio pages — rendered their *not found* states. Root cause: the routes declare literal paths, but both detail components read a parameterised `:slug` (`paramMap.get('service')` / `paramMap.get('portfolio')`) that never exists; the lookup returned `''` and fell through to the not-found branch. Titles were correct only because the static `data.title` fallback masked the defect.
+
+**Fix.** The 12 routes now carry their entry slug in route data (e.g. `service: 'quantum-computing'`), the components read `data[…]` first with the parameterised route as a fallback, and a new regression spec (`src/app/pages/detail-pages.spec.ts`, 14 tests) asserts every literal route resolves to its registry entry and renders it — no route may silently fall back to not-found.
+
+**Verification (all re-run after the fix).**
+
+| Command | Exit | Result |
+|---|---|---|
+| `npm run build` | 0 | unchanged budgets |
+| `npm test -- --watch=false` | 0 | 29 files · **514 passed / 0 failed** (with artifacts) |
+| `npm run build:static` | 0 | 100 route files + 404.html; sitemap consistent |
+| `npm run smoke` | 0 | PASS — 101 routes × 6 viewports; 606 checks; no overflow, no console errors |
+
+**12-row verification table** (real prerendered HTML in `dist/…/browser/<route>/index.html`):
+
+| # | Route | Registry entry | Rendered H1 | Result |
+|---|---|---|---|---|
+| 1 | `/services/quantum-computing/` | quantum-computing | Quantum Computing & Quantum Software Engineering | OK — scope, deliverables, engagement steps, related products render; enquiry CTA links to `/contact` |
+| 2 | `/services/space-systems/` | space-systems | Space Systems & Mission Software Engineering | OK — full scope list and GroundLink/telemetry registry products rendered |
+| 3 | `/services/ai-engineering/` | ai-intelligent-systems | AI Engineering & Autonomous Intelligent Systems | OK — GuardMCP/Agent/Taksh technology cross-links and deliverables render |
+| 4 | `/services/scientific-computing/` | scientific-computing | Scientific Computing & Digital Simulation | OK — SDK/MicroQuantum technology links render |
+| 5 | `/services/cybersecurity/` | cybersecurity-digital-trust | Cybersecurity Engineering & Digital Trust | OK — full scope and deliverables render |
+| 6 | `/services/industrial-intelligence/` | industrial-intelligence-digital-twin | Industrial Intelligence & Digital Twin Engineering | OK — scope and deliverables render (no related registry products by design; section omitted) |
+| 7 | `/technology/financial-intelligence/` | financial-intelligence | Financial Intelligence | OK — SDK finance foundations, engagements note, "no packaged products" copy |
+| 8 | `/technology/enterprise-ai/` | enterprise-ai | Enterprise AI | OK — AI Coder/Agent/GuardMCP foundation links and boundaries render |
+| 9 | `/technology/data-intelligence/` | data-intelligence | Data Intelligence | OK — telemetry/archival honesty copy and boundaries |
+| 10 | `/technology/bio-intelligence/` | bio-intelligence | Bio Intelligence | OK — SDK biology/chemistry modules linked |
+| 11 | `/technology/aerospace-intelligence/` | aerospace-intelligence | Aerospace Intelligence | OK — bounded feasibility wording, no deployment claims |
+| 12 | `/technology/developer-tools/` | developer-tools | Developer Tools & Programming Technology | OK — Karkain v1.2.0 stable, Language Tools, relational DB entries render with correct release links |
+
+Browser navigation (back/forward) and deep links: each of the 12 URLs is a prerendered static `index.html` whose content ships in the initial HTML shell; Angular then re-resolves the same entries on hydration, and the smoke suite performs a full headless-Chrome boot plus console-error check on every route without failure.
+
+**Not included:** push to GitHub — the branch carries this fix locally; publishing it updates the open PR #16 and requires the owner's authorization.

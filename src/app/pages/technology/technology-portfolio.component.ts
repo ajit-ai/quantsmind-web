@@ -168,7 +168,9 @@ export class TechnologyPortfolioComponent {
   readonly missing: boolean;
 
   constructor() {
-    const slug = this.route.snapshot.paramMap.get('portfolio') ?? '';
+    const slug = (this.route.snapshot.data['portfolio'] as string | undefined)
+      ?? this.route.snapshot.paramMap.get('portfolio')
+      ?? '';
     this.portfolio = getPortfolioBySlug(slug) ?? null;
     this.missing = !this.portfolio;
   }

@@ -188,7 +188,9 @@ export class ServiceDetailComponent {
   readonly engagementModels = ENGAGEMENT_MODELS;
 
   constructor() {
-    const slug = this.route.snapshot.paramMap.get('service') ?? '';
+    const slug = (this.route.snapshot.data['service'] as string | undefined)
+      ?? this.route.snapshot.paramMap.get('service')
+      ?? '';
     const id = SLUG_TO_ID[slug] ?? slug;
     this.service = SERVICE_AREAS.find(area => area.id === id) ?? null;
     this.missing = !this.service;

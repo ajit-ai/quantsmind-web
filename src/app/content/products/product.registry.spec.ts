@@ -18,20 +18,25 @@ const APPROVED_SERVICE_IDS = [
   'industrial-intelligence-digital-twin'
 ] as const;
 
-const APP_ROUTE_PATHS = new Set(
-  routes.map(route => (route.path === '' ? '/' : `/${route.path}`))
-);
+const routePatterns = routes.map(route => (route.path === '' ? '/' : `/${route.path}`));
 
-const RESEARCH_OR_TECHNOLOGY_ONLY_NAMES = [
-  'QuantsMind SDK',
-  'QuantsMind Relational DB',
-  'GuardMCP',
-  'QuantsMind-Agent',
-  'QuantsMind-LLM',
-  'Vsector',
-  'QuantsMind OSINT Intelligence Platform',
-  'QuantsMind AI Fake News Detection System'
-];
+function routeExists(path: string): boolean {
+  const clean = path.split('#')[0];
+  if (routePatterns.includes(clean)) {
+    return true;
+  }
+  const segments = clean.replace(/^\//, '').split('/');
+  return routePatterns.some(pattern => {
+    if (!pattern.includes(':')) {
+      return false;
+    }
+    const patternSegments = pattern.replace(/^\//, '').split('/');
+    if (patternSegments.length !== segments.length) {
+      return false;
+    }
+    return patternSegments.every((segment, index) => segment.startsWith(':') || segment === segments[index]);
+  });
+}
 
 const EXPECTED_NAMES = [
   'QuantsMind Document Intelligence Mini',
@@ -91,9 +96,9 @@ describe('product registry', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
-  it('contains exactly 41 product records', () => {
-    expect(PRODUCT_REGISTRY).toHaveLength(41);
-    expect(getAllProducts()).toHaveLength(41);
+  it('contains exactly 49 product records', () => {
+    expect(PRODUCT_REGISTRY).toHaveLength(49);
+    expect(getAllProducts()).toHaveLength(49);
   });
 
   it('has the expected portfolio counts', () => {
@@ -101,6 +106,7 @@ describe('product registry', () => {
     expect(getProductsByPortfolio('quantum')).toHaveLength(11);
     expect(getProductsByPortfolio('space')).toHaveLength(8);
     expect(getProductsByPortfolio('cybersecurity')).toHaveLength(10);
+    expect(getProductsByPortfolio('developer-tools')).toHaveLength(9);
   });
 
   it('contains all approved product names', () => {
@@ -222,10 +228,9 @@ describe('product registry', () => {
     }
   });
 
-  it('has no forbidden public repository fields', () => {
+  it('uses repositoryUrl as the single ad-hoc repository field', () => {
     for (const product of PRODUCT_REGISTRY) {
       expect((product as unknown as Record<string, unknown>)['githubUrl']).toBeUndefined();
-      expect((product as unknown as Record<string, unknown>)['repositoryUrl']).toBeUndefined();
     }
   });
 
@@ -233,11 +238,11 @@ describe('product registry', () => {
     for (const product of PRODUCT_REGISTRY) {
       if (product.route) {
         expect(product.route.startsWith('/')).toBe(true);
-        expect(APP_ROUTE_PATHS.has(product.route.split('#')[0]), product.route).toBe(true);
+        expect(routeExists(product.route), product.route).toBe(true);
       }
       if (product.cta) {
         expect(product.cta.route.startsWith('/')).toBe(true);
-        expect(APP_ROUTE_PATHS.has(product.cta.route.split('#')[0]), product.cta.route).toBe(true);
+        expect(routeExists(product.cta.route), product.cta.route).toBe(true);
       }
       if (product.relatedServiceId) {
         expect(APPROVED_SERVICE_IDS).toContain(product.relatedServiceId);
@@ -269,7 +274,7 @@ describe('product registry', () => {
     for (const product of PRODUCT_REGISTRY.filter(
       item => item.availability === 'public-download'
     )) {
-      expect(product.version, product.name).toMatch(/^v\d+\.\d+\.\d+$/);
+      expect(product.version, product.name).toMatch(/^v\d+\.\d+/);
       expect(['verified-source', 'verified-documentation']).toContain(product.verification);
     }
   });
@@ -283,10 +288,126 @@ describe('product registry', () => {
     }
   });
 
-  it('keeps research projects and technology-only projects out of the product registry', () => {
+  it('keeps the authoritative registry as the single source for all distributed and research projects', () => {
     const names = PRODUCT_REGISTRY.map(product => product.name);
-    for (const name of RESEARCH_OR_TECHNOLOGY_ONLY_NAMES) {
-      expect(names).not.toContain(name);
+    for (const name of [
+      'Karkain',
+      'Karkain Language Tools',
+      'QuantsMind SDK',
+      'QuantsMind-Agent',
+      'QuantsMind AI Coder',
+      'Taksh (QuantsMind-LLM)',
+      'Vsector',
+      'QuantsMind Relational DB',
+      'GuardMCP',
+      'MicroQuantum'
+    ]) {
+      expect(names).toContain(name);
+    }
+  });
+
+  it('has unique slugs for every public product detail route', () => {
+    const ids = PRODUCT_REGISTRY.map(product => product.id);
+    expect(new Set(ids).size).toBe(ids.length);
+    const routeIds = PRODUCT_REGISTRY
+      .map(product => product.route)
+      .filter((route): route is string => Boolean(route))
+      .filter(route => route.startsWith('/products/'))
+      .map(route => route.replace('/products/', ''));
+    expect(new Set(routeIds).size).toBe(routeIds.length);
+  });
+
+  it('gives every available product a working access mechanism and version', () => {
+    for (const product of PRODUCT_REGISTRY.filter(p => p.availability !== 'not-available' && p.availability !== 'private-access')) {
+      expect(product.version, product.name).toMatch(/^v\d+\.\d+/);
+      const hasDistribution = Boolean(
+        product.marketplaceUrls?.length || product.packageUrls?.length || product.repositoryUrl || product.documentationUrl
+      );
+      // DI Mini is early-access with direct licensing; its access route is the contact form.
+      if (product.id === 'quantsmind-document-intelligence-mini') {
+        expect(hasDistribution || product.cta?.route === '/contact').toBe(true);
+      } else {
+        expect(hasDistribution, product.name).toBe(true);
+      }
+    }
+  });
+
+  it('backs available access mechanisms with release evidence or documentation', () => {
+    for (const product of PRODUCT_REGISTRY.filter(p => p.availability !== 'not-available' && p.id !== 'quantsmind-document-intelligence-mini')) {
+      expect(
+        [product.documentationUrl, product.repositoryUrl].some(Boolean),
+        product.name
+      ).toBe(true);
+    }
+  });
+
+  it('keeps proposed and research-only initiatives out of the available sections', () => {
+    for (const product of PRODUCT_REGISTRY) {
+      if (product.maturity === 'proposed' || product.maturity === 'research-prototype') {
+        expect(product.availability, product.name).not.toBe('general-availability');
+        expect(product.availability, product.name).not.toBe('public-download');
+      }
+    }
+  });
+
+  it('requires lastVerified ISO dates on products with externally distributed releases', () => {
+    for (const product of PRODUCT_REGISTRY) {
+      if (product.marketplaceUrls?.length || product.packageUrls?.length || product.repositoryUrl) {
+        expect(product.lastVerified, product.name).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      }
+    }
+  });
+
+  it('requires install instructions for every public-download product', () => {
+    for (const product of PRODUCT_REGISTRY.filter(p => p.availability === 'public-download')) {
+      expect(product.installInstructions?.trim().length ?? 0, product.name).toBeGreaterThan(0);
+    }
+  });
+
+  it('keeps marketplace links pointing at the verified public identifiers', () => {
+    const byId = new Map(PRODUCT_REGISTRY.map(p => [p.id, p]));
+    expect(byId.get('karkain-language-tools')?.marketplaceUrls?.map(l => l.url)).toEqual([
+      'https://open-vsx.org/extension/karkain/karkain',
+      'https://marketplace.visualstudio.com/items?itemName=Karkain.karkain-language-tools'
+    ]);
+    expect(byId.get('quantsmind-vscode-ai-coder')?.marketplaceUrls?.map(l => l.url)).toEqual([
+      'https://open-vsx.org/extension/quantsmind/quantsmind-vscode-ai-coder',
+      'https://marketplace.visualstudio.com/items?itemName=quantsmind.quantsmind-vscode-ai-coder'
+    ]);
+    expect(byId.get('quantsmind-sdk')?.packageUrls?.[0].url).toBe('https://pypi.org/project/quantsmind/');
+    expect(byId.get('microquantum')?.packageUrls?.[0].url).toBe('https://pypi.org/project/microquantum/');
+  });
+
+  it('propagates the current versions the site must show', () => {
+    expect(getProductById('karkain')?.version).toBe('v1.2.0');
+    expect(getProductById('karkain-language-tools')?.version).toBe('v1.0.0');
+    expect(getProductById('quantsmind-vscode-ai-coder')?.version).toBe('v3.1.x');
+    expect(getProductById('quantsmind-agent')?.version).toBe('v0.9.0');
+    expect(getProductById('quantsmind-sdk')?.version).toBe('v1.1.0');
+    expect(getProductById('microquantum')?.version).toBe('v1.1.0');
+    expect(getProductById('taksh')?.version).toBe('v1.0.0');
+  });
+
+  it('classifies every product into exactly one store category', () => {
+    const categories = new Set([
+      'programming-languages',
+      'developer-tools',
+      'ai-intelligent-systems',
+      'scientific-quantum',
+      'data-database',
+      'business-applications',
+      'enterprise-software',
+      'research'
+    ]);
+    for (const product of PRODUCT_REGISTRY) {
+      expect(product.category, product.name).toBeDefined();
+      expect(categories.has(product.category as string), product.name).toBe(true);
+    }
+  });
+
+  it('keeps available products concentrated in the store categories', () => {
+    for (const product of PRODUCT_REGISTRY.filter(p => ['general-availability', 'public-download', 'early-access', 'developer-access'].includes(p.availability))) {
+      expect(product.category, product.name).not.toBe('research');
     }
   });
 });

@@ -111,8 +111,8 @@ describe('QmProductCardComponent', () => {
 
     const link = fixture.nativeElement.querySelector('.qm-product-card__service-link');
     expect(link).toBeTruthy();
-    expect(link.getAttribute('href')).toBe('/services#quantum-computing');
-    expect(link.getAttribute('href')).not.toContain('%23');
+    expect(link.getAttribute('href')).toBe('/services/quantum-computing');
+    expect(link.getAttribute('href')).not.toContain('#');
   });
   it('does not render a GitHub or source-code button', () => {
     const text = (fixture.nativeElement.textContent as string).toLowerCase();

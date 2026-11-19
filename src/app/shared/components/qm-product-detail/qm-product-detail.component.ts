@@ -1,39 +1,25 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 
-import { getProductById } from '../../../content/products/product.registry';
-import { VERIFIED_DIRECTORY_ENTRIES, VerifiedDirectoryEntry } from '../../../content/products/directory-entries';
+import { getProductById, getAllProducts } from '../../../content/products/product.registry';
 import {
   Product,
+  PRODUCT_CATEGORY_LABELS,
   availabilityBadgeVariant as availabilityBadgeVariantFor,
   availabilityLabel as availabilityLabelFor,
+  isAvailableProduct,
   maturityBadgeVariant as maturityBadgeVariantFor,
   maturityLabel as maturityLabelFor
 } from '../../../content/products/product.model';
 import { BadgeVariant, QmBadgeComponent } from '../qm-badge/qm-badge.component';
-import { QmButtonComponent } from '../qm-button/qm-button.component';
 import { QmContainerComponent } from '../qm-container/qm-container.component';
 import { QmSectionComponent } from '../qm-section/qm-section.component';
-
-function requireProduct(productId: unknown): Product {
-  if (typeof productId !== 'string') {
-    throw new Error('Product detail route is missing a product identifier');
-  }
-
-  const product = getProductById(productId);
-  if (!product) {
-    throw new Error(`Product registry entry not found: ${productId}`);
-  }
-
-  return product;
-}
 
 @Component({
   selector: 'qm-product-detail',
   imports: [
     RouterModule,
     QmBadgeComponent,
-    QmButtonComponent,
     QmContainerComponent,
     QmSectionComponent
   ],
@@ -41,431 +27,393 @@ function requireProduct(productId: unknown): Product {
   template: `
     <qm-section surface="canvas" ariaLabel="Product detail">
       <qm-container>
-        <article class="qm-product-detail__article">
-          <header class="qm-product-detail__head">
-            <a class="qm-product-detail__back-link" routerLink="/products">
-              ← Back to Products
-            </a>
-            <span class="eyebrow">PRODUCT DETAIL</span>
-            <h1>{{ directoryEntry ? directoryEntry.name : product.name }}</h1>
-            <p class="qm-product-detail__lead">{{ directoryEntry ? directoryEntry.summary : product.summary }}</p>
-            <div class="qm-product-detail__badges" aria-label="Product status">
-              @if (directoryEntry) {
-                @if (directoryEntry.maturity) {
-                  <span class="qm-product-detail__version">{{ directoryEntry.maturity }}</span>
-                }
-                @if (directoryEntry.version) {
-                  <span class="qm-product-detail__version">{{ directoryEntry.version }}</span>
-                }
-                @if (directoryEntry.license) {
-                  <span class="qm-product-detail__version">{{ directoryEntry.license }}</span>
-                }
-              } @else {
-                <qm-badge [variant]="maturityBadgeVariant(product.maturity)">
-                  {{ maturityLabel }}
-                </qm-badge>
-                <qm-badge [variant]="availabilityBadgeVariant(product.availability)">
-                  {{ availabilityLabel }}
-                </qm-badge>
+        @if (missing) {
+          <div class="qm-product-detail__missing" role="alert">
+            <span class="eyebrow">PRODUCT NOT FOUND</span>
+            <h1>We could not find that product</h1>
+            <p>The product identifier does not match anything in the QuantsMind product registry.</p>
+            <a routerLink="/products">← Back to the Products Store</a>
+          </div>
+        } @else if (product) {
+          <nav class="qm-product-detail__crumbs" aria-label="Breadcrumb">
+            <a routerLink="/products">Products</a>
+            @if (categoryLabel) {
+              <span aria-hidden="true">›</span>
+              <a [routerLink]="['/products/category', product.category]">{{ categoryLabel }}</a>
+            }
+            <span aria-hidden="true">›</span>
+            <span aria-current="page">{{ product.name }}</span>
+          </nav>
+
+          <article class="qm-product-detail__article">
+            <header class="qm-product-detail__head">
+              <span class="eyebrow">{{ categoryLabel }}</span>
+              <h1>{{ product.name }}</h1>
+              <p class="qm-product-detail__lead">{{ product.summary }}</p>
+              <div class="qm-product-detail__badges" aria-label="Product status">
+                <qm-badge [variant]="maturityBadgeVariant(product.maturity)">{{ maturityLabel }}</qm-badge>
+                <qm-badge [variant]="availabilityBadgeVariant(product.availability)">{{ availabilityLabel }}</qm-badge>
                 @if (product.version) {
                   <span class="qm-product-detail__version">{{ product.version }}</span>
                 }
-              }
-            </div>
-            <p class="qm-product-detail__category">{{ portfolioLabel }}</p>
-          </header>
+                @if (product.releaseChannel) {
+                  <span class="qm-product-detail__version">{{ product.releaseChannel }}</span>
+                }
+              </div>
+              <p class="qm-product-detail__verified">
+                {{ isAvailable ? 'Available today' : 'Not available yet' }}{{ product.lastVerified ? ' · Claims last verified ' + product.lastVerified : '' }}
+              </p>
+            </header>
 
-          <qm-section surface="white" class="qm-product-detail__section" ariaLabel="Product information">
             <div class="qm-product-detail__grid">
               <div class="qm-product-detail__column">
-                @if (directoryEntry) {
-                  <section class="qm-product-detail__block">
-                    <h2>Purpose</h2>
-                    <p>{{ directoryEntry.summary }}</p>
+                <section class="qm-product-detail__block" aria-labelledby="pd-overview">
+                  <h2 id="pd-overview">Overview</h2>
+                  <p>{{ product.description }}</p>
+                </section>
+
+                @if (product.useCases?.length) {
+                  <section class="qm-product-detail__block" aria-labelledby="pd-solves">
+                    <h2 id="pd-solves">Problems it is designed to solve</h2>
+                    <ul>
+                      @for (item of product.useCases; track item) {
+                        <li>{{ item }}</li>
+                      }
+                    </ul>
                   </section>
-                } @else {
-                  <section class="qm-product-detail__block">
-                    <h2>Description</h2>
-                    <p>{{ product.description }}</p>
+                }
+
+                @if (product.capabilities?.length) {
+                  <section class="qm-product-detail__block" aria-labelledby="pd-capabilities">
+                    <h2 id="pd-capabilities">{{ isAvailable ? 'Implemented capabilities' : 'Planned scope' }}</h2>
+                    <ul>
+                      @for (item of product.capabilities; track item) {
+                        <li>{{ item }}</li>
+                      }
+                    </ul>
                   </section>
+                }
 
-                  @if (product.capabilities?.length) {
-                    <section class="qm-product-detail__block">
-                      <h2>Capabilities</h2>
+                @if (product.targetDomains?.length || product.targetClients?.length) {
+                  <section class="qm-product-detail__block" aria-labelledby="pd-audience">
+                    <h2 id="pd-audience">Who it is for</h2>
+                    @if (product.targetDomains?.length) {
+                      <p class="qm-product-detail__subhead">Domains</p>
                       <ul>
-                        @for (capability of product.capabilities; track capability) {
-                          <li>{{ capability }}</li>
+                        @for (item of product.targetDomains; track item) {
+                          <li>{{ item }}</li>
                         }
                       </ul>
-                    </section>
-                  }
-
-                  @if (product.useCases?.length) {
-                    <section class="qm-product-detail__block">
-                      <h2>Use Cases</h2>
+                    }
+                    @if (product.targetClients?.length) {
+                      <p class="qm-product-detail__subhead">Audience</p>
                       <ul>
-                        @for (useCase of product.useCases; track useCase) {
-                          <li>{{ useCase }}</li>
+                        @for (item of product.targetClients; track item) {
+                          <li>{{ item }}</li>
                         }
                       </ul>
-                    </section>
-                  }
+                    }
+                  </section>
+                }
 
-                  @if (product.modules?.length) {
-                    <section class="qm-product-detail__block">
-                      <h2>Modules</h2>
-                      <ul>
-                        @for (module of product.modules; track module) {
-                          <li>{{ module }}</li>
-                        }
-                      </ul>
-                    </section>
-                  }
+                @if (product.releaseHistory?.length) {
+                  <section class="qm-product-detail__block" aria-labelledby="pd-history">
+                    <h2 id="pd-history">Release history</h2>
+                    <ol class="qm-product-detail__history">
+                      @for (entry of product.releaseHistory; track entry.version) {
+                        <li>
+                          <span class="qm-product-detail__history-version">{{ entry.version }}</span>
+                          @if (entry.date) {
+                            <time class="qm-product-detail__history-date">{{ entry.date }}</time>
+                          }
+                          <span class="qm-product-detail__history-notes">{{ entry.notes }}</span>
+                        </li>
+                      }
+                    </ol>
+                  </section>
+                }
 
-                  @if (product.targetDomains?.length) {
-                    <section class="qm-product-detail__block">
-                      <h2>Target Domains</h2>
-                      <ul>
-                        @for (domain of product.targetDomains; track domain) {
-                          <li>{{ domain }}</li>
-                        }
-                      </ul>
-                    </section>
-                  }
+                @if (product.limitations?.length) {
+                  <section class="qm-product-detail__block" aria-labelledby="pd-limits">
+                    <h2 id="pd-limits">Known limitations</h2>
+                    <ul>
+                      @for (item of product.limitations; track item) {
+                        <li>{{ item }}</li>
+                      }
+                    </ul>
+                  </section>
+                }
 
-                  @if (product.targetClients?.length) {
-                    <section class="qm-product-detail__block">
-                      <h2>Target Clients</h2>
-                      <ul>
-                        @for (client of product.targetClients; track client) {
-                          <li>{{ client }}</li>
-                        }
-                      </ul>
-                    </section>
-                  }
+                @if (relatedProducts.length) {
+                  <section class="qm-product-detail__block" aria-labelledby="pd-related">
+                    <h2 id="pd-related">Related products</h2>
+                    <ul class="qm-product-detail__related">
+                      @for (related of relatedProducts; track related.id) {
+                        <li><a [routerLink]="detailLinkFor(related)">{{ related.name }}</a></li>
+                      }
+                    </ul>
+                  </section>
                 }
               </div>
 
-              <aside class="qm-product-detail__column qm-product-detail__column--meta">
-                @if (directoryEntry) {
-                  <dl class="qm-product-detail__meta">
-                    <div>
-                      <dt>Maturity</dt>
-                      <dd>{{ directoryEntry.maturity }}</dd>
-                    </div>
-                    @if (directoryEntry.version) {
-                      <div>
-                        <dt>Version</dt>
-                        <dd>{{ directoryEntry.version }}</dd>
-                      </div>
+              <aside class="qm-product-detail__aside" aria-label="Get this product">
+                @if (isAvailable) {
+                  <div class="qm-product-detail__get">
+                    <h2>Install or get access</h2>
+                    @if (product.installInstructions) {
+                      <pre class="qm-product-detail__install">{{ product.installInstructions }}</pre>
                     }
-                    @if (directoryEntry.license) {
-                      <div>
-                        <dt>License</dt>
-                        <dd>{{ directoryEntry.license }}</dd>
-                      </div>
-                    }
-                  </dl>
-
-                  @if (directoryEntry.distribution) {
-                    <section class="qm-product-detail__block">
-                      <h2>Distribution</h2>
-                      <p>{{ directoryEntry.distribution }}</p>
-                    </section>
-                  }
-                  @if (directoryEntry.repository) {
-                    <section class="qm-product-detail__block">
-                      <h2>Repository</h2>
-                      <a [href]="directoryEntry.repository" target="_blank" rel="noopener">{{ directoryEntry.repository }}</a>
-                    </section>
-                  }
-                  @if (directoryEntry.evidence) {
-                    <section class="qm-product-detail__block">
-                      <h2>Evidence</h2>
-                      <p>{{ directoryEntry.evidence }}</p>
-                    </section>
-                  }
+                    <ul class="qm-product-detail__links">
+                      @for (link of product.marketplaceUrls ?? []; track link.url) {
+                        <li><a [href]="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }} ↗</a></li>
+                      }
+                      @for (link of product.packageUrls ?? []; track link.url) {
+                        <li><a [href]="link.url" target="_blank" rel="noopener noreferrer">{{ link.label }} ↗</a></li>
+                      }
+                      @if (product.repositoryUrl) {
+                        <li><a [href]="product.repositoryUrl" target="_blank" rel="noopener noreferrer">Repository on GitHub ↗</a></li>
+                      }
+                      @if (product.documentationUrl) {
+                        <li><a [href]="product.documentationUrl" target="_blank" rel="noopener noreferrer">Documentation ↗</a></li>
+                      }
+                    </ul>
+                  </div>
                 } @else {
-                  <dl class="qm-product-detail__meta">
-                    <div>
-                      <dt>Maturity</dt>
-                      <dd>{{ maturityLabel }}</dd>
-                    </div>
-                    <div>
-                      <dt>Availability</dt>
-                      <dd>{{ availabilityLabel }}</dd>
-                    </div>
-                    @if (product.releaseChannel) {
-                      <div>
-                        <dt>Release channel</dt>
-                        <dd>{{ product.releaseChannel }}</dd>
-                      </div>
-                    }
-                    @if (product.deployment) {
-                      <div>
-                        <dt>Deployment</dt>
-                        <dd>{{ product.deployment }}</dd>
-                      </div>
-                    }
-                  </dl>
-
-                  @if (product.limitations?.length) {
-                    <section class="qm-product-detail__block">
-                      <h2>Limitations</h2>
-                      <ul>
-                        @for (limitation of product.limitations; track limitation) {
-                          <li>{{ limitation }}</li>
-                        }
-                      </ul>
-                    </section>
-                  }
-
-                  @if (product.documentationUrl) {
-                    <section class="qm-product-detail__block">
-                      <h2>Documentation</h2>
-                      <a [href]="product.documentationUrl" target="_blank" rel="noopener">
-                        {{ product.documentationUrl }}
-                      </a>
-                    </section>
-                  }
+                  <div class="qm-product-detail__get">
+                    <h2>Availability</h2>
+                    <p>{{ product.availabilityDetail ?? 'This product is not yet publicly available. Access and licences are arranged directly with QuantsMind.' }}</p>
+                    <a class="qm-product-detail__explore" [routerLink]="ctaRoute" [queryParams]="ctaQueryParams">{{ ctaLabel }}</a>
+                  </div>
                 }
+
+                <dl class="qm-product-detail__meta">
+                  <div>
+                    <dt>Category</dt>
+                    <dd>{{ categoryLabel }}</dd>
+                  </div>
+                  <div>
+                    <dt>Maturity</dt>
+                    <dd>{{ maturityLabel }}</dd>
+                  </div>
+                  <div>
+                    <dt>Availability</dt>
+                    <dd>{{ availabilityLabel }}</dd>
+                  </div>
+                  @if (product.version) {
+                    <div>
+                      <dt>Version</dt>
+                      <dd>{{ product.version }}</dd>
+                    </div>
+                  }
+                  @if (product.releaseChannel) {
+                    <div>
+                      <dt>Release channel</dt>
+                      <dd>{{ product.releaseChannel }}</dd>
+                    </div>
+                  }
+                  @if (product.license) {
+                    <div>
+                      <dt>Licence</dt>
+                      <dd>{{ product.license }}</dd>
+                    </div>
+                  }
+                  @if (product.platforms?.length) {
+                    <div>
+                      <dt>Platforms</dt>
+                      <dd>{{ product.platforms.join(' · ') }}</dd>
+                    </div>
+                  }
+                  @if (product.systemRequirements) {
+                    <div>
+                      <dt>Requirements</dt>
+                      <dd>{{ product.systemRequirements }}</dd>
+                    </div>
+                  }
+                  @if (product.deployment) {
+                    <div>
+                      <dt>Deployment</dt>
+                      <dd>{{ product.deployment }}</dd>
+                    </div>
+                  }
+                  @if (product.lastVerified) {
+                    <div>
+                      <dt>Last verified</dt>
+                      <dd>{{ product.lastVerified }}</dd>
+                    </div>
+                  }
+                </dl>
               </aside>
             </div>
-          </qm-section>
 
-          @if (!directoryEntry && product.technologyTags?.length) {
-            <div class="qm-product-detail__tags" aria-label="Associated technologies">
-              @for (tag of product.technologyTags; track tag) {
-                <span>{{ tag }}</span>
-              }
-            </div>
-          }
-
-          <footer class="qm-product-detail__footer">
-            <a class="qm-product-detail__back-link" routerLink="/products" fragment="marketplace">
-              Back to Products
-            </a>
-            @if (directoryEntry) {
-              @if (directoryEntry.route) {
-                <a class="qm-product-detail__explore" [routerLink]="directoryEntry.route">
-                  {{ detailExploreLabel }}
-                </a>
+            <footer class="qm-product-detail__footer">
+              <a class="qm-product-detail__back-link" routerLink="/products">← Back to the Products Store</a>
+              @if (product.documentationUrl) {
+                <a class="qm-product-detail__explore" [href]="product.documentationUrl" target="_blank" rel="noopener noreferrer">Documentation ↗</a>
               } @else {
-                <qm-button
-                  variant="primary"
-                  size="md"
-                  [fullWidth]="true"
-                  [routerLinkValue]="'/contact'"
-                  [queryParams]="{ product: directoryEntry.id }"
-                  [ariaLabel]="'Request access to ' + directoryEntry.name">
-                  Request {{ directoryEntry.name }} Access
-                </qm-button>
+                <a class="qm-product-detail__explore" [routerLink]="ctaRoute" [queryParams]="ctaQueryParams">{{ ctaLabel }}</a>
               }
-            } @else {
-              <qm-button
-                variant="primary"
-                size="md"
-                [fullWidth]="true"
-                [routerLinkValue]="'/contact'"
-                [queryParams]="{ product: product.id }"
-                [ariaLabel]="'Request access to ' + product.name">
-                Request {{ product.name }} Access
-              </qm-button>
-            }
-          </footer>
-        </article>
+            </footer>
+          </article>
+        }
       </qm-container>
     </qm-section>
   `,
   styles: [`
     :host { display: block; }
+    .qm-product-detail__crumbs {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+      padding: 20px 0 0; font-size: 13px; color: var(--color-text-muted);
+    }
+    .qm-product-detail__crumbs a { color: var(--color-accent); text-decoration: none; }
+    .qm-product-detail__crumbs a:hover { text-decoration: underline; }
     .qm-product-detail__article { max-width: 1120px; }
     .qm-product-detail__head {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      padding: 24px 0 8px;
+      display: flex; flex-direction: column; gap: 14px; padding: 16px 0 8px;
     }
     h1 { margin: 0; }
     .qm-product-detail__lead {
-      max-width: 760px;
-      margin: 0;
-      color: var(--color-text-secondary);
-      font-size: 17px;
-      line-height: 1.65;
+      max-width: 760px; margin: 0;
+      color: var(--color-text-secondary); font-size: 17px; line-height: 1.65;
     }
-    .qm-product-detail__back-link {
-      color: var(--color-accent);
-      text-decoration: none;
-    }
-    .qm-product-detail__back-link:hover { text-decoration: underline; }
-    .qm-product-detail__badges,
-    .qm-product-detail__tags {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-    }
-    .qm-product-detail__version {
-      color: var(--color-text-muted);
-      font-size: 13px;
-    }
-    .qm-product-detail__category {
-      margin: 0;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      color: var(--color-text-secondary);
-    }
-    .qm-product-detail__section { margin-top: 24px; }
-    .qm-product-detail__grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.5fr) minmax(260px, 1fr);
-      gap: 32px;
-    }
-    .qm-product-detail__column {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-    .qm-product-detail__column--meta {
-      align-self: start;
-      border-left: 2px solid var(--color-border);
-      padding-left: 24px;
-    }
-    .qm-product-detail__block {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .qm-product-detail__block h2 {
-      margin: 0;
-      font-size: 18px;
-    }
-    .qm-product-detail__block p,
-    .qm-product-detail__block ul {
-      margin: 0;
-      color: var(--color-text-secondary);
-      line-height: 1.65;
-      overflow-wrap: anywhere;
-    }
-    .qm-product-detail__block ul {
-      padding-left: 20px;
-    }
-    .qm-product-detail__block li { margin-bottom: 6px; overflow-wrap: anywhere; }
-    .qm-product-detail__block a {
-      color: var(--color-accent);
-      overflow-wrap: anywhere;
-    }
-    .qm-product-detail__meta {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin: 0;
-    }
-    .qm-product-detail__meta div {
-      display: grid;
-      grid-template-columns: 120px minmax(0, 1fr);
-      gap: 12px;
-    }
-    .qm-product-detail__meta dt { color: var(--color-text-muted); }
-    .qm-product-detail__meta dd { margin: 0; color: var(--color-text-secondary); }
-    .qm-product-detail__tags { margin-top: 24px; }
-    .qm-product-detail__tags span {
-      padding: 4px 10px;
-      border-radius: var(--radius-pill);
-      background: var(--color-accent-subtle);
-      color: var(--color-accent-dark);
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .qm-product-detail__footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      margin-top: 32px;
-      padding-top: 20px;
-      border-top: 1px solid var(--color-border);
-    }
-    .qm-product-detail__footer qm-button { max-width: 100%; }
-    .qm-product-detail__explore {
-      color: var(--color-accent);
-      font-size: 15px;
-      font-weight: 600;
-      text-decoration: none;
-    }
+    .qm-product-detail__back-link,
+    .qm-product-detail__explore { color: var(--color-accent); text-decoration: none; }
+    .qm-product-detail__back-link:hover,
     .qm-product-detail__explore:hover { text-decoration: underline; }
-    .qm-product-detail__explore:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-    @media (max-width: 767px) {
+    .qm-product-detail__explore:focus-visible,
+    .qm-product-detail__back-link:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; border-radius: 4px; }
+    .qm-product-detail__badges { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .qm-product-detail__version { color: var(--color-text-muted); font-size: 13px; }
+    .qm-product-detail__verified { margin: 0; font-size: 13px; color: var(--color-text-muted); }
+    .qm-product-detail__grid {
+      display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(280px, 1fr);
+      gap: 32px; margin-top: 24px; align-items: start;
+    }
+    .qm-product-detail__column { display: flex; flex-direction: column; gap: 28px; }
+    .qm-product-detail__block { display: flex; flex-direction: column; gap: 8px; }
+    .qm-product-detail__block h2 { margin: 0; font-size: 19px; }
+    .qm-product-detail__subhead { margin: 8px 0 0; font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-text-muted); }
+    .qm-product-detail__block p,
+    .qm-product-detail__block ul,
+    .qm-product-detail__block ol { margin: 0; color: var(--color-text-secondary); line-height: 1.65; overflow-wrap: anywhere; }
+    .qm-product-detail__block ul,
+    .qm-product-detail__block ol { padding-left: 20px; }
+    .qm-product-detail__block li { margin-bottom: 6px; overflow-wrap: anywhere; }
+    .qm-product-detail__block a { color: var(--color-accent); overflow-wrap: anywhere; }
+    .qm-product-detail__history { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .qm-product-detail__history li { display: grid; grid-template-columns: 84px 110px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 10px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-md, 10px); }
+    .qm-product-detail__history-version { font-weight: 700; color: var(--color-text-primary); }
+    .qm-product-detail__history-date { color: var(--color-text-muted); font-size: 13px; }
+    .qm-product-detail__history-notes { color: var(--color-text-secondary); font-size: 14px; }
+    .qm-product-detail__related { list-style: none; padding: 0; display: flex; flex-wrap: wrap; gap: 10px; }
+    .qm-product-detail__related a { display: inline-block; padding: 6px 12px; border: 1px solid var(--color-border); border-radius: var(--radius-pill); text-decoration: none; font-size: 13px; }
+    .qm-product-detail__related a:hover { border-color: var(--color-accent); }
+    .qm-product-detail__aside { display: flex; flex-direction: column; gap: 18px; position: sticky; top: 88px; }
+    .qm-product-detail__get {
+      display: flex; flex-direction: column; gap: 10px;
+      padding: 20px; border: 1px solid var(--color-border); border-radius: var(--radius-lg, 14px);
+      background: var(--color-surface-white, #fff);
+    }
+    .qm-product-detail__get h2 { margin: 0; font-size: 17px; }
+    .qm-product-detail__get p { margin: 0; color: var(--color-text-secondary); line-height: 1.6; }
+    .qm-product-detail__install {
+      margin: 0; padding: 12px; overflow-x: auto;
+      background: #0f172a; color: #e2e8f0; border-radius: var(--radius-md, 10px);
+      font-size: 13px; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere;
+    }
+    .qm-product-detail__links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+    .qm-product-detail__links a { color: var(--color-accent); text-decoration: none; font-weight: 600; }
+    .qm-product-detail__links a:hover { text-decoration: underline; }
+    .qm-product-detail__meta { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 20px; border: 1px solid var(--color-border); border-radius: var(--radius-lg, 14px); }
+    .qm-product-detail__meta div { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 12px; }
+    .qm-product-detail__meta dt { color: var(--color-text-muted); font-size: 13px; }
+    .qm-product-detail__meta dd { margin: 0; color: var(--color-text-secondary); overflow-wrap: anywhere; }
+    .qm-product-detail__footer {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--color-border);
+    }
+    .qm-product-detail__missing { max-width: 720px; padding: 48px 0; display: flex; flex-direction: column; gap: 12px; }
+    .qm-product-detail__missing a { color: var(--color-accent); }
+    @media (max-width: 900px) {
       .qm-product-detail__grid { grid-template-columns: 1fr; }
-      .qm-product-detail__column--meta {
-        border-left: 0;
-        border-top: 1px solid var(--color-border);
-        padding: 24px 0 0;
-      }
-      .qm-product-detail__footer {
-        align-items: flex-start;
-        flex-direction: column;
-      }
-      .qm-product-detail__footer qm-button { width: 100%; }
+      .qm-product-detail__aside { position: static; }
+      .qm-product-detail__history li { grid-template-columns: 1fr; gap: 4px; }
+      .qm-product-detail__footer { flex-direction: column; align-items: flex-start; }
     }
   `]
 })
 export class QmProductDetailComponent {
   private readonly route = inject(ActivatedRoute);
-  readonly directoryEntry: VerifiedDirectoryEntry | null =
-    typeof this.route.snapshot.data['productId'] === 'string'
-      ? VERIFIED_DIRECTORY_ENTRIES.find(entry => entry.id === this.route.snapshot.data['productId']) ?? null
-      : null;
-  private readonly registryProduct: Product | null = this.directoryEntry
-    ? null
-    : requireProduct(this.route.snapshot.data['productId']);
+  private readonly router = inject(Router);
 
-  get product(): Product {
-    const product = this.registryProduct;
-    if (product) { return product; }
-    throw new Error(`No product detail available for identifier: ${this.route.snapshot.data['productId']}`);
+  readonly missing: boolean;
+  readonly product: Product | null;
+
+  constructor() {
+    const slug =
+      this.route.snapshot.paramMap.get('slug')
+      ?? (typeof this.route.snapshot.data['productId'] === 'string' ? this.route.snapshot.data['productId'] : undefined);
+
+    const product = slug ? getProductById(slug) : undefined;
+    if (product?.dedicatedRoute) {
+      this.router.navigateByUrl(product.dedicatedRoute, { replaceUrl: true });
+      this.missing = true; // transient; navigation replaces this view
+      this.product = null;
+      return;
+    }
+    this.missing = !product;
+    this.product = product ?? null;
   }
 
-  get maturityLabel(): string {
-    if (this.directoryEntry) { return this.directoryEntry.maturity ?? ''; }
-    return maturityLabelFor(this.product.maturity);
+  get isAvailable(): boolean {
+    return this.product ? isAvailableProduct(this.product) : false;
   }
 
-  get availabilityLabel(): string {
-    if (this.directoryEntry) { return ''; }
-    return availabilityLabelFor(this.product.availability);
+  get categoryLabel(): string {
+    return this.product?.category ? PRODUCT_CATEGORY_LABELS[this.product.category] : this.portfolioLabel;
   }
 
   get portfolioLabel(): string {
-    if (this.directoryEntry) { return this.directoryCategoryLabel; }
-    switch (this.product.portfolio) {
-      case 'standalone': return 'Standalone Software';
-      case 'quantum': return 'Quantum Software';
+    switch (this.product?.portfolio) {
+      case 'standalone': return 'Business Applications';
+      case 'quantum': return 'Scientific & Quantum Computing';
       case 'space': return 'Space Systems';
-      case 'cybersecurity': return 'Cybersecurity';
+      case 'cybersecurity': return 'Cybersecurity & Digital Trust';
       case 'developer-tools': return 'Programming Languages & Developer Tools';
+      default: return '';
     }
   }
 
-  get directoryCategoryLabel(): string {
-    switch (this.directoryEntry?.category) {
-      case 'a1-programming-languages': return 'Programming Languages & Developer Engineering';
-      case 'a2-ai-development': return 'AI Development & Agent Platforms';
-      case 'a3-language-models': return 'Language Models & AI Systems';
-      case 'a4-scientific-data-quantum': return 'Scientific, Data & Quantum Technologies';
-      default: return this.directoryEntry?.category ?? '';
-    }
+  get relatedProducts(): Product[] {
+    const current = this.product;
+    if (!current?.category) { return []; }
+    return getAllProducts()
+      .filter(p => p.id !== current.id && p.category === current.category && p.category !== 'research')
+      .slice(0, 3);
   }
 
-  get detailExploreRoute(): string {
-    return this.directoryEntry?.route ?? '';
+  detailLinkFor(product: Product): string {
+    return product.dedicatedRoute ?? `/products/${product.id}`;
   }
 
-  get detailExploreLabel(): string {
-    return this.directoryEntry?.route ? 'Explore ' + this.directoryEntry.name + ' →' : '';
+  get maturityLabel(): string {
+    return this.product ? maturityLabelFor(this.product.maturity) : '';
+  }
+
+  get availabilityLabel(): string {
+    return this.product ? availabilityLabelFor(this.product.availability) : '';
+  }
+
+  get ctaLabel(): string {
+    return this.product?.cta?.label ?? 'Request Information';
+  }
+
+  get ctaRoute(): string {
+    return this.product?.cta?.route ?? '/contact';
+  }
+
+  get ctaQueryParams(): Record<string, string> | null {
+    const route = this.product?.cta?.route;
+    return !route || route === '/contact' ? { product: this.product?.id ?? '' } : null;
   }
 
   maturityBadgeVariant(maturity: Product['maturity']): BadgeVariant {
